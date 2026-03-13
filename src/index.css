@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400&family=Permanent+Marker&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Permanent Marker", cursive;
+}
+
+:root {
+  --color-bg: #fcf7ee;
+  --color-primary: #2200b8;
+  --color-accent: #ff0090;
+  --color-light: #fcf7ee;
+  --bg: var(--color-bg);
+  --fg: var(--color-primary);
+  --grid-margin: 50px;
+  --grid-gutter: 20px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --grid-margin: 32px;
+    --grid-gutter: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --grid-margin: 20px;
+    --grid-gutter: 12px;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+}
+
+/* Hide scrollbar while keeping scroll behavior */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
