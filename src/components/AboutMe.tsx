@@ -2,8 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { PageGrid } from "./PageGrid";
 
-const BG_IMAGE =
-  "https://www.figma.com/api/mcp/asset/2f6fc78a-e0e4-458f-a3a3-dd88858766ef";
+const BG_IMAGE = "/assets/me-optimized.png";
 
 const BIO_PARAGRAPHS = [
   "As a designer, I'm always looking for that delicate balance between order and colorful chaos.",
@@ -16,13 +15,12 @@ const BIO_PARAGRAPHS = [
 const btnClass =
   "flex items-center justify-center w-[180px] md:w-[210px] h-[75px] text-[#fcf7ee] font-['Bricolage_Grotesque'] font-light text-xl md:text-[25px] no-underline tracking-[0.5px] transition-colors";
 
-export const AboutMe = () => {
+export const AboutMe = (_props: { onSelectSection: (id: string) => void }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
     <section
-      id="about"
-      className="relative w-full min-h-[calc(100vh-140px)] flex items-start bg-cover pt-8 md:pt-12 pb-16 md:pb-20"
+      className="relative w-full min-h-screen flex items-start bg-cover pt-8 md:pt-12 pb-16 md:pb-20"
       style={{
         backgroundImage: `url(${BG_IMAGE})`,
         backgroundPosition: "center 38%",
