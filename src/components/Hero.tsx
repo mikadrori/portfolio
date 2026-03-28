@@ -10,7 +10,7 @@ interface HeroProps {
 
 export const Hero = ({ onSelectProject, animationKey }: HeroProps) => {
   return (
-    <section className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-72px)] flex items-center py-12 md:py-16 lg:py-20 overflow-x-clip">
+    <section className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-72px)] flex items-center py-8 md:py-12 overflow-x-clip">
       <PageGrid className="items-center">
         <div className="col-span-8 2xl:col-start-2 2xl:col-end-5 flex flex-col gap-3 md:gap-4 items-center 2xl:items-start order-1">
           <p className="font-['Bricolage_Grotesque'] font-light text-[clamp(32px,6vw,80px)] text-[#2200b8] leading-none tracking-[5px]">
