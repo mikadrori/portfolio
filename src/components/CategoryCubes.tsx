@@ -38,6 +38,8 @@ const PYRAMID_LAYOUT: Record<
   5: { left: "74%", top: "56%", zIndex: 2, size: "48%" },
 };
 
+const DROP_ORDER: Record<CubeId, number> = { 4: 0, 5: 1, 2: 2, 3: 3, 1: 4 };
+
 function cubeAsset(n: number, color: "blue" | "pink") {
   const map: Record<string, string> = {
     "1_blue": "cube_1_blue_x0wgmp.svg",
@@ -56,13 +58,15 @@ function cubeAsset(n: number, color: "blue" | "pink") {
 
 interface CategoryCubesProps {
   onSelectProject: (id: ProjectId) => void;
+  animationKey?: number;
 }
 
-export const CategoryCubes = ({ onSelectProject }: CategoryCubesProps) => {
+export const CategoryCubes = ({ onSelectProject, animationKey = 0 }: CategoryCubesProps) => {
   const [hoveredId, setHoveredId] = useState<CubeId | null>(null);
 
   return (
     <div
+      key={animationKey}
       className="relative flex justify-center items-end overflow-visible"
       style={{
         width: "clamp(250px, 40vw, 500px)",
@@ -73,6 +77,7 @@ export const CategoryCubes = ({ onSelectProject }: CategoryCubesProps) => {
         const layout = PYRAMID_LAYOUT[id];
         const isHovered = hoveredId === id;
         const src = cubeAsset(id, isHovered ? "pink" : "blue");
+        const dropIndex = DROP_ORDER[id];
 
         return (
           <motion.button
@@ -86,6 +91,15 @@ export const CategoryCubes = ({ onSelectProject }: CategoryCubesProps) => {
               width: layout.size,
               height: layout.size,
               transform: "translate(-50%, 0)",
+            }}
+            initial={{ y: -600, visibility: "hidden" as const }}
+            animate={{ y: [null, 0, 8, -4, 0], visibility: "visible" as const }}
+            transition={{
+              delay: dropIndex * 0.35,
+              duration: 0.45,
+              times: [0, 0.6, 0.75, 0.9, 1],
+              ease: "easeOut",
+              visibility: { delay: dropIndex * 0.35, duration: 0 },
             }}
             aria-label={label}
             onMouseEnter={() => setHoveredId(id)}

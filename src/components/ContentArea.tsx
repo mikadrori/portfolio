@@ -20,8 +20,13 @@ const LuminaForest = lazy(() =>
   import("../pages/LuminaForest").then((m) => ({ default: m.default }))
 );
 
-const SECTION_MAP: Record<string, React.LazyExoticComponent<React.ComponentType<{ onSelectSection: (id: string) => void }>>> = {
-  about: AboutMe as React.LazyExoticComponent<React.ComponentType<{ onSelectSection: (id: string) => void }>>,
+type SectionComponent = React.ComponentType<{
+  onSelectSection: (id: string) => void;
+  onReady?: () => void;
+}>;
+
+const SECTION_MAP: Record<string, React.LazyExoticComponent<SectionComponent>> = {
+  about: AboutMe as React.LazyExoticComponent<SectionComponent>,
   packup: PackUp,
   muchiwaze: MuchiWaze,
   wwl: WeWereLiars,
@@ -33,12 +38,14 @@ interface ContentAreaProps {
   sectionId: string | null;
   onSelectSection: (id: string) => void;
   onExitComplete: () => void;
+  onContentReady: () => void;
 }
 
 export const ContentArea = ({
   sectionId,
   onSelectSection,
   onExitComplete,
+  onContentReady,
 }: ContentAreaProps) => {
   return (
     <AnimatePresence mode="wait" onExitComplete={onExitComplete}>
@@ -59,7 +66,12 @@ export const ContentArea = ({
           >
             {(() => {
               const Component = SECTION_MAP[sectionId];
-              return <Component onSelectSection={onSelectSection} />;
+              return (
+                <Component
+                  onSelectSection={onSelectSection}
+                  onReady={onContentReady}
+                />
+              );
             })()}
           </Suspense>
         </motion.div>

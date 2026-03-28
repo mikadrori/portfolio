@@ -1,14 +1,17 @@
+import { useEffect } from "react";
 import { ProjectNav } from "../components/ProjectNav";
+import { sectionTitleClass, bodyTextClass } from "../lib/typography";
 
-export default function LuminaForest({ onSelectSection }: { onSelectSection: (id: string) => void }) {
+export default function LuminaForest({ onSelectSection, onReady }: { onSelectSection: (id: string) => void; onReady?: () => void }) {
+  useEffect(() => { onReady?.(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center space-y-4">
-          <h2 className="font-['Permanent_Marker'] text-4xl md:text-5xl text-[#ff0090] tracking-[2px]">
+          <h2 className={sectionTitleClass}>
             Lumina Forest
           </h2>
-          <p className="font-['Bricolage_Grotesque'] font-light text-lg text-[#2200b8] tracking-[0.5px]">
+          <p className={bodyTextClass}>
             Coming soon
           </p>
         </div>
