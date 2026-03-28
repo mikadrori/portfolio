@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-
+import { useState, useEffect, useRef, useCallback, type MouseEvent as ReactMouseEvent } from "react";
+import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
-import { stickyTitleClass, sectionTitleClass, projectNameClass, subTitleClass, smallTitleClass, bodyTextClass } from "../lib/typography";
+import { stickyTitleClass, projectNameClass, subTitleClass, smallTitleClass, bodyTextClass } from "../lib/typography";
+import { sectionPageGridClass, sectionPageGridStretchClass, sectionColumnPaddingClass } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectNav } from "../components/ProjectNav";
 
@@ -18,8 +19,8 @@ const STORYBOARD = cloudinaryUrl("WLLstoryboard_zeemra.png", { quality: Q });
 const TYPO_CHARACTERS = [
   { name: "cadence", ids: ["WWLtypocadence_1_gsc0qn.jpg", "WWLtypocadence_2_hsd8ix.jpg", "WWLtypocadence_3_hxwlgw.jpg"] },
   { name: "jhonny", ids: ["WWLtypojhonny_1_x3qec5.jpg", "WWLtypojhonny_2_iaenvq.jpg", "WWLtypojhonny_3_yirz0w.jpg"] },
-  { name: "gat", ids: ["WWLtypoGat_1_cahhoq.jpg", "WWLtypoGat_2_ixlu44.jpg", "WWLtypoGat_3_z3txqf.jpg"] },
   { name: "myren", ids: ["WWLtypomyren_1_d10pcc.jpg", "WWLtypomyren_2_yfgqyh.jpg", "WWLtypomyren_3_gi0zu1.jpg"] },
+  { name: "gat", ids: ["WWLtypoGat_1_cahhoq.jpg", "WWLtypoGat_2_ixlu44.jpg", "WWLtypoGat_3_z3txqf.jpg"] },
   { name: "end", ids: ["WWLtypoend_1_t1odor.jpg", "WWLtypoend_2_nnx3ey.jpg", "WWLtypoend_3_bi3upj.jpg"] },
 ];
 
@@ -35,28 +36,169 @@ const VISUAL_ELEMENTS_RIGHT = [
   { title: "The Hand", desc: "A reference to Gat and his habit of writing on his skin." },
 ];
 
+function useDragScroll() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
 
-function TypographyCarousel() {
-  const [variantIdx, setVariantIdx] = useState(0);
+  const onMouseDown = useCallback((e: ReactMouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    isDragging.current = true;
+    startX.current = e.pageX - el.offsetLeft;
+    scrollLeft.current = el.scrollLeft;
+    el.style.cursor = "grabbing";
+    el.style.userSelect = "none";
+  }, []);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const onMouseMove = (e: globalThis.MouseEvent) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      el.scrollLeft = scrollLeft.current - (x - startX.current);
+    };
+
+    const onMouseUp = () => {
+      isDragging.current = false;
+      el.style.cursor = "grab";
+      el.style.removeProperty("user-select");
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, []);
+
+  return { ref, onMouseDown };
+}
+
+function StoryboardCarousel() {
+  const { ref, onMouseDown } = useDragScroll();
+
+  return (
+    <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
+      <img
+        src={STORYBOARD}
+        alt="Initial storyboard sketches"
+        className="h-[150px] md:h-[200px] w-auto max-w-none pointer-events-none"
+        loading="lazy"
+      />
+    </div>
+  );
+}
+
+const TYPO_OVERLAY_FADE_S = 0.95;
+const TYPO_OVERLAY_EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
+const TYPO_REMOVE_BASE_AFTER_MS = 1000;
+const TYPO_BASE_FADE_OUT_S = 0.55;
+const TYPO_BASE_FADE_EASE: [number, number, number, number] = [0.33, 1, 0.68, 1];
+const TYPO_VARIANT_INTERVAL_MS = 2400;
+
+function TypographyCarousel() {
+  const [baseIdx, setBaseIdx] = useState(0);
+  const [overlayIdx, setOverlayIdx] = useState<number | null>(null);
+  const [fadeBaseOut, setFadeBaseOut] = useState(false);
+  const baseIdxRef = useRef(0);
+  const removeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const removalScheduledRef = useRef(false);
+  const pendingIncomingRef = useRef(0);
+  const { ref, onMouseDown } = useDragScroll();
+
+  baseIdxRef.current = baseIdx;
+
+  const idle = overlayIdx === null && !fadeBaseOut;
+
+  useEffect(() => {
+    if (!idle) return;
     const id = setInterval(() => {
-      setVariantIdx((i) => (i + 1) % 3);
-    }, 3500);
+      const next = (baseIdxRef.current + 1) % 3;
+      setOverlayIdx(next);
+    }, TYPO_VARIANT_INTERVAL_MS);
     return () => clearInterval(id);
+  }, [idle]);
+
+  useEffect(() => {
+    if (overlayIdx === null && !fadeBaseOut) {
+      removalScheduledRef.current = false;
+      if (removeTimeoutRef.current) {
+        clearTimeout(removeTimeoutRef.current);
+        removeTimeoutRef.current = null;
+      }
+    }
+  }, [overlayIdx, fadeBaseOut]);
+
+  useEffect(
+    () => () => {
+      if (removeTimeoutRef.current) clearTimeout(removeTimeoutRef.current);
+    },
+    []
+  );
+
+  const scheduleFadeOutBase = useCallback((incomingIdx: number) => {
+    if (removalScheduledRef.current) return;
+    removalScheduledRef.current = true;
+    pendingIncomingRef.current = incomingIdx;
+    removeTimeoutRef.current = setTimeout(() => {
+      removeTimeoutRef.current = null;
+      setFadeBaseOut(true);
+    }, TYPO_REMOVE_BASE_AFTER_MS);
+  }, []);
+
+  const finishBaseTransition = useCallback(() => {
+    setBaseIdx(pendingIncomingRef.current);
+    setOverlayIdx(null);
+    setFadeBaseOut(false);
+    removalScheduledRef.current = false;
   }, []);
 
   return (
-    <div className="overflow-x-auto scrollbar-hide">
-      <div className="flex gap-[48px] md:gap-[100px] w-max pr-[30%]">
-        {TYPO_CHARACTERS.map((char) => (
-          <div key={char.name} className="w-[70vw] md:w-[800px] aspect-[898/505] shrink-0 overflow-hidden rounded-sm">
-            <img
-              src={cloudinaryUrl(char.ids[variantIdx], { quality: Q })}
-              alt={`${char.name} typography variant ${variantIdx + 1}`}
-              className="w-full h-full object-cover"
+    <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
+      <div className="flex gap-6 md:gap-20 w-max pr-[20%]">
+        {TYPO_CHARACTERS.map((char, slideIndex) => (
+          <div
+            key={char.name}
+            className="relative w-[52vw] md:w-[720px] aspect-[898/505] shrink-0 overflow-hidden rounded-sm"
+          >
+            <motion.img
+              key={`${char.name}-base-${baseIdx}`}
+              src={cloudinaryUrl(char.ids[baseIdx], { quality: Q })}
+              alt={`${char.name} typography variant ${baseIdx + 1}`}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: fadeBaseOut ? 0 : 1 }}
+              transition={{
+                duration: fadeBaseOut ? TYPO_BASE_FADE_OUT_S : 0,
+                ease: fadeBaseOut ? TYPO_BASE_FADE_EASE : TYPO_OVERLAY_EASE,
+              }}
+              onAnimationComplete={() => {
+                if (slideIndex !== 0 || !fadeBaseOut) return;
+                finishBaseTransition();
+              }}
+              className="absolute inset-0 z-0 h-full w-full object-cover pointer-events-none"
               loading="lazy"
             />
+            {overlayIdx !== null && (
+              <motion.img
+                key={`${char.name}-overlay-${overlayIdx}`}
+                src={cloudinaryUrl(char.ids[overlayIdx], { quality: Q })}
+                alt={`${char.name} typography variant ${overlayIdx + 1}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: TYPO_OVERLAY_FADE_S, ease: TYPO_OVERLAY_EASE }}
+                onAnimationComplete={() => {
+                  if (slideIndex === 0) scheduleFadeOutBase(overlayIdx);
+                }}
+                className="absolute inset-0 z-10 h-full w-full object-cover pointer-events-none"
+                loading="lazy"
+              />
+            )}
           </div>
         ))}
       </div>
@@ -112,13 +254,13 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
 
         {/* CONCEPT Section */}
         <section className="flex-1 flex flex-col justify-center">
-          <PageGrid className="items-start py-12 md:py-16">
-            <div className="col-span-8 md:col-span-1 md:col-start-1 flex items-start">
-              <h2 className={`${sectionTitleClass} leading-[1.5]`}>
+          <PageGrid className={sectionPageGridClass}>
+            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+              <h2 className={`${stickyTitleClass} leading-[1.5]`}>
                 Concept
               </h2>
             </div>
-            <div className="col-span-8 md:col-span-4 md:col-start-3 flex flex-col gap-2">
+            <div className={`col-span-8 md:col-span-4 md:col-start-3 flex flex-col gap-2 ${sectionColumnPaddingClass}`}>
               <h3 className={`${projectNameClass} leading-[1.5]`}>
                 We Were Liars
               </h3>
@@ -133,7 +275,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
                 a mysterious accident as she uncovers the truth of that summer.
               </p>
             </div>
-            <div className="col-span-4 md:col-span-1 md:col-start-7 flex justify-center md:justify-start">
+            <div className={`col-span-4 md:col-span-1 md:col-start-7 flex justify-center md:justify-start ${sectionColumnPaddingClass}`}>
               <img
                 src={BOOK_COVER}
                 alt="We Were Liars book cover"
@@ -149,11 +291,11 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
 
       {/* FINAL INTRO Section */}
       <section>
-        <PageGrid className="items-start py-8 md:py-12">
-          <div className="col-span-8 md:col-span-1 md:col-start-1">
-            <h2 className={stickyTitleClass}>FINAL INTRO</h2>
+        <PageGrid className={sectionPageGridClass}>
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+            <h2 className={stickyTitleClass}>Final Intro</h2>
           </div>
-          <div className="col-span-8 md:col-span-5 md:col-start-3 py-4 md:py-8">
+          <div className={`col-span-8 md:col-span-5 md:col-start-3 ${sectionColumnPaddingClass}`}>
             <div className="w-full aspect-video">
               <video
                 src={FINAL_INTRO_VIDEO}
@@ -171,51 +313,47 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       {/* Divider */}
       <div className="w-full h-px bg-[#2200b8]" />
 
-      {/* DESIGN Section */}
+      {/* DESIGN Section — single PageGrid so the sticky title shares one tall row with all content (md+) */}
       <section>
-        <PageGrid className="items-start py-8 md:py-12">
-          <div className="col-span-8 md:col-span-1 md:col-start-1">
-            <h2 className={`${sectionTitleClass} leading-none md:-mt-[4px]`}>
+        <PageGrid className={sectionPageGridStretchClass}>
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+            <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               Design
             </h2>
           </div>
 
-          <div className="col-span-8 md:col-span-4 md:col-start-3 flex flex-col gap-16 md:gap-24">
-            {/* Initial Story Board */}
-            <div className="flex flex-col gap-6">
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+            <div>
               <h3 className={`${subTitleClass} leading-none`}>Initial Story Board</h3>
-              <div className="overflow-x-auto scrollbar-hide">
-                <img
-                  src={STORYBOARD}
-                  alt="Initial storyboard sketches"
-                  className="h-[120px] md:h-[160px] w-auto max-w-none"
-                  loading="lazy"
-                />
-              </div>
-              <p className={bodyTextClass}>
-                My first thought was sea, waves, fire, and smoke. While I initially considered including characters,
-                I later chose to represent them only through hints—a photo, decorative objects, and a hand.
-              </p>
             </div>
 
+            <div className="overflow-hidden">
+              <StoryboardCarousel />
+            </div>
+
+            <p className={bodyTextClass}>
+              My first thought was sea, waves, fire, and smoke. While I initially considered including characters,
+              I later chose to represent them only through hints—a photo, decorative objects, and a hand.
+            </p>
+
             {/* Visual Elements */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
               <h3 className={subTitleClass}>Visual Elements</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
-                <div className="flex flex-col gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
+                <div className="flex flex-col gap-6">
                   {VISUAL_ELEMENTS_LEFT.map((el) => (
-                    <div key={el.title}>
-                      <p className={`${smallTitleClass} leading-[1.5]`}>
+                    <div key={el.title} className="flex flex-col gap-1">
+                      <p className={smallTitleClass}>
                         {el.title}
                       </p>
                       <p className={bodyTextClass}>{el.desc}</p>
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-6">
                   {VISUAL_ELEMENTS_RIGHT.map((el) => (
-                    <div key={el.title}>
-                      <p className={`${smallTitleClass} leading-[1.5]`}>
+                    <div key={el.title} className="flex flex-col gap-1">
+                      <p className={smallTitleClass}>
                         {el.title}
                       </p>
                       <p className={bodyTextClass}>{el.desc}</p>
@@ -226,31 +364,25 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
             </div>
 
             {/* Typography */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
               <h3 className={subTitleClass}>Typography</h3>
               <p className={bodyTextClass}>
                 To evoke memory loss, I used blur and glare on the text. The titles appear and disappear, creating
                 a sense of uncertainty - as if they are "there but not really there."
               </p>
             </div>
-          </div>
-        </PageGrid>
 
-        {/* Typography carousel - starts at col 3, clips at right */}
-        <PageGrid>
-          <div className="col-span-8 md:col-span-7 md:col-start-3 overflow-hidden">
-            <TypographyCarousel />
-          </div>
-        </PageGrid>
+            <div className="overflow-hidden">
+              <TypographyCarousel />
+            </div>
 
-        {/* Video & Editing */}
-        <PageGrid className="items-start py-8 md:py-12">
-          <div className="col-span-8 md:col-span-4 md:col-start-3 flex flex-col gap-6">
-            <h3 className={subTitleClass}>Video & Editing</h3>
-            <p className={bodyTextClass}>
-              I combined stock footage, a Veo-generated video, and my own shots. To ensure a uniform look, I
-              used smooth, blurry transitions to create a sense of flow and lack of clarity.
-            </p>
+            <div className="flex flex-col gap-2">
+              <h3 className={subTitleClass}>Video & Editing</h3>
+              <p className={bodyTextClass}>
+                I combined stock footage, a Veo-generated video, and my own shots. To ensure a uniform
+                look,<br /> I used smooth, blurry transitions to create a sense of flow and lack of clarity.
+              </p>
+            </div>
           </div>
         </PageGrid>
       </section>

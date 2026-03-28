@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { PageGrid } from "./PageGrid";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import { sectionTitleClass, bodyTextClass } from "../lib/typography";
+import { sectionPageGridPaddingClass } from "../lib/sectionLayout";
 
 const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9", { quality: "auto:best", width: 1920 });
 
@@ -24,22 +25,22 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
 
   return (
     <section
-      className="relative w-full min-h-screen flex items-start bg-cover pt-8 md:pt-12 pb-16 md:pb-20"
+      className="relative w-full min-h-screen flex items-start bg-cover"
       style={{
         backgroundImage: `url(${BG_IMAGE})`,
         backgroundPosition: "center 38%",
       }}
     >
-      <PageGrid className="relative z-10 items-start gap-6 w-full">
-        <h2 className={`col-span-8 md:col-span-1 md:col-start-1 ${sectionTitleClass} md:mb-0 mt-[-8px] uppercase whitespace-nowrap`}>
+      <PageGrid className={`relative z-10 items-start gap-6 w-full ${sectionPageGridPaddingClass}`}>
+        <h2 className={`col-span-8 md:col-span-1 md:col-start-1 ${sectionTitleClass} md:mb-0 uppercase whitespace-nowrap`}>
           about me
         </h2>
-        <p className={`col-span-8 md:col-start-2 md:col-end-5 ${bodyTextClass} -mt-4`}>
+        <p className={`col-span-8 md:col-start-3 md:col-end-6 ${bodyTextClass} -mt-4`}>
           I'm Mika, a 25-year-old Visual <br /> Communication student at HIT 3rd year,
           <br />
           Based in Ramat-Gan.
         </p>
-        <div className="col-span-8 md:col-start-3 md:col-end-7 max-h-[87px] md:max-h-[87px] overflow-y-auto scrollbar-hide -mt-3 space-y-1">
+        <div className="col-span-8 md:col-start-4 md:col-end-8 max-h-[87px] md:max-h-[87px] overflow-y-auto scrollbar-hide -mt-3 space-y-1">
           {BIO_PARAGRAPHS.map((para, i) => (
             <p
               key={i}
@@ -49,56 +50,7 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
             </p>
           ))}
         </div>
-        <div
-          className="col-span-8 md:col-start-8 md:col-end-9 flex flex-col gap-3 items-center md:items-end justify-self-center md:justify-self-end"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <AnimatePresence mode="wait">
-            {!hovered ? (
-              <motion.a
-                key="default"
-                href="mailto:Mikammm12@gmail.com"
-                className={`${btnClass} bg-[#ff0090]`}
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                Contact me!
-              </motion.a>
-            ) : (
-              <motion.div
-                key="expanded"
-                className="flex flex-col gap-3 items-end"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <div className="flex gap-3">
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${btnClass} bg-[#2200b8]`}
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href="mailto:Mikammm12@gmail.com"
-                    className={`${btnClass} bg-[#ff0090]`}
-                  >
-                    Contact me!
-                  </a>
-                </div>
-                <a
-                  href="mailto:Mikammm12@gmail.com"
-                  className={`${btnClass} bg-[#2200b8]`}
-                >
-                  Email
-                </a>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+
       </PageGrid>
     </section>
   );

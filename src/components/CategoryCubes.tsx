@@ -31,11 +31,11 @@ const PYRAMID_LAYOUT: Record<
   CubeId,
   { left: string; top: string; zIndex: number; size: string }
 > = {
-  1: { left: "50%", top: "0%", zIndex: 5, size: "46%" },
-  2: { left: "28%", top: "28%", zIndex: 3, size: "44%" },
-  3: { left: "72%", top: "28%", zIndex: 4, size: "46%" },
-  4: { left: "26%", top: "56%", zIndex: 1, size: "48%" },
-  5: { left: "74%", top: "56%", zIndex: 2, size: "48%" },
+  1: { left: "38%", top: "-12%", zIndex: 5, size: "46%" },
+  2: { left: "13%", top: "22%", zIndex: 3, size: "44%" },
+  3: { left: "63%", top: "22%", zIndex: 4, size: "46%" },
+  4: { left: "9%", top: "58%", zIndex: 1, size: "49%" },
+  5: { left: "62%", top: "58%", zIndex: 2, size: "51%" },
 };
 
 const DROP_ORDER: Record<CubeId, number> = { 4: 0, 5: 1, 2: 2, 3: 3, 1: 4 };
@@ -95,11 +95,11 @@ export const CategoryCubes = ({ onSelectProject, animationKey = 0 }: CategoryCub
             initial={{ y: -600, visibility: "hidden" as const }}
             animate={{ y: [null, 0, 8, -4, 0], visibility: "visible" as const }}
             transition={{
-              delay: dropIndex * 0.35,
+              delay: dropIndex * 0.5,
               duration: 0.45,
               times: [0, 0.6, 0.75, 0.9, 1],
               ease: "easeOut",
-              visibility: { delay: dropIndex * 0.35, duration: 0 },
+              visibility: { delay: dropIndex * 0.5, duration: 0 },
             }}
             aria-label={label}
             onMouseEnter={() => setHoveredId(id)}
