@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { NavBar } from "./components/NavBar";
 import { Home } from "./pages/Home";
 import { Footer } from "./components/Footer";
@@ -9,9 +9,11 @@ type TransitionSource = "cube" | "nav" | "next-project";
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [cubeAnimKey, setCubeAnimKey] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const transitionSource = useRef<TransitionSource>("cube");
   const prevSection = useRef<string | null>(null);
+  const scrollHandledByExit = useRef(false);
 
   const handleSelectFromCube = useCallback((id: ProjectId) => {
     if (id === activeSection) {
@@ -19,6 +21,7 @@ export default function App() {
       return;
     }
     transitionSource.current = "cube";
+    scrollHandledByExit.current = false;
     prevSection.current = activeSection;
     setActiveSection(id);
   }, [activeSection]);
@@ -26,25 +29,18 @@ export default function App() {
   const handleSelectSection = useCallback((id: string | null) => {
     if (id === activeSection) return;
     transitionSource.current = "nav";
+    scrollHandledByExit.current = false;
     prevSection.current = activeSection;
+    if (id === null) setCubeAnimKey((k) => k + 1);
     setActiveSection(id);
   }, [activeSection]);
 
   const handleSelectFromProject = useCallback((id: string) => {
     if (id === activeSection) return;
     transitionSource.current = "next-project";
+    scrollHandledByExit.current = false;
     prevSection.current = activeSection;
     setActiveSection(id);
-  }, [activeSection]);
-
-  useEffect(() => {
-    if (activeSection !== null && prevSection.current === null) {
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          contentRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 50);
-      });
-    }
   }, [activeSection]);
 
   const handleExitComplete = useCallback(() => {
@@ -53,6 +49,7 @@ export default function App() {
       return;
     }
 
+    scrollHandledByExit.current = true;
     const source = transitionSource.current;
     if (source === "cube") {
       contentRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -61,15 +58,21 @@ export default function App() {
     }
   }, [activeSection]);
 
+  const handleContentReady = useCallback(() => {
+    if (scrollHandledByExit.current) return;
+    contentRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <main className="min-h-screen flex flex-col bg-[#fcf7ee] selection:bg-[#2200b8] selection:text-[#fcf7ee]">
       <NavBar onSelectSection={handleSelectSection} />
-      <Home onSelectProject={handleSelectFromCube} />
+      <Home onSelectProject={handleSelectFromCube} animationKey={cubeAnimKey} />
       <div ref={contentRef}>
         <ContentArea
           sectionId={activeSection}
           onSelectSection={handleSelectFromProject}
           onExitComplete={handleExitComplete}
+          onContentReady={handleContentReady}
         />
       </div>
       {activeSection && <Footer />}

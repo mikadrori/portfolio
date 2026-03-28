@@ -18,7 +18,8 @@ export function cloudinaryUrl(
     return `https://res.cloudinary.com/${CLOUD_NAME}/${type}/upload/${publicId}`;
   }
 
-  transforms.push("f_auto", "q_auto");
+  transforms.push("f_auto");
+  transforms.push(opts?.quality ? `q_${opts.quality}` : "q_auto");
   if (opts?.width) transforms.push(`w_${opts.width}`);
   if (opts?.height) transforms.push(`h_${opts.height}`);
   if (opts?.crop) transforms.push(`c_${opts.crop}`);
