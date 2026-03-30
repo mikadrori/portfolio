@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, type MouseEvent as ReactMouseEvent } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
@@ -6,6 +6,7 @@ import { stickyTitleClass, projectNameClass, subTitleClass, smallTitleClass, bod
 import { sectionPageGridClass, sectionPageGridStretchClass, sectionColumnPaddingClass } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectNav } from "../components/ProjectNav";
+import { useDragScroll } from "../hooks/useDragScroll";
 
 const Q = "auto:best";
 
@@ -35,50 +36,6 @@ const VISUAL_ELEMENTS_RIGHT = [
   { title: "Floating Objects", desc: "Luxury items showing how wealth caused the conflict." },
   { title: "The Hand", desc: "A reference to Gat and his habit of writing on his skin." },
 ];
-
-function useDragScroll() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  const onMouseDown = useCallback((e: ReactMouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    isDragging.current = true;
-    startX.current = e.pageX - el.offsetLeft;
-    scrollLeft.current = el.scrollLeft;
-    el.style.cursor = "grabbing";
-    el.style.userSelect = "none";
-  }, []);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const onMouseMove = (e: globalThis.MouseEvent) => {
-      if (!isDragging.current) return;
-      e.preventDefault();
-      const x = e.pageX - el.offsetLeft;
-      el.scrollLeft = scrollLeft.current - (x - startX.current);
-    };
-
-    const onMouseUp = () => {
-      isDragging.current = false;
-      el.style.cursor = "grab";
-      el.style.removeProperty("user-select");
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-    };
-  }, []);
-
-  return { ref, onMouseDown };
-}
 
 function StoryboardCarousel() {
   const { ref, onMouseDown } = useDragScroll();

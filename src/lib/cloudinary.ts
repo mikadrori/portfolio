@@ -9,15 +9,16 @@ export function cloudinaryUrl(
     quality?: string;
     format?: string;
     resourceType?: "image" | "video";
+    raw?: boolean;
   }
 ): string {
   const type = opts?.resourceType ?? "image";
-  const transforms: string[] = [];
 
-  if (publicId.endsWith(".svg")) {
+  if (opts?.raw || publicId.endsWith(".svg")) {
     return `https://res.cloudinary.com/${CLOUD_NAME}/${type}/upload/${publicId}`;
   }
 
+  const transforms: string[] = [];
   transforms.push("f_auto");
   transforms.push(opts?.quality ? `q_${opts.quality}` : "q_auto");
   if (opts?.width) transforms.push(`w_${opts.width}`);
