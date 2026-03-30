@@ -965,9 +965,6 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         </PageGrid>
       </section>
 
-      {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
-
       {/* ── Next Project ── */}
       <ProjectNav currentProject="aviv" onSelectSection={onSelectSection} />
     </div>
