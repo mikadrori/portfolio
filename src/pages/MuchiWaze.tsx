@@ -90,12 +90,16 @@ const SCREENS = [
   cloudinaryUrl("MuchiScreen14_wsxhpp.png", { quality: Q }),
 ];
 
-const TRAVEL_ESSENTIALS = [
-  "Robbery Alert", "Police Alert (Bribe)", "Travel Partner", "Lookout Point",
-  "Chabad House", "Laundry", "Hostel", "Trek Route",
-  "ATM", "Weed", "Munch", "Airport",
-  "Market", "Party",
+const TRAVEL_ESSENTIALS_ROWS = [
+  ["Robbery Alert", "Police Alert (Bribe)", "Travel Partner", "Lookout Point"],
+  ["Chabad House", "Laundry", "Hostel"],
+  ["Trek Route", "ATM", "Weed", "Munch"],
+  ["Airport", "Market", "Party"],
 ];
+
+const SKETCHES_FILTERED_OUT = new Set([
+  "Travel Partner", "Lookout Point", "Airport", "Market",
+]);
 
 const ICON_VIDEOS = [
   { src: VID_ROBBERY, label: "Robbery Alert" },
@@ -155,6 +159,7 @@ interface MuchiWazeProps {
 export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) {
   const sketch1Drag = useDragScroll();
   const sketch2Drag = useDragScroll();
+  const iconVideosDrag = useDragScroll();
   const readyFired = useRef(false);
 
   const signalReady = useCallback(() => {
@@ -202,19 +207,19 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             </div>
 
             <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-              {/* Intro + Icon */}
+              {/* Intro + Phone mockup */}
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-1 flex flex-col gap-2">
+                  <img
+                    src={APP_ICON}
+                    alt="MuchiWaze app icon"
+                    className="w-[90px] md:w-[110px] rounded-[18px] mb-2"
+                  />
                   <h3 className={`${projectNameClass} leading-[1.5]`}>MuchiWaze</h3>
                   <p className={`${smallTitleClass} leading-[1.5]`}>
                     A &lsquo;Waze&rsquo; based mini-app for Muchilers.
                     <br />
                     Everything a Muchiler needs!
-                  </p>
-                  <p className={bodyTextClass}>
-                    MuchiWaze is a navigation mini-app designed for Israeli backpackers traveling through
-                    South America. Inspired by Waze, it focuses on real-time alerts and points of interest
-                    tailored to the unique needs of long-term, low-budget travelers.
                   </p>
                   <p className={`${bodyTextClass} mt-4 italic`}>
                     This project focuses on icon design and visual language.
@@ -224,11 +229,15 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                     widely used by Israelis on their post-army trip for long-term, low-budget, and authentic travel.
                   </p>
                 </div>
-                <div className="flex justify-center md:justify-start shrink-0">
-                  <img
-                    src={APP_ICON}
-                    alt="MuchiWaze app icon"
-                    className="w-[120px] md:w-[140px] rounded-[22px] object-cover"
+                <div className="flex justify-center md:justify-end shrink-0">
+                  <video
+                    src={VID_ALL_ICONS}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-[180px] md:w-[220px] h-auto rounded-[22px] object-contain"
+                    style={{ background: "none" }}
                   />
                 </div>
               </div>
@@ -255,38 +264,50 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-            {/* What a Muchiler needs */}
-            <div className="flex flex-col gap-6">
-              <h3 className={subTitleClass}>What a Muchiler needs?</h3>
-              <p className={bodyTextClass}>
-                I started by asking: What does the Israeli traveler in South America really need?
-                What does their daily routine look like? Inspired by Waze, I focused on real-time
-                alerts and points of interest, leading to a list of travel essentials:
-              </p>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
+            <div className="flex flex-col md:flex-row gap-8">
+              <div className="flex-1 min-w-0 flex flex-col gap-6">
+                <h3 className={subTitleClass}>What a Muchiler needs?</h3>
+                <p className={bodyTextClass}>
+                  I started by asking: What does the Israeli traveler in South America really need?
+                  What does their daily routine look like? Inspired by Waze, I focused on real-time
+                  alerts and points of interest, leading to a list of travel essentials:
+                </p>
 
-              <div className="grid grid-cols-4 gap-3 md:gap-4">
-                {TRAVEL_ESSENTIALS.map((item) => (
-                  <div key={item} className="flex flex-col items-center text-center gap-1">
-                    <p className={`${bodyTextClass} text-[12px] md:text-[13px]`}>{item}</p>
-                  </div>
-                ))}
+                <div className="flex flex-col gap-y-3 md:gap-y-4">
+                  {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
+                    <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
+                      {row.map((item) => (
+                        <p key={item} className={`${bodyTextClass} font-semibold text-center`}>{item}</p>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Phone mockup video */}
-            <div className="flex justify-center">
-              <div className="w-[220px] md:w-[280px]">
+              <div className="hidden md:flex justify-end shrink-0 items-start">
                 <video
                   src={VID_OPENING}
                   autoPlay
                   muted
                   loop
                   playsInline
-                  className="h-auto max-w-full"
+                  className="w-[220px] h-auto rounded-[22px]"
                   style={{ background: "none" }}
                 />
               </div>
+            </div>
+
+            <div className="flex md:hidden justify-center">
+              <video
+                src={VID_OPENING}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-[220px] h-auto rounded-[22px]"
+                style={{ background: "none" }}
+              />
             </div>
           </div>
         </PageGrid>
@@ -309,6 +330,21 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <p className={bodyTextClass}>
                 I narrowed this list and started sketching.
               </p>
+
+              <div className="flex flex-col gap-y-3 md:gap-y-4">
+                {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
+                  <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
+                    {row.map((item) => (
+                      <p
+                        key={item}
+                        className={`${bodyTextClass} font-semibold text-center${
+                          SKETCHES_FILTERED_OUT.has(item) ? " opacity-30" : ""
+                        }`}
+                      >{item}</p>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Option 1 – circular sketches */}
@@ -335,6 +371,10 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             {/* Color Palette */}
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Color Palette</h3>
+               <p className={bodyTextClass}>
+              I drew inspiration from Latin American landscapes, using my own travel photos to
+              create a rich palette that captures the region&rsquo;s true atmosphere.
+            </p>
               <div className="flex gap-2 flex-wrap">
                 {["#590A19", "#C90000", "#DE2467", "#1F7537", "#04CEA5", "#FFC73B", "#590A19"].map((hex, i) => (
                   <div key={i} className="flex flex-col items-center gap-1">
@@ -345,10 +385,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               </div>
             </div>
 
-            <p className={bodyTextClass}>
-              I drew inspiration from Latin American landscapes, using my own travel photos to
-              create a rich palette that captures the region&rsquo;s true atmosphere.
-            </p>
+           
 
             {/* Inspirations */}
             <div className="flex flex-col gap-4">
@@ -398,35 +435,21 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
 
               <img src={ICONS_FINAL} alt="Final MuchiWaze icons" className="w-full" loading="lazy" />
 
-              {/* Icon videos grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-                {ICON_VIDEOS.map((vid) => (
-                  <div key={vid.label} className="flex flex-col items-center gap-2">
+              {/* Icon videos carousel */}
+              <div ref={iconVideosDrag.ref} onMouseDown={iconVideosDrag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
+                <div className="flex gap-6 md:gap-8 w-max pr-[20%]">
+                  {ICON_VIDEOS.map((vid) => (
                     <video
+                      key={vid.label}
                       src={vid.src}
                       autoPlay
                       muted
                       loop
                       playsInline
-                      className="h-auto max-w-full rounded-lg"
+                      className="h-[340px] md:h-[440px] w-auto rounded-lg pointer-events-none"
                       style={{ background: "none" }}
                     />
-                  </div>
-                ))}
-              </div>
-
-              {/* All icons video */}
-              <div className="flex justify-center">
-                <div className="w-[220px] md:w-[280px]">
-                  <video
-                    src={VID_ALL_ICONS}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="h-auto max-w-full"
-                    style={{ background: "none" }}
-                  />
+                  ))}
                 </div>
               </div>
             </div>

@@ -45,9 +45,10 @@ const ORDER_STATUS_LINE = cloudinaryUrl("OrderStatusLinebar_xr5mib.svg");
 const FILTER_OPEN = cloudinaryUrl("Filteropen_ibmkpd.svg");
 const FILTER_CLOSED = cloudinaryUrl("Filterclosed_ekw7qs.svg");
 
+const VID_SIGNIN = cloudinaryUrl("PackUpVIDsignin_o6bh9a.mp4", { resourceType: "video", quality: Q });
 const VID_HOMEPAGE = cloudinaryUrl("PackUpVIDhomepage_ct4q7z.mp4", { resourceType: "video", quality: Q });
 const VID_ORDERPAGE = cloudinaryUrl("PackUpVIDorderpage_prbhjs.mp4", { resourceType: "video", quality: Q });
-const VID_HISTORY = cloudinaryUrl("PackUpVIDhistory_uqjroj.mp4", { resourceType: "video", quality: Q });
+const VID_HOME = cloudinaryUrl("PackUpVIDhomepage_ct4q7z.mp4", { resourceType: "video", quality: Q });
 const VID_PICKUP = cloudinaryUrl("PackUpVIDpickupchange_iph9hh.mp4", { resourceType: "video", quality: Q });
 
 // Flow
@@ -223,6 +224,14 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
               </div>
 
+              {/* Mockup image */}
+              <img
+                src={MOCKUP}
+                alt="Pack Up app mockup showing three phone screens"
+                className="w-full rounded-sm"
+                loading="lazy"
+              />
+
               {/* Challenge / Solution */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
                 <div className="flex flex-col gap-2">
@@ -241,13 +250,21 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
               </div>
 
-              {/* Mockup image */}
-              <img
-                src={MOCKUP}
-                alt="Pack Up app mockup showing three phone screens"
-                className="w-full rounded-sm"
-                loading="lazy"
-              />
+              {/* Phone video demos */}
+              <div className="grid grid-cols-3 gap-4 md:gap-8">
+                {[VID_HOME, VID_SIGNIN, VID_ORDERPAGE, ].map((src, i) => (
+                  <video
+                    key={i}
+                    src={src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-auto rounded-lg"
+                    style={{ background: "none" }}
+                  />
+                ))}
+              </div>
             </div>
           </PageGrid>
         </section>
@@ -446,7 +463,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
                 <div className="md:w-1/2 flex justify-center">
                   <video
-                    src={VID_HISTORY}
+                    src={VID_HOME}
                     autoPlay
                     muted
                     loop
