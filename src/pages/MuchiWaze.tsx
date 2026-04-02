@@ -25,7 +25,6 @@ const HERO_POSTER = cloudinaryUrl("MuchiwazeMockup_iq8vqk.jpg", { quality: Q, wi
 
 // Concept
 const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb.svg");
-const MOCKUP = cloudinaryUrl("MuchiwazeMockup_iq8vqk.jpg", { quality: Q, width: 1920 });
 
 // Research – phone mockup video
 const VID_OPENING = cloudinaryUrl("MuchiVIDopening_sueisa.mp4", { resourceType: "video", quality: Q });
@@ -244,7 +243,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
 
               {/* Mockup image */}
               <img
-                src={MOCKUP}
+                src={HERO_POSTER}
                 alt="MuchiWaze app mockup"
                 className="w-full rounded-sm"
                 loading="lazy"

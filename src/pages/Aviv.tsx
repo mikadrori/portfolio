@@ -32,16 +32,16 @@ const VID_CONFESSIONS_PROMO = cloudinaryUrl("AvivConfessionPromoVID_fvsgfz.mp4",
 const VID_CONFESSIONS = cloudinaryUrl("AvivVideoConffessions_wv2jyo.mp4", { resourceType: "video", quality: Q });
 
 // ─── Hero ───
-const HERO_POSTER = cloudinaryUrl("AvivAppMockup01_rzlm2p.png", { quality: Q, width: 1920 });
+const HERO_POSTER = cloudinaryUrl("AvivAppMockup01_rzlm2p.png", { quality: Q });
 
 // ─── Concept ───
 const APP_ICON = cloudinaryUrl("AvivClodyNowAPPICON_wcyxqx.png", { quality: Q });
-const MOCKUPS_CLOUDY_NOW = cloudinaryUrl("AvivMockupsCloudyNow_vubtjf.png", { quality: Q, width: 1200 });
+const MOCKUPS_CLOUDY_NOW = cloudinaryUrl("AvivMockupsCloudyNow_vubtjf.png", { quality: Q });
 
 // ─── App Mockups ───
-const APP_MOCKUP_01 = cloudinaryUrl("AvivAppMockup01_rzlm2p.png", { quality: Q, width: 1200 });
-const APP_MOCKUP_02 = cloudinaryUrl("AvivAppMockup02_bnab5u.png", { quality: Q, width: 1200 });
-const APP_MOCKUP_03 = cloudinaryUrl("AvivAppMockup03_jiumrl.png", { quality: Q, width: 1200 });
+const APP_MOCKUP_01 = cloudinaryUrl("AvivAppMockup01_rzlm2p.png", { quality: Q });
+const APP_MOCKUP_02 = cloudinaryUrl("AvivAppMockup02_bnab5u.png", { quality: Q });
+const APP_MOCKUP_03 = cloudinaryUrl("AvivAppMockup03_jiumrl.png", { quality: Q });
 
 // ─── App Sketches ───
 const APP_SKETCHES = [
@@ -94,7 +94,7 @@ const AVIV_IMAGE_2 = cloudinaryUrl("AvivImage2_zpzrxi.png", { quality: Q });
 const USER_FLOW = cloudinaryUrl("AvivUserFLOW_ztnjuj.svg");
 
 // ─── Confessions Mockup ───
-const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_pq46dc.png", { quality: Q, width: 1920 });
+const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_pq46dc.png", { quality: Q });
 
 // ─── Confessions Sketches ───
 const CNFSN_SKETCHES = [

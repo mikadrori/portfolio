@@ -11,7 +11,7 @@ import { useDragScroll } from "../hooks/useDragScroll";
 const Q = "auto:best";
 
 const HERO_VIDEO = cloudinaryUrl("WLLpromoVID_s8x1if.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("WLLpromoVID_s8x1if.jpg", { quality: Q, width: 1920 });
+const HERO_POSTER = cloudinaryUrl("WLLpromoVID_s8x1if.jpg", { quality: Q });
 const BOOK_COVER = cloudinaryUrl("WWLbook_z0ojgt.png", { quality: Q });
 const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys.mp4", { resourceType: "video", quality: Q });
 const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn.jpg", { quality: Q, width: 1280 });

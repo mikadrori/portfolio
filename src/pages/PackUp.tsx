@@ -25,7 +25,6 @@ const HERO_POSTER = cloudinaryUrl("PackUpMockUp_ztxwa9.jpg", { quality: Q, width
 
 // Concept
 const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq.svg");
-const MOCKUP = cloudinaryUrl("PackUpMockUp_ztxwa9.jpg", { quality: Q, width: 1920 });
 
 // Research graphs
 const GRAPH1 = cloudinaryUrl("graph1_z2lpge.svg");
@@ -48,7 +47,6 @@ const FILTER_CLOSED = cloudinaryUrl("Filterclosed_ekw7qs.svg");
 const VID_SIGNIN = cloudinaryUrl("PackUpVIDsignin_o6bh9a.mp4", { resourceType: "video", quality: Q });
 const VID_HOMEPAGE = cloudinaryUrl("PackUpVIDhomepage_ct4q7z.mp4", { resourceType: "video", quality: Q });
 const VID_ORDERPAGE = cloudinaryUrl("PackUpVIDorderpage_prbhjs.mp4", { resourceType: "video", quality: Q });
-const VID_HOME = cloudinaryUrl("PackUpVIDhomepage_ct4q7z.mp4", { resourceType: "video", quality: Q });
 const VID_PICKUP = cloudinaryUrl("PackUpVIDpickupchange_iph9hh.mp4", { resourceType: "video", quality: Q });
 
 // Flow
@@ -226,7 +224,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
               {/* Mockup image */}
               <img
-                src={MOCKUP}
+                src={HERO_POSTER}
                 alt="Pack Up app mockup showing three phone screens"
                 className="w-full rounded-sm"
                 loading="lazy"
@@ -252,7 +250,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
               {/* Phone video demos */}
               <div className="grid grid-cols-3 gap-4 md:gap-8">
-                {[VID_HOME, VID_SIGNIN, VID_ORDERPAGE, ].map((src, i) => (
+                {[VID_HOMEPAGE, VID_SIGNIN, VID_ORDERPAGE, ].map((src, i) => (
                   <video
                     key={i}
                     src={src}
@@ -463,7 +461,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
                 <div className="md:w-1/2 flex justify-center">
                   <video
-                    src={VID_HOME}
+                    src={VID_HOMEPAGE}
                     autoPlay
                     muted
                     loop
