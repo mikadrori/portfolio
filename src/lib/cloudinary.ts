@@ -20,8 +20,9 @@ export function cloudinaryUrl(
   }
 
   const type = opts?.resourceType ?? "image";
+  const hasResize = opts?.width || opts?.height || opts?.crop;
 
-  if (opts?.raw || publicId.endsWith(".svg")) {
+  if (!hasResize || opts?.raw || publicId.endsWith(".svg")) {
     return `https://res.cloudinary.com/${CLOUD_NAME}/${type}/upload/${publicId}`;
   }
 
