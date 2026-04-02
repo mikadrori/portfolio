@@ -81,7 +81,7 @@ export const NavBar = ({ onSelectSection }: NavBarProps) => {
           </a>
         </div>
 
-        <span className="col-start-7 col-end-9 font-['Permanent_Marker'] text-xl md:text-2xl text-[#ff0090] tracking-[1.5px] justify-self-end select-none">
+        <span className="col-start-7 col-end-9 font-['Permanent_Marker'] text-xl md:text-2xl text-[#ff0090] tracking-[1.5px] justify-self-end select-none whitespace-nowrap">
           mika drori
         </span>
       </PageGrid>

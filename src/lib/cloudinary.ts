@@ -1,5 +1,8 @@
 const CLOUD_NAME = "dwsbq2yhr";
 
+const useLocalAssets =
+  import.meta.env.DEV && import.meta.env.VITE_USE_CLOUDINARY !== "true";
+
 export function cloudinaryUrl(
   publicId: string,
   opts?: {
@@ -12,6 +15,10 @@ export function cloudinaryUrl(
     raw?: boolean;
   }
 ): string {
+  if (useLocalAssets) {
+    return `/assets/${publicId}`;
+  }
+
   const type = opts?.resourceType ?? "image";
 
   if (opts?.raw || publicId.endsWith(".svg")) {

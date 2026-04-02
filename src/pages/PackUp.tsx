@@ -176,7 +176,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <div className="w-full h-[300px] md:h-[500px] shrink-0 overflow-hidden">
+        <div className="w-full shrink-0 overflow-hidden">
           <video
             src={HERO_VIDEO}
             poster={HERO_POSTER}
@@ -185,7 +185,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             loop
             playsInline
             preload="auto"
-            className="w-full h-full object-cover"
+            className="w-full h-auto"
           />
         </div>
 

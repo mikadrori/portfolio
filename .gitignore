@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Dev-only local assets (downloaded from Cloudinary)
+public/assets/
