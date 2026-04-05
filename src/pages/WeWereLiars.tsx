@@ -7,6 +7,7 @@ import { sectionPageGridClass, sectionPageGridStretchClass, sectionColumnPadding
 import { PageGrid } from "../components/PageGrid";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
+import { VisualElements } from "./wwl/VisualElements";
 
 const Q = "auto:best";
 
@@ -25,17 +26,6 @@ const TYPO_CHARACTERS = [
   { name: "end", ids: ["WWLtypoend_1_t1odor.jpg", "WWLtypoend_2_nnx3ey.jpg", "WWLtypoend_3_bi3upj.jpg"] },
 ];
 
-const VISUAL_ELEMENTS_LEFT = [
-  { title: "Waves", desc: "The island setting and Cadence's perceived drowning." },
-  { title: "Smoke", desc: "A subtle hint of the upcoming disaster." },
-  { title: "Fire", desc: "The real tragedy that changed everything." },
-];
-
-const VISUAL_ELEMENTS_RIGHT = [
-  { title: "Shore & Polaroid", desc: "A perfect summer slowly being forgotten." },
-  { title: "Floating Objects", desc: "Luxury items showing how wealth caused the conflict." },
-  { title: "The Hand", desc: "A reference to Gat and his habit of writing on his skin." },
-];
 
 function StoryboardCarousel() {
   const { ref, onMouseDown } = useDragScroll();
@@ -296,28 +286,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
             {/* Visual Elements */}
             <div className="flex flex-col gap-2">
               <h3 className={subTitleClass}>Visual Elements</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
-                <div className="flex flex-col gap-6">
-                  {VISUAL_ELEMENTS_LEFT.map((el) => (
-                    <div key={el.title} className="flex flex-col gap-1">
-                      <p className={smallTitleClass}>
-                        {el.title}
-                      </p>
-                      <p className={bodyTextClass}>{el.desc}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-6">
-                  {VISUAL_ELEMENTS_RIGHT.map((el) => (
-                    <div key={el.title} className="flex flex-col gap-1">
-                      <p className={smallTitleClass}>
-                        {el.title}
-                      </p>
-                      <p className={bodyTextClass}>{el.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <VisualElements />
             </div>
 
             {/* Typography */}
