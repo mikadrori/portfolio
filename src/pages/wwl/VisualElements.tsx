@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cloudinaryUrl } from "../../lib/cloudinary";
 import { smallTitleClass, bodyTextClass } from "../../lib/typography";
@@ -23,23 +23,18 @@ const ELEMENTS: VisualElement[] = [
 export function VisualElements() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
-  const [isTouch, setIsTouch] = useState(() =>
-    typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0),
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches,
   );
-  const touchDetectedRef = useRef(isTouch);
 
   useEffect(() => {
-    const onTouch = () => {
-      if (!touchDetectedRef.current) {
-        touchDetectedRef.current = true;
-        setIsTouch(true);
-      }
-    };
-    window.addEventListener("touchstart", onTouch, { once: true, passive: true });
-    return () => window.removeEventListener("touchstart", onTouch);
+    const mq = window.matchMedia("(max-width: 768px)");
+    const onChange = () => setIsMobile(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const activeIdx = isTouch ? selectedIdx : hoveredIdx;
+  const activeIdx = isMobile ? selectedIdx : hoveredIdx;
   const activeEl = activeIdx !== null ? ELEMENTS[activeIdx] : null;
 
 
@@ -48,16 +43,14 @@ export function VisualElements() {
   }, []);
 
   const handleMouseEnter = useCallback((i: number) => {
-    if (touchDetectedRef.current) return;
     setHoveredIdx(i);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    if (touchDetectedRef.current) return;
     setHoveredIdx(null);
   }, []);
 
-  if (isTouch) {
+  if (isMobile) {
     return <TouchLayout selectedIdx={selectedIdx} onTap={handleTap} />;
   }
 
