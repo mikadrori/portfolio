@@ -4,8 +4,8 @@ import { PROJECT_ORDER, type ProjectId } from "./CategoryCubes";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import { bodyTextClass } from "../lib/typography";
 
-const CUBE_ICON_BLUE = cloudinaryUrl("Icon_cube_blue_uu5vvu.svg");
-const CUBE_ICON_PINK = cloudinaryUrl("Icon_cube_pink_h27sxm.svg");
+const CUBE_ICON_BLUE = cloudinaryUrl("Icon_cube_blue_uu5vvu_tv1dmc.svg");
+const CUBE_ICON_PINK = cloudinaryUrl("Icon_cube_pink_h27sxm_dwf2dv.svg");
 
 const PROJECT_LABELS: Record<ProjectId, string> = {
   lumina: "Lumina Forest",

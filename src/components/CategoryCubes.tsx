@@ -42,16 +42,16 @@ const DROP_ORDER: Record<CubeId, number> = { 4: 0, 5: 1, 2: 2, 3: 3, 1: 4 };
 
 function cubeAsset(n: number, color: "blue" | "pink") {
   const map: Record<string, string> = {
-    "1_blue": "cube_1_blue_x0wgmp.svg",
-    "1_pink": "cube_1_pink_pw7pjr.svg",
-    "2_blue": "cube_2_blue_mqkddp.svg",
-    "2_pink": "cube_2_pink_kfccxk.svg",
-    "3_blue": "cube_3_blue_k8ozy7.svg",
-    "3_pink": "cube_3_pink_uoakkh.svg",
-    "4_blue": "cube_4_blue_ymx0kq.svg",
-    "4_pink": "cube_4_pink_xicof5.svg",
-    "5_blue": "cube_5_blue_t0crn1.svg",
-    "5_pink": "cube_5_pink_vzrvlg.svg",
+    "1_blue": "cube_1_blue_x0wgmp_ac1khe.svg",
+    "1_pink": "cube_1_pink_pw7pjr_r6dana.svg",
+    "2_blue": "cube_2_blue_mqkddp_cv8m6q.svg",
+    "2_pink": "cube_2_pink_kfccxk_yvqiys.svg",
+    "3_blue": "cube_3_blue_k8ozy7_nk1m7z.svg",
+    "3_pink": "cube_3_pink_uoakkh_dwzlpk.svg",
+    "4_blue": "cube_4_blue_ymx0kq_qh1yun.svg",
+    "4_pink": "cube_4_pink_xicof5_vejkav.svg",
+    "5_blue": "cube_5_blue_t0crn1_cfwudz.svg",
+    "5_pink": "cube_5_pink_vzrvlg_z5eyox.svg",
   };
   return cloudinaryUrl(map[`${n}_${color}`]);
 }

@@ -11,19 +11,19 @@ import { VisualElements } from "./wwl/VisualElements";
 
 const Q = "auto:best";
 
-const HERO_VIDEO = cloudinaryUrl("WLLpromoVID_s8x1if.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("WLLpromoVID_s8x1if.jpg", { quality: Q });
-const BOOK_COVER = cloudinaryUrl("WWLbook_z0ojgt.png", { quality: Q });
-const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys.mp4", { resourceType: "video", quality: Q });
-const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn.jpg", { quality: Q, width: 1280 });
-const STORYBOARD = cloudinaryUrl("WLLstoryboard_zeemra.png", { quality: Q });
+const HERO_VIDEO = cloudinaryUrl("WLLpromoVID_s8x1if_xza8xl.mp4", { resourceType: "video", quality: Q });
+const HERO_POSTER = cloudinaryUrl("WLLpromoVID_s8x1if_xza8xl.jpg", { quality: Q });
+const BOOK_COVER = cloudinaryUrl("WWLbook_z0ojgt_xtpkn5.png", { quality: Q });
+const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys_lx91jv.mp4", { resourceType: "video", quality: Q });
+const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn_dxrwvp.jpg", { quality: Q, width: 1280 });
+const STORYBOARD = cloudinaryUrl("WLLstoryboard_zeemra_t3ahp6.png", { quality: Q });
 
 const TYPO_CHARACTERS = [
-  { name: "cadence", ids: ["WWLtypocadence_1_gsc0qn.jpg", "WWLtypocadence_2_hsd8ix.jpg", "WWLtypocadence_3_hxwlgw.jpg"] },
-  { name: "jhonny", ids: ["WWLtypojhonny_1_x3qec5.jpg", "WWLtypojhonny_2_iaenvq.jpg", "WWLtypojhonny_3_yirz0w.jpg"] },
-  { name: "myren", ids: ["WWLtypomyren_1_d10pcc.jpg", "WWLtypomyren_2_yfgqyh.jpg", "WWLtypomyren_3_gi0zu1.jpg"] },
-  { name: "gat", ids: ["WWLtypoGat_1_cahhoq.jpg", "WWLtypoGat_2_ixlu44.jpg", "WWLtypoGat_3_z3txqf.jpg"] },
-  { name: "end", ids: ["WWLtypoend_1_t1odor.jpg", "WWLtypoend_2_nnx3ey.jpg", "WWLtypoend_3_bi3upj.jpg"] },
+  { name: "cadence", ids: ["WWLtypocadence_1_gsc0qn_dxrwvp.jpg", "WWLtypocadence_2_hsd8ix_udyccq.jpg", "WWLtypocadence_3_hxwlgw_vsnvdx.jpg"] },
+  { name: "jhonny", ids: ["WWLtypojhonny_1_x3qec5_vfrlsf.jpg", "WWLtypojhonny_2_iaenvq_qesdng.jpg", "WWLtypojhonny_3_yirz0w_uflvkg.jpg"] },
+  { name: "myren", ids: ["WWLtypomyren_1_d10pcc_o2nd6c.jpg", "WWLtypomyren_2_yfgqyh_tbou56.jpg", "WWLtypomyren_3_gi0zu1_osu3ma.jpg"] },
+  { name: "gat", ids: ["WWLtypoGat_1_cahhoq_cieznw.jpg", "WWLtypoGat_2_ixlu44_z38sdq.jpg", "WWLtypoGat_3_z3txqf_wn3odk.jpg"] },
+  { name: "end", ids: ["WWLtypoend_1_t1odor_cupklm.jpg", "WWLtypoend_2_nnx3ey_gnjjv3.jpg", "WWLtypoend_3_bi3upj_xwkwcg.jpg"] },
 ];
 
 

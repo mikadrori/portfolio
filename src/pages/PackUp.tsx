@@ -20,55 +20,55 @@ import { useDragScroll } from "../hooks/useDragScroll";
 const Q = "auto:best";
 
 // Hero
-const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("PackUpMockUp_ztxwa9.jpg", { quality: Q, width: 1920 });
+const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi_dijphf.mp4", { resourceType: "video", quality: Q });
+const HERO_POSTER = cloudinaryUrl("packup_mockup_bmbgji_cc3cah.png", { quality: Q, width: 1920 });
 
 // Concept
-const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq.svg");
+const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq_fvv31d.svg");
 
 // Research graphs
-const GRAPH1 = cloudinaryUrl("graph1_z2lpge.svg");
-const GRAPH2 = cloudinaryUrl("graph2_l6fhaj.svg");
+const GRAPH1 = cloudinaryUrl("graph-01_cwv5uf_ykm1wl.svg");
+const GRAPH2 = cloudinaryUrl("graph-02_t23nki_rt7kxq.svg");
 
 // Statistics
-const STAT1 = cloudinaryUrl("statics1_snyvm8.svg");
-const STAT2 = cloudinaryUrl("statics2_dwsd4i.svg");
+const STAT1 = cloudinaryUrl("statics1_snyvm8_lbsdvj.svg");
+const STAT2 = cloudinaryUrl("statics2_dwsd4i_z1t1h8.svg");
 
 // User Persona
-const PERSONA_BG = cloudinaryUrl("UserPersonaBKG_pqd8ko.svg");
-const PERSONA_IMG = cloudinaryUrl("UserPersonaIMG_packup.jpg", { quality: Q, width: 400 });
+const PERSONA_BG = cloudinaryUrl("UserPersonaBKG_pqd8ko_wubgzu.svg");
+const PERSONA_IMG = cloudinaryUrl("user_persona_diypkk.png", { quality: Q, width: 400 });
 
 // Design section
-const ORDER_STATUS_BAR = cloudinaryUrl("OrderStatusBar_rrqn2n.svg");
-const ORDER_STATUS_LINE = cloudinaryUrl("OrderStatusLinebar_xr5mib.svg");
-const FILTER_OPEN = cloudinaryUrl("Filteropen_ibmkpd.svg");
-const FILTER_CLOSED = cloudinaryUrl("Filterclosed_ekw7qs.svg");
+const ORDER_STATUS_BAR = cloudinaryUrl("OrderStatusBar_rrqn2n_cumehr.svg");
+const ORDER_STATUS_LINE = cloudinaryUrl("OrderStatusLinebar_xr5mib_h2fvq8.svg");
+const FILTER_OPEN = cloudinaryUrl("Filteropen_ibmkpd_xtbqfs.svg");
+const FILTER_CLOSED = cloudinaryUrl("Filterclosed_ekw7qs_dor2uo.svg");
 
-const VID_SIGNIN = cloudinaryUrl("PackUpVIDsignin_o6bh9a.mp4", { resourceType: "video", quality: Q });
-const VID_HOMEPAGE = cloudinaryUrl("PackUpVIDhomepage_ct4q7z.mp4", { resourceType: "video", quality: Q });
-const VID_ORDERPAGE = cloudinaryUrl("PackUpVIDorderpage_prbhjs.mp4", { resourceType: "video", quality: Q });
-const VID_PICKUP = cloudinaryUrl("PackUpVIDpickupchange_iph9hh.mp4", { resourceType: "video", quality: Q });
+const VID_SIGNIN = cloudinaryUrl("PackUpVIDsignin_w4tloz_ptlsbb.mp4", { resourceType: "video", quality: Q });
+const VID_HOMEPAGE = cloudinaryUrl("PackUpVIDhomepage_okxluu_qq8tqi.mp4", { resourceType: "video", quality: Q });
+const VID_ORDERPAGE = cloudinaryUrl("PackUpVIDorderpage_vuruf7_eo3piz.mp4", { resourceType: "video", quality: Q });
+const VID_PICKUP = cloudinaryUrl("PackUpVIDpickupchange_kzywgm_lzqqxn.mp4", { resourceType: "video", quality: Q });
 
 // Flow
-const USER_FLOW = cloudinaryUrl("PackupUserFlow_uba12t.svg");
-const VID_PROTOTYPE = cloudinaryUrl("PackUpVIDPrototype_kpxxrh.mp4", { resourceType: "video", quality: Q });
+const USER_FLOW = cloudinaryUrl("PackupUserFlow_uba12t_lhwayf.svg");
+const VID_PROTOTYPE = cloudinaryUrl("PackUpVIDPrototype_szonom_p784jg.mp4", { resourceType: "video", quality: Q });
 
 // Screens
 const SCREENS = [
-  cloudinaryUrl("PackUpscreen01_wtwc56.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen02_a3xf44.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen03_hjg0yu.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen04_zc0lbt.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen05_xqg302.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen06_qzy1tt.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen07_nqdxjc.png", { quality: Q }),
-  cloudinaryUrl("PackUpscreen08_go56fz.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen01_wtwc56_zzhc41.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen02_a3xf44_d3tfl2.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen03_hjg0yu_vz5cas.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen04_zc0lbt_lv8uoh.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen05_xqg302_fn4bvy.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen06_qzy1tt_rnem4o.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen07_nqdxjc_hmrtdy.png", { quality: Q }),
+  cloudinaryUrl("PackUpscreen08_go56fz_tnsuvx.png", { quality: Q }),
 ];
 
 // Style Guide
-const TYPO_SVG = cloudinaryUrl("PackUpTypo_b6j9xk.svg");
-const BTNS_SVG = cloudinaryUrl("PackUpBTNS_dznpuj.svg");
-const COLOR_PALETTE = cloudinaryUrl("PackUpColorPalette_gb2gji.svg");
+const TYPO_SVG = cloudinaryUrl("PackUpTypo_b6j9xk_xkmzlb.svg");
+const BTNS_SVG = cloudinaryUrl("PackUpBTNS_dznpuj_iannwy.svg");
+const COLOR_PALETTE = cloudinaryUrl("PackUpColorPalette_gb2gji_pm6q8n.svg");
 
 const KEY_STATS = [
   {
