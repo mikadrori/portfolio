@@ -20,73 +20,73 @@ import { useDragScroll } from "../hooks/useDragScroll";
 const Q = "auto:best";
 
 // Hero
-const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("MuchiwazeMockup_iq8vqk.jpg", { quality: Q, width: 1920 });
+const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw_rqb5tp.mp4", { resourceType: "video", quality: Q });
+const HERO_POSTER = cloudinaryUrl("MuchiwazeMockup_iq8vqk_evu7yg.jpg", { quality: Q, width: 1920 });
 
 // Concept
-const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb.svg");
+const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb_q41i7g.svg");
 
 // Research – phone mockup video
-const VID_OPENING = cloudinaryUrl("MuchiVIDopening_sueisa.mp4", { resourceType: "video", quality: Q });
+const VID_OPENING = cloudinaryUrl("MuchiVIDopening_uzqbyc_yx4qkz.mp4", { resourceType: "video", quality: Q });
 
 // Design – Sketches
-const SKETCHES_1 = cloudinaryUrl("MuchiSketches1_o2jeoj.png", { quality: Q });
-const SKETCHES_2 = cloudinaryUrl("MuchiSketches2_mnwjpn.png", { quality: Q });
+const SKETCHES_1 = cloudinaryUrl("MuchiSketches1_o2jeoj_zvcmb4.png", { quality: Q });
+const SKETCHES_2 = cloudinaryUrl("MuchiSketches2_mnwjpn_qgqphb.png", { quality: Q });
 
 // Design – Inspirations
 const INSPIRATIONS = [
-  cloudinaryUrl("MuchiInsparationIMG01_nd5ais.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG02_cnsupq.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG03_q2fxyh.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG04_kp56fy.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG05_lm9vrr.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG06_hdgriu.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG07_iwejtc.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG08_gim7st.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG09_gjlh17.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG10_a5rxl3.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG11_plp9qz.png", { quality: Q }),
-  cloudinaryUrl("MuchiInsparationIMG12_ary2qu.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG01_nd5ais_qci6s9.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG02_cnsupq_ohorih.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG03_q2fxyh_lrbnx9.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG04_kp56fy_kq0kxw.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG05_lm9vrr_pchc7w.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG06_hdgriu_yvf2u7.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG07_iwejtc_y5du3w.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG08_gim7st_gmid5x.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG09_gjlh17_yxutrw.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG10_a5rxl3_r2t7gz.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG11_plp9qz_bhtez9.png", { quality: Q }),
+  cloudinaryUrl("MuchiInsparationIMG12_ary2qu_i9athb.png", { quality: Q }),
 ];
 
 // Design – Icon options
-const ICONS_OPT1 = cloudinaryUrl("MuchiIconsOpt1_ub84yi.svg");
-const ICONS_OPT2 = cloudinaryUrl("MuchiIconsOpt2_vmt6hx.svg");
-const ICONS_OPT3 = cloudinaryUrl("MuchiIconsOpt3_f2swgb.svg");
+const ICONS_OPT1 = cloudinaryUrl("MuchiIconsOpt1_ub84yi_ukwkvr.svg");
+const ICONS_OPT2 = cloudinaryUrl("MuchiIconsOpt2_vmt6hx_zm37np.svg");
+const ICONS_OPT3 = cloudinaryUrl("MuchiIconsOpt3_f2swgb_ozvj4q.svg");
 
 // Design – Final icons
-const ICONS_FINAL = cloudinaryUrl("MuchiICONSfinal_gmklkg.svg");
+const ICONS_FINAL = cloudinaryUrl("MuchiICONSfinal_gmklkg_tf9zca.svg");
 
 // Design – Icon videos
-const VID_ALL_ICONS = cloudinaryUrl("MuchiVIDAllIcons_lcznmk.mp4", { resourceType: "video", quality: Q });
-const VID_ROBBERY = cloudinaryUrl("MuchiVIDrobbery_btjeld.mp4", { resourceType: "video", quality: Q });
-const VID_BRIBE = cloudinaryUrl("MuchiVIDbribe_fxyugg.mp4", { resourceType: "video", quality: Q });
-const VID_HOSTEL = cloudinaryUrl("MuchiVIDhostelICON_jtltrh.mp4", { resourceType: "video", quality: Q });
-const VID_CHABAD = cloudinaryUrl("MuchiVIDchabadICON_whz3pu.mp4", { resourceType: "video", quality: Q });
-const VID_MUNCH = cloudinaryUrl("MuchiVIDmunchICONS_zigxms.mp4", { resourceType: "video", quality: Q });
-const VID_PARTY = cloudinaryUrl("MuchiVIDpartyICON_kqrh0g.mp4", { resourceType: "video", quality: Q });
-const VID_WEED = cloudinaryUrl("MuchiVIDweedICON_njjzfr.mp4", { resourceType: "video", quality: Q });
+const VID_ALL_ICONS = cloudinaryUrl("MuchiVIDAllIcons_bjnsjo_bxsr4z.mp4", { resourceType: "video", quality: Q });
+const VID_ROBBERY = cloudinaryUrl("MuchiVIDrobbery_polqe9_uaec7f.mp4", { resourceType: "video", quality: Q });
+const VID_BRIBE = cloudinaryUrl("MuchiVIDbribe_yamd4y_dhggtr.mp4", { resourceType: "video", quality: Q });
+const VID_HOSTEL = cloudinaryUrl("MuchiVIDhostelICON_uni5ug_dkighx.mp4", { resourceType: "video", quality: Q });
+const VID_CHABAD = cloudinaryUrl("MuchiVIDchabadICON_thybkb_ht8psc.mp4", { resourceType: "video", quality: Q });
+const VID_MUNCH = cloudinaryUrl("MuchiVIDmunchICONS_rdkd3u_ua2gxx.mp4", { resourceType: "video", quality: Q });
+const VID_PARTY = cloudinaryUrl("MuchiVIDpartyICON_oh2fez_spyvqy.mp4", { resourceType: "video", quality: Q });
+const VID_WEED = cloudinaryUrl("MuchiVIDweedICON_lm3yvu_buk2qw.mp4", { resourceType: "video", quality: Q });
 
 // Avatars
-const AVATARS_SVG = cloudinaryUrl("MuchiAvatars_wzsbcn.svg");
-const VID_AVATARS = cloudinaryUrl("MuchiVIDAvatars_yq5kk4.mp4", { resourceType: "video", quality: Q });
+const AVATARS_SVG = cloudinaryUrl("MuchiAvatars_wzsbcn_en7i5z.svg");
+const VID_AVATARS = cloudinaryUrl("MuchiVIDAvatars_vuoyqw_fd3hc5.mp4", { resourceType: "video", quality: Q });
 
 // Screens
 const SCREENS = [
-  cloudinaryUrl("MuchiScreen01_llhzt4.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen02_ilzr62.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen03_ectwrb.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen04_gqn0ci.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen05_od0z9x.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen06_b25jnq.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen07_uohyvy.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen08_qrslgx.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen09_o13np9.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen10_uqksuj.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen11_r5kvtc.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen12_ipiqkc.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen13_kzugef.png", { quality: Q }),
-  cloudinaryUrl("MuchiScreen14_wsxhpp.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen01_llhzt4_nxjtzq.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen02_ilzr62_lhm5oh.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen03_ectwrb_laqbns.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen04_gqn0ci_tohygg.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen05_od0z9x_ly0icg.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen06_b25jnq_kyxgzx.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen07_uohyvy_jdni2l.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen08_qrslgx_yhhdpt.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen09_o13np9_srob3e.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen10_uqksuj_ptyfzd.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen11_r5kvtc_qpwta2.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen12_ipiqkc_cly6ro.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen13_kzugef_mmkogs.png", { quality: Q }),
+  cloudinaryUrl("MuchiScreen14_wsxhpp_mem7i2.png", { quality: Q }),
 ];
 
 const TRAVEL_ESSENTIALS_ROWS = [

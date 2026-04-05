@@ -20,133 +20,133 @@ import { useDragScroll } from "../hooks/useDragScroll";
 const Q = "auto:best";
 
 // ─── Videos ───
-const VID_SPLASH = cloudinaryUrl("AvivSplashVID_elnjry.mp4", { resourceType: "video", quality: Q });
-const VID_YARKON = cloudinaryUrl("AvivYarkonVID_sse3jw.mp4", { resourceType: "video", quality: Q });
-const VID_LONDON = cloudinaryUrl("AvivLondonVID_gfexod.mp4", { resourceType: "video", quality: Q });
-const VID_KINNERET = cloudinaryUrl("AvivKinneretVID_omezd8.mp4", { resourceType: "video", quality: Q });
-const VID_ARAD = cloudinaryUrl("AvivAradVId_tjpqy8.mp4", { resourceType: "video", quality: Q });
-const VID_FLOWER_NAV = cloudinaryUrl("AvivNavigationflrVID_g5wfhy.mp4", { resourceType: "video", quality: Q });
-const VID_WEATHER_TOGGLE = cloudinaryUrl("AvivWeatherToggleVId_ghczg7.mp4", { resourceType: "video", quality: Q });
-const VID_RECOMMENDATIONS = cloudinaryUrl("AvivRecomenndationsVID_i4u4nk.mp4", { resourceType: "video", quality: Q });
-const VID_CONFESSIONS_PROMO = cloudinaryUrl("AvivConfessionPromoVID_fvsgfz.mp4", { resourceType: "video", quality: Q });
-const VID_CONFESSIONS = cloudinaryUrl("AvivVideoConffessions_wv2jyo.mp4", { resourceType: "video", quality: Q });
+const VID_SPLASH = cloudinaryUrl("AvivSplashVID_fweccx_cpzzvd.mp4", { resourceType: "video", quality: Q });
+const VID_YARKON = cloudinaryUrl("AvivYarkonVID_a4xfcu_jo4k4e.mp4", { resourceType: "video", quality: Q });
+const VID_LONDON = cloudinaryUrl("AvivLondonVID_vuhvsu_wwikzn.mp4", { resourceType: "video", quality: Q });
+const VID_KINNERET = cloudinaryUrl("AvivKinneretVID_qaoohu_bebd3j.mp4", { resourceType: "video", quality: Q });
+const VID_ARAD = cloudinaryUrl("AvivAradVId_m7g5vv_nhd5kb.mp4", { resourceType: "video", quality: Q });
+const VID_FLOWER_NAV = cloudinaryUrl("AvivNavigationflrVID_csziwc_v60mlr.mp4", { resourceType: "video", quality: Q });
+const VID_WEATHER_TOGGLE = cloudinaryUrl("AvivWeatherToggleVId_myol9c_q5yenz.mp4", { resourceType: "video", quality: Q });
+const VID_RECOMMENDATIONS = cloudinaryUrl("AvivRecomenndationsVID_zwewvy_frlyxn.mp4", { resourceType: "video", quality: Q });
+const VID_CONFESSIONS_PROMO = cloudinaryUrl("LandingPageVID_v5kfo6_ub6zqx.mp4", { resourceType: "video", quality: Q });
+const VID_CONFESSIONS = cloudinaryUrl("ConfessionsReadVID_xqhfhu_e6woin.mp4", { resourceType: "video", quality: Q });
 
 // ─── Hero ───
-const HERO_POSTER = cloudinaryUrl("AvivAppMockup01_rzlm2p.png", { quality: Q });
+const HERO_POSTER = cloudinaryUrl("AvivAppMockup01_f2fycm_wbwgb7.png", { quality: Q });
 
 // ─── Concept ───
-const APP_ICON = cloudinaryUrl("AvivClodyNowAPPICON_wcyxqx.png", { quality: Q });
-const MOCKUPS_CLOUDY_NOW = cloudinaryUrl("AvivMockupsCloudyNow_vubtjf.png", { quality: Q });
+const APP_ICON = cloudinaryUrl("AvivClodyNowAPPICON_fud50k_wqp1uq.png", { quality: Q });
+const MOCKUPS_CLOUDY_NOW = cloudinaryUrl("AvivMockupsCloudyNow_devoll_ydssnx.png", { quality: Q });
 
 // ─── App Mockups ───
-const APP_MOCKUP_01 = cloudinaryUrl("AvivAppMockup01_rzlm2p.png", { quality: Q });
-const APP_MOCKUP_02 = cloudinaryUrl("AvivAppMockup02_bnab5u.png", { quality: Q });
-const APP_MOCKUP_03 = cloudinaryUrl("AvivAppMockup03_jiumrl.png", { quality: Q });
+const APP_MOCKUP_01 = cloudinaryUrl("AvivAppMockup01_f2fycm_wbwgb7.png", { quality: Q });
+const APP_MOCKUP_02 = cloudinaryUrl("AvivAppMockup02_xpdcjn_dai3nq.png", { quality: Q });
+const APP_MOCKUP_03 = cloudinaryUrl("AvivAppMockup03_ri0els_s2gmhl.png", { quality: Q });
 
 // ─── App Sketches ───
 const APP_SKETCHES = [
-  cloudinaryUrl("AvivAppSketch1_lyksbf.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch2_m0i1mk.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch3_jhom22.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch4_lzf1vk.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch5_juurdv.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch6_x2h9hk.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch6_2_u3ap6k.png", { quality: Q }),
-  cloudinaryUrl("AvivAppSketch7_roa8ol.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch1_f6icr8_uhatvz.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch2_siuscr_bj2lc2.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch3_wob0of_jqeqqy.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch4_ndxogs_rnsvmx.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch5_gqavue_vh4bz6.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch6_cpodic_enwmsa.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch6_2_q3yrn9_gkvf6a.png", { quality: Q }),
+  cloudinaryUrl("AvivAppSketch7_dcmoft_syn9an.png", { quality: Q }),
 ];
 
 // ─── Weather Elements (SVG) ───
-const MOON_SVG = cloudinaryUrl("AvivMoon_aqvyc3.svg");
-const CLOUD_SVG = cloudinaryUrl("AvivCloud_gvc2x9.svg");
-const LIGHTNING_SVG = cloudinaryUrl("AvivLighting_v3sgzu.svg");
-const SUN_SVG = cloudinaryUrl("AvivSun_kimgxp.svg");
+const MOON_SVG = cloudinaryUrl("Moon1_prb2q8_wpvtpj.svg");
+const CLOUD_SVG = cloudinaryUrl("Cloud1_hclcuw_x4uvwk.png");
+const LIGHTNING_SVG = cloudinaryUrl("AvivLighting_kb4lkj_ii4jju.svg");
+const SUN_SVG = cloudinaryUrl("Sun1_h0j8wr_e8t9m9.svg");
 
 // ─── Weather Icons (SVG) ───
-const CLOUDY_ICON = cloudinaryUrl("AvivCloudyICON_molkdd.svg");
-const PARTLY_CLOUDY_ICON = cloudinaryUrl("AvivPartlyCloudyICON_owplg9.png", { quality: Q });
-const RAIN_ICON = cloudinaryUrl("AvivRainICON_zonwil.svg");
-const SUNNY_ICON = cloudinaryUrl("AvivSunnyICON_er6pze.svg");
+const CLOUDY_ICON = cloudinaryUrl("cloudy_icon_ufgdxn_p83aax.png");
+const PARTLY_CLOUDY_ICON = cloudinaryUrl("partlysunny_icon_hrxjfr_op9py4.png", { quality: Q });
+const RAIN_ICON = cloudinaryUrl("rainy_icon_l3ijyy_oi5ltf.png");
+const SUNNY_ICON = cloudinaryUrl("sunny_icon_mzxlq1_ybbl9z.png");
 
 // ─── Navigation / Feature SVGs ───
-const NAV_FLOWER_SVG = cloudinaryUrl("AvivNavigatonFlower_jzcjpr.svg");
-const WEATHER_TOGGLE_SVG = cloudinaryUrl("AvivWeatherToggle_vwks2j.svg");
-const DAILY_REC_BTN = cloudinaryUrl("AvivDailyRecommendationBTN_ivqbyx.svg");
+const NAV_FLOWER_SVG = cloudinaryUrl("flower1_afuol0_ke3qlp.png");
+const WEATHER_TOGGLE_SVG = cloudinaryUrl("toggle_daily_mpnmsz_i4r67y.svg");
+const DAILY_REC_BTN = cloudinaryUrl("AvivDailyRecommendationBTN_mxachy_jzlj7n.svg");
 
 // ─── Color Palettes ───
-const COLOR_PALETTE_1 = cloudinaryUrl("AvivColorPallete_ngiivo.svg");
-const COLOR_PALETTE_2 = cloudinaryUrl("AvivColorPallete2_y1vu3w.svg");
+const COLOR_PALETTE_1 = cloudinaryUrl("AvivColorPallete_nv1aei_wwobrc.svg");
+const COLOR_PALETTE_2 = cloudinaryUrl("AvivColorPallete2_jadsdz_nzfxkz.svg");
 
 // ─── Typography ───
-const SIMPLER_FONT = cloudinaryUrl("AvivSimplerFONT_fswh09.svg");
-const TYPO_SKETCHES_CLOUDY = cloudinaryUrl("AvivSketchesTypographyCloudyNow_q4qbx5.png", { quality: Q });
+const SIMPLER_FONT = cloudinaryUrl("AvivSimplerFONT_foekup_w9stzz.svg");
+const TYPO_SKETCHES_CLOUDY = cloudinaryUrl("AvivSketchesTypographyCloudyNow_bzjvz3_jkm3ph.png", { quality: Q });
 
 // ─── Phone Screens ───
-const SCREEN_YARKON = cloudinaryUrl("AvivScreenYarkon_leqktu.png", { quality: Q });
-const SCREEN_LONDON = cloudinaryUrl("AvivScreenLondon_vjapde.png", { quality: Q });
-const SCREEN_KINNERET = cloudinaryUrl("AvivScreenKinneret_f4va5f.png", { quality: Q });
-const SCREEN_ARAD = cloudinaryUrl("AvivScreenArad_vq7gkb.png", { quality: Q });
+const SCREEN_YARKON = cloudinaryUrl("AvivScreenYarkon_vlbdxg_gjvugt.png", { quality: Q });
+const SCREEN_LONDON = cloudinaryUrl("AvivScreenLondon_nuqxpn_ahva8t.png", { quality: Q });
+const SCREEN_KINNERET = cloudinaryUrl("AvivScreenKinneret_zummr2_z7dxnf.png", { quality: Q });
+const SCREEN_ARAD = cloudinaryUrl("AvivScreenArad_ouyorj_s4qyro.png", { quality: Q });
 
 // ─── Research ───
-const AVIV_IMAGE = cloudinaryUrl("Aviv_Image_wte5yu.png", { quality: Q });
-const AVIV_IMAGE_2 = cloudinaryUrl("AvivImage2_zpzrxi.png", { quality: Q });
+const AVIV_IMAGE = cloudinaryUrl("Aviv_Image_ugmujh_bmleri.png", { quality: Q });
+const AVIV_IMAGE_2 = cloudinaryUrl("AvivImage2_phmgvt_egugvg.png", { quality: Q });
 
 // ─── User Flow ───
-const USER_FLOW = cloudinaryUrl("AvivUserFLOW_ztnjuj.svg");
+const USER_FLOW = cloudinaryUrl("AvivUserFLOW_wqlgc8_jlbjjh.svg");
 
 // ─── Confessions Mockup ───
-const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_pq46dc.png", { quality: Q });
+const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_qffpsy_wms0fv.png", { quality: Q });
 
 // ─── Confessions Sketches ───
 const CNFSN_SKETCHES = [
-  cloudinaryUrl("AvivCNFSNSketch1_hfevu5.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNsketch2_gdr2ms.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNSketch3_fauns5.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNSketch4_sszvor.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNSketch5_iayrur.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNSketch1_sqiiqp_wtw8yb.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNsketch2_ynzmey_brh6ew.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNSketch3_qbncqb_xr1url.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNSketch4_oozbch_gjmx3b.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNSketch5_stver5_zunfju.png", { quality: Q }),
 ];
 
 // ─── Confessions Typography ───
 const CNFSN_TYPO = [
-  cloudinaryUrl("AvivCNFSNtypo1_kjp8ja.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNtypo2_i5rhhc.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNtypo3_bvbuvx.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNtypo4_awizvf.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNtypo5_1_ge28a1.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNtypo5_2_xth9ho.png", { quality: Q }),
-  cloudinaryUrl("AvivCNFSNtypo6_t7bmmg.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo1_gkqlzj_xsihd6.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo2_tw91f6_mazrcm.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo3_wvwwyz_upqm2e.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo4_ejbdps_cewyzd.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo5_1_tissyd_jgqk0p.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo5_2_ibz9n3_l6z57x.png", { quality: Q }),
+  cloudinaryUrl("AvivCNFSNtypo6_rpjvt1_v9qfdq.png", { quality: Q }),
 ];
-const CNFSN_TYPO_SKETCH = cloudinaryUrl("AvivCNFSNtypoSketch_s70a9v.png", { quality: Q });
+const CNFSN_TYPO_SKETCH = cloudinaryUrl("AvivCNFSNtypoSketch_qmyail_if2qcq.png", { quality: Q });
 
 // ─── Desktop Screens ───
 const DESKTOP_SCREENS = [
-  cloudinaryUrl("AvivDesktopScreen01_okscom.png", { quality: Q }),
-  cloudinaryUrl("AvivDesktopScreen02_lz3h3h.png", { quality: Q }),
-  cloudinaryUrl("AvivDesktopScreen03_jjmtwi.png", { quality: Q }),
-  cloudinaryUrl("AvivDesktopScreen04_yzzdsk.png", { quality: Q }),
-  cloudinaryUrl("AvivDesktopScreen05_u27bsc.png", { quality: Q }),
+  cloudinaryUrl("AvivDesktopScreen01_gw4nek_zjywkh.png", { quality: Q }),
+  cloudinaryUrl("AvivDesktopScreen02_q3gnwx_pmsjv5.png", { quality: Q }),
+  cloudinaryUrl("AvivDesktopScreen03_e2qnt0_tp20i5.png", { quality: Q }),
+  cloudinaryUrl("AvivDesktopScreen04_rjjf7p_xc9bjm.png", { quality: Q }),
+  cloudinaryUrl("AvivDesktopScreen05_tkytzj_ltb0lj.png", { quality: Q }),
 ];
 
 // ─── Buttons (SVG) ───
-const BTN_X = cloudinaryUrl("AvivsBTNX_ybyiwj.svg");
-const BTN_SEND = cloudinaryUrl("AvivsBTNsend_maaby1.svg");
-const BTN_PAPER = cloudinaryUrl("AvivsBTNpaper_hmjrhs.svg");
-const BTN_FULL_HRT = cloudinaryUrl("AvivsBTNfullhrt_jdqhuz.svg");
-const BTN_BROKEN_HRT = cloudinaryUrl("AvivsBTNbrokenhrt_br77lg.svg");
+const BTN_X = cloudinaryUrl("AvivsBTNX_arvrp6_piwjmh.svg");
+const BTN_SEND = cloudinaryUrl("AvivsBTNsend_rgf42g_nsgb8y.svg");
+const BTN_PAPER = cloudinaryUrl("AvivsBTNpaper_cd3axy_usyark.svg");
+const BTN_FULL_HRT = cloudinaryUrl("AvivsBTNfullhrt_o3zygy_ajj8h0.svg");
+const BTN_BROKEN_HRT = cloudinaryUrl("AvivsBTNbrokenhrt_aarwlm_qum3qu.svg");
 
 // ─── Secondary Buttons (SVG) ───
-const BTN_ARROW_PLUS = cloudinaryUrl("AvivBTNarrowplus_cjikr8.svg");
-const BTN_ARROW = cloudinaryUrl("AvivBTNarrow_irf0wn.svg");
-const BTN_FLOWER = cloudinaryUrl("AvivBTNflower_qfj9ca.svg");
-const BTN_ARROW_PROFILE = cloudinaryUrl("AvivBTNarrowprofile_nlrfwt.svg");
-const BTN_START = cloudinaryUrl("AvivBTNstart_qwvyxt.svg");
+const BTN_ARROW_PLUS = cloudinaryUrl("AvivBTNarrowplus_f5mitp_dip0nn.svg");
+const BTN_ARROW = cloudinaryUrl("AvivBTNarrow_vcc51d_nvqnfj.svg");
+const BTN_FLOWER = cloudinaryUrl("AvivBTNflower_k3co1g_ydoo4g.svg");
+const BTN_ARROW_PROFILE = cloudinaryUrl("AvivBTNarrowprofile_dncyax_wfin0t.svg");
+const BTN_START = cloudinaryUrl("AvivBTNstart_zfzsvt_gc7yep.svg");
 
 // ─── Profile Icons (SVG) ───
 const PRF_ICONS = [
-  cloudinaryUrl("AvivPRFicons01_vt2nnh.svg"),
-  cloudinaryUrl("AvivPRFicons02_sgmai5.svg"),
-  cloudinaryUrl("AvivPRFicons03_d9znav.svg"),
-  cloudinaryUrl("AvivPRFicons04_leswyq.svg"),
-  cloudinaryUrl("AvivPRFicons05_t7ob72.svg"),
+  cloudinaryUrl("AvivPRFicons01_sk0igu_lfafif.svg"),
+  cloudinaryUrl("AvivPRFicons02_u8ojcb_zgfup7.svg"),
+  cloudinaryUrl("AvivPRFicons03_lgfrt8_gfp9g4.svg"),
+  cloudinaryUrl("AvivPRFicons04_g2tsae_e4efk5.svg"),
+  cloudinaryUrl("AvivPRFicons05_zvui9u_gqmv2v.svg"),
 ];
 
 // ─── Carousels ───

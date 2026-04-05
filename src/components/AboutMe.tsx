@@ -5,7 +5,7 @@ import { cloudinaryUrl } from "../lib/cloudinary";
 import { sectionTitleClass, bodyTextClass } from "../lib/typography";
 import { sectionPageGridPaddingClass } from "../lib/sectionLayout";
 
-const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9", { quality: "auto:best", width: 1920 });
+const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9_vfttwe", { quality: "auto:best", width: 1920 });
 
 const BIO_PARAGRAPHS = [
   "As a designer, I'm always looking for that delicate balance between order and colorful chaos.",

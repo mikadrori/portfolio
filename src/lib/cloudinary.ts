@@ -1,4 +1,4 @@
-const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME || "dwsbq2yhr";
+const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME || "dmrtjbfbb";
 
 const useLocalAssets =
   import.meta.env.DEV && import.meta.env.VITE_USE_CLOUDINARY !== "true";

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { PageGrid } from "./PageGrid";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
-const ICON_CUBE_BLUE = cloudinaryUrl("Icon_cube_blue_uu5vvu.svg");
-const ICON_CUBE_PINK = cloudinaryUrl("Icon_cube_pink_h27sxm.svg");
+const ICON_CUBE_BLUE = cloudinaryUrl("Icon_cube_blue_uu5vvu_tv1dmc.svg");
+const ICON_CUBE_PINK = cloudinaryUrl("Icon_cube_pink_h27sxm_dwf2dv.svg");
 
 const linkClass =
   "inline-block font-['Bricolage_Grotesque'] font-light text-base md:text-lg text-[#2200b8] tracking-[1.1px] no-underline transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 cursor-pointer";

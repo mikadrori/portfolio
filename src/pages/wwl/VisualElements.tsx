@@ -12,12 +12,12 @@ interface VisualElement {
 }
 
 const ELEMENTS: VisualElement[] = [
-  { title: "Waves", desc: "The island setting and Cadence's perceived drowning.", imageId: "waves_ltenle.jpg" },
-  { title: "Smoke", desc: "A subtle hint of the upcoming disaster.", imageId: "smoke_u4cs2y.jpg" },
-  { title: "Shore & Polaroid", desc: "A perfect summer slowly being forgotten.", imageId: "polaroid_k9bhsh.jpg" },
-  { title: "Fire", desc: "The real tragedy that changed everything.", imageId: "fire_n26n1s.jpg" },
-  { title: "Floating Objects", desc: "Luxury items showing how wealth caused the conflict.", imageId: "objects_aeyxfh.jpg" },
-  { title: "The Hand", desc: "A reference to Gat and his habit of writing on his skin.", imageId: "hand_hfjgoe.jpg" },
+  { title: "Waves", desc: "The island setting and Cadence's perceived drowning.", imageId: "waves_ltenle_yjple4.jpg" },
+  { title: "Smoke", desc: "A subtle hint of the upcoming disaster.", imageId: "smoke_u4cs2y_xtsixa.jpg" },
+  { title: "Shore & Polaroid", desc: "A perfect summer slowly being forgotten.", imageId: "polaroid_k9bhsh_mp2get.jpg" },
+  { title: "Fire", desc: "The real tragedy that changed everything.", imageId: "fire_n26n1s_hxryyt.jpg" },
+  { title: "Floating Objects", desc: "Luxury items showing how wealth caused the conflict.", imageId: "objects_aeyxfh_p2bclj.jpg" },
+  { title: "The Hand", desc: "A reference to Gat and his habit of writing on his skin.", imageId: "hand_hfjgoe_zkjeek.jpg" },
 ];
 
 export function VisualElements() {
