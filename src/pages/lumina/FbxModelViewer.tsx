@@ -1,4 +1,5 @@
-import { Suspense, useState, useRef, useEffect } from "react";
+import { Component, Suspense, useState, useRef, useEffect } from "react";
+import type { ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, useFBX, Environment, Center } from "@react-three/drei";
 import * as THREE from "three";
@@ -42,49 +43,74 @@ function PlaceholderCube() {
   );
 }
 
+class ModelErrorBoundary extends Component<
+  { fallback: ReactNode; children: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    return this.state.hasError ? this.props.fallback : this.props.children;
+  }
+}
+
 interface ModelViewerProps {
   url?: string;
   label?: string;
   className?: string;
+  transparent?: boolean;
 }
 
 export function FbxModelViewer({
   url,
   label = "3D Model",
   className = "",
+  transparent = false,
 }: ModelViewerProps) {
   const [error, setError] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   return (
     <div
-      className={`relative bg-[#0d0439] rounded-[12px] overflow-hidden ${className}`}
-      style={{ minHeight: 280 }}
+      className={`relative ${transparent ? "" : "bg-[#0d0439] rounded-[12px]"} overflow-hidden ${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
+      style={transparent ? undefined : { minHeight: 280 }}
+      onPointerDown={() => setDragging(true)}
+      onPointerUp={() => setDragging(false)}
+      onPointerLeave={() => setDragging(false)}
     >
       <Canvas
         camera={{ position: [0, 0.5, 3.5], fov: 45 }}
+        gl={{ alpha: transparent }}
         onError={() => setError(true)}
+        style={transparent ? { background: "transparent" } : undefined}
       >
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} />
         <directionalLight position={[-3, 2, -2]} intensity={0.4} />
         <Suspense fallback={null}>
-          {url && !error ? (
-            <Center>
-              <Model url={url} />
-            </Center>
-          ) : (
-            <PlaceholderCube />
-          )}
-          <Environment preset="forest" />
+          <ModelErrorBoundary fallback={<PlaceholderCube />}>
+            {url && !error ? (
+              <Center>
+                <Model url={url} />
+              </Center>
+            ) : (
+              <PlaceholderCube />
+            )}
+          </ModelErrorBoundary>
+          {!transparent && <Environment preset="forest" />}
         </Suspense>
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.5} />
+        <OrbitControls enableZoom={false} autoRotate={!transparent} autoRotateSpeed={1.5} />
       </Canvas>
 
-      <div className="absolute bottom-3 left-3 bg-[#0d043980] backdrop-blur-sm rounded-md px-3 py-1">
-        <span className="text-[#fcf7ee80] text-xs font-['Bricolage_Grotesque']">
-          {url && !error ? label : `${label} (placeholder)`}
-        </span>
-      </div>
+      {!transparent && (
+        <div className="absolute bottom-3 left-3 bg-[#0d043980] backdrop-blur-sm rounded-md px-3 py-1">
+          <span className="text-[#fcf7ee80] text-xs font-['Bricolage_Grotesque']">
+            {url && !error ? label : `${label} (placeholder)`}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
