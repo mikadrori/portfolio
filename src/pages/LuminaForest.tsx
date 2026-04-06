@@ -20,6 +20,7 @@ import { RandomSoundPlayer } from "./lumina/RandomSoundPlayer";
 import { ColorPaletteGrid } from "./lumina/ColorPaletteGrid";
 import { AutoPlayVideo } from "./lumina/AutoPlayVideo";
 import { VisualStyleGallery } from "./lumina/VisualStyleGallery";
+import { CloudinaryImage } from "./lumina/CloudinaryImage";
 import { MuteProvider, MuteButton } from "./lumina/MuteContext";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
@@ -151,7 +152,7 @@ export default function LuminaForest({
                     guardians.
                   </p>
                 </div>
-                <img
+                <CloudinaryImage
                   src={MUSHROOM_IMG}
                   alt="Pink mushroom"
                   className="shrink-0 w-[80px] h-[75px] md:w-[100px] md:h-[94px] object-contain self-start"
@@ -255,7 +256,7 @@ export default function LuminaForest({
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex gap-4 items-start">
                   <div className="w-[80px] h-[80px] bg-[#0d0439] rounded-[11px] shrink-0 flex items-center justify-center p-2">
-                    <img
+                    <CloudinaryImage
                       src={cloudinaryUrl("Heal_Mushroom_big_br83jq_guge4y.png")}
                       alt="Healing Mushroom"
                       className="w-full h-full object-contain"
@@ -271,7 +272,7 @@ export default function LuminaForest({
                 </div>
                 <div className="flex gap-4 items-start">
                   <div className="w-[80px] h-[80px] bg-[#0d0439] rounded-[11px] shrink-0 flex items-center justify-center p-2">
-                    <img
+                    <CloudinaryImage
                       src={cloudinaryUrl("fireflies_big_ylnjqs_d0s6t3.png")}
                       alt="Fireflies"
                       className="w-full h-full object-contain"
@@ -352,7 +353,7 @@ export default function LuminaForest({
                   "gmobjct_lilyflower_j4wbyc_rgq5b5.png",
                   "gmobjct_lilypad_lvuml2_axhlht.png",
                 ].map((img) => (
-                  <img
+                  <CloudinaryImage
                     key={img}
                     src={cloudinaryUrl(img)}
                     alt=""
@@ -374,7 +375,7 @@ export default function LuminaForest({
                   "troll_img_rbpcej_bfzpz0.png",
                   "elf_img_w4j7sd_c9tsqg.png",
                 ].map((img) => (
-                  <img
+                  <CloudinaryImage
                     key={img}
                     src={cloudinaryUrl(img)}
                     alt=""
@@ -412,7 +413,7 @@ export default function LuminaForest({
 
               <div className="flex flex-col lg:flex-row gap-8 lg:items-stretch">
                 <ColorPaletteGrid className="lg:h-[360px] shrink-0" />
-                <img
+                <CloudinaryImage
                   src={cloudinaryUrl("gates_tipi8p_ab0otx.jpg")}
                   alt=""
                   className="w-full lg:flex-1 h-[260px] lg:h-[360px] rounded-[12px] object-cover min-w-0"
@@ -438,25 +439,25 @@ export default function LuminaForest({
                 </p>
                 <div className="flex flex-col md:flex-row gap-6 md:gap-20 items-center md:items-start justify-center my-6">
                   <div className="flex flex-col gap-4 items-center md:items-start">
-                    <img
+                    <CloudinaryImage
                       src={cloudinaryUrl("button_1_qu0rtf.png")}
                       alt=""
                       className="h-[50px] md:h-[70px] w-auto object-contain"
                     />
                     <div className="flex gap-4">
-                      <img
+                      <CloudinaryImage
                         src={cloudinaryUrl("cursur_1_vysh1r.png")}
                         alt=""
                         className="h-[50px] md:h-[70px] w-auto object-contain"
                       />
-                      <img
+                      <CloudinaryImage
                         src={cloudinaryUrl("click_cursur_1_fcide4.png")}
                         alt=""
                         className="h-[50px] md:h-[70px] w-auto object-contain"
                       />
                     </div>
                   </div>
-                  <img
+                  <CloudinaryImage
                     src={cloudinaryUrl("text_box_1_xik35k.png")}
                     alt=""
                     className="h-[140px] md:h-[180px] w-auto object-contain"
@@ -494,7 +495,7 @@ export default function LuminaForest({
                     "sprite_swamp_ju4zed_owwkf5.png",
                     "sprite_log_mzfgs4_ohynjg.png",
                   ].map((img) => (
-                    <img
+                    <CloudinaryImage
                       key={img}
                       src={cloudinaryUrl(img)}
                       alt=""
@@ -504,12 +505,12 @@ export default function LuminaForest({
                   ))}
                 </DragCarousel>
                 <div className="flex justify-between mt-2">
-                  <img
+                  <CloudinaryImage
                     src={cloudinaryUrl("mushroom_bar_oguwty_jgnf9j.png")}
                     alt=""
                     className="h-[60px] md:h-[90px] max-w-[48%] w-auto object-contain"
                   />
-                  <img
+                  <CloudinaryImage
                     src={cloudinaryUrl("life_bar_kcunbr_k0mr8d.png")}
                     alt=""
                     className="h-[60px] md:h-[90px] max-w-[48%] w-auto object-contain"
@@ -529,7 +530,7 @@ export default function LuminaForest({
 
               <div className="flex flex-col items-center gap-6 md:gap-8">
                 <div className="bg-[#0d0439] rounded-[8px] px-4 py-2 md:px-6 md:py-3">
-                  <img
+                  <CloudinaryImage
                     src={cloudinaryUrl("LuMina_FoRest_logo_ca5aur_yat0j0.png")}
                     alt=""
                     className="h-[24px] md:h-[35px] w-auto object-contain"
@@ -541,7 +542,7 @@ export default function LuminaForest({
                     "btn_quit_dxbnl3_dd4nyu.png",
                     "btn_tutorial_vxwliu_ya4myf.png",
                   ].map((img) => (
-                    <img
+                    <CloudinaryImage
                       key={img}
                       src={cloudinaryUrl(img)}
                       alt=""
@@ -554,7 +555,7 @@ export default function LuminaForest({
                     "btn_resume_yuquf7_usjwdz.png",
                     "btn_mainmenu_pvgedf_znnfwn.png",
                   ].map((img) => (
-                    <img
+                    <CloudinaryImage
                       key={img}
                       src={cloudinaryUrl(img)}
                       alt=""
@@ -608,7 +609,7 @@ export default function LuminaForest({
               {/* Fairyhouse: Nano Banana → Meshy 3D */}
               <p className={`${bodyTextClass} lg:hidden`}>Nano Banana</p>
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
-                <img
+                <CloudinaryImage
                   src={cloudinaryUrl("img_3dfairyhouse_rrswv7_xjnf70.png")}
                   alt=""
                   className="w-full h-[160px] lg:h-[210px] object-contain rounded-[8px]"
@@ -633,7 +634,7 @@ export default function LuminaForest({
               {/* Bridge: Nano Banana → Meshy 3D */}
               <p className={`${bodyTextClass} lg:hidden mt-4`}>Nano Banana</p>
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
-                <img
+                <CloudinaryImage
                   src={cloudinaryUrl("img_3dbridge_e0qvcp_bhzymp.png")}
                   alt=""
                   className="w-full h-[160px] lg:h-[210px] object-contain rounded-[8px]"
@@ -676,7 +677,7 @@ export default function LuminaForest({
                     "elf05_eyqjle_omxseb.png",
                     "elf06_vezcyy_k9nchs.png",
                   ].map((file) => (
-                    <img
+                    <CloudinaryImage
                       key={file}
                       src={cloudinaryUrl(file)}
                       alt=""
@@ -693,7 +694,7 @@ export default function LuminaForest({
                   a functional 3D model.
                 </p>
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
-                  <img
+                  <CloudinaryImage
                     src={cloudinaryUrl("elf_final_estugk_rty43d.png")}
                     alt=""
                     className="w-full h-[300px] lg:h-[400px] object-contain rounded-[12px]"
