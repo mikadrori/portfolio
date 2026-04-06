@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { DragCarousel } from "./DragCarousel";
+import { CloudinaryImage } from "./CloudinaryImage";
 import { cloudinaryUrl } from "../../lib/cloudinary";
 
 const IMAGES = [
@@ -18,6 +19,11 @@ const DEFAULT_TEMPLATE = "1fr 1fr 1fr";
 
 export function VisualStyleGallery() {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [loadedSet, setLoadedSet] = useState<Set<number>>(new Set());
+
+  const markLoaded = useCallback((i: number) => {
+    setLoadedSet((prev) => new Set(prev).add(i));
+  }, []);
 
   const hoveredCol = hovered !== null ? hovered % 3 : -1;
   const hoveredRow = hovered !== null ? Math.floor(hovered / 3) : -1;
@@ -31,7 +37,7 @@ export function VisualStyleGallery() {
       <div className="md:hidden">
         <DragCarousel>
           {IMAGES.map((img) => (
-            <img
+            <CloudinaryImage
               key={img}
               src={cloudinaryUrl(img)}
               alt=""
@@ -51,21 +57,30 @@ export function VisualStyleGallery() {
         }}
         onMouseLeave={() => setHovered(null)}
       >
-        {IMAGES.map((img, i) => (
-          <img
-            key={img}
-            src={cloudinaryUrl(img)}
-            alt=""
-            onMouseEnter={() => setHovered(i)}
-            className={`w-full h-full object-cover cursor-pointer transition-all duration-300 min-h-0 ${
-              hovered === i
-                ? "rounded-[10px] opacity-100"
-                : hovered !== null
-                  ? "rounded-[5px] opacity-50"
-                  : "rounded-[5px] opacity-100"
-            }`}
-          />
-        ))}
+        {IMAGES.map((img, i) => {
+          const isLoaded = loadedSet.has(i);
+          return (
+            <div key={img} className="relative min-h-0 overflow-hidden rounded-[5px]">
+              {!isLoaded && <div className="absolute inset-0 skeleton-shimmer" />}
+              <img
+                loading="lazy"
+                src={cloudinaryUrl(img)}
+                alt=""
+                onMouseEnter={() => setHovered(i)}
+                onLoad={() => markLoaded(i)}
+                className={`w-full h-full object-cover cursor-pointer transition-all duration-300 ${
+                  !isLoaded
+                    ? "opacity-0"
+                    : hovered === i
+                      ? "rounded-[10px] opacity-100"
+                      : hovered !== null
+                        ? "rounded-[5px] opacity-50"
+                        : "rounded-[5px] opacity-100"
+                }`}
+              />
+            </div>
+          );
+        })}
       </div>
     </>
   );
