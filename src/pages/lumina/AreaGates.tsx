@@ -1,9 +1,17 @@
-import { useState, useRef, useLayoutEffect, useCallback } from "react";
+import { useState, useRef, useLayoutEffect, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { DragCarousel, PlaceholderCard } from "./DragCarousel";
-import { bodyTextClass, smallTitleClass } from "../../lib/typography";
+import { DragCarousel } from "./DragCarousel";
+import { FbxModelViewer } from "./FbxModelViewer";
+import { AutoPlayVideo } from "./AutoPlayVideo";
+import { bodyTextClass } from "../../lib/typography";
+import { cloudinaryUrl } from "../../lib/cloudinary";
 
 type AreaId = "yellow" | "green" | "pink";
+
+interface CarouselItem {
+  type: "video" | "image";
+  src: string;
+}
 
 interface AreaData {
   id: AreaId;
@@ -14,6 +22,11 @@ interface AreaData {
   obstacle: string;
   collectibleLabel: string;
   obstacleLabel: string;
+  gateImage: string;
+  guardianGlb: string;
+  collectibleImg: string;
+  obstacleImg: string;
+  carouselItems: CarouselItem[];
 }
 
 const AREAS: AreaData[] = [
@@ -27,6 +40,20 @@ const AREAS: AreaData[] = [
     obstacle: "Toxic mushrooms",
     collectibleLabel: "Yellow mushroom",
     obstacleLabel: "Poison mushroom",
+    gateImage: cloudinaryUrl("Arch_yellow_big_ttysac_zkkaxq.png"),
+    guardianGlb: cloudinaryUrl("Meshy_AI_Golden_Leaf_Fairy_0404114531_texture-v1_1_vhbwa0_sbsflm.glb", { raw: true }),
+    collectibleImg: cloudinaryUrl("sprite_yellow_mushroom_wbx2er_wrvtic.png"),
+    obstacleImg: cloudinaryUrl("sprite_poisonmushroom_o2zidl_x3dfo1.png"),
+    carouselItems: [
+      { type: "video", src: cloudinaryUrl("yellow_mission_ltcsai_oeu7wy.mp4", { resourceType: "video" }) },
+      { type: "video", src: cloudinaryUrl("fairymaze_v7gifw_w15slq.mp4", { resourceType: "video" }) },
+      { type: "image", src: cloudinaryUrl("fairymaze1_hpnn8s_iyckpo.jpg") },
+      { type: "image", src: cloudinaryUrl("fairymaze2_lngr3w_oyf6zv.jpg") },
+      { type: "image", src: cloudinaryUrl("fairymaze4_unep0j_yo6azx.jpg") },
+      { type: "image", src: cloudinaryUrl("fairymaze7_gxlpuy_xtqzx2.jpg") },
+      { type: "image", src: cloudinaryUrl("fairymaze10_cltscy_nbjs6i.jpg") },
+      { type: "image", src: cloudinaryUrl("fairymaze11_qk4zm7_xoy8dt.jpg") },
+    ],
   },
   {
     id: "green",
@@ -38,6 +65,19 @@ const AREAS: AreaData[] = [
     obstacle: "Poisoned swamp water",
     collectibleLabel: "Blue mushroom",
     obstacleLabel: "Swamp",
+    gateImage: cloudinaryUrl("Arch_green_big_gohb2c_vczigg.png"),
+    guardianGlb: cloudinaryUrl("Meshy_AI_Goblin_Grumble_0404113802_texture_vpqydy_rfocn4.glb", { raw: true }),
+    collectibleImg: cloudinaryUrl("sprite_blue_mushroom_edj95u_aewdfw.png"),
+    obstacleImg: cloudinaryUrl("sprite_swamp_ju4zed_owwkf5.png"),
+    carouselItems: [
+      { type: "video", src: cloudinaryUrl("green_mission_d5gkkl_cysyrc.mp4", { resourceType: "video" }) },
+      { type: "video", src: cloudinaryUrl("swamp_xnndgt_ziuzbv.mp4", { resourceType: "video" }) },
+      { type: "image", src: cloudinaryUrl("swamp2_oqflgy_c9hr7v.jpg") },
+      { type: "image", src: cloudinaryUrl("swamp5_tp6f92_ufntfb.jpg") },
+      { type: "image", src: cloudinaryUrl("swamp6_fy2m2c_elvb6c.jpg") },
+      { type: "image", src: cloudinaryUrl("swamp7_oijc2o_i33p9m.jpg") },
+      { type: "image", src: cloudinaryUrl("swamp8_l4pd4c_oufncu.jpg") },
+    ],
   },
   {
     id: "pink",
@@ -49,6 +89,20 @@ const AREAS: AreaData[] = [
     obstacle: "Floating logs",
     collectibleLabel: "Pink mushroom",
     obstacleLabel: "Log",
+    gateImage: cloudinaryUrl("Arch_pink_big_fwcxdq_knjlog.png"),
+    guardianGlb: cloudinaryUrl("Meshy_AI_Floral_Sprite_0404113616_texture_b4ydnh_a5ywwl.glb", { raw: true }),
+    collectibleImg: cloudinaryUrl("sprite_pink_mushroom_pbseb2_asriqy.png"),
+    obstacleImg: cloudinaryUrl("sprite_log_mzfgs4_ohynjg.png"),
+    carouselItems: [
+      { type: "video", src: cloudinaryUrl("pink_mission_ypme3g_onejtk.mp4", { resourceType: "video" }) },
+      { type: "video", src: cloudinaryUrl("river_erlzvg_npf2dk.mp4", { resourceType: "video" }) },
+      { type: "image", src: cloudinaryUrl("river_view_v85kxl_y46dq9.jpg") },
+      { type: "image", src: cloudinaryUrl("river2_jat1wd_lbywfb.jpg") },
+      { type: "image", src: cloudinaryUrl("river5_pcy2im_mrmdko.jpg") },
+      { type: "image", src: cloudinaryUrl("river6_bjlhqm_yk02ga.jpg") },
+      { type: "image", src: cloudinaryUrl("river9_rtggfh_pnqvzj.jpg") },
+      { type: "image", src: cloudinaryUrl("river_9_yt1bt2_kwwkzw.jpg") },
+    ],
   },
 ];
 
@@ -76,59 +130,64 @@ function GateSprite({
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className="relative z-10 flex flex-col items-center gap-2 cursor-pointer bg-transparent border-none"
     >
-      <div
-        className="w-[56px] h-[64px] md:w-[76px] md:h-[88px] rounded-t-[40%] rounded-b-[6px] flex items-center justify-center"
+      <img
+        src={area.gateImage}
+        alt={`${area.name} gate`}
+        className="w-[56px] h-[64px] md:w-[76px] md:h-[88px] object-contain"
         style={{
-          backgroundColor: GATE_COLORS[area.id],
-          boxShadow: isSelected
-            ? `0 0 20px ${GATE_COLORS[area.id]}80`
+          filter: isSelected
+            ? `drop-shadow(0 0 12px ${GATE_COLORS[area.id]}80)`
             : "none",
         }}
-      >
-        <div className="w-[28px] h-[36px] md:w-[38px] md:h-[46px] bg-[#0d0439] rounded-t-[40%] rounded-b-[3px] opacity-80" />
-      </div>
+      />
     </motion.button>
   );
 }
 
-function AreaContent({ area }: { area: AreaData }) {
+function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
   return (
     <motion.div
-      key={area.id}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={false}
+      animate={{ opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.2 }}
+      className={visible ? "" : "hidden"}
     >
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Left: text info in 3 columns */}
-        <div className="flex-1 flex flex-col gap-4">
-          <h4 className="font-['Bricolage_Grotesque'] font-normal text-[20px] md:text-[22px] text-[#fcf7ee] tracking-[0.75px]">
+      <div className="relative">
+        <div className="flex flex-col gap-4 xl:pr-[280px]">
+          <h4 className="font-['Bricolage_Grotesque'] font-normal text-[25px] text-[#fcf7ee] tracking-[0.75px]">
             {area.name}
           </h4>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
-            {/* Column 1: Environment */}
+          {/* Guardian — below title on <xl, absolutely positioned on xl+ */}
+          <div className={`xl:absolute xl:right-0 xl:top-0 xl:h-full ${area.id === "yellow" ? "xl:w-[220px]" : "xl:w-[260px]"}`}>
+            <FbxModelViewer
+              url={area.guardianGlb}
+              label={area.guardian}
+              transparent
+              className={`w-full ${area.id === "yellow" ? "h-[240px]" : "h-[300px]"}`}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-x-6 gap-y-4">
             <div>
-              <p className="font-['Bricolage_Grotesque'] font-normal text-[14px] md:text-[16px] text-[#fcf7ee] tracking-[0.5px]">
+              <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
                 Environment
               </p>
               <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
                 {area.environment}
               </p>
             </div>
-            {/* Column 2: Goal */}
             <div>
-              <p className="font-['Bricolage_Grotesque'] font-normal text-[14px] md:text-[16px] text-[#fcf7ee] tracking-[0.5px]">
+              <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
                 Goal
               </p>
               <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
                 {area.goal}
               </p>
             </div>
-            {/* Column 3: Guardian + Obstacle stacked */}
             <div className="flex flex-col gap-4">
               <div>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[14px] md:text-[16px] text-[#fcf7ee] tracking-[0.5px]">
+                <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
                   Guardian
                 </p>
                 <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
@@ -136,7 +195,7 @@ function AreaContent({ area }: { area: AreaData }) {
                 </p>
               </div>
               <div>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[14px] md:text-[16px] text-[#fcf7ee] tracking-[0.5px]">
+                <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
                   Obstacle
                 </p>
                 <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
@@ -144,42 +203,38 @@ function AreaContent({ area }: { area: AreaData }) {
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Collectible + obstacle sprites */}
-          <div className="flex gap-6 mt-2">
-            <div className="w-[80px] h-[80px] bg-[#1d1171] rounded-[8px] flex items-center justify-center">
-              <span className="text-[10px] text-[#fcf7ee80] text-center">
-                {area.collectibleLabel}
-              </span>
+            {/* Sprites — side by side below text on <xl, in matched columns on xl+ */}
+            <div className="hidden xl:block" />
+            <div className="flex gap-4 xl:block">
+              <img src={area.collectibleImg} alt={area.collectibleLabel} className="w-[64px] h-[64px] object-contain" />
+              <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain xl:hidden" />
             </div>
-            <div className="w-[80px] h-[80px] bg-[#1d1171] rounded-[8px] flex items-center justify-center">
-              <span className="text-[10px] text-[#fcf7ee80] text-center">
-                {area.obstacleLabel}
-              </span>
+            <div className="hidden xl:block">
+              <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain" />
             </div>
           </div>
-        </div>
-
-        {/* Right: character placeholder */}
-        <div className="w-full md:w-[240px] h-[260px] bg-[#1d1171] rounded-[12px] shrink-0 flex items-center justify-center">
-          <span className="text-[#fcf7ee40] text-sm">{area.guardian}</span>
         </div>
       </div>
 
-      {/* Carousel placeholders */}
       <div className="mt-6">
         <DragCarousel>
-          <PlaceholderCard
-            width="w-[260px] md:w-[360px]"
-            height="h-[180px] md:h-[220px]"
-            label="Gameplay"
-          />
-          <PlaceholderCard
-            width="w-[140px]"
-            height="h-[180px] md:h-[220px]"
-            label=""
-          />
+          {area.carouselItems.map((item, i) =>
+            item.type === "video" ? (
+              <AutoPlayVideo
+                key={i}
+                src={item.src}
+                className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
+              />
+            ) : (
+              <img
+                key={i}
+                src={item.src}
+                alt=""
+                className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] rounded-[12px] object-cover shrink-0 pointer-events-none"
+              />
+            )
+          )}
         </DragCarousel>
       </div>
     </motion.div>
@@ -188,6 +243,15 @@ function AreaContent({ area }: { area: AreaData }) {
 
 export function AreaGates() {
   const [selected, setSelected] = useState<AreaId | null>(null);
+  const [visited, setVisited] = useState<Set<AreaId>>(new Set());
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSelected("yellow");
+      setVisited(new Set(["yellow"]));
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
   const gateRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [tabStyle, setTabStyle] = useState({ x: 0, width: 0 });
@@ -222,6 +286,12 @@ export function AreaGates() {
 
   const handleSelect = (id: AreaId) => {
     setSelected((prev) => (prev === id ? null : id));
+    setVisited((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
   };
 
   const panelRounding = "rounded-[12px]";
@@ -233,14 +303,13 @@ export function AreaGates() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h3 className={`${smallTitleClass} !text-[22px] md:!text-[19px]`}>
+      <h3 className="font-['Bricolage_Grotesque'] font-semibold text-[28px] text-[#2200b8] tracking-[1.4px]">
         Areas
       </h3>
 
       <div className="flex flex-col">
         {/* Gates row */}
         <div ref={rowRef} className="relative z-[1] flex gap-12 md:gap-20 items-end pl-4">
-          {/* Single persistent tab — slides to the active gate */}
           <motion.div
             className="absolute left-0 bg-[#0d0439]"
             style={{ top: -12, bottom: -14 }}
@@ -288,11 +357,13 @@ export function AreaGates() {
               className="overflow-hidden"
             >
               <div className={`bg-[#0d0439] ${panelRounding} p-6 md:p-8`}>
-                <AnimatePresence mode="wait">
-                  {selectedArea && (
-                    <AreaContent key={selectedArea.id} area={selectedArea} />
-                  )}
-                </AnimatePresence>
+                {AREAS.filter((area) => visited.has(area.id)).map((area) => (
+                  <AreaContent
+                    key={area.id}
+                    area={area}
+                    visible={selected === area.id}
+                  />
+                ))}
               </div>
             </motion.div>
           )}
