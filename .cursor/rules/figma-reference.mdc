@@ -1,0 +1,15 @@
+---
+description: Figma design reference for the portfolio project
+alwaysApply: true
+---
+
+# Figma Design Reference
+
+When working with Figma in this project, always use this file as the design source:
+
+**File URL:** https://www.figma.com/design/q8NLTXcDIgJDJmoZJsVMuM/Portfolio?node-id=0-1&m=dev&t=b7jRL8cCxdHwDyeA-1
+
+- **fileKey:** `q8NLTXcDIgJDJmoZJsVMuM`
+- **Default nodeId:** `0-1` (root page)
+
+Use these values when calling Figma MCP tools (get_design_context, get_screenshot, etc.) unless the user specifies a different node.
