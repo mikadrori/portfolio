@@ -15,7 +15,7 @@ export function DragCarousel({ children, className = "" }: DragCarouselProps) {
       onMouseDown={onMouseDown}
       className={`overflow-x-auto scrollbar-hide cursor-grab ${className}`}
     >
-      <div className="flex gap-4 md:gap-6 w-max pr-[20%]">
+      <div className="flex gap-4 md:gap-8 w-max pr-[20%]">
         {children}
       </div>
     </div>

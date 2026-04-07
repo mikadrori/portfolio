@@ -18,6 +18,15 @@ import { AreaGates } from "./lumina/AreaGates";
 import { FbxModelViewer } from "./lumina/FbxModelViewer";
 import { RandomSoundPlayer } from "./lumina/RandomSoundPlayer";
 import { ColorPaletteGrid } from "./lumina/ColorPaletteGrid";
+import { AutoPlayVideo } from "./lumina/AutoPlayVideo";
+import { VisualStyleGallery } from "./lumina/VisualStyleGallery";
+import { CloudinaryImage } from "./lumina/CloudinaryImage";
+import { MuteProvider, MuteButton } from "./lumina/MuteContext";
+import { cloudinaryUrl } from "../lib/cloudinary";
+
+const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType: "video" });
+const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
+const MIA_GLB = cloudinaryUrl("Meshy_AI_Red_Haired_Doll_0404113848_texture_ktgehj_zxovsf.glb", { raw: true });
 
 /* ─── Sticky title column (reusable pattern from PackUp) ─── */
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -48,18 +57,34 @@ function ExpandablePrompt() {
   return (
     <button
       onClick={() => setOpen(!open)}
-      className="w-full text-left bg-[#f0ecff] rounded-[8px] px-4 py-3 cursor-pointer transition-colors hover:bg-[#e4deff]"
+      className="w-full text-left cursor-pointer"
     >
       <p className="font-['Bricolage_Grotesque'] font-normal text-[14px] text-[#2200b8] tracking-[0.42px]">
-        Prompt {open ? "▾" : "▸"}
+        {open ? (
+          <>
+            <span className="underline">Prompt</span>:{" "}
+            <span className="font-light lowercase">
+              "A stylized 3D game character model in a perfect full frontal
+              T-pose view. The character is a mischievous water sprite with soft
+              lavender skin and a rosy tint, large pointy ears, and is barefoot.
+              Her deep magenta hair is tied up tightly in a practical high bun,
+              clear of her neck. She is wearing a ragged, cut-edge crop top and a
+              matching flowing, asymmetric skirt made of organic fabric in
+              blended shades of pink and violet, with light blue swirls accenting
+              the edges. Isolated on a solid black background with flat, even
+              lighting for modeling reference. Hand-painted texture style."
+            </span>
+          </>
+        ) : (
+          "Prompt"
+        )}
       </p>
-      {open && (
-        <p className={`${bodyTextClass} mt-2`}>
-          Prompt content will be added here once finalized.
-        </p>
-      )}
     </button>
   );
+}
+
+function CoverVideo() {
+  return <AutoPlayVideo src={COVER_VIDEO} className="w-full" />;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -88,7 +113,9 @@ export default function LuminaForest({
   }, [signalReady]);
 
   return (
+    <MuteProvider>
     <div className="flex flex-col">
+      <MuteButton />
       {/* ════════════════════════════════════════════════════════
           HERO + CONCEPT  (min-h-screen)
           ════════════════════════════════════════════════════════ */}
@@ -96,7 +123,7 @@ export default function LuminaForest({
         {/* Hero Video Banner — placeholder */}
         <div className="w-full shrink-0 overflow-hidden bg-[#d9d9d9] h-[280px] md:h-[420px] flex items-center justify-center">
           <span className="text-[#999] text-lg font-['Bricolage_Grotesque'] select-none">
-            ▶ Hero Video Placeholder
+            Hero Video Placeholder
           </span>
         </div>
 
@@ -108,16 +135,16 @@ export default function LuminaForest({
             <SectionTitle>Concept</SectionTitle>
 
             <ContentColumn>
-              {/* Title + subtitle + body */}
+              {/* Title + subtitle + body + mushroom */}
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-1 flex flex-col gap-2">
-                  <h3 className={`${projectNameClass} leading-[1.5]`}>
+                  <h3 className="font-['Bricolage_Grotesque'] font-bold text-[36px] text-[#2200b8] tracking-[1.5px] leading-[1.5]">
                     Lumina Forest
                   </h3>
-                  <p className={`${smallTitleClass} leading-[1.5]`}>
+                  <p className="font-['Bricolage_Grotesque'] font-normal text-[25px] text-[#2200b8] tracking-[1.5px] leading-[1.5]">
                     Explore a mystical world where shadows meet glow
                   </p>
-                  <p className={bodyTextClass}>
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[18px] text-[#2200b8] tracking-[0.54px] leading-[1.5]">
                     Trapped within the mystical Lumina Forest, Mia must
                     reactivate the ancient portal to return home. To power the
                     gateway, she must retrieve three magical mushrooms by
@@ -125,20 +152,15 @@ export default function LuminaForest({
                     guardians.
                   </p>
                 </div>
-                {/* Decorative mushroom placeholder */}
-                <div className="shrink-0 w-[100px] h-[100px] md:w-[140px] md:h-[130px] bg-[#d9d9d9] rounded-[12px] flex items-center justify-center self-start">
-                  <span className="text-[#999] text-[10px] text-center">
-                    Mushroom
-                  </span>
-                </div>
+                <CloudinaryImage
+                  src={MUSHROOM_IMG}
+                  alt="Pink mushroom"
+                  className="shrink-0 w-[80px] h-[75px] md:w-[100px] md:h-[94px] object-contain self-start"
+                />
               </div>
 
-              {/* Cover image placeholder with title overlay */}
-              <div className="relative w-full h-[260px] md:h-[400px] bg-[#d9d9d9] rounded-[8px] overflow-hidden flex items-center justify-center">
-                <span className="text-[#bbb] text-2xl md:text-4xl font-['Bricolage_Grotesque'] font-bold tracking-widest select-none">
-                  LuMina FoRest
-                </span>
-              </div>
+              {/* Cover video — auto-plays when scrolled into view */}
+              <CoverVideo />
             </ContentColumn>
           </PageGrid>
         </section>
@@ -156,36 +178,30 @@ export default function LuminaForest({
           <ContentColumn>
             {/* ── Player ── */}
             <div className="flex flex-col gap-6">
-              <h3 className={subTitleClass}>Player</h3>
               <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1 flex flex-col gap-2">
-                  <p className={bodyTextClass}>
+                <div className="flex-1 flex flex-col gap-4">
+                  <h3 className="font-['Bricolage_Grotesque'] font-semibold text-[28px] text-[#2200b8] tracking-[1.4px]">Player</h3>
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[18px] text-[#2200b8] tracking-[0.54px] leading-[1.5]">
                     Mia is a lost girl who has wandered into the depths of the
                     mystical Lumina Forest. Her mission is to find the three
                     magical mushrooms and activate the portal that will finally
                     lead her back home.
                   </p>
                 </div>
-                {/* Character placeholder */}
-                <div className="shrink-0 w-[180px] h-[180px] bg-[#d9d9d9] rounded-[12px] flex items-center justify-center self-center">
-                  <span className="text-[#999] text-[11px]">Mia</span>
-                </div>
+                <FbxModelViewer
+                  url={MIA_GLB}
+                  label="Mia"
+                  transparent
+                  className="shrink-0 w-[220px] h-[220px] md:w-[280px] md:h-[280px] self-start"
+                />
               </div>
 
-              {/* Carousel: video first, then images */}
               <DragCarousel>
-                <PlaceholderCard
-                  width="w-[320px] md:w-[460px]"
-                  height="h-[200px] md:h-[280px]"
-                  label="Gameplay video"
-                  isVideo
-                />
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <PlaceholderCard
-                    key={i}
-                    width="w-[200px] md:w-[280px]"
-                    height="h-[200px] md:h-[280px]"
-                    label={`Screenshot ${i + 1}`}
+                {["girl1_w4xrix.mp4", "girl3_wor2gy.mp4", "girlrun_zzplzi.mp4"].map((vid) => (
+                  <AutoPlayVideo
+                    key={vid}
+                    src={cloudinaryUrl(vid, { resourceType: "video" })}
+                    className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
                   />
                 ))}
               </DragCarousel>
@@ -221,19 +237,15 @@ export default function LuminaForest({
                 </div>
               </div>
 
-              {/* Carousel: videos */}
               <DragCarousel>
-                {["Win scenario", "Lives demo", "Lose scenario"].map(
-                  (label) => (
-                    <PlaceholderCard
-                      key={label}
-                      width="w-[320px] md:w-[460px]"
-                      height="h-[200px] md:h-[280px]"
-                      label={label}
-                      isVideo
-                    />
-                  )
-                )}
+                <AutoPlayVideo
+                  src={cloudinaryUrl("lose_kf22fk_si13hr.mp4", { resourceType: "video" })}
+                  className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
+                />
+                <AutoPlayVideo
+                  src={cloudinaryUrl("win_neldwk_jmn0de.mp4", { resourceType: "video" })}
+                  className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
+                />
               </DragCarousel>
             </div>
 
@@ -242,12 +254,13 @@ export default function LuminaForest({
               <h3 className={subTitleClass}>Collectibles &amp; Power-ups</h3>
 
               <div className="flex flex-col md:flex-row gap-6">
-                {/* Healing Mushrooms */}
                 <div className="flex gap-4 items-start">
-                  <div className="w-[80px] h-[80px] bg-[#0d0439] rounded-[11px] shrink-0 flex items-center justify-center">
-                    <span className="text-[#fcf7ee60] text-[9px] text-center">
-                      Heal Mushroom
-                    </span>
+                  <div className="w-[80px] h-[80px] bg-[#0d0439] rounded-[11px] shrink-0 flex items-center justify-center p-2">
+                    <CloudinaryImage
+                      src={cloudinaryUrl("Heal_Mushroom_big_br83jq_guge4y.png")}
+                      alt="Healing Mushroom"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div>
                     <p className={smallTitleClass}>Healing Mushrooms</p>
@@ -257,12 +270,13 @@ export default function LuminaForest({
                     </p>
                   </div>
                 </div>
-                {/* Fireflies */}
                 <div className="flex gap-4 items-start">
-                  <div className="w-[80px] h-[80px] bg-[#0d0439] rounded-[11px] shrink-0 flex items-center justify-center">
-                    <span className="text-[#fcf7ee60] text-[9px] text-center">
-                      Fireflies
-                    </span>
+                  <div className="w-[80px] h-[80px] bg-[#0d0439] rounded-[11px] shrink-0 flex items-center justify-center p-2">
+                    <CloudinaryImage
+                      src={cloudinaryUrl("fireflies_big_ylnjqs_d0s6t3.png")}
+                      alt="Fireflies"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div>
                     <p className={smallTitleClass}>Fireflies</p>
@@ -274,16 +288,15 @@ export default function LuminaForest({
                 </div>
               </div>
 
-              {/* Carousel */}
               <DragCarousel>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <PlaceholderCard
-                    key={i}
-                    width="w-[260px] md:w-[320px]"
-                    height="h-[180px] md:h-[240px]"
-                    label={`Collectible ${i + 1}`}
-                  />
-                ))}
+                <AutoPlayVideo
+                  src={cloudinaryUrl("healing_mushroom_o6ijeb_rwwvoy.mp4", { resourceType: "video" })}
+                  className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
+                />
+                <AutoPlayVideo
+                  src={cloudinaryUrl("fireflies_ramsl3_e5d8qj.mp4", { resourceType: "video" })}
+                  className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
+                />
               </DragCarousel>
             </div>
           </ContentColumn>
@@ -315,33 +328,36 @@ export default function LuminaForest({
                 a fairytale world that balances dark mystery with childhood
                 innocence.
               </p>
-              <DragCarousel>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <PlaceholderCard
-                    key={i}
-                    width="w-[300px] md:w-[400px]"
-                    height="h-[200px] md:h-[280px]"
-                    label={`Visual ${i + 1}`}
-                  />
-                ))}
-              </DragCarousel>
+              <VisualStyleGallery />
             </div>
 
             {/* ── GameObjects ── */}
             <div className="flex flex-col gap-4">
-              <h3 className={smallTitleClass}>GameObjects</h3>
               <p className={bodyTextClass}>
                 I combined collected environmental assets (trees, plants, and
                 stones) with custom-made objects I created specifically to fit
                 each unique game zone.
               </p>
+              <h3 className={smallTitleClass}>GameObjects</h3>
               <DragCarousel>
-                {Array.from({ length: 11 }).map((_, i) => (
-                  <PlaceholderCard
-                    key={i}
-                    width="w-[160px] md:w-[220px]"
-                    height="h-[160px] md:h-[220px]"
-                    label={`Object ${i + 1}`}
+                {[
+                  "gmobjct_yellowarch_hnehz5_bczq7t.png",
+                  "gmobjct_greenarch_wyteim_atgikp.png",
+                  "gmobjct_pinkarch_tnze8t_nrhupy.png",
+                  "gmobjct_fairyhouse_magnnn_otaoue.png",
+                  "gmobjct_stonegate_ohgjcj_bkpauk.png",
+                  "gmobjct_swamptree_fliqcl_mexet4.png",
+                  "gmobjct_bridge_unk2np_g1673z.png",
+                  "gmobjct_magicstamp_r3oh4z_uqlfto.png",
+                  "gmobjct_riverlog_fanjla_revyi2.png",
+                  "gmobjct_lilyflower_j4wbyc_rgq5b5.png",
+                  "gmobjct_lilypad_lvuml2_axhlht.png",
+                ].map((img) => (
+                  <CloudinaryImage
+                    key={img}
+                    src={cloudinaryUrl(img)}
+                    alt=""
+                    className="h-[160px] md:h-[210px] w-auto rounded-[14px] object-cover shrink-0 pointer-events-none"
                   />
                 ))}
               </DragCarousel>
@@ -352,18 +368,18 @@ export default function LuminaForest({
               <h3 className={smallTitleClass}>Characters</h3>
               <DragCarousel>
                 {[
-                  "Mia",
-                  "Fairy 1",
-                  "Fairy 2",
-                  "Fairy 3",
-                  "Troll",
-                  "Elf",
-                ].map((name) => (
-                  <PlaceholderCard
-                    key={name}
-                    width="w-[180px] md:w-[260px]"
-                    height="h-[240px] md:h-[340px]"
-                    label={name}
+                  "mia_player_img_gkju7e_xh0gzf.png",
+                  "fairy1_img_z0fzur_rbgdjf.png",
+                  "fairy2_img_ua4lym_jjxn69.png",
+                  "fairy3_img_sts9sz_wda0lh.png",
+                  "troll_img_rbpcej_bfzpz0.png",
+                  "elf_img_w4j7sd_c9tsqg.png",
+                ].map((img) => (
+                  <CloudinaryImage
+                    key={img}
+                    src={cloudinaryUrl(img)}
+                    alt=""
+                    className="h-[240px] md:h-[340px] w-auto rounded-[12px] object-cover shrink-0 pointer-events-none"
                   />
                 ))}
               </DragCarousel>
@@ -395,12 +411,12 @@ export default function LuminaForest({
                 that feels simultaneously threatening and inviting.
               </p>
 
-              <div className="flex flex-col md:flex-row gap-8 items-start">
-                <ColorPaletteGrid />
-                <PlaceholderCard
-                  width="w-full md:w-[500px]"
-                  height="h-[260px] md:h-[360px]"
-                  label="Lighting example"
+              <div className="flex flex-col lg:flex-row gap-8 lg:items-stretch">
+                <ColorPaletteGrid className="lg:h-[360px] shrink-0" />
+                <CloudinaryImage
+                  src={cloudinaryUrl("gates_tipi8p_ab0otx.jpg")}
+                  alt=""
+                  className="w-full lg:flex-1 h-[260px] lg:h-[360px] rounded-[12px] object-cover min-w-0"
                 />
               </div>
             </div>
@@ -421,28 +437,36 @@ export default function LuminaForest({
                   states — normal and interaction modes, appearing only when the
                   player can interact with buttons.
                 </p>
-                <div className="flex flex-wrap gap-4">
-                  <PlaceholderCard
-                    width="w-[260px]"
-                    height="h-[160px]"
-                    label="Text box"
-                  />
-                  <PlaceholderCard
-                    width="w-[180px]"
-                    height="h-[80px]"
-                    label="Button"
-                  />
-                  <PlaceholderCard
-                    width="w-[70px]"
-                    height="h-[70px]"
-                    label="Cursor"
-                  />
-                  <PlaceholderCard
-                    width="w-[60px]"
-                    height="h-[60px]"
-                    label="Click"
+                <div className="flex flex-col md:flex-row gap-6 md:gap-20 items-center md:items-start justify-center my-6">
+                  <div className="flex flex-col gap-4 items-center md:items-start">
+                    <CloudinaryImage
+                      src={cloudinaryUrl("button_1_qu0rtf.png")}
+                      alt=""
+                      className="h-[50px] md:h-[70px] w-auto object-contain"
+                    />
+                    <div className="flex gap-4">
+                      <CloudinaryImage
+                        src={cloudinaryUrl("cursur_1_vysh1r.png")}
+                        alt=""
+                        className="h-[50px] md:h-[70px] w-auto object-contain"
+                      />
+                      <CloudinaryImage
+                        src={cloudinaryUrl("click_cursur_1_fcide4.png")}
+                        alt=""
+                        className="h-[50px] md:h-[70px] w-auto object-contain"
+                      />
+                    </div>
+                  </div>
+                  <CloudinaryImage
+                    src={cloudinaryUrl("text_box_1_xik35k.png")}
+                    alt=""
+                    className="h-[140px] md:h-[180px] w-auto object-contain"
                   />
                 </div>
+                <AutoPlayVideo
+                  src={cloudinaryUrl("story_oyobf7_tcitnq.mp4", { resourceType: "video" })}
+                  className="w-full h-[320px] md:h-[480px]"
+                />
               </div>
             </div>
 
@@ -454,30 +478,45 @@ export default function LuminaForest({
                 ensuring a consistent and cohesive visual language throughout the
                 project.
               </p>
-              <DragCarousel>
-                {[
-                  "Heart",
-                  "Portal",
-                  "Yellow Mushroom",
-                  "Blue Mushroom",
-                  "Pink Mushroom",
-                  "Arch Yellow",
-                  "Arch Blue",
-                  "Arch Pink",
-                  "Fireflies",
-                  "Heal Mushroom",
-                  "Poison Mushroom",
-                  "Swamp",
-                  "Log",
-                ].map((name) => (
-                  <PlaceholderCard
-                    key={name}
-                    width="w-[80px] md:w-[100px]"
-                    height="h-[80px] md:h-[100px]"
-                    label={name}
+              <div className="flex flex-col gap-0">
+                <DragCarousel className="bg-[#0d0439] rounded-[7px] px-4 py-4 md:px-6 md:py-5">
+                  {[
+                    "sprite_yellow_mushroom_wbx2er_wrvtic.png",
+                    "sprite_blue_mushroom_edj95u_aewdfw.png",
+                    "sprite_pink_mushroom_pbseb2_asriqy.png",
+                    "sprite_arch_yellow_xqjimj_uegueb.png",
+                    "sprite_arch_yellow-1_e6buys_imudta.png",
+                    "sprite_arch_yellow-2_cezz5w_gvvsds.png",
+                    "sprite_Portal_1_mbkfc6_of3hsv.png",
+                    "sprite_Heart_life_qhp8sb_msqgyy.png",
+                    "sprite_fireflies_y3w1yo_chekri.png",
+                    "sprite_heal_Mushroom_nyc3bl_sq7gsb.png",
+                    "sprite_poisonmushroom_o2zidl_x3dfo1.png",
+                    "sprite_swamp_ju4zed_owwkf5.png",
+                    "sprite_log_mzfgs4_ohynjg.png",
+                  ].map((img) => (
+                    <CloudinaryImage
+                      key={img}
+                      src={cloudinaryUrl(img)}
+                      alt=""
+                      className="h-[60px] md:h-[100px] w-auto object-contain shrink-0 pointer-events-none select-none"
+                      draggable={false}
+                    />
+                  ))}
+                </DragCarousel>
+                <div className="flex justify-between mt-2">
+                  <CloudinaryImage
+                    src={cloudinaryUrl("mushroom_bar_oguwty_jgnf9j.png")}
+                    alt=""
+                    className="h-[60px] md:h-[90px] max-w-[48%] w-auto object-contain"
                   />
-                ))}
-              </DragCarousel>
+                  <CloudinaryImage
+                    src={cloudinaryUrl("life_bar_kcunbr_k0mr8d.png")}
+                    alt=""
+                    className="h-[60px] md:h-[90px] max-w-[48%] w-auto object-contain"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* ── Typography ── */}
@@ -489,37 +528,39 @@ export default function LuminaForest({
                 aesthetic.
               </p>
 
-              {/* Dark background with title + buttons */}
-              <div className="bg-[#0d0439] rounded-[12px] p-8 flex flex-col items-center gap-6">
-                <div className="bg-[#0d0439] rounded-[7px] w-full max-w-[600px] h-[120px] flex items-center justify-center">
-                  <span className="text-white text-3xl md:text-5xl font-bold tracking-widest select-none opacity-80">
-                    LuMina FoRest
-                  </span>
+              <div className="flex flex-col items-center gap-6 md:gap-8">
+                <div className="bg-[#0d0439] rounded-[8px] px-4 py-2 md:px-6 md:py-3">
+                  <CloudinaryImage
+                    src={cloudinaryUrl("LuMina_FoRest_logo_ca5aur_yat0j0.png")}
+                    alt=""
+                    className="h-[24px] md:h-[35px] w-auto object-contain"
+                  />
                 </div>
-
-                {/* Menu buttons */}
-                <div className="flex flex-wrap gap-3 justify-center">
-                  {["start", "quit", "tutorial"].map((label) => (
-                    <div
-                      key={label}
-                      className="w-[140px] md:w-[170px] h-[50px] md:h-[60px] bg-[#1d1171] rounded-[8px] flex items-center justify-center"
-                    >
-                      <span className="text-white text-lg md:text-xl opacity-80 select-none">
-                        {label}
-                      </span>
-                    </div>
+                <div className="flex flex-wrap gap-6 md:gap-8 justify-center">
+                  {[
+                    "btn_start_pwwpbq_v1vjfe.png",
+                    "btn_quit_dxbnl3_dd4nyu.png",
+                    "btn_tutorial_vxwliu_ya4myf.png",
+                  ].map((img) => (
+                    <CloudinaryImage
+                      key={img}
+                      src={cloudinaryUrl(img)}
+                      alt=""
+                      className="h-[50px] md:h-[70px] w-auto object-contain"
+                    />
                   ))}
                 </div>
-                <div className="flex flex-wrap gap-3 justify-center">
-                  {["resume", "main menu"].map((label) => (
-                    <div
-                      key={label}
-                      className="w-[140px] md:w-[170px] h-[50px] md:h-[60px] bg-[#1d1171] rounded-[8px] flex items-center justify-center"
-                    >
-                      <span className="text-white text-lg md:text-xl opacity-80 select-none">
-                        {label}
-                      </span>
-                    </div>
+                <div className="flex flex-wrap gap-6 md:gap-8 justify-center">
+                  {[
+                    "btn_resume_yuquf7_usjwdz.png",
+                    "btn_mainmenu_pvgedf_znnfwn.png",
+                  ].map((img) => (
+                    <CloudinaryImage
+                      key={img}
+                      src={cloudinaryUrl(img)}
+                      alt=""
+                      className="h-[50px] md:h-[70px] w-auto object-contain"
+                    />
                   ))}
                 </div>
               </div>
@@ -556,67 +597,63 @@ export default function LuminaForest({
                 characters using Adobe Mixamo.
               </p>
 
-              {/* Two-column: Nano Banana → Meshy */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-3">
-                  <p className={bodyTextClass}>
-                    3D styled images created with Nano Banana
-                  </p>
-                  <div className="flex gap-3">
-                    <PlaceholderCard
-                      width="w-[160px]"
-                      height="h-[160px]"
-                      label="Nano 1"
-                    />
-                    <PlaceholderCard
-                      width="w-[160px]"
-                      height="h-[160px]"
-                      label="Nano 2"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <p className={bodyTextClass}>3D models created with Meshy</p>
-                  <div className="flex gap-3">
-                    <PlaceholderCard
-                      width="w-[160px]"
-                      height="h-[160px]"
-                      label="Meshy 1"
-                    />
-                    <PlaceholderCard
-                      width="w-[160px]"
-                      height="h-[160px]"
-                      label="Meshy 2"
-                    />
-                  </div>
-                </div>
+              {/* Column labels — desktop only */}
+              <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] gap-6">
+                <p className={bodyTextClass}>
+                  3D styled images created with Nano Banana
+                </p>
+                <div className="w-[100px]" />
+                <p className={bodyTextClass}>3D models created with Meshy</p>
               </div>
 
-              {/* Arrow indicators */}
-              <div className="flex justify-center">
-                <span className="text-[#2200b8] text-2xl select-none">
-                  →
-                </span>
-              </div>
-
-              {/* Bridge: before/after */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <PlaceholderCard
-                  width="w-full"
-                  height="h-[200px]"
-                  label="Bridge (Nano Banana)"
+              {/* Fairyhouse: Nano Banana → Meshy 3D */}
+              <p className={`${bodyTextClass} lg:hidden`}>Nano Banana</p>
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+                <CloudinaryImage
+                  src={cloudinaryUrl("img_3dfairyhouse_rrswv7_xjnf70.png")}
+                  alt=""
+                  className="w-full h-[160px] lg:h-[210px] object-contain rounded-[8px]"
                 />
-                <PlaceholderCard
-                  width="w-full"
-                  height="h-[200px]"
-                  label="Bridge (Meshy 3D)"
+                <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
+                  <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                  <polygon points="90,2 100,6 90,10" fill="#2200b8" />
+                </svg>
+                <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
+                  <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
+                  <polygon points="2,24 6,32 10,24" fill="#2200b8" />
+                </svg>
+                <p className={`${bodyTextClass} lg:hidden`}>Meshy 3D</p>
+                <FbxModelViewer
+                  url={cloudinaryUrl("Meshy_AI_Enchanted_Treehouse_0404113704_texture_fm05fe_dsjaxg.glb", { raw: true })}
+                  label="Treehouse 3D"
+                  transparent
+                  className="h-[200px] lg:h-[300px] lg:-ml-10"
                 />
               </div>
 
-              {/* 3D model viewers */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FbxModelViewer url="/assets/Meshy_AI_Floral_Sprite_0404113616_texture_b4ydnh.glb" label="River Elf 3D" className="h-[280px]" />
-                <FbxModelViewer label="Game Object 3D" className="h-[280px]" />
+              {/* Bridge: Nano Banana → Meshy 3D */}
+              <p className={`${bodyTextClass} lg:hidden mt-4`}>Nano Banana</p>
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+                <CloudinaryImage
+                  src={cloudinaryUrl("img_3dbridge_e0qvcp_bhzymp.png")}
+                  alt=""
+                  className="w-full h-[160px] lg:h-[210px] object-contain rounded-[8px]"
+                />
+                <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
+                  <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                  <polygon points="90,2 100,6 90,10" fill="#2200b8" />
+                </svg>
+                <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
+                  <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
+                  <polygon points="2,24 6,32 10,24" fill="#2200b8" />
+                </svg>
+                <p className={`${bodyTextClass} lg:hidden`}>Meshy 3D</p>
+                <FbxModelViewer
+                  url={cloudinaryUrl("Meshy_AI_Enchanted_Forest_Brid_0404114828_texture-v7_xhyovc_t49axu.glb", { raw: true })}
+                  label="Bridge 3D"
+                  transparent
+                  className="h-[200px] lg:h-[300px]"
+                />
               </div>
             </div>
 
@@ -631,16 +668,23 @@ export default function LuminaForest({
                   ChatGPT to achieve the precise visual outcome I envisioned.
                 </p>
                 <ExpandablePrompt />
-                <DragCarousel>
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <PlaceholderCard
-                      key={i}
-                      width="w-[120px] md:w-[150px]"
-                      height="h-[220px] md:h-[280px]"
-                      label={`Iteration ${i + 1}`}
+                <div className="grid grid-cols-3 lg:grid-cols-6 gap-4">
+                  {[
+                    "elf01_cviril_cmgv5b.png",
+                    "elf02_uw9evg_qzddr5.png",
+                    "elf03_oyqaxc_jid2ih.png",
+                    "elf04_olbnzi_ynzzcf.png",
+                    "elf05_eyqjle_omxseb.png",
+                    "elf06_vezcyy_k9nchs.png",
+                  ].map((file) => (
+                    <CloudinaryImage
+                      key={file}
+                      src={cloudinaryUrl(file)}
+                      alt=""
+                      className="w-full h-auto object-contain rounded-[14px]"
                     />
                   ))}
-                </DragCarousel>
+                </div>
               </div>
 
               {/* Step 2: Meshy 3D */}
@@ -649,10 +693,27 @@ export default function LuminaForest({
                   The final image was then processed through Meshy 3D to generate
                   a functional 3D model.
                 </p>
-                <FbxModelViewer
-                  label="Character 3D Model"
-                  className="h-[320px] md:h-[400px]"
-                />
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+                  <CloudinaryImage
+                    src={cloudinaryUrl("elf_final_estugk_rty43d.png")}
+                    alt=""
+                    className="w-full h-[300px] lg:h-[400px] object-contain rounded-[12px]"
+                  />
+                  <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
+                    <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                    <polygon points="90,2 100,6 90,10" fill="#2200b8" />
+                  </svg>
+                  <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
+                    <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
+                    <polygon points="2,24 6,32 10,24" fill="#2200b8" />
+                  </svg>
+                  <FbxModelViewer
+                    url={cloudinaryUrl("Meshy_AI_Floral_Sprite_0404113616_texture_b4ydnh_a5ywwl.glb", { raw: true })}
+                    label="Elf 3D"
+                    transparent
+                    className="h-[300px] lg:h-[400px]"
+                  />
+                </div>
               </div>
 
               {/* Step 3: Mixamo */}
@@ -661,10 +722,26 @@ export default function LuminaForest({
                   Finally, I imported the model into Adobe Mixamo to rig and
                   animate the character, bringing it to life.
                 </p>
-                <FbxModelViewer
-                  label="Animated Character"
-                  className="h-[320px] md:h-[400px]"
-                />
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+                  <AutoPlayVideo
+                    src={cloudinaryUrl("elf_mixamo_animation_kdqgg6_hlbivj.mp4", { resourceType: "video" })}
+                    className="w-full h-[300px] lg:h-[400px] rounded-[12px] object-cover"
+                    alwaysMuted
+                  />
+                  <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
+                    <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                    <polygon points="90,2 100,6 90,10" fill="#2200b8" />
+                  </svg>
+                  <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
+                    <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
+                    <polygon points="2,24 6,32 10,24" fill="#2200b8" />
+                  </svg>
+                  <AutoPlayVideo
+                    src={cloudinaryUrl("elfanimation_rhrtu4_xifrcc.mp4", { resourceType: "video" })}
+                    className="w-full h-[300px] lg:h-[400px] rounded-[12px] object-cover"
+                    alwaysMuted
+                  />
+                </div>
               </div>
             </div>
 
@@ -686,11 +763,25 @@ export default function LuminaForest({
                 <div className="flex flex-col gap-4">
                   <p className={smallTitleClass}>Sound</p>
                   <p className={bodyTextClass}>
-                    Sound effects were crafted using{" "}
+                    Sound effects were created using{" "}
                     <span className="font-medium">Kling</span> and{" "}
                     <span className="font-medium">Stable Audio</span>.
                   </p>
-                  <RandomSoundPlayer sounds={[]} />
+                  <RandomSoundPlayer sounds={[
+                    cloudinaryUrl("Elf_Giggle_qluq1h_ru2heu.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Elf_Speak_tbjnmu_kate5r.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Fairies_whispering_3_z9jc3w_vg78nl.wav", { resourceType: "video" }),
+                    cloudinaryUrl("Fairy_giggle_mkdl9z_ip1lm9.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Fairy_Speak_4_sgkqdg_e638rp.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Fairy_Whisper_NEW_wvp6pd_niny2q.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Grumphy_Troll_Yelling_jieytp_an5nlh.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Locked_Area_zv847c_gz7ism.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("ouch_SFX_e7lsn6_rrtvc5.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Voice_Over_Story_5_mgf5xc_cvmiti.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("Water_Enter_SFX_uollls_fapqkv.wav", { resourceType: "video" }),
+                    cloudinaryUrl("YOU_DID_IT_SFX_rallzr_tipkfz.mp3", { resourceType: "video" }),
+                    cloudinaryUrl("YOU_LOSE_SFX_idbboz_p3hpxt.mp3", { resourceType: "video" }),
+                  ]} />
                 </div>
               </div>
 
@@ -698,9 +789,8 @@ export default function LuminaForest({
               <div className="flex flex-col gap-4">
                 <p className={smallTitleClass}>Scripts</p>
                 <p className={bodyTextClass}>
-                  While the core game logic is based on foundational code
-                  provided by my lecturer, I integrated unique scripts developed
-                  with <span className="font-medium">ChatGPT</span> and{" "}
+                  As part of the game development I have integrated scripts developed using{" "}
+                  <span className="font-medium">ChatGPT</span> and{" "}
                   <span className="font-medium">Gemini</span>:
                 </p>
 
@@ -772,5 +862,6 @@ export default function LuminaForest({
       {/* ── Project Navigation ── */}
       <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
     </div>
+    </MuteProvider>
   );
 }
