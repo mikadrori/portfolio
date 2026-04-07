@@ -1,16 +1,25 @@
 import { useRef, useEffect, useCallback, type MouseEvent as ReactMouseEvent } from "react";
 
-export function useDragScroll() {
+type Axis = "x" | "y" | "both";
+
+export function useDragScroll(axis: Axis = "x") {
   const ref = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startPageX = useRef(0);
+  const startPageY = useRef(0);
   const startScrollLeft = useRef(0);
+  const startScrollTop = useRef(0);
   const activeTouchId = useRef<number | null>(null);
 
-  const velocity = useRef(0);
+  const velocityX = useRef(0);
+  const velocityY = useRef(0);
   const lastPageX = useRef(0);
+  const lastPageY = useRef(0);
   const lastTime = useRef(0);
   const animFrame = useRef(0);
+
+  const axisRef = useRef(axis);
+  axisRef.current = axis;
 
   const stopMomentum = useCallback(() => {
     if (animFrame.current) {
@@ -23,29 +32,42 @@ export function useDragScroll() {
     const el = ref.current;
     if (!el) return;
 
+    const a = axisRef.current;
+    const doX = a === "x" || a === "both";
+    const doY = a === "y" || a === "both";
     const friction = 0.985;
     const minVelocity = 0.2;
 
     const step = () => {
-      velocity.current *= friction;
-      if (Math.abs(velocity.current) < minVelocity) {
+      velocityX.current *= friction;
+      velocityY.current *= friction;
+      const dead =
+        (!doX || Math.abs(velocityX.current) < minVelocity) &&
+        (!doY || Math.abs(velocityY.current) < minVelocity);
+      if (dead) {
         animFrame.current = 0;
         return;
       }
-      el.scrollLeft -= velocity.current;
+      if (doX) el.scrollLeft -= velocityX.current;
+      if (doY) el.scrollTop -= velocityY.current;
       animFrame.current = requestAnimationFrame(step);
     };
 
     animFrame.current = requestAnimationFrame(step);
   }, []);
 
-  const trackVelocity = useCallback((pageX: number) => {
+  const trackVelocity = useCallback((pageX: number, pageY: number) => {
+    const a = axisRef.current;
+    const doX = a === "x" || a === "both";
+    const doY = a === "y" || a === "both";
     const now = performance.now();
     const dt = now - lastTime.current;
     if (dt > 0) {
-      velocity.current = (pageX - lastPageX.current) / dt * 16;
+      if (doX) velocityX.current = (pageX - lastPageX.current) / dt * 16;
+      if (doY) velocityY.current = (pageY - lastPageY.current) / dt * 16;
     }
     lastPageX.current = pageX;
+    lastPageY.current = pageY;
     lastTime.current = now;
   }, []);
 
@@ -56,10 +78,14 @@ export function useDragScroll() {
     stopMomentum();
     isDragging.current = true;
     startPageX.current = e.pageX;
+    startPageY.current = e.pageY;
     startScrollLeft.current = el.scrollLeft;
+    startScrollTop.current = el.scrollTop;
     lastPageX.current = e.pageX;
+    lastPageY.current = e.pageY;
     lastTime.current = performance.now();
-    velocity.current = 0;
+    velocityX.current = 0;
+    velocityY.current = 0;
     el.style.cursor = "grabbing";
     el.style.userSelect = "none";
   }, [stopMomentum]);
@@ -68,15 +94,17 @@ export function useDragScroll() {
     const el = ref.current;
     if (!el) return;
 
-    const applyScroll = (pageX: number) => {
-      el.scrollLeft = startScrollLeft.current - (pageX - startPageX.current);
+    const applyScroll = (pageX: number, pageY: number) => {
+      const a = axisRef.current;
+      if (a === "x" || a === "both") el.scrollLeft = startScrollLeft.current - (pageX - startPageX.current);
+      if (a === "y" || a === "both") el.scrollTop = startScrollTop.current - (pageY - startPageY.current);
     };
 
     const onMouseMove = (e: globalThis.MouseEvent) => {
       if (!isDragging.current) return;
       e.preventDefault();
-      applyScroll(e.pageX);
-      trackVelocity(e.pageX);
+      applyScroll(e.pageX, e.pageY);
+      trackVelocity(e.pageX, e.pageY);
     };
 
     const onMouseUp = () => {
@@ -97,10 +125,14 @@ export function useDragScroll() {
       activeTouchId.current = t.identifier;
       isDragging.current = true;
       startPageX.current = t.pageX;
+      startPageY.current = t.pageY;
       startScrollLeft.current = el.scrollLeft;
+      startScrollTop.current = el.scrollTop;
       lastPageX.current = t.pageX;
+      lastPageY.current = t.pageY;
       lastTime.current = performance.now();
-      velocity.current = 0;
+      velocityX.current = 0;
+      velocityY.current = 0;
     };
 
     const onTouchMove = (e: TouchEvent) => {
@@ -108,8 +140,8 @@ export function useDragScroll() {
       const t = Array.from(e.touches).find((x) => x.identifier === activeTouchId.current);
       if (!t) return;
       e.preventDefault();
-      applyScroll(t.pageX);
-      trackVelocity(t.pageX);
+      applyScroll(t.pageX, t.pageY);
+      trackVelocity(t.pageX, t.pageY);
     };
 
     const onTouchEnd = (e: TouchEvent) => {
@@ -123,16 +155,20 @@ export function useDragScroll() {
     };
 
     const onWheel = (e: WheelEvent) => {
-      const canScrollLeft = el.scrollLeft > 0;
-      const canScrollRight = el.scrollLeft < el.scrollWidth - el.clientWidth - 1;
-      const scrollingRight = e.deltaY > 0;
-      const scrollingLeft = e.deltaY < 0;
+      const a = axisRef.current;
 
-      if ((scrollingRight && canScrollRight) || (scrollingLeft && canScrollLeft)) {
-        e.preventDefault();
-        stopMomentum();
-        velocity.current = -e.deltaY * 0.15;
-        startMomentum();
+      if (a === "x") {
+        const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        const canScrollLeft = el.scrollLeft > 0;
+        const canScrollRight = el.scrollLeft < el.scrollWidth - el.clientWidth - 1;
+        const scrollingRight = delta > 0;
+        const scrollingLeft = delta < 0;
+
+        if ((scrollingRight && canScrollRight) || (scrollingLeft && canScrollLeft)) {
+          e.preventDefault();
+          stopMomentum();
+          el.scrollLeft += delta;
+        }
       }
     };
 
