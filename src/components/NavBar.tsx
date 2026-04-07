@@ -72,14 +72,12 @@ export const NavBar = ({ onSelectSection }: NavBarProps) => {
           />
         </a>
 
-        <div className="col-start-4 col-end-6 hidden md:flex gap-10 md:gap-14 items-center justify-center">
-          <a href="#" className={linkClass} onClick={handleHomeClick}>
-            home
-          </a>
-          <a href="#" className={linkClass} onClick={handleAboutClick}>
-            about me
-          </a>
-        </div>
+        <a href="#" className={`col-start-4 col-end-5 hidden md:inline-block justify-self-end mr-4 ${linkClass}`} onClick={handleHomeClick}>
+          home
+        </a>
+        <a href="#" className={`col-start-5 col-end-6 hidden md:inline-block justify-self-start ml-4 ${linkClass}`} onClick={handleAboutClick}>
+          about me
+        </a>
 
         <span className="col-start-7 col-end-9 font-['Permanent_Marker'] text-xl md:text-2xl text-[#ff0090] tracking-[1.5px] justify-self-end select-none whitespace-nowrap">
           mika drori

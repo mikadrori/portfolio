@@ -1,4 +1,5 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useLayoutEffect, useRef, useCallback, useState } from "react";
+import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
 import {
@@ -9,19 +10,29 @@ import {
   bodyTextClass,
 } from "../lib/typography";
 import {
-  sectionPageGridClass,
   sectionPageGridStretchClass,
   sectionColumnPaddingClass,
+  extendContentToCol7Class,
 } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
+import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
 
 const Q = "auto:best";
 
+/** One radius per video group (same carousel = one constant), like PackUp. */
+const CONCEPT_ALL_ICONS_VIDEO_RADIUS = "47px";
+const RESEARCH_OPENING_VIDEO_RADIUS = "40px";
+const FINAL_ICONS_CAROUSEL_VIDEO_RADIUS = "40px";
+const AVATARS_PREVIEW_VIDEO_RADIUS = "55px";
+
 // Hero
 const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw_rqb5tp.mp4", { resourceType: "video", quality: Q });
 const HERO_POSTER = cloudinaryUrl("MuchiwazeMockup_iq8vqk_evu7yg.jpg", { quality: Q, width: 1920 });
+
+// Concept — full mockup still (separate from video poster)
+const MOCKUP_IMAGE = "/assets/muchiwaze_mockup_jhxhqt.png";
 
 // Concept
 const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb_q41i7g.svg");
@@ -49,13 +60,92 @@ const INSPIRATIONS = [
   cloudinaryUrl("MuchiInsparationIMG12_ary2qu_i9athb.png", { quality: Q }),
 ];
 
+const MUCHI_COLOR_PALETTE = [
+  "#590A19",
+  "#C90000",
+  "#DE2467",
+  "#1F7537",
+  "#04CEA5",
+  "#FFC73B",
+  "#FFEFBB",
+] as const;
+
 // Design – Icon options
 const ICONS_OPT1 = cloudinaryUrl("MuchiIconsOpt1_ub84yi_ukwkvr.svg");
 const ICONS_OPT2 = cloudinaryUrl("MuchiIconsOpt2_vmt6hx_zm37np.svg");
 const ICONS_OPT3 = cloudinaryUrl("MuchiIconsOpt3_f2swgb_ozvj4q.svg");
 
-// Design – Final icons
-const ICONS_FINAL = cloudinaryUrl("MuchiICONSfinal_gmklkg_tf9zca.svg");
+// Design – Final icons: 5 columns, 1–2–1–2–1 (matches portfolio layout)
+/** Keeps SVG aspect ratio (no stretching). */
+const FINAL_ICON_IMG_BASE_CLASS = "h-auto w-full object-contain";
+
+/** Default cap per breakpoint; override any icon via `sizeClass` on that asset (same pattern: max-w + sm/md/lg). */
+const FINAL_ICON_SIZE_DEFAULT =
+  "max-w-[60px] sm:max-w-[80px] md:max-w-[96px] lg:max-w-[112px]";
+
+type FinalDesignIconAsset = {
+  src: string;
+  alt: string;
+  /** Tailwind max-width utilities only; base uses FINAL_ICON_IMG_BASE_CLASS so proportions stay fixed. */
+  sizeClass?: string;
+};
+
+type FinalDesignCol =
+  | ({ layout: "single" } & FinalDesignIconAsset)
+  | {
+      layout: "stack";
+      top: FinalDesignIconAsset;
+      bottom: FinalDesignIconAsset;
+    };
+
+/** Add `sizeClass` on any entry to tune that icon only (use max-w* utilities; aspect ratio stays fixed). */
+const FINAL_DESIGN_ICON_COLUMNS: FinalDesignCol[] = [
+  { layout: "single", src: "/assets/hostel_icon_u1zksb.svg", alt: "Hostel" },
+  {
+    layout: "stack",
+    top: { src: "/assets/munch_icon_ukb2yp.svg", alt: "Munch" },
+    bottom: { src: "/assets/bribe_icon_rqtufa.svg", alt: "Police alert" },
+  },
+  { layout: "single", src: "/assets/chabad_icon_bjpydu.svg", alt: "Chabad House" },
+  {
+    layout: "stack",
+    top: { src: "/assets/weed_icon_aazyi4.svg", alt: "Weed" },
+    bottom: { src: "/assets/robbery_icon_msuw87.svg", alt: "Robbery alert" },
+  },
+  { layout: "single", src: "/assets/party_icon_fukpld.svg", alt: "Party" },
+];
+
+function FinalDesignIconImg({ src, alt, sizeClass }: FinalDesignIconAsset) {
+  const size = sizeClass ?? FINAL_ICON_SIZE_DEFAULT;
+  return (
+    <motion.img
+      src={src}
+      alt={alt}
+      className={`${FINAL_ICON_IMG_BASE_CLASS} ${size} cursor-default`}
+      loading="lazy"
+      draggable={false}
+      style={{ transformOrigin: "center bottom" }}
+      whileHover={{ y: -10, scale: 1.12 }}
+      transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
+    />
+  );
+}
+
+/** Same hover lift/scale as final icons; sizing comes from the grid cell. */
+function AvatarShowcaseImg({ src, alt }: { src: string; alt: string }) {
+  return (
+    <motion.img
+      src={src}
+      alt={alt}
+      className="h-auto w-full cursor-default object-contain"
+      loading="lazy"
+      draggable={false}
+      style={{ transformOrigin: "center bottom" }}
+      whileHover={{ y: -10, scale: 1.12 }}
+      transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
+    />
+  );
+}
 
 // Design – Icon videos
 const VID_ALL_ICONS = cloudinaryUrl("MuchiVIDAllIcons_bjnsjo_bxsr4z.mp4", { resourceType: "video", quality: Q });
@@ -67,9 +157,16 @@ const VID_MUNCH = cloudinaryUrl("MuchiVIDmunchICONS_rdkd3u_ua2gxx.mp4", { resour
 const VID_PARTY = cloudinaryUrl("MuchiVIDpartyICON_oh2fez_spyvqy.mp4", { resourceType: "video", quality: Q });
 const VID_WEED = cloudinaryUrl("MuchiVIDweedICON_lm3yvu_buk2qw.mp4", { resourceType: "video", quality: Q });
 
-// Avatars
-const AVATARS_SVG = cloudinaryUrl("MuchiAvatars_wzsbcn_en7i5z.svg");
+// Avatars — individual SVGs + profile-picker demo (cross layout matches Figma)
 const VID_AVATARS = cloudinaryUrl("MuchiVIDAvatars_vuoyqw_fd3hc5.mp4", { resourceType: "video", quality: Q });
+
+const AVATAR_SHOWCASE = [
+  { id: "romantic", src: "/assets/avatar_girl1_ydtnjh.svg", gridArea: "a", alt: "The romantic" },
+  { id: "southerner", src: "/assets/avatar_boy1_nyhror.svg", gridArea: "b", alt: "The southerner" },
+  { id: "biker", src: "/assets/avatar_girl2_icj0vx.svg", gridArea: "c", alt: "The biker" },
+  { id: "chill", src: "/assets/avatar_boy2_fnv9q2.svg", gridArea: "d", alt: "The chill traveler" },
+  { id: "trailblazer", src: "/assets/avatar_girl3_tfhyys.svg", gridArea: "e", alt: "The trailblazer" },
+] as const;
 
 // Screens
 const SCREENS = [
@@ -110,12 +207,110 @@ const ICON_VIDEOS = [
   { src: VID_WEED, label: "Weed" },
 ];
 
+/** Bar height by index distance from hovered swatch (symmetric rings). */
+const PALETTE_HOVER_HEIGHT_BY_DISTANCE = [
+  "100%", // d=0
+  "76%", // d=1 — wider steps between rings
+  "54%", // d=2
+  "38%", // d=3
+  "26%", // d=4
+  "18%", // d=5
+  "12%", // d=6
+] as const;
+
+/** Scroll-reveal scaleY + distance-based hover (same height per |i − hovered|). */
+function MuchiColorPalette() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollUpRef = useRef(false);
+  const [, scrollTick] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    scrollTick((n) => n + 1);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      scrollUpRef.current = y < lastY;
+      lastY = y;
+      scrollTick((n) => n + 1);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const el = containerRef.current;
+  let showBars = false;
+  if (el) {
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    const ratio = overlap / Math.max(r.height, 1);
+    const scrollingUp = scrollUpRef.current;
+    const threshold = scrollingUp ? 0.5 : 0.18;
+    showBars = ratio > threshold;
+  }
+
+  const ariaLabel = `MuchiWaze color palette: ${MUCHI_COLOR_PALETTE.join(", ")}`;
+
+  const barHeightPct = (i: number) => {
+    if (!showBars) return "86%";
+    if (hovered === null) return "86%";
+    const d = Math.abs(i - hovered);
+    return PALETTE_HOVER_HEIGHT_BY_DISTANCE[d];
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="mt-10 grid w-full min-w-0 grid-cols-7 gap-3 sm:mt-12 md:gap-4"
+      role="img"
+      aria-label={ariaLabel}
+      onMouseLeave={() => setHovered(null)}
+    >
+      {MUCHI_COLOR_PALETTE.map((hex, i) => (
+        <div
+          key={i}
+          className="relative flex min-h-0 h-40 w-full flex-col justify-end overflow-hidden rounded-none sm:h-48 md:h-56"
+          onMouseEnter={() => setHovered(i)}
+        >
+          <motion.div
+            className="w-full shrink-0 rounded-none"
+            style={{
+              backgroundColor: hex,
+              transformOrigin: "center bottom",
+            }}
+            initial={{ scaleY: 0 }}
+            animate={{
+              scaleY: showBars ? 1 : 0,
+              height: barHeightPct(i),
+            }}
+            transition={{
+              scaleY: { duration: 0.8, ease: "easeOut" },
+              height: { duration: 0.35, ease: "easeOut" },
+            }}
+          />
+          <span
+            className={`pointer-events-none absolute bottom-2 left-2 z-10 font-['Bricolage_Grotesque'] font-light leading-none tracking-[0.7px] text-[clamp(9px,2.4vw,12px)] sm:text-xs ${
+              hex === "#FFEFBB" ? "text-[#590A19]" : "text-white"
+            }`}
+          >
+            {hex}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function InspirationsCarousel() {
   const { ref, onMouseDown } = useDragScroll();
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-3 md:gap-4 w-max pr-[20%]">
+      <div className="flex w-max gap-6 pr-[20%] md:gap-14">
         {INSPIRATIONS.map((src, i) => (
           <img
             key={i}
@@ -135,13 +330,13 @@ function ScreensCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-6 md:gap-14 w-max pr-[20%]">
+      <div className="flex w-max gap-6 pr-[20%] md:gap-14">
         {SCREENS.map((src, i) => (
           <img
             key={i}
             src={src}
             alt={`MuchiWaze screen ${i + 1}`}
-            className="h-[320px] md:h-[510px] w-auto rounded-sm pointer-events-none"
+            className="h-[240px] w-auto rounded-sm pointer-events-none md:h-[380px]"
             loading="lazy"
           />
         ))}
@@ -168,14 +363,22 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
   }, [onReady]);
 
   useEffect(() => {
-    const img = new Image();
-    img.src = HERO_POSTER;
-    if (img.complete) {
-      signalReady();
-    } else {
-      img.onload = signalReady;
-      img.onerror = signalReady;
-    }
+    let pending = 2;
+    const onOne = () => {
+      pending -= 1;
+      if (pending <= 0) signalReady();
+    };
+    const preload = (src: string) => {
+      const img = new Image();
+      img.src = src;
+      if (img.complete) onOne();
+      else {
+        img.onload = onOne;
+        img.onerror = onOne;
+      }
+    };
+    preload(HERO_POSTER);
+    preload(MOCKUP_IMAGE);
   }, [signalReady]);
 
   return (
@@ -183,20 +386,9 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <div className="w-full h-[300px] md:h-[500px] shrink-0 overflow-hidden">
-          <video
-            src={HERO_VIDEO}
-            poster={HERO_POSTER}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
-        <div className="w-full h-px shrink-0 bg-[#2200b8]" />
+        <div className="w-full border-t border-[#2200b8]" />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -205,7 +397,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+            <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
               {/* Intro + Phone mockup */}
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-1 flex flex-col gap-2">
@@ -235,15 +427,15 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                     muted
                     loop
                     playsInline
-                    className="w-[180px] md:w-[220px] h-auto rounded-[22px] object-contain"
-                    style={{ background: "none" }}
+                    className="h-auto w-[180px] object-contain md:w-[260px]"
+                    style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
                   />
                 </div>
               </div>
 
               {/* Mockup image */}
               <img
-                src={HERO_POSTER}
+                src={MOCKUP_IMAGE}
                 alt="MuchiWaze app mockup"
                 className="w-full rounded-sm"
                 loading="lazy"
@@ -254,7 +446,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       </div>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Research Section ── */}
       <section>
@@ -263,7 +455,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
             <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1 min-w-0 flex flex-col gap-6">
                 <h3 className={subTitleClass}>What a Muchiler needs?</h3>
@@ -291,8 +483,8 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                   muted
                   loop
                   playsInline
-                  className="w-[220px] h-auto rounded-[22px]"
-                  style={{ background: "none" }}
+                  className="h-auto w-[220px]"
+                  style={{ background: "none", borderRadius: RESEARCH_OPENING_VIDEO_RADIUS }}
                 />
               </div>
             </div>
@@ -304,8 +496,8 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 muted
                 loop
                 playsInline
-                className="w-[220px] h-auto rounded-[22px]"
-                style={{ background: "none" }}
+                className="h-auto w-[220px]"
+                style={{ background: "none", borderRadius: RESEARCH_OPENING_VIDEO_RADIUS }}
               />
             </div>
           </div>
@@ -313,7 +505,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Design Section ── */}
       <section>
@@ -322,7 +514,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
             {/* First Sketches */}
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>First Sketches</h3>
@@ -349,16 +541,20 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             {/* Option 1 – circular sketches */}
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Option 1</h3>
-              <div ref={sketch1Drag.ref} onMouseDown={sketch1Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[150px] md:h-[200px] w-auto max-w-none pointer-events-none" loading="lazy" />
+              <div className={extendContentToCol7Class}>
+                <div ref={sketch1Drag.ref} onMouseDown={sketch1Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
+                  <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[112px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
+                </div>
               </div>
             </div>
 
             {/* Option 2 – geometric/diamond sketches */}
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Option 2</h3>
-              <div ref={sketch2Drag.ref} onMouseDown={sketch2Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[150px] md:h-[200px] w-auto max-w-none pointer-events-none" loading="lazy" />
+              <div className={extendContentToCol7Class}>
+                <div ref={sketch2Drag.ref} onMouseDown={sketch2Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
+                  <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[112px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
+                </div>
               </div>
             </div>
 
@@ -370,29 +566,21 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             {/* Color Palette */}
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Color Palette</h3>
-               <p className={bodyTextClass}>
-              I drew inspiration from Latin American landscapes, using my own travel photos to
-              create a rich palette that captures the region&rsquo;s true atmosphere.
-            </p>
-              <div className="flex gap-2 flex-wrap">
-                {["#590A19", "#C90000", "#DE2467", "#1F7537", "#04CEA5", "#FFC73B", "#590A19"].map((hex, i) => (
-                  <div key={i} className="flex flex-col items-center gap-1">
-                    <div className="w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-md" style={{ backgroundColor: hex }} />
-                    <p className={`${bodyTextClass} text-[11px]`}>{hex}</p>
-                  </div>
-                ))}
-              </div>
+              <p className={bodyTextClass}>
+                I drew inspiration from Latin American landscapes, using my own travel photos to
+                create a rich palette that captures the region&rsquo;s true atmosphere.
+              </p>
+              <MuchiColorPalette />
             </div>
 
            
 
             {/* Inspirations */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               <h3 className={subTitleClass}>Inspirations</h3>
-            </div>
-
-            <div className="overflow-hidden">
-              <InspirationsCarousel />
+              <div className={`overflow-hidden ${extendContentToCol7Class}`}>
+                <InspirationsCarousel />
+              </div>
             </div>
 
             {/* Initial Design */}
@@ -419,79 +607,133 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               </div>
             </div>
 
-            {/* Final Design */}
+            {/* Final Design — section title; Icons / Avatars use smallTitleClass (typography semi level) */}
             <div className="flex flex-col gap-6">
               <h3 className={subTitleClass}>Final Design</h3>
               <p className={bodyTextClass}>
                 I combined both options — using the illustrations from the first and the geometric
                 background from the second, and created the final icons.
               </p>
-            </div>
 
-            {/* Icons */}
-            <div className="flex flex-col gap-6">
-              <h3 className={subTitleClass}>Icons</h3>
+              <div className="flex flex-col gap-4">
+                <h4 className={smallTitleClass}>Icons</h4>
+                <div className={extendContentToCol7Class}>
+                  <div className="grid w-full grid-cols-5 items-stretch gap-4 sm:gap-5 md:gap-8">
+                    {FINAL_DESIGN_ICON_COLUMNS.map((col, i) => (
+                      <div
+                        key={i}
+                        className={`flex min-w-0 flex-col items-center justify-center overflow-visible ${
+                          col.layout === "stack" ? "gap-5 sm:gap-6 md:gap-10" : ""
+                        }`}
+                      >
+                        {col.layout === "single" ? (
+                          <FinalDesignIconImg
+                            src={col.src}
+                            alt={col.alt}
+                            sizeClass={col.sizeClass}
+                          />
+                        ) : (
+                          <>
+                            <FinalDesignIconImg
+                              src={col.top.src}
+                              alt={col.top.alt}
+                              sizeClass={col.top.sizeClass}
+                            />
+                            <FinalDesignIconImg
+                              src={col.bottom.src}
+                              alt={col.bottom.alt}
+                              sizeClass={col.bottom.sizeClass}
+                            />
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-              <img src={ICONS_FINAL} alt="Final MuchiWaze icons" className="w-full" loading="lazy" />
+                <div className={extendContentToCol7Class}>
+                  <div
+                    ref={iconVideosDrag.ref}
+                    onMouseDown={iconVideosDrag.onMouseDown}
+                    className="min-w-0 overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab touch-pan-x"
+                  >
+                    <div className="flex w-max gap-8 pr-[20%] md:gap-20">
+                      {ICON_VIDEOS.map((vid) => (
+                        <video
+                          key={vid.label}
+                          src={vid.src}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          draggable={false}
+                          className="h-[352px] w-auto shrink-0 pointer-events-none md:h-[496px]"
+                          style={{
+                            background: "none",
+                            borderRadius: FINAL_ICONS_CAROUSEL_VIDEO_RADIUS,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              {/* Icon videos carousel */}
-              <div ref={iconVideosDrag.ref} onMouseDown={iconVideosDrag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                <div className="flex gap-6 md:gap-8 w-max pr-[20%]">
-                  {ICON_VIDEOS.map((vid) => (
-                    <video
-                      key={vid.label}
-                      src={vid.src}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="h-[340px] md:h-[440px] w-auto rounded-lg pointer-events-none"
-                      style={{ background: "none" }}
-                    />
-                  ))}
+              <div className="flex flex-col gap-2 pt-8 md:pt-10">
+                <h4 className={smallTitleClass}>Avatars</h4>
+                <p className={bodyTextClass}>
+                  As a continuation, I designed 5 profile avatars of common Israeli traveler types
+                  for the user to choose from — with a profile-picker flow in the app.
+                </p>
+
+                <div className={extendContentToCol7Class}>
+                  <div className="flex flex-col items-stretch gap-1 lg:flex-row lg:items-center lg:gap-2">
+                    <div
+                      className="mx-auto grid w-full max-w-[min(100%,20rem)] grid-cols-3 grid-rows-3 justify-items-center gap-0 overflow-visible sm:max-w-[23.5rem] md:max-w-[25.5rem]"
+                      style={{
+                        gridTemplateAreas: `
+                          "a . b"
+                          ". c ."
+                          "d . e"
+                        `,
+                      }}
+                    >
+                      {AVATAR_SHOWCASE.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex w-full max-w-[6.25rem] items-center justify-center overflow-visible sm:max-w-[6.875rem] md:max-w-[7.5rem]"
+                          style={{ gridArea: item.gridArea }}
+                        >
+                          <AvatarShowcaseImg src={item.src} alt={item.alt} />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex min-w-0 flex-1 justify-center lg:justify-end">
+                      <div className="w-full max-w-[220px] sm:max-w-[256px] md:max-w-[292px]">
+                        <video
+                          src={VID_AVATARS}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          className="h-auto w-full max-w-full"
+                          style={{ background: "none", borderRadius: AVATARS_PREVIEW_VIDEO_RADIUS }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Avatars */}
-            <div className="flex flex-col gap-6">
-              <h3 className={subTitleClass}>Avatars</h3>
-              <p className={bodyTextClass}>
-                As a continuation, I designed 5 profile avatars of common Israeli traveler types
-                for the user to choose from.
-              </p>
-
-              <img src={AVATARS_SVG} alt="MuchiWaze profile avatars" className="w-full" loading="lazy" />
-
-              <div className="flex justify-center">
-                <div className="w-[220px] md:w-[280px]">
-                  <video
-                    src={VID_AVATARS}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="h-auto max-w-full"
-                    style={{ background: "none" }}
-                  />
-                </div>
+            {/* Screens — semi-title in content column (col 3), carousel to col 7 */}
+            <div className="flex flex-col gap-4">
+              <h4 className={smallTitleClass}>Screens</h4>
+              <div className={extendContentToCol7Class}>
+                <ScreensCarousel />
               </div>
             </div>
-          </div>
-        </PageGrid>
-      </section>
-
-      {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
-
-      {/* ── Screens Carousel ── */}
-      <section>
-        <PageGrid className={sectionPageGridClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
-            <h3 className={subTitleClass}>Screens</h3>
-          </div>
-          <div className={`col-span-8 md:col-start-3 md:col-span-6 ${sectionColumnPaddingClass}`}>
-            <ScreensCarousel />
           </div>
         </PageGrid>
       </section>

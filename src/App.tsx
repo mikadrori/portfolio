@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { NavBar } from "./components/NavBar";
 import { Home } from "./pages/Home";
 import { Footer } from "./components/Footer";
@@ -63,11 +63,35 @@ export default function App() {
     contentRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  const [showGrid, setShowGrid] = useState(false);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const onKey = (e: KeyboardEvent) => {
+      const isBackslash = e.code === "Backslash" || e.key === "\\";
+      if (isBackslash && e.ctrlKey) {
+        e.preventDefault();
+        setShowGrid((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey, { capture: true });
+    return () => window.removeEventListener("keydown", onKey, { capture: true });
+  }, []);
+
   return (
     <main className="min-h-screen flex flex-col bg-[#fcf7ee] selection:bg-[#2200b8] selection:text-[#fcf7ee]">
+      {showGrid && (
+        <div className="fixed inset-0 z-[9999] pointer-events-none">
+          <div className="grid grid-cols-8 gap-[var(--grid-gutter)] px-[var(--grid-margin)] w-full max-w-[1920px] mx-auto h-full">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="h-full bg-red-500/10 border-x border-red-400/30" />
+            ))}
+          </div>
+        </div>
+      )}
       <NavBar onSelectSection={handleSelectSection} />
       <Home onSelectProject={handleSelectFromCube} animationKey={cubeAnimKey} />
-      <div ref={contentRef}>
+      <div ref={contentRef} className="scroll-mt-[56px] md:scroll-mt-[72px]">
         <ContentArea
           sectionId={activeSection}
           onSelectSection={handleSelectFromProject}
@@ -75,7 +99,7 @@ export default function App() {
           onContentReady={handleContentReady}
         />
       </div>
-      {activeSection && <Footer />}
+      {activeSection && activeSection !== "about" && <Footer />}
     </main>
   );
 }

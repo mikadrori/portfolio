@@ -1,4 +1,5 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useLayoutEffect, useRef, useCallback, useState } from "react";
+import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
 import {
@@ -14,10 +15,17 @@ import {
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
+import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
 
 const Q = "auto:best";
+
+const CONCEPT_DEMOS_RADIUS = "37px";
+const FEATURE1_VIDEO_RADIUS = "52px";
+const FEATURE2_VIDEO_RADIUS = "52px";
+const FEATURE3_VIDEO_RADIUS = "52px";
+const FEATURE4_VIDEO_RADIUS = "52px";
 
 // Hero
 const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi_dijphf.mp4", { resourceType: "video", quality: Q });
@@ -30,12 +38,7 @@ const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq_fvv31d.svg");
 const GRAPH1 = cloudinaryUrl("graph-01_cwv5uf_ykm1wl.svg");
 const GRAPH2 = cloudinaryUrl("graph-02_t23nki_rt7kxq.svg");
 
-// Statistics
-const STAT1 = cloudinaryUrl("statics1_snyvm8_lbsdvj.svg");
-const STAT2 = cloudinaryUrl("statics2_dwsd4i_z1t1h8.svg");
-
 // User Persona
-const PERSONA_BG = cloudinaryUrl("UserPersonaBKG_pqd8ko_wubgzu.svg");
 const PERSONA_IMG = cloudinaryUrl("user_persona_diypkk.png", { quality: Q, width: 400 });
 
 // Design section
@@ -67,8 +70,211 @@ const SCREENS = [
 
 // Style Guide
 const TYPO_SVG = cloudinaryUrl("PackUpTypo_b6j9xk_xkmzlb.svg");
-const BTNS_SVG = cloudinaryUrl("PackUpBTNS_dznpuj_iannwy.svg");
-const COLOR_PALETTE = cloudinaryUrl("PackUpColorPalette_gb2gji_pm6q8n.svg");
+const BTNS_SVG = cloudinaryUrl("PackUpBTNS_iggujw.svg");
+
+const PALETTE_BARS = [
+  { fill: "#695858", hex: "#695858", heightPct: 32, labelClass: "text-white" },
+  { fill: "#514242", hex: "#514242", heightPct: 32, labelClass: "text-white" },
+  { fill: "#8093F1", hex: "#8093F1", heightPct: 70, labelClass: "text-white" },
+  {
+    fill: "#FCFCFC",
+    hex: "#FCFCFC",
+    heightPct: 100,
+    labelClass: "text-[#6b6b6b]",
+  },
+] as const;
+
+function ColorPalette() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollUpRef = useRef(false);
+  const [, scrollTick] = useState(0);
+
+  useLayoutEffect(() => {
+    scrollTick((n) => n + 1);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      scrollUpRef.current = y < lastY;
+      lastY = y;
+      scrollTick((n) => n + 1);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const el = containerRef.current;
+  let showBars = false;
+  if (el) {
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    const ratio = overlap / Math.max(r.height, 1);
+    const scrollingUp = scrollUpRef.current;
+    const threshold = scrollingUp ? 0.5 : 0.18;
+    showBars = ratio > threshold;
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] -translate-x-5 -translate-y-12 items-stretch justify-center gap-[7%] md:gap-[9%]"
+      role="img"
+      aria-label="Pack Up color palette: #695858, #514242, #8093F1, #FCFCFC"
+    >
+      {PALETTE_BARS.map((bar) => (
+        <div
+          key={bar.hex}
+          className="relative flex h-full min-h-0 w-[17%] max-w-[54px] min-w-[36px] flex-col justify-end self-stretch"
+        >
+          <span
+            className={`pointer-events-none absolute left-1/2 z-10 whitespace-nowrap font-['Bricolage_Grotesque'] text-[10px] font-medium tracking-[0.08em] md:text-[11px] ${bar.labelClass}`}
+            style={{
+              bottom: "calc(0.75rem + 1rem)",
+              transform: "translateX(-50%) rotate(90deg)",
+            }}
+          >
+            {bar.hex}
+          </span>
+          <div
+            className="relative w-full overflow-visible"
+            style={{
+              height:
+                bar.hex === "#FCFCFC"
+                  ? `calc(${bar.heightPct}% + 12rem)`
+                  : `calc(${bar.heightPct}% + 6rem)`,
+            }}
+          >
+            <motion.div
+              className={`h-full w-full rounded-t-[999px] shadow-[0_0_5px_rgba(0,0,0,0.18)] ${bar.hex === "#FCFCFC" ? "ring-1 ring-[#2200b8]/10" : ""}`}
+              style={{
+                backgroundColor: bar.fill,
+                transformOrigin: "center bottom",
+              }}
+              initial={{ scaleY: 0 }}
+              animate={showBars ? { scaleY: 1 } : { scaleY: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Semi-circular gauge (matches Pack Up stat SVGs): light track, #8093F1 fill, scroll-in animation. */
+function GaugeChart({ targetPercent, ariaLabel }: { targetPercent: number; ariaLabel: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollUpRef = useRef(false);
+  const [, scrollTick] = useState(0);
+
+  const cx = 100;
+  const cy = 92;
+  const r = 72;
+  const startX = cx - r;
+  const startY = cy;
+  const endX = cx + r;
+  const endY = cy;
+  const arcPath = `M ${startX} ${startY} A ${r} ${r} 0 0 1 ${endX} ${endY}`;
+  const arcLength = Math.PI * r;
+  const strokeW = 14;
+  const pad = strokeW / 2;
+  /** Tight crop + xMin meet so the arc’s left edge lines up with body text (default xMidYMid centers the graphic). */
+  const vbX = startX - pad;
+  const vbY = cy - r - pad;
+  const vbBottom = cy + 22 + 12;
+  const vbH = vbBottom - vbY;
+  const vbW = endX + pad + 12 - vbX;
+
+  useLayoutEffect(() => {
+    scrollTick((n) => n + 1);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      scrollUpRef.current = window.scrollY < lastY;
+      lastY = window.scrollY;
+      scrollTick((n) => n + 1);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const el = containerRef.current;
+  let active = false;
+  if (el) {
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const overlap = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
+    const ratio = overlap / Math.max(rect.height, 1);
+    const scrollingUp = scrollUpRef.current;
+    const threshold = scrollingUp ? 0.5 : 0.18;
+    active = ratio > threshold;
+  }
+
+  const fillFraction = active ? Math.min(100, Math.max(0, targetPercent)) / 100 : 0;
+  const dashOffset = arcLength * (1 - fillFraction);
+
+  return (
+    <div ref={containerRef} className="w-full" role="img" aria-label={ariaLabel}>
+      <svg
+        viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
+        preserveAspectRatio="xMinYMin meet"
+        className="w-full h-auto block"
+        aria-hidden
+      >
+        <path
+          d={arcPath}
+          fill="none"
+          stroke="#E8EDF5"
+          strokeWidth={strokeW}
+          strokeLinecap="round"
+        />
+        <motion.path
+          d={arcPath}
+          fill="none"
+          stroke="#8093F1"
+          strokeWidth={strokeW}
+          strokeLinecap="round"
+          strokeDasharray={arcLength}
+          initial={{ strokeDashoffset: arcLength }}
+          animate={{ strokeDashoffset: dashOffset }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+        <text
+          x={cx}
+          y={cy - 8}
+          textAnchor="middle"
+          className="fill-[#514242] font-['Bricolage_Grotesque'] font-semibold"
+          style={{ fontSize: 28 }}
+        >
+          {targetPercent}%
+        </text>
+        <text
+          x={startX}
+          y={cy + 22}
+          textAnchor="middle"
+          className="fill-[#514242] font-['Bricolage_Grotesque'] font-medium"
+          style={{ fontSize: 15 }}
+        >
+          0
+        </text>
+        <text
+          x={endX}
+          y={cy + 22}
+          textAnchor="middle"
+          className="fill-[#514242] font-['Bricolage_Grotesque'] font-medium"
+          style={{ fontSize: 15 }}
+        >
+          100
+        </text>
+      </svg>
+    </div>
+  );
+}
 
 const KEY_STATS = [
   {
@@ -135,7 +341,7 @@ function ScreensCarousel() {
             key={i}
             src={src}
             alt={`Pack Up screen ${i + 1}`}
-            className="h-[320px] md:h-[510px] w-auto rounded-sm pointer-events-none"
+            className="h-[240px] md:h-[380px] w-auto rounded-sm pointer-events-none"
             loading="lazy"
           />
         ))}
@@ -174,20 +380,9 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <div className="w-full shrink-0 overflow-hidden">
-          <video
-            src={HERO_VIDEO}
-            poster={HERO_POSTER}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-auto"
-          />
-        </div>
+        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
-        <div className="w-full h-px shrink-0 bg-[#2200b8]" />
+        <div className="w-full border-t border-[#2200b8]" />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -198,8 +393,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
             <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
               {/* Intro + Icon */}
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1 flex flex-col gap-2">
+              <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+                <div className="flex-1 flex flex-col gap-2 md:max-w-[75%]">
                   <h3 className={`${projectNameClass} leading-[1.5]`}>Pack Up</h3>
                   <p className={`${smallTitleClass} leading-[1.5]`}>
                     The app that gets you organized!
@@ -217,7 +412,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                   <img
                     src={APP_ICON}
                     alt="Pack Up app icon"
-                    className="w-[120px] md:w-[140px] rounded-[10px] object-cover"
+                    className="w-[90px] md:w-[100px] object-contain"
                   />
                 </div>
               </div>
@@ -231,15 +426,16 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
               />
 
               {/* Challenge / Solution */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
-                <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-x-[var(--grid-gutter)] gap-y-6">
+                <div className="md:col-span-2 flex flex-col gap-1">
                   <h4 className={subTitleClass}>The Challenge</h4>
                   <p className={bodyTextClass}>
                     Tracking multiple orders across emails and messages is overwhelming, leading to lost
                     packages and stress.
                   </p>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="hidden md:block md:col-start-3 md:col-span-1" aria-hidden />
+                <div className="md:col-start-4 md:col-span-2 flex flex-col gap-1">
                   <h4 className={subTitleClass}>The Solution</h4>
                   <p className={bodyTextClass}>
                     A centralized platform that organizes all domestic and international orders into a
@@ -248,28 +444,29 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
               </div>
 
-              {/* Phone video demos */}
-              <div className="grid grid-cols-3 gap-4 md:gap-8">
-                {[VID_HOMEPAGE, VID_SIGNIN, VID_ORDERPAGE, ].map((src, i) => (
-                  <video
-                    key={i}
-                    src={src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-auto rounded-lg"
-                    style={{ background: "none" }}
-                  />
-                ))}
-              </div>
+            </div>
+
+            {/* Phone video demos */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 grid grid-cols-3 gap-4 md:gap-16 ${sectionColumnPaddingClass}`}>
+              {[VID_HOMEPAGE, VID_SIGNIN, VID_ORDERPAGE].map((src, i) => (
+                <video
+                  key={i}
+                  src={src}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-auto max-w-[200px] mx-auto"
+                  style={{ background: "none", borderRadius: CONCEPT_DEMOS_RADIUS }}
+                />
+              ))}
             </div>
           </PageGrid>
         </section>
       </div>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── User Research Section ── */}
       <section>
@@ -282,107 +479,156 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
             {/* User Segmentation */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1 md:w-[82%]">
               <h3 className={subTitleClass}>User Segmentation</h3>
               <p className={bodyTextClass}>
-                To validate the problem, I conducted a survey among 140 participants (primarily
-                women, ages 21–25) to analyze their online shopping habits and delivery frustrations.
+                To validate the problem, I conducted a survey among 140 participants (primarily women, ages 21–25) to analyze their online shopping habits and delivery frustrations.
               </p>
             </div>
 
             {/* Demographic Graphs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-8 md:gap-20 md:w-[75%] md:mx-[3%] md:mt-[-1rem]">
               <img src={GRAPH1} alt="Gender distribution: 76.6% women" className="w-full" loading="lazy" />
               <img src={GRAPH2} alt="Age distribution: 71.4% ages 21-26" className="w-full" loading="lazy" />
             </div>
 
-            {/* Key Statistics */}
-            <div className="flex flex-col gap-6">
+            {/* Key Statistics — 5-col sub-grid: stats 1+2 (2 cols each), gap col 3; stat 3+4 below without graphs */}
+            <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Key Statistics</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <img src={STAT1} alt="40% statistic chart" className="w-[200px] md:w-[240px] mx-auto md:mx-0" loading="lazy" />
-                <img src={STAT2} alt="65% statistic chart" className="w-[200px] md:w-[240px] mx-auto md:mx-0" loading="lazy" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
-                {KEY_STATS.map((stat) => (
-                  <div key={stat.num} className="flex flex-col gap-1">
-                    <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
-                      {stat.num}
-                    </p>
-                    <p className={smallTitleClass}>{stat.title}</p>
-                    <p className={bodyTextClass}>{stat.desc}</p>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-y-10 md:gap-x-[var(--grid-gutter)] md:gap-y-12">
+                {/* Stat 1: cols 1-2 */}
+                <div className="md:col-span-2 flex flex-col gap-3">
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                    {KEY_STATS[0].num}
+                  </p>
+                  <div className="self-start w-full max-w-[220px]">
+                    <GaugeChart targetPercent={40} ariaLabel="40% statistic gauge" />
                   </div>
-                ))}
+                  <p className={smallTitleClass}>{KEY_STATS[0].title}</p>
+                  <p className={bodyTextClass}>{KEY_STATS[0].desc}</p>
+                </div>
+
+                {/* Gap column 3 — empty on md */}
+                <div className="hidden md:block md:col-start-3 md:col-span-1" aria-hidden />
+
+                {/* Stat 2: cols 4-5 */}
+                <div className="md:col-start-4 md:col-span-2 flex flex-col gap-3">
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                    {KEY_STATS[1].num}
+                  </p>
+                  <div className="self-start w-full max-w-[220px]">
+                    <GaugeChart targetPercent={65} ariaLabel="65% statistic gauge" />
+                  </div>
+                  <p className={smallTitleClass}>{KEY_STATS[1].title}</p>
+                  <p className={bodyTextClass}>{KEY_STATS[1].desc}</p>
+                </div>
+
+                {/* Stat 3: row 2, cols 1-2 */}
+                <div className="md:col-span-2 md:col-start-1 md:row-start-2 flex flex-col gap-1">
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                    {KEY_STATS[2].num}
+                  </p>
+                  <p className={smallTitleClass}>{KEY_STATS[2].title}</p>
+                  <p className={bodyTextClass}>{KEY_STATS[2].desc}</p>
+                </div>
+
+                {/* Stat 4: row 2, cols 4-5 (under stat 2) */}
+                <div className="md:col-start-4 md:col-span-2 md:row-start-2 flex flex-col gap-1">
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                    {KEY_STATS[3].num}
+                  </p>
+                  <p className={smallTitleClass}>{KEY_STATS[3].title}</p>
+                  <p className={bodyTextClass}>{KEY_STATS[3].desc}</p>
+                </div>
               </div>
             </div>
 
             {/* User Persona */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
               <h3 className={subTitleClass}>User Persona</h3>
               <p className={smallTitleClass}>The Overwhelmed Shopper</p>
 
-              <div
-                className="relative rounded-[20px] overflow-hidden p-6 md:p-8"
-                style={{ backgroundImage: `url(${PERSONA_BG})`, backgroundSize: "cover", backgroundPosition: "center" }}
-              >
-                <div className="flex flex-col md:flex-row gap-6">
-                  {/* Photo + Bio */}
-                  <div className="flex flex-col gap-3 md:w-1/3">
-                    <div className="w-[160px] overflow-hidden rounded-[16px] border-4 border-[#8093f1]">
-                      <div className="bg-[#8093f1] px-3 py-1">
-                        <p className="font-['Bricolage_Grotesque'] font-medium text-[16px] text-white tracking-[1px] text-center">
+              <div className="relative rounded-[20px] bg-[#8093f1] mt-3 p-6 md:py-8 md:px-0 shadow-[0_0_5px_rgba(0,0,0,0.15)] md:-mx-4 text-white overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-x-[var(--grid-gutter)] md:gap-y-6 md:items-stretch md:px-4">
+                  {/* Photo — stretches to match text height */}
+                  <div className="md:col-span-1 md:row-span-2 flex flex-col max-w-[200px] md:max-w-none mx-auto md:mx-0 md:h-full md:min-h-0">
+                    <div className="flex flex-1 flex-col min-h-0 overflow-hidden rounded-[16px] border-4 border-white bg-white">
+                      <div className="shrink-0 bg-white px-3 py-2">
+                        <p className="font-['Bricolage_Grotesque'] font-semibold text-[20px] text-[#8093f1] tracking-[1px] text-center">
                           Lia Tzur, 21
                         </p>
                       </div>
-                      <img
-                        src={PERSONA_IMG}
-                        alt="Lia Tzur, user persona"
-                        className="w-full object-cover"
-                        loading="lazy"
-                      />
+                      <div className="min-h-[200px] flex-1 w-full overflow-hidden md:min-h-0">
+                        <img
+                          src={PERSONA_IMG}
+                          alt="Lia Tzur, user persona"
+                          className="h-full min-h-[220px] w-full object-cover object-center md:min-h-0"
+                          loading="lazy"
+                        />
+                      </div>
                     </div>
-                    <p className={bodyTextClass}>
-                      A 21-year-old IDF veteran working part-time to save for a trip abroad. She uses
+                  </div>
+
+                  {/* Intro */}
+                  <div className="md:col-span-4 md:col-start-2 md:row-start-1">
+                    <p className="font-['Bricolage_Grotesque'] text-[17px] md:text-[19px] font-medium leading-relaxed text-white">
+                      A 21-year-old IDF veteran working part-time to save for a trip abroad.<br />She uses
                       online shopping as an escape from a busy schedule, often overspending instead of
                       saving.
                     </p>
                   </div>
 
                   {/* Pains */}
-                  <div className="flex flex-col gap-2 md:w-1/3">
-                    <div className="bg-[#8093f1] rounded-md px-4 py-2">
-                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[14px] text-white tracking-[1px]">
+                  <div className="md:col-span-2 md:col-start-2 md:row-start-2 flex flex-col gap-2">
+                    <div className="rounded-md bg-white px-4 py-2 w-full">
+                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[18px] text-[#8093f1] tracking-[1px] text-center">
                         Pains
                       </p>
                     </div>
                     <div className="flex flex-col gap-2">
-                      {PERSONA_PAINS.map((pain, i) => (
-                        <p key={i} className={bodyTextClass}>{pain}</p>
-                      ))}
+                      {PERSONA_PAINS.map((pain, i) => {
+                        const idx = pain.indexOf(": ");
+                        const title = idx >= 0 ? pain.slice(0, idx + 1) : pain;
+                        const rest = idx >= 0 ? pain.slice(idx + 2) : "";
+                        return (
+                          <p key={i} className="font-['Bricolage_Grotesque'] text-[15px] leading-relaxed text-white">
+                            {idx >= 0 ? (<><span className="font-semibold">{title}</span> {rest}</>) : pain}
+                          </p>
+                        );
+                      })}
                     </div>
                   </div>
 
                   {/* Goals */}
-                  <div className="flex flex-col gap-2 md:w-1/3">
-                    <div className="bg-[#8093f1] rounded-md px-4 py-2">
-                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[14px] text-white tracking-[1px]">
+                  <div className="md:col-span-2 md:col-start-4 md:row-start-2 flex flex-col gap-2">
+                    <div className="rounded-md bg-white px-4 py-2 w-full">
+                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[18px] text-[#8093f1] tracking-[1px] text-center">
                         Goals
                       </p>
                     </div>
                     <div className="flex flex-col gap-2">
-                      {PERSONA_GOALS.map((goal, i) => (
-                        <p key={i} className={bodyTextClass}>{goal}</p>
-                      ))}
+                      {PERSONA_GOALS.map((goal, i) => {
+                        const idx = goal.indexOf(": ");
+                        const title = idx >= 0 ? goal.slice(0, idx + 1) : goal;
+                        const rest = idx >= 0 ? goal.slice(idx + 2) : "";
+                        return (
+                          <p key={i} className="font-['Bricolage_Grotesque'] text-[15px] leading-relaxed text-white">
+                            {idx >= 0 ? (<><span className="font-semibold">{title}</span> {rest}</>) : goal}
+                          </p>
+                        );
+                      })}
                     </div>
                   </div>
-                </div>
 
-                <p className={`${bodyTextClass} italic mt-6 text-center`}>
-                  "I order so much that sometimes I have no idea what I even bought until it actually
-                  arrives."
-                </p>
+                  {/* Quote — inside card */}
+                  <div className="md:col-span-5 md:col-start-1 md:row-start-3 pt-4 mt-2 border-t border-white/30">
+                    <p className="font-['Bricolage_Grotesque'] text-[22px] md:text-[26px] font-bold leading-snug text-white">
+                      &ldquo;I order so much that sometimes I have no idea what I even bought until it actually
+                      arrives.&rdquo;
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -390,7 +636,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Design Section ── */}
       <section>
@@ -400,94 +646,88 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
           </div>
 
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
-            <h3 className={subTitleClass}>Main Features</h3>
+            <h3 className={`${subTitleClass} mb-[-2rem] md:mb-[-3rem]`}>Main Features</h3>
 
             {/* Feature 1: Unified Order Dashboard */}
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="md:w-1/2 flex flex-col gap-2">
-                  <h4 className={smallTitleClass}>{FEATURES[0].title}</h4>
-                  <p className={bodyTextClass}>{FEATURES[0].desc}</p>
-                </div>
-                <div className="md:w-1/2 flex justify-center">
-                  <video
-                    src={VID_HOMEPAGE}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="h-auto max-w-full"
-                    style={{ background: "none" }}
-                  />
-                </div>
+            <div className="flex flex-col md:grid md:grid-cols-5 md:gap-[var(--grid-gutter)] md:items-center">
+              <div className="md:col-start-2 md:col-span-2 flex flex-col gap-1 md:mr-[-1.5rem]">
+                <h4 className={smallTitleClass}>{FEATURES[0].title}</h4>
+                <p className={bodyTextClass}>{FEATURES[0].desc}</p>
+              </div>
+              <div className="md:col-start-4 md:col-span-2 flex justify-center mt-6 md:mt-0">
+                <video
+                  src={VID_HOMEPAGE}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-auto max-w-full max-h-[75vh]"
+                  style={{ background: "none", borderRadius: FEATURE1_VIDEO_RADIUS }}
+                />
               </div>
             </div>
 
             {/* Feature 2: Order Status Visualization */}
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="md:w-1/2 flex justify-center">
-                  <video
-                    src={VID_ORDERPAGE}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="h-auto max-w-full"
-                    style={{ background: "none" }}
-                  />
-                </div>
-                <div className="md:w-1/2 flex flex-col gap-4">
-                  <h4 className={smallTitleClass}>{FEATURES[1].title}</h4>
-                  <p className={bodyTextClass}>{FEATURES[1].desc}</p>
-                  <div className="flex gap-4 items-start">
-                    <img src={ORDER_STATUS_BAR} alt="Order status bar" className="w-[140px] md:w-[180px]" loading="lazy" />
-                    <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="w-[100px] md:w-[120px]" loading="lazy" />
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] gap-y-6 md:items-center">
+              <div className="md:col-span-2 md:col-start-1 flex items-center justify-start">
+                <video
+                  src={VID_ORDERPAGE}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-auto max-w-full max-h-[75vh]"
+                  style={{ background: "none", borderRadius: FEATURE2_VIDEO_RADIUS }}
+                />
+              </div>
+              <div className="md:col-start-3 md:col-span-2 flex flex-col gap-1 md:justify-center md:self-center">
+                <h4 className={smallTitleClass}>{FEATURES[1].title}</h4>
+                <p className={bodyTextClass}>{FEATURES[1].desc}</p>
+                <div className="flex gap-6 items-center mt-2">
+                  <img src={ORDER_STATUS_BAR} alt="Order status bar" className="w-[200px] md:w-[250px] ml-[-0.5rem]" loading="lazy" />
+                  <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="w-[130px] md:w-[160px] ml-[3rem]" loading="lazy" />
                 </div>
               </div>
             </div>
 
             {/* Feature 3: Advanced Order History */}
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="md:w-1/2 flex flex-col gap-4">
-                  <h4 className={smallTitleClass}>{FEATURES[2].title}</h4>
-                  <p className={bodyTextClass}>{FEATURES[2].desc}</p>
-                  <div className="flex gap-4 items-start">
-                    <img src={FILTER_CLOSED} alt="Filter closed state" className="w-[140px] md:w-[160px]" loading="lazy" />
-                    <img src={FILTER_OPEN} alt="Filter open state" className="w-[140px] md:w-[160px]" loading="lazy" />
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] gap-y-6 md:items-center">
+              <div className="md:col-start-1 md:col-span-3 flex flex-col gap-1">
+                <h4 className={smallTitleClass}>{FEATURES[2].title}</h4>
+                <p className={`${bodyTextClass} md:max-w-[80%]`}>{FEATURES[2].desc}</p>
+                <div className="flex gap-4 items-center mt-[1rem]">
+                  <img src={FILTER_CLOSED} alt="Filter closed state" className="w-[200px] md:w-[250px]" loading="lazy" />
+                  <img src={FILTER_OPEN} alt="Filter open state" className="w-[200px] md:w-[250px]" loading="lazy" />
                 </div>
-                <div className="md:w-1/2 flex justify-center">
-                  <video
-                    src={VID_HOMEPAGE}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="h-auto max-w-full"
-                    style={{ background: "none" }}
-                  />
-                </div>
+              </div>
+              <div className="md:col-start-4 md:col-span-2 flex justify-end">
+                <video
+                  src={VID_HOMEPAGE}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-auto max-w-full max-h-[75vh]"
+                  style={{ background: "none", borderRadius: FEATURE3_VIDEO_RADIUS }}
+                />
               </div>
             </div>
 
             {/* Feature 4: Quick Location Management */}
             <div className="flex flex-col gap-6">
-              <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="md:w-1/2 flex justify-center">
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="md:w-3/5 flex justify-center">
                   <video
                     src={VID_PICKUP}
                     autoPlay
                     muted
                     loop
                     playsInline
-                    className="h-auto max-w-full"
-                    style={{ background: "none" }}
+                    className="w-auto max-w-full max-h-[75vh]"
+                    style={{ background: "none", borderRadius: FEATURE4_VIDEO_RADIUS }}
                   />
                 </div>
-                <div className="md:w-1/2 flex flex-col gap-2">
+                <div className="md:w-2/5 flex flex-col gap-1">
                   <h4 className={smallTitleClass}>{FEATURES[3].title}</h4>
                   <p className={bodyTextClass}>{FEATURES[3].desc}</p>
                 </div>
@@ -498,7 +738,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Flow Section ── */}
       <section>
@@ -508,45 +748,35 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
           </div>
 
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-            <div className="flex flex-col gap-4">
-              <h3 className={subTitleClass}>User Flow</h3>
-              <img src={USER_FLOW} alt="Pack Up user flow diagram" className="w-full" loading="lazy" />
-            </div>
+            <h3 className={subTitleClass}>User Flow</h3>
 
-            <div className="flex justify-center">
-              <div className="w-[220px] md:w-[280px]">
+            <div className="grid grid-cols-1 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] items-center">
+              <div className="md:col-span-4 flex items-center md:pr-[6rem] ml-[-2rem]">
+                <img src={USER_FLOW} alt="Pack Up user flow diagram" className="w-full" loading="lazy" />
+              </div>
+              <div className="md:col-span-2 flex items-center justify-center md:justify-end md:ml-[-4rem]">
                 <video
                   src={VID_PROTOTYPE}
                   autoPlay
                   muted
                   loop
                   playsInline
-                  className="h-auto max-w-full"
-                  style={{ background: "none" }}
+                  className="w-auto max-w-full max-h-[75vh]"
+                  style={{ background: "none", borderRadius: FEATURE1_VIDEO_RADIUS }}
                 />
               </div>
+            </div>
+
+            <div>
+              <h3 className={`${subTitleClass} mb-10`}>Screens</h3>
+              <ScreensCarousel />
             </div>
           </div>
         </PageGrid>
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
-
-      {/* ── Screens Carousel ── */}
-      <section>
-        <PageGrid className={sectionPageGridClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
-            <h3 className={subTitleClass}>Screens</h3>
-          </div>
-          <div className={`col-span-8 md:col-start-3 md:col-span-6 ${sectionColumnPaddingClass}`}>
-            <ScreensCarousel />
-          </div>
-        </PageGrid>
-      </section>
-
-      {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Style Guide Section ── */}
       <section>
@@ -557,20 +787,31 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             </h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-            <div className="flex flex-col gap-4">
+          <div
+            className={`col-span-8 md:col-start-3 md:col-span-3 flex flex-col gap-16 md:gap-0 md:justify-between md:min-h-[70svh] ${sectionColumnPaddingClass}`}
+          >
+            <div className="flex flex-col gap-6">
               <h3 className={subTitleClass}>Typography</h3>
-              <img src={TYPO_SVG} alt="Pack Up typography — Ploni font" className="w-full max-w-[600px]" loading="lazy" />
+              <img src={TYPO_SVG} alt="Pack Up typography — Ploni font" className="w-full" loading="lazy" />
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6 md:mt-14">
               <h3 className={subTitleClass}>Buttons</h3>
-              <img src={BTNS_SVG} alt="Pack Up button styles" className="w-full max-w-[600px]" loading="lazy" />
+              <img
+                src={BTNS_SVG}
+                alt="Pack Up button styles"
+                className="w-[90%] md:ml-[calc(-55/655*90%)] md:w-[calc(90%+55/655*90%)] max-w-none"
+                loading="lazy"
+              />
             </div>
+          </div>
 
-            <div className="flex flex-col gap-4">
-              <h3 className={subTitleClass}>Color Palette</h3>
-              <img src={COLOR_PALETTE} alt="Pack Up color palette" className="w-full max-w-[500px]" loading="lazy" />
+          <div
+            className={`col-span-8 md:col-start-6 md:col-span-3 flex flex-col gap-1 md:min-h-[70svh] ${sectionColumnPaddingClass}`}
+          >
+            <h3 className={subTitleClass}>Color Palette</h3>
+            <div className="mt-auto w-[80%] md:ml-[calc(-54/615*80%)] md:w-[calc(80%+54/615*80%)] max-w-none">
+              <ColorPalette />
             </div>
           </div>
         </PageGrid>

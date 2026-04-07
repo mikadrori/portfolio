@@ -14,6 +14,7 @@ import {
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
+import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
 
@@ -181,9 +182,15 @@ function DesktopScreensCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-6 md:gap-10 w-max pr-[20%]">
+      <div className="flex w-max gap-6 pr-[20%] md:gap-14">
         {DESKTOP_SCREENS.map((src, i) => (
-          <img key={i} src={src} alt={`Desktop screen ${i + 1}`} className="h-[280px] md:h-[420px] w-auto rounded-sm pointer-events-none" loading="lazy" />
+          <img
+            key={i}
+            src={src}
+            alt={`Desktop screen ${i + 1}`}
+            className="h-[240px] w-auto rounded-sm pointer-events-none md:h-[380px]"
+            loading="lazy"
+          />
         ))}
       </div>
     </div>
@@ -249,20 +256,9 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <div className="w-full h-[300px] md:h-[500px] shrink-0 overflow-hidden">
-          <video
-            src={VID_CONFESSIONS_PROMO}
-            poster={HERO_POSTER}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <ProjectHeroVideo src={VID_CONFESSIONS_PROMO} poster={HERO_POSTER} />
 
-        <div className="w-full h-px shrink-0 bg-[#2200b8]" />
+        <div className="w-full border-t border-[#2200b8]" />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -348,7 +344,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </div>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Design Section (Part 1) ── */}
       <section>
@@ -539,7 +535,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Research Section (Part 1) ── */}
       <section>
@@ -599,7 +595,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Style Guide (Part 1) ── */}
       <section>
@@ -670,7 +666,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
           ═══════════════════════════════════════════════ */}
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Concept (Part 2) ── */}
       <section>
@@ -712,7 +708,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Design Section (Part 2) ── */}
       <section>
@@ -793,7 +789,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Flow Section (Part 2) ── */}
       <section>
@@ -820,22 +816,22 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Screens Carousel (Part 2) ── */}
       <section>
         <PageGrid className={sectionPageGridClass}>
           <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
-            <h3 className={subTitleClass}>Screens</h3>
+            <h3 className={`${subTitleClass} mb-10`}>Screens</h3>
           </div>
-          <div className={`col-span-8 md:col-start-3 md:col-span-6 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 ${sectionColumnPaddingClass}`}>
             <DesktopScreensCarousel />
           </div>
         </PageGrid>
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Research Section (Part 2) ── */}
       <section>
@@ -868,7 +864,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Divider ── */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* ── Style Guide (Part 2) ── */}
       <section>
