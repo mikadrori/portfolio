@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cloudinaryUrl } from "../../lib/cloudinary";
+import { cn } from "../../lib/utils";
 import { smallTitleClass, bodyTextClass } from "../../lib/typography";
 
 const Q = "auto:best";
@@ -10,6 +11,14 @@ interface VisualElement {
   desc: string;
   imageId: string;
 }
+
+/** Within the col 3–7 strip, centers preview in cols 4–6 (middle 3/5). Thumbnails stay full width. */
+const DESKTOP_PREVIEW_GRID_CLASS =
+  "w-full md:grid md:grid-cols-[1fr_minmax(0,3fr)_1fr] md:min-w-0";
+
+/** Dock hover: hovered grows modestly; neighbors shrink (flex-grow). */
+const THUMB_FLEX_HOVERED = "flex-[1.5_1_0%]";
+const THUMB_FLEX_PEER = "flex-[0.78_1_0%]";
 
 const ELEMENTS: VisualElement[] = [
   { title: "Waves", desc: "The island setting and Cadence's perceived drowning.", imageId: "waves_ltenle_yjple4.jpg" },
@@ -78,68 +87,126 @@ function DesktopLayout({
   onMouseLeave: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-4">
-      {/* Preview area — invisible sizer reserves space */}
-      <div className="relative" style={{ zIndex: 2 }}>
-        <div className="invisible">
-          <div className="flex flex-col items-center gap-2 pt-2 md:pt-4">
-            <div className="max-w-[50%] md:max-w-[55%] lg:max-w-[60%] w-full aspect-video" />
-            <div className="max-w-[50%] md:max-w-[55%] lg:max-w-[60%] w-full">
-              <p className={smallTitleClass}>&nbsp;</p>
-              <p className={`${bodyTextClass} mt-1`}>&nbsp;</p>
+    <div className="flex w-full flex-col gap-4 overflow-visible">
+      {/* Preview area — centered cols 4–6 on md; captions stay left-aligned to image */}
+      <div className={DESKTOP_PREVIEW_GRID_CLASS}>
+        <div className="hidden min-w-0 md:block" aria-hidden />
+        <div className="relative w-full min-w-0" style={{ zIndex: 2 }}>
+          <div className="invisible w-full">
+            <div className="flex w-full min-w-0 flex-col items-start gap-2 pt-2 md:pt-4">
+              <div className="w-full aspect-video" />
+              <div className="w-full text-left">
+                <p className={smallTitleClass}>&nbsp;</p>
+                <p className={`${bodyTextClass} mt-1`}>&nbsp;</p>
+              </div>
             </div>
           </div>
-        </div>
-        <AnimatePresence>
-          {activeEl && (
-            <motion.div
-              key={activeEl.imageId}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0 } }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 flex flex-col items-center gap-2 pt-2 md:pt-4"
-            >
-              <img
-                src={cloudinaryUrl(activeEl.imageId, { quality: Q, width: 900 })}
-                alt={activeEl.title}
-                className="max-w-[50%] md:max-w-[55%] lg:max-w-[60%] w-full rounded-[4px] object-cover aspect-video"
-              />
-              <div className="max-w-[50%] md:max-w-[55%] lg:max-w-[60%] w-full text-center">
-                <p className={smallTitleClass}>{activeEl.title}</p>
-                <p className={`${bodyTextClass} mt-1`}>{activeEl.desc}</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Thumbnail strip — overlapping, hover to preview */}
-      <div onMouseLeave={onMouseLeave}>
-        <div className="flex items-end gap-2">
-          {ELEMENTS.map((el, i) => {
-            const isDimmed = activeIdx !== null && activeIdx !== i;
-
-            return (
-              <div
-                key={el.imageId}
-                className="cursor-pointer flex-1"
-                style={{
-                  opacity: isDimmed ? 0.3 : 1,
-                  transition: "opacity 0.15s ease",
-                }}
-                onMouseEnter={() => onMouseEnter(i)}
+          <AnimatePresence>
+            {activeEl && (
+              <motion.div
+                key={activeEl.imageId}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0 } }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 flex w-full min-w-0 flex-col items-start gap-2 pt-2 md:pt-4"
               >
                 <img
-                  src={cloudinaryUrl(el.imageId, { quality: Q, width: 400 })}
-                  alt={el.title}
-                  className="w-full aspect-video object-cover rounded-[2px] pointer-events-none"
-                  loading="lazy"
+                  src={cloudinaryUrl(activeEl.imageId, { quality: Q, width: 900 })}
+                  alt={activeEl.title}
+                  className="w-full rounded-[4px] object-cover aspect-video"
                 />
-              </div>
-            );
-          })}
+                <div className="w-full text-left">
+                  <p className={smallTitleClass}>{activeEl.title}</p>
+                  <p className={`${bodyTextClass} mt-1`}>{activeEl.desc}</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
+        <div className="hidden min-w-0 md:block" aria-hidden />
+      </div>
+
+      {/* Thumbnail strip — fixed-width thumbs, gaps grow on hover to spread */}
+      <ThumbStrip
+        activeIdx={activeIdx}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+    </div>
+  );
+}
+
+/* ─── Thumbnail strip: measures idle widths, locks them, grows only gaps ─── */
+
+const IDLE_GAP = 13;
+const HOVER_GAP = 26;
+const HOVERED_SCALE = 1.35;
+const PEER_SCALE = 0.92;
+
+function ThumbStrip({
+  activeIdx,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  activeIdx: number | null;
+  onMouseEnter: (i: number) => void;
+  onMouseLeave: () => void;
+}) {
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [thumbWidth, setThumbWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const measure = () => {
+      if (!stripRef.current) return;
+      const containerW = stripRef.current.offsetWidth;
+      const totalGaps = IDLE_GAP * (ELEMENTS.length - 1);
+      setThumbWidth((containerW - totalGaps) / ELEMENTS.length);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const dockActive = activeIdx !== null;
+  const gap = dockActive ? HOVER_GAP : IDLE_GAP;
+
+  return (
+    <div ref={stripRef} className="w-full overflow-visible" onMouseLeave={onMouseLeave}>
+      <div
+        className="flex items-center justify-center overflow-visible"
+        style={{ gap, transition: "gap 0.35s ease-in" }}
+      >
+        {ELEMENTS.map((el, i) => {
+          const isHovered = activeIdx === i;
+          const isDimmed = dockActive && !isHovered;
+
+          return (
+            <div
+              key={el.imageId}
+              className="shrink-0 cursor-pointer"
+              style={{
+                width: thumbWidth
+                  ? dockActive
+                    ? isHovered
+                      ? thumbWidth * HOVERED_SCALE
+                      : thumbWidth * PEER_SCALE
+                    : thumbWidth
+                  : undefined,
+                opacity: isDimmed ? 0.5 : 1,
+                transition: "width 0.35s ease-in, opacity 0.2s ease",
+              }}
+              onMouseEnter={() => onMouseEnter(i)}
+            >
+              <img
+                src={cloudinaryUrl(el.imageId, { quality: Q, width: 400 })}
+                alt={el.title}
+                className="aspect-video w-full rounded-[2px] object-cover pointer-events-none"
+                loading="lazy"
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -207,7 +274,7 @@ function TouchLayout({
                 alt={activeEl.title}
                 className="w-full rounded-[4px] object-cover aspect-video"
               />
-              <div>
+              <div className="text-left">
                 <p className={smallTitleClass}>{activeEl.title}</p>
                 <p className={`${bodyTextClass} mt-1`}>{activeEl.desc}</p>
               </div>

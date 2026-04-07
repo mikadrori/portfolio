@@ -4,9 +4,15 @@ import { useDragScroll } from "../../hooks/useDragScroll";
 interface DragCarouselProps {
   children: ReactNode;
   className?: string;
+  /** Extra space after the last item for horizontal scroll (e.g. videos). Set false for tight strips like sprite rows. */
+  trailingScrollPadding?: boolean;
 }
 
-export function DragCarousel({ children, className = "" }: DragCarouselProps) {
+export function DragCarousel({
+  children,
+  className = "",
+  trailingScrollPadding = true,
+}: DragCarouselProps) {
   const { ref, onMouseDown } = useDragScroll();
 
   return (
@@ -15,7 +21,9 @@ export function DragCarousel({ children, className = "" }: DragCarouselProps) {
       onMouseDown={onMouseDown}
       className={`overflow-x-auto scrollbar-hide cursor-grab ${className}`}
     >
-      <div className="flex gap-4 md:gap-8 w-max pr-[20%]">
+      <div
+        className={`flex w-max gap-4 md:gap-8 ${trailingScrollPadding ? "pr-[20%]" : ""}`}
+      >
         {children}
       </div>
     </div>

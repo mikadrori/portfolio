@@ -5,9 +5,11 @@ interface AutoPlayVideoProps {
   src: string;
   className?: string;
   alwaysMuted?: boolean;
+  /** When true the video keeps its native aspect ratio instead of cropping to fill. */
+  nativeFit?: boolean;
 }
 
-export function AutoPlayVideo({ src, className = "", alwaysMuted = false }: AutoPlayVideoProps) {
+export function AutoPlayVideo({ src, className = "", alwaysMuted = false, nativeFit = false }: AutoPlayVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { muted } = useMute();
@@ -67,7 +69,7 @@ export function AutoPlayVideo({ src, className = "", alwaysMuted = false }: Auto
           loop
           playsInline
           preload="metadata"
-          className={`w-full h-full object-cover block transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          className={`w-full block transition-opacity duration-300 ${nativeFit ? "h-auto" : "h-full object-cover"} ${loaded ? "opacity-100" : "opacity-0"}`}
           onLoadedData={() => setLoaded(true)}
         />
       )}

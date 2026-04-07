@@ -3,7 +3,12 @@ import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
 import { stickyTitleClass, projectNameClass, subTitleClass, smallTitleClass, bodyTextClass } from "../lib/typography";
-import { sectionPageGridClass, sectionPageGridStretchClass, sectionColumnPaddingClass } from "../lib/sectionLayout";
+import {
+  sectionPageGridClass,
+  sectionPageGridStretchClass,
+  sectionColumnPaddingClass,
+  extendContentToCol7Class,
+} from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
@@ -36,7 +41,7 @@ function StoryboardCarousel() {
       <img
         src={STORYBOARD}
         alt="Initial storyboard sketches"
-        className="h-[150px] md:h-[200px] w-auto max-w-none pointer-events-none"
+        className="h-[120px] md:h-[160px] w-auto max-w-none pointer-events-none"
         loading="lazy"
       />
     </div>
@@ -216,7 +221,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
               <img
                 src={BOOK_COVER}
                 alt="We Were Liars book cover"
-                className="w-[120px] md:w-[140px] rounded-[10px] object-cover"
+                className="w-full max-w-full rounded-none object-cover"
               />
             </div>
           </PageGrid>
@@ -259,24 +264,26 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
             </h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
             <div>
               <h3 className={`${subTitleClass} leading-none`}>Initial Story Board</h3>
             </div>
 
-            <div className="overflow-hidden">
+            <div className={`overflow-hidden ${extendContentToCol7Class}`}>
               <StoryboardCarousel />
             </div>
 
             <p className={bodyTextClass}>
               My first thought was sea, waves, fire, and smoke. While I initially considered including characters,
-              I later chose to represent them only through hints—a photo, decorative objects, and a hand.
+              I later chose to represent them only through hints- a photo, decorative objects, and a hand.
             </p>
 
-            {/* Visual Elements */}
-            <div className="flex flex-col gap-2">
+            {/* Visual Elements — preview + thumbnails extend to column 7 */}
+            <div className="flex flex-col gap-2 overflow-visible">
               <h3 className={subTitleClass}>Visual Elements</h3>
-              <VisualElements />
+              <div className={`${extendContentToCol7Class} overflow-visible`}>
+                <VisualElements />
+              </div>
             </div>
 
             {/* Typography */}
@@ -284,11 +291,11 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
               <h3 className={subTitleClass}>Typography</h3>
               <p className={bodyTextClass}>
                 To evoke memory loss, I used blur and glare on the text. The titles appear and disappear, creating
-                a sense of uncertainty - as if they are "there but not really there."
+                a sense of uncertainty- as if they are "there but not really there."
               </p>
             </div>
 
-            <div className="overflow-hidden">
+            <div className={`overflow-hidden ${extendContentToCol7Class}`}>
               <TypographyCarousel />
             </div>
 

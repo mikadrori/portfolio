@@ -35,7 +35,7 @@ export const ProjectNav = ({ currentProject, onSelectSection }: ProjectNavProps)
 
   return (
     <div
-      className="mx-auto flex w-fit cursor-pointer items-center gap-5 py-12"
+      className="mx-auto flex w-fit translate-x-[0.5rem] cursor-pointer items-center gap-5 py-12"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => onSelectSection(nextProject)}

@@ -49,38 +49,42 @@ export function VisualStyleGallery() {
 
       {/* Desktop: 3x3 grid with hover push effect */}
       <div
-        className="hidden md:grid gap-3 h-[580px]"
-        style={{
-          gridTemplateColumns: hovered !== null ? cols : DEFAULT_TEMPLATE,
-          gridTemplateRows: hovered !== null ? rows : DEFAULT_TEMPLATE,
-          transition: "grid-template-columns 0.35s ease, grid-template-rows 0.35s ease",
-        }}
+        className="relative hidden md:block w-full aspect-video shrink-0 overflow-hidden"
         onMouseLeave={() => setHovered(null)}
       >
-        {IMAGES.map((img, i) => {
-          const isLoaded = loadedSet.has(i);
-          return (
-            <div key={img} className="relative min-h-0 overflow-hidden rounded-[5px]">
-              {!isLoaded && <div className="absolute inset-0 skeleton-shimmer" />}
-              <img
-                loading="lazy"
-                src={cloudinaryUrl(img)}
-                alt=""
-                onMouseEnter={() => setHovered(i)}
-                onLoad={() => markLoaded(i)}
-                className={`w-full h-full object-cover cursor-pointer transition-all duration-300 ${
-                  !isLoaded
-                    ? "opacity-0"
-                    : hovered === i
-                      ? "rounded-[10px] opacity-100"
-                      : hovered !== null
-                        ? "rounded-[5px] opacity-50"
-                        : "rounded-[5px] opacity-100"
-                }`}
-              />
-            </div>
-          );
-        })}
+        <div
+          className="absolute inset-0 grid min-h-0 min-w-0 gap-3"
+          style={{
+            gridTemplateColumns: hovered !== null ? cols : DEFAULT_TEMPLATE,
+            gridTemplateRows: hovered !== null ? rows : DEFAULT_TEMPLATE,
+            transition: "grid-template-columns 0.35s ease, grid-template-rows 0.35s ease",
+          }}
+        >
+          {IMAGES.map((img, i) => {
+            const isLoaded = loadedSet.has(i);
+            return (
+              <div key={img} className="relative min-h-0 overflow-hidden rounded-[5px]">
+                {!isLoaded && <div className="absolute inset-0 skeleton-shimmer" />}
+                <img
+                  loading="lazy"
+                  src={cloudinaryUrl(img)}
+                  alt=""
+                  onMouseEnter={() => setHovered(i)}
+                  onLoad={() => markLoaded(i)}
+                  className={`w-full h-full object-cover object-top cursor-pointer transition-all duration-300 ${
+                    !isLoaded
+                      ? "opacity-0"
+                      : hovered === i
+                        ? "rounded-[10px] opacity-100"
+                        : hovered !== null
+                          ? "rounded-[5px] opacity-50"
+                          : "rounded-[5px] opacity-100"
+                  }`}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

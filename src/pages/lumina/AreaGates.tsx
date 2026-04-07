@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { DragCarousel } from "./DragCarousel";
 import { FbxModelViewer } from "./FbxModelViewer";
 import { AutoPlayVideo } from "./AutoPlayVideo";
-import { bodyTextClass } from "../../lib/typography";
+import { subTitleClass, smallTitleClass, bodyTextClass } from "../../lib/typography";
+import { sectionColumnPaddingClass } from "../../lib/sectionLayout";
 import { cloudinaryUrl } from "../../lib/cloudinary";
 
 type AreaId = "yellow" | "green" | "pink";
@@ -152,86 +153,91 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
       transition={{ duration: 0.2 }}
       className={visible ? "" : "hidden"}
     >
-      <div className="relative">
-        <div className="flex flex-col gap-4 xl:pr-[280px]">
-          <h4 className="font-['Bricolage_Grotesque'] font-normal text-[25px] text-[#fcf7ee] tracking-[0.75px]">
-            {area.name}
-          </h4>
+      <h4 className={`${subTitleClass} !text-[#fcf7ee] mt-4 mb-4`}>
+        {area.name}
+      </h4>
 
-          {/* Guardian — below title on <xl, absolutely positioned on xl+ */}
-          <div className={`xl:absolute xl:right-0 xl:top-0 xl:h-full ${area.id === "yellow" ? "xl:w-[220px]" : "xl:w-[260px]"}`}>
-            <FbxModelViewer
-              url={area.guardianGlb}
-              label={area.guardian}
-              transparent
-              className={`w-full ${area.id === "yellow" ? "h-[240px]" : "h-[300px]"}`}
-            />
+      {/* Text + guardian wrapper */}
+      <div className="relative">
+        {/* 3-col text grid (cols 3-5) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 md:w-[60%] gap-x-[var(--grid-gutter)] md:min-h-[9rem]">
+          {/* Col 3 — Environment */}
+          <div>
+            <p className={`${smallTitleClass} !text-[#fcf7ee]`}>Environment</p>
+            <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1 [text-wrap:pretty]`}>
+              {area.environment}
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-x-6 gap-y-4">
-            <div>
-              <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
-                Environment
-              </p>
-              <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
-                {area.environment}
-              </p>
-            </div>
-            <div>
-              <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
-                Goal
-              </p>
-              <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
-                {area.goal}
-              </p>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
-                  Guardian
-                </p>
-                <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
-                  {area.guardian}
-                </p>
-              </div>
-              <div>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[18px] text-[#fcf7ee] tracking-[0.54px]">
-                  Obstacle
-                </p>
-                <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
-                  {area.obstacle}
-                </p>
-              </div>
-            </div>
+          {/* Col 4 — Goal */}
+          <div>
+            <p className={`${smallTitleClass} !text-[#fcf7ee]`}>Goal</p>
+            <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1 [text-wrap:pretty]`}>
+              {area.goal}
+            </p>
+          </div>
 
-            {/* Sprites — side by side below text on <xl, in matched columns on xl+ */}
-            <div className="hidden xl:block" />
-            <div className="flex gap-4 xl:block">
-              <img src={area.collectibleImg} alt={area.collectibleLabel} className="w-[64px] h-[64px] object-contain" />
-              <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain xl:hidden" />
+          {/* Col 5 — Guardian + Obstacle stacked */}
+          <div className="flex flex-col gap-3">
+            <div>
+              <p className={`${smallTitleClass} !text-[#fcf7ee]`}>Guardian</p>
+              <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
+                {area.guardian}
+              </p>
             </div>
-            <div className="hidden xl:block">
-              <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain" />
+            <div>
+              <p className={`${smallTitleClass} !text-[#fcf7ee]`}>Obstacle</p>
+              <p className={`${bodyTextClass} !text-[#fcf7ee] mt-1`}>
+                {area.obstacle}
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Guardian 3D model — absolutely positioned so it doesn't affect text grid height */}
+        <div className={`md:absolute md:right-0 md:w-[40%] ${
+          area.id === "yellow" ? "h-[280px] md:h-[360px] md:-top-20" :
+          area.id === "green" ? "h-[340px] md:h-[440px] md:-top-28" :
+          "h-[340px] md:h-[400px] md:-top-24"
+        }`}>
+          <FbxModelViewer
+            url={area.guardianGlb}
+            label={area.guardian}
+            transparent
+            className="w-full h-full"
+          />
+        </div>
       </div>
 
-      <div className="mt-6">
+      {/* Sprites row */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-x-[var(--grid-gutter)] mt-2">
+        <div className="hidden md:block" />
+        <div className="flex gap-4 md:flex md:justify-center">
+          <img src={area.collectibleImg} alt={area.collectibleLabel} className="w-[64px] h-[64px] object-contain" />
+          <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain md:hidden" />
+        </div>
+        <div className="hidden md:flex md:justify-center">
+          <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain" />
+        </div>
+      </div>
+
+      {/* Carousel */}
+      <div className="mt-16">
         <DragCarousel>
           {area.carouselItems.map((item, i) =>
             item.type === "video" ? (
               <AutoPlayVideo
                 key={i}
                 src={item.src}
-                className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] shrink-0"
+                nativeFit
+                className="w-[85vw] md:w-[calc((100vw-2*var(--grid-margin)-var(--grid-gutter))/2)] shrink-0"
               />
             ) : (
               <img
                 key={i}
                 src={item.src}
                 alt=""
-                className="w-[420px] md:w-[600px] h-[260px] md:h-[375px] rounded-[12px] object-cover shrink-0 pointer-events-none"
+                className="w-[85vw] md:w-[calc((100vw-2*var(--grid-margin)-var(--grid-gutter))/2)] h-auto rounded-[12px] object-contain shrink-0 pointer-events-none"
               />
             )
           )}
@@ -258,26 +264,16 @@ export function AreaGates() {
 
   const selectedIdx = selected ? AREA_INDEX[selected] : -1;
   const isOpen = selected !== null;
-  const selectedArea = AREAS.find((a) => a.id === selected);
-
-  const PAD = 16;
 
   const measureTab = useCallback(() => {
     if (selectedIdx < 0 || !rowRef.current) return;
-    const gate = gateRefs.current[selectedIdx];
-    if (!gate) return;
+    const cell = gateRefs.current[selectedIdx];
+    if (!cell) return;
 
-    if (selectedIdx === 0) {
-      setTabStyle({
-        x: 0,
-        width: gate.offsetLeft + gate.offsetWidth + PAD,
-      });
-    } else {
-      setTabStyle({
-        x: gate.offsetLeft - PAD,
-        width: gate.offsetWidth + PAD * 2,
-      });
-    }
+    setTabStyle({
+      x: cell.offsetLeft,
+      width: cell.offsetWidth,
+    });
   }, [selectedIdx]);
 
   useLayoutEffect(() => {
@@ -294,31 +290,29 @@ export function AreaGates() {
     });
   };
 
-  const panelRounding = "rounded-[12px]";
-
-  const tabRadius =
-    selectedIdx === 0
-      ? { borderTopLeftRadius: 12, borderTopRightRadius: 16, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
-      : { borderTopLeftRadius: 16, borderTopRightRadius: 16, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 };
+  const BLEED = 16;
 
   return (
-    <div className="flex flex-col gap-6">
-      <h3 className="font-['Bricolage_Grotesque'] font-semibold text-[28px] text-[#2200b8] tracking-[1.4px]">
-        Areas
-      </h3>
+    <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 ${sectionColumnPaddingClass}`}>
+      <h3 className={subTitleClass}>Areas</h3>
 
       <div className="flex flex-col">
-        {/* Gates row */}
-        <div ref={rowRef} className="relative z-[1] flex gap-12 md:gap-20 items-end pl-4">
+        {/* Gates row — 5-col grid matching outer columns 3-7, arches in cols 1-3 */}
+        <div ref={rowRef} className="relative z-[1] grid grid-cols-3 md:grid-cols-5 gap-x-[var(--grid-gutter)]">
+          {/* Sliding tab background behind selected gate — wider than cell by BLEED on each side */}
           <motion.div
-            className="absolute left-0 bg-[#0d0439]"
-            style={{ top: -12, bottom: -14 }}
+            className="absolute bg-[#0d0439] pointer-events-none"
+            style={{
+              top: -12,
+              bottom: -14,
+              borderTopLeftRadius: 12,
+              borderTopRightRadius: 12,
+            }}
             initial={false}
             animate={{
-              x: tabStyle.x,
-              width: tabStyle.width,
+              x: tabStyle.x - BLEED,
+              width: tabStyle.width + BLEED * 2,
               opacity: isOpen ? 1 : 0,
-              ...tabRadius,
             }}
             transition={{
               type: "spring",
@@ -332,7 +326,7 @@ export function AreaGates() {
             <div
               key={area.id}
               ref={(el) => { gateRefs.current[i] = el; }}
-              className="relative pb-[2px]"
+              className="relative flex justify-center pb-[2px]"
             >
               <div className="relative z-[1]">
                 <GateSprite
@@ -345,7 +339,7 @@ export function AreaGates() {
           ))}
         </div>
 
-        {/* Expandable panel */}
+        {/* Expandable panel — bleeds beyond column lines */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -355,8 +349,12 @@ export function AreaGates() {
               exit={{ height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden"
+              style={{ margin: `0 -${BLEED}px` }}
             >
-              <div className={`bg-[#0d0439] ${panelRounding} p-6 md:p-8`}>
+              <div
+                className="bg-[#0d0439] rounded-[12px]"
+                style={{ padding: `1.5rem ${BLEED}px` }}
+              >
                 {AREAS.filter((area) => visited.has(area.id)).map((area) => (
                   <AreaContent
                     key={area.id}

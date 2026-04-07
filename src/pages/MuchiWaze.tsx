@@ -14,6 +14,11 @@ import {
   sectionColumnPaddingClass,
   extendContentToCol7Class,
 } from "../lib/sectionLayout";
+import {
+  FINAL_DESIGN_ICON_COLUMNS,
+  FINAL_ICON_SIZE_DEFAULT,
+  type FinalDesignIconAsset,
+} from "../config/muchiwazeFinalIcons";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
@@ -22,7 +27,7 @@ import { useDragScroll } from "../hooks/useDragScroll";
 const Q = "auto:best";
 
 /** One radius per video group (same carousel = one constant), like PackUp. */
-const CONCEPT_ALL_ICONS_VIDEO_RADIUS = "47px";
+const CONCEPT_ALL_ICONS_VIDEO_RADIUS = "52px";
 const RESEARCH_OPENING_VIDEO_RADIUS = "40px";
 const FINAL_ICONS_CAROUSEL_VIDEO_RADIUS = "40px";
 const AVATARS_PREVIEW_VIDEO_RADIUS = "55px";
@@ -32,7 +37,7 @@ const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw_rqb5tp.mp4", { resour
 const HERO_POSTER = cloudinaryUrl("MuchiwazeMockup_iq8vqk_evu7yg.jpg", { quality: Q, width: 1920 });
 
 // Concept — full mockup still (separate from video poster)
-const MOCKUP_IMAGE = "/assets/muchiwaze_mockup_jhxhqt.png";
+const MOCKUP_IMAGE = "/assets/muchiwazemockup_newcropped_llurh5.jpg";
 
 // Concept
 const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb_q41i7g.svg");
@@ -75,53 +80,17 @@ const ICONS_OPT1 = cloudinaryUrl("MuchiIconsOpt1_ub84yi_ukwkvr.svg");
 const ICONS_OPT2 = cloudinaryUrl("MuchiIconsOpt2_vmt6hx_zm37np.svg");
 const ICONS_OPT3 = cloudinaryUrl("MuchiIconsOpt3_f2swgb_ozvj4q.svg");
 
-// Design – Final icons: 5 columns, 1–2–1–2–1 (matches portfolio layout)
+// Design – Final icons: layout + per-icon sizes live in `src/config/muchiwazeFinalIcons.ts`
 /** Keeps SVG aspect ratio (no stretching). */
 const FINAL_ICON_IMG_BASE_CLASS = "h-auto w-full object-contain";
 
-/** Default cap per breakpoint; override any icon via `sizeClass` on that asset (same pattern: max-w + sm/md/lg). */
-const FINAL_ICON_SIZE_DEFAULT =
-  "max-w-[60px] sm:max-w-[80px] md:max-w-[96px] lg:max-w-[112px]";
-
-type FinalDesignIconAsset = {
-  src: string;
-  alt: string;
-  /** Tailwind max-width utilities only; base uses FINAL_ICON_IMG_BASE_CLASS so proportions stay fixed. */
-  sizeClass?: string;
-};
-
-type FinalDesignCol =
-  | ({ layout: "single" } & FinalDesignIconAsset)
-  | {
-      layout: "stack";
-      top: FinalDesignIconAsset;
-      bottom: FinalDesignIconAsset;
-    };
-
-/** Add `sizeClass` on any entry to tune that icon only (use max-w* utilities; aspect ratio stays fixed). */
-const FINAL_DESIGN_ICON_COLUMNS: FinalDesignCol[] = [
-  { layout: "single", src: "/assets/hostel_icon_u1zksb.svg", alt: "Hostel" },
-  {
-    layout: "stack",
-    top: { src: "/assets/munch_icon_ukb2yp.svg", alt: "Munch" },
-    bottom: { src: "/assets/bribe_icon_rqtufa.svg", alt: "Police alert" },
-  },
-  { layout: "single", src: "/assets/chabad_icon_bjpydu.svg", alt: "Chabad House" },
-  {
-    layout: "stack",
-    top: { src: "/assets/weed_icon_aazyi4.svg", alt: "Weed" },
-    bottom: { src: "/assets/robbery_icon_msuw87.svg", alt: "Robbery alert" },
-  },
-  { layout: "single", src: "/assets/party_icon_fukpld.svg", alt: "Party" },
-];
-
-function FinalDesignIconImg({ src, alt, sizeClass }: FinalDesignIconAsset) {
+function FinalDesignIconImg({ src, alt, sizeClass, offsetClass }: FinalDesignIconAsset) {
   const size = sizeClass ?? FINAL_ICON_SIZE_DEFAULT;
   return (
     <motion.img
       src={src}
       alt={alt}
-      className={`${FINAL_ICON_IMG_BASE_CLASS} ${size} cursor-default`}
+      className={`${FINAL_ICON_IMG_BASE_CLASS} ${size} cursor-default${offsetClass ? ` ${offsetClass}` : ""}`}
       loading="lazy"
       draggable={false}
       style={{ transformOrigin: "center bottom" }}
@@ -192,6 +161,12 @@ const TRAVEL_ESSENTIALS_ROWS = [
   ["Trek Route", "ATM", "Weed", "Munch"],
   ["Airport", "Market", "Party"],
 ];
+
+/** Space between each essentials row in Research. */
+const TRAVEL_ESSENTIALS_ROWS_GAP_CLASS = "gap-y-8 md:gap-y-12";
+
+/** Tighter row gap for Design “First Sketches” word list only. */
+const DESIGN_SKETCHES_WORD_ROWS_GAP_CLASS = "gap-y-4 md:gap-y-6";
 
 const SKETCHES_FILTERED_OUT = new Set([
   "Travel Partner", "Lookout Point", "Airport", "Market",
@@ -265,7 +240,7 @@ function MuchiColorPalette() {
   return (
     <div
       ref={containerRef}
-      className="mt-10 grid w-full min-w-0 grid-cols-7 gap-3 sm:mt-12 md:gap-4"
+      className="grid w-full min-w-0 grid-cols-7 gap-3 md:gap-4"
       role="img"
       aria-label={ariaLabel}
       onMouseLeave={() => setHovered(null)}
@@ -288,8 +263,8 @@ function MuchiColorPalette() {
               height: barHeightPct(i),
             }}
             transition={{
-              scaleY: { duration: 0.8, ease: "easeOut" },
-              height: { duration: 0.35, ease: "easeOut" },
+              scaleY: { duration: 0.8, ease: "easeIn" },
+              height: { duration: 0.35, ease: "easeIn" },
             }}
           />
           <span
@@ -390,55 +365,64 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
 
         <div className="w-full border-t border-[#2200b8]" />
 
-        {/* Concept Section */}
+        {/* Concept — cols 3–5: text then mockup (mt-12 md:mt-16); phone cols 6–7 unchanged. */}
         <section className="flex-1 flex flex-col justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
             <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 
-            <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-              {/* Intro + Phone mockup */}
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1 flex flex-col gap-2">
-                  <img
-                    src={APP_ICON}
-                    alt="MuchiWaze app icon"
-                    className="w-[90px] md:w-[110px] rounded-[18px] mb-2"
-                  />
-                  <h3 className={`${projectNameClass} leading-[1.5]`}>MuchiWaze</h3>
-                  <p className={`${smallTitleClass} leading-[1.5]`}>
-                    A &lsquo;Waze&rsquo; based mini-app for Muchilers.
-                    <br />
-                    Everything a Muchiler needs!
-                  </p>
-                  <p className={`${bodyTextClass} mt-4 italic`}>
-                    This project focuses on icon design and visual language.
-                  </p>
-                  <p className={`${bodyTextClass} mt-2 text-[12px] opacity-70`}>
-                    * Muchiler (from the Spanish Mochila): A term for backpackers in Latin America,
-                    widely used by Israelis on their post-army trip for long-term, low-budget, and authentic travel.
-                  </p>
-                </div>
-                <div className="flex justify-center md:justify-end shrink-0">
-                  <video
-                    src={VID_ALL_ICONS}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="h-auto w-[180px] object-contain md:w-[260px]"
-                    style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
-                  />
-                </div>
+            <div className={`col-span-8 md:col-start-3 md:col-span-3 md:row-start-1 min-w-0 ${sectionColumnPaddingClass}`}>
+              <div className="flex flex-col gap-2">
+                <img
+                  src={APP_ICON}
+                  alt="MuchiWaze app icon"
+                  className="w-[90px] md:w-[110px] rounded-[18px] mb-2"
+                />
+                <h3 className={`${projectNameClass} leading-[1.5]`}>MuchiWaze</h3>
+                <p className={`${smallTitleClass} leading-[1.5]`}>
+                  A &lsquo;Waze&rsquo; based mini-app for Muchilers.
+                  <br />
+                  Everything a Muchiler needs!
+                </p>
+                <p className={`${bodyTextClass} mt-4 italic`}>
+                  This project focuses on icon design and visual language.
+                </p>
+                <p className={`${bodyTextClass} mt-2 text-[12px] opacity-70`}>
+                  * Muchiler (from the Spanish Mochila): A term for backpackers in Latin America,
+                  widely used by Israelis on their post-army trip for long-term, low-budget, and authentic travel.
+                </p>
               </div>
-
-              {/* Mockup image */}
+              <div className="mt-8 flex justify-center md:hidden">
+                <video
+                  src={VID_OPENING}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="h-auto w-[180px] object-contain"
+                  style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
+                />
+              </div>
               <img
                 src={MOCKUP_IMAGE}
                 alt="MuchiWaze app mockup"
-                className="w-full rounded-sm"
+                className="mt-4 md:mt-8 w-full rounded-sm"
                 loading="lazy"
+              />
+            </div>
+
+            <div
+              className={`col-span-8 hidden min-w-0 md:col-start-6 md:col-span-2 md:row-start-1 md:flex md:items-center md:justify-end md:self-stretch ${sectionColumnPaddingClass}`}
+            >
+              <video
+                src={VID_OPENING}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-auto w-[180px] shrink-0 object-contain md:h-auto md:w-[288px] md:max-w-full"
+                style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
               />
             </div>
           </PageGrid>
@@ -448,16 +432,16 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       {/* ── Divider ── */}
       <div className="w-full border-t border-[#2200b8]" />
 
-      {/* ── Research Section ── */}
+      {/* ── Research Section — content cols 3–7: copy from col 3, video original 220px flush to col 7 end. */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
           <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1 min-w-0 flex flex-col gap-6">
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
+            <div className="flex flex-col md:flex-row gap-8 md:items-start">
+              <div className="flex min-w-0 flex-1 flex-col gap-6">
                 <h3 className={subTitleClass}>What a Muchiler needs?</h3>
                 <p className={bodyTextClass}>
                   I started by asking: What does the Israeli traveler in South America really need?
@@ -465,7 +449,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                   alerts and points of interest, leading to a list of travel essentials:
                 </p>
 
-                <div className="flex flex-col gap-y-3 md:gap-y-4">
+                <div className={`flex flex-col ${TRAVEL_ESSENTIALS_ROWS_GAP_CLASS}`}>
                   {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
                     <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
                       {row.map((item) => (
@@ -476,9 +460,9 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 </div>
               </div>
 
-              <div className="hidden md:flex justify-end shrink-0 items-start">
+              <div className="flex shrink-0 justify-center md:justify-end">
                 <video
-                  src={VID_OPENING}
+                  src={VID_ALL_ICONS}
                   autoPlay
                   muted
                   loop
@@ -487,18 +471,6 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                   style={{ background: "none", borderRadius: RESEARCH_OPENING_VIDEO_RADIUS }}
                 />
               </div>
-            </div>
-
-            <div className="flex md:hidden justify-center">
-              <video
-                src={VID_OPENING}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-auto w-[220px]"
-                style={{ background: "none", borderRadius: RESEARCH_OPENING_VIDEO_RADIUS }}
-              />
             </div>
           </div>
         </PageGrid>
@@ -514,15 +486,15 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-10 md:gap-14 ${sectionColumnPaddingClass}`}>
             {/* First Sketches */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <h3 className={subTitleClass}>First Sketches</h3>
               <p className={bodyTextClass}>
                 I narrowed this list and started sketching.
               </p>
 
-              <div className="flex flex-col gap-y-3 md:gap-y-4">
+              <div className={`flex flex-col ${DESIGN_SKETCHES_WORD_ROWS_GAP_CLASS}`}>
                 {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
                   <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
                     {row.map((item) => (
@@ -538,9 +510,9 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               </div>
             </div>
 
-            {/* Option 1 – circular sketches */}
-            <div className="flex flex-col gap-4">
-              <h3 className={subTitleClass}>Option 1</h3>
+            {/* Option 1 – circular sketches (title↔carousel gap matches Option 2) */}
+            <div className="flex flex-col gap-2">
+              <h3 className={smallTitleClass}>Option 1</h3>
               <div className={extendContentToCol7Class}>
                 <div ref={sketch1Drag.ref} onMouseDown={sketch1Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
                   <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[112px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
@@ -549,8 +521,8 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             </div>
 
             {/* Option 2 – geometric/diamond sketches */}
-            <div className="flex flex-col gap-4">
-              <h3 className={subTitleClass}>Option 2</h3>
+            <div className="flex flex-col gap-2">
+              <h3 className={smallTitleClass}>Option 2</h3>
               <div className={extendContentToCol7Class}>
                 <div ref={sketch2Drag.ref} onMouseDown={sketch2Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
                   <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[112px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
@@ -566,11 +538,13 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             {/* Color Palette */}
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Color Palette</h3>
-              <p className={bodyTextClass}>
-                I drew inspiration from Latin American landscapes, using my own travel photos to
-                create a rich palette that captures the region&rsquo;s true atmosphere.
-              </p>
-              <MuchiColorPalette />
+              <div className="flex flex-col gap-6">
+                <p className={bodyTextClass}>
+                  I drew inspiration from Latin American landscapes, using my own travel photos to
+                  create a rich palette that captures the region&rsquo;s true atmosphere.
+                </p>
+                <MuchiColorPalette />
+              </div>
             </div>
 
            
@@ -631,6 +605,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                             src={col.src}
                             alt={col.alt}
                             sizeClass={col.sizeClass}
+                            offsetClass={col.offsetClass}
                           />
                         ) : (
                           <>
@@ -638,11 +613,13 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                               src={col.top.src}
                               alt={col.top.alt}
                               sizeClass={col.top.sizeClass}
+                              offsetClass={col.top.offsetClass}
                             />
                             <FinalDesignIconImg
                               src={col.bottom.src}
                               alt={col.bottom.alt}
                               sizeClass={col.bottom.sizeClass}
+                              offsetClass={col.bottom.offsetClass}
                             />
                           </>
                         )}
