@@ -5,6 +5,7 @@ import { cloudinaryUrl } from "../lib/cloudinary";
 import { stickyTitleClass, projectNameClass, subTitleClass, smallTitleClass, bodyTextClass } from "../lib/typography";
 import { sectionPageGridClass, sectionPageGridStretchClass, sectionColumnPaddingClass } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
+import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
 import { VisualElements } from "./wwl/VisualElements";
@@ -183,21 +184,10 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       {/* Hero + Concept combined = min 100vh */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <div className="w-full h-[300px] md:h-[500px] shrink-0 overflow-hidden">
-          <video
-            src={HERO_VIDEO}
-            poster={HERO_POSTER}
-            preload="auto"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
         {/* Divider */}
-        <div className="w-full h-px shrink-0 bg-[#2200b8]" />
+        <div className="w-full border-t border-[#2200b8]" />
 
         {/* CONCEPT Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -234,7 +224,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       </div>
 
       {/* Divider */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* FINAL INTRO Section */}
       <section>
@@ -258,7 +248,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       </section>
 
       {/* Divider */}
-      <div className="w-full h-px bg-[#2200b8]" />
+      <div className="w-full border-t border-[#2200b8]" />
 
       {/* DESIGN Section — single PageGrid so the sticky title shares one tall row with all content (md+) */}
       <section>

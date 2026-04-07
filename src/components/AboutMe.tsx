@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect } from "react";
 import { PageGrid } from "./PageGrid";
+import { Footer } from "./Footer";
 import { cloudinaryUrl } from "../lib/cloudinary";
-import { sectionTitleClass, bodyTextClass } from "../lib/typography";
-import { sectionPageGridPaddingClass } from "../lib/sectionLayout";
+import { sectionTitleCoreClass, bodyTextClass, smallTitleClass } from "../lib/typography";
 
-const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9_vfttwe", { quality: "auto:best", width: 1920 });
+const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9_vfttwe.png", { quality: "auto:best", width: 1920 });
 
 const BIO_PARAGRAPHS = [
   "As a designer, I'm always looking for that delicate balance between order and colorful chaos.",
@@ -15,32 +14,28 @@ const BIO_PARAGRAPHS = [
   "Outside the studio, I'm all about sunsets, picnics, and raw fish dinners. I can't start my morning without something sweet and pretty much love every dessert that exists.",
 ];
 
-const btnClass =
-  "flex items-center justify-center w-[180px] md:w-[210px] h-[75px] text-[#fcf7ee] font-['Bricolage_Grotesque'] font-light text-xl md:text-[25px] no-underline tracking-[0.5px] transition-colors";
-
 export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; onReady?: () => void }) => {
-  const [hovered, setHovered] = useState(false);
-
   useEffect(() => { onReady?.(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section
-      className="relative w-full min-h-screen flex items-start bg-cover"
+      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-cover"
       style={{
         backgroundImage: `url(${BG_IMAGE})`,
-        backgroundPosition: "center 38%",
+        backgroundPosition: "center 80%",
       }}
     >
-      <PageGrid className={`relative z-10 items-start gap-6 w-full ${sectionPageGridPaddingClass}`}>
-        <h2 className={`col-span-8 md:col-span-1 md:col-start-1 ${sectionTitleClass} md:mb-0 uppercase whitespace-nowrap`}>
+      <PageGrid className="relative z-10 items-start gap-x-6 gap-y-3 w-full pt-6 md:pt-10 pb-24">
+        <h2 className={`col-span-8 md:col-span-2 md:col-start-1 md:row-start-1 self-start ${sectionTitleCoreClass} uppercase whitespace-nowrap`}>
           about me
         </h2>
-        <p className={`col-span-8 md:col-start-3 md:col-end-6 ${bodyTextClass} -mt-4`}>
-          I'm Mika, a 25-year-old Visual <br /> Communication student at HIT 3rd year,
+        <p className={`col-span-8 md:col-start-3 md:col-end-6 md:row-start-1 self-start mt-1 ${smallTitleClass} leading-[1.6]`}>
+          I'm Mika, a 25-year-old Visual <br />
+          Communication student at HIT 3rd year,
           <br />
           Based in Ramat-Gan.
         </p>
-        <div className="col-span-8 md:col-start-4 md:col-end-8 max-h-[87px] md:max-h-[87px] overflow-y-auto scrollbar-hide -mt-3 space-y-1">
+        <div className="col-span-8 md:col-start-4 md:col-end-8 md:row-start-2 max-h-[87px] overflow-y-auto scrollbar-hide mt-1 space-y-1">
           {BIO_PARAGRAPHS.map((para, i) => (
             <p
               key={i}
@@ -50,8 +45,10 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
             </p>
           ))}
         </div>
-
       </PageGrid>
+      <div className="absolute bottom-0 left-0 right-0 z-20">
+        <Footer />
+      </div>
     </section>
   );
 };
