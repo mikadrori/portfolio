@@ -17,7 +17,7 @@ export function CloudinaryImage({
     <div className={`relative ${wrapperClassName}`}>
       {!loaded && (
         <div
-          className={`absolute inset-0 skeleton-shimmer rounded-[inherit] ${className}`}
+          className={`absolute inset-0 skeleton-shimmer-primary rounded-[inherit] ${className}`}
         />
       )}
       <img

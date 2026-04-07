@@ -64,7 +64,7 @@ export function VisualStyleGallery() {
             const isLoaded = loadedSet.has(i);
             return (
               <div key={img} className="relative min-h-0 overflow-hidden rounded-[5px]">
-                {!isLoaded && <div className="absolute inset-0 skeleton-shimmer" />}
+                {!isLoaded && <div className="absolute inset-0 skeleton-shimmer-primary" />}
                 <img
                   loading="lazy"
                   src={cloudinaryUrl(img)}

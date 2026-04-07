@@ -35,12 +35,6 @@ export function AutoPlayVideo({ src, className = "", alwaysMuted = false, native
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    v.muted = alwaysMuted || muted;
-  }, [muted, alwaysMuted]);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -59,13 +53,13 @@ export function AutoPlayVideo({ src, className = "", alwaysMuted = false, native
   return (
     <div ref={containerRef} className={`relative rounded-[8px] overflow-hidden ${className}`}>
       {!loaded && (
-        <div className="absolute inset-0 skeleton-shimmer z-10" />
+        <div className="absolute inset-0 skeleton-shimmer-primary z-10" />
       )}
       {visible && (
         <video
           ref={videoRef}
           src={src}
-          muted
+          muted={alwaysMuted || muted}
           loop
           playsInline
           preload="metadata"

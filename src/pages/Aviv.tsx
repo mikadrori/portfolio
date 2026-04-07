@@ -252,7 +252,7 @@ function ViewportVideo({ src, className = "", threshold = 0.5 }: ViewportVideoPr
 
   return (
     <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
-      {!loaded && <div className="absolute inset-0 skeleton-shimmer z-10" />}
+      {!loaded && <div className="absolute inset-0 skeleton-shimmer-primary z-10" />}
       {visible && (
         <video
           ref={videoRef}

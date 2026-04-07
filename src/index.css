@@ -56,3 +56,8 @@ body {
   background-size: 800px 100%;
   animation: shimmer 1.5s infinite linear;
 }
+
+/* Aviv + Lumina: placeholders on dark panels */
+.skeleton-shimmer-primary {
+  background-color: #0d0439;
+}
