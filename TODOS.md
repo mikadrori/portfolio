@@ -33,4 +33,3 @@ Tracked tasks for the site. Update this file as work is done or scope changes.
 
 | Screen | Priority | Task |
 | ------ | -------- | ---- |
-| Lumina Forest | Critical | Elf is sometimes missing |
