@@ -1,11 +1,13 @@
-import { Component, Suspense, useState, useRef, useEffect } from "react";
+import { Component, Suspense, useState, useRef, useEffect, useMemo } from "react";
 import type { ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, useFBX, Environment, Center } from "@react-three/drei";
 import * as THREE from "three";
+import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
 
 function GlbModel({ url }: { url: string }) {
   const { scene } = useGLTF(url);
+  const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const ref = useRef<THREE.Group>(null);
 
   useEffect(() => {
@@ -19,9 +21,9 @@ function GlbModel({ url }: { url: string }) {
     }
     const center = box.getCenter(new THREE.Vector3());
     ref.current.position.sub(center.multiplyScalar(ref.current.scale.x));
-  }, [scene]);
+  }, [clone]);
 
-  return <primitive ref={ref} object={scene} dispose={null} />;
+  return <primitive ref={ref} object={clone} dispose={null} />;
 }
 
 function FbxModel({ url }: { url: string }) {
