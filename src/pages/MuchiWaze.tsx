@@ -43,7 +43,7 @@ const AVATARS_PREVIEW_VIDEO_RADIUS = "55px";
 
 // Hero
 const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw_rqb5tp.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_muchiwaze_a9sxeq.png", { quality: Q, width: 1920 });
+const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_muchiwaze_a9sxeq.png", { quality: Q });
 
 // Concept — full mockup still (separate from video poster)
 const MOCKUP_IMAGE = "/assets/muchiwazemockup_newcropped_llurh5.jpg";

@@ -22,7 +22,7 @@ const HERO_VIDEO = cloudinaryUrl("WLLpromoVID_s8x1if_xza8xl.mp4", { resourceType
 const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_wwl_tbwvdw.png", { quality: Q });
 const BOOK_COVER = cloudinaryUrl("WWLbook_z0ojgt_xtpkn5.png", { quality: Q });
 const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys_lx91jv.mp4", { resourceType: "video", quality: Q });
-const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn_dxrwvp.jpg", { quality: Q, width: 1280 });
+const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn_dxrwvp.jpg", { quality: Q });
 const STORYBOARD = cloudinaryUrl("WLLstoryboard_zeemra_t3ahp6.png", { quality: Q });
 
 const TYPO_CHARACTERS = [

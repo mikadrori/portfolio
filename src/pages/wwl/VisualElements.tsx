@@ -113,7 +113,7 @@ function DesktopLayout({
                 className="absolute inset-0 flex w-full min-w-0 flex-col items-start gap-2 pt-2 md:pt-4"
               >
                 <img
-                  src={cloudinaryUrl(activeEl.imageId, { quality: Q, width: 900 })}
+                  src={cloudinaryUrl(activeEl.imageId, { quality: Q })}
                   alt={activeEl.title}
                   className={`w-full ${radiusWwlFrameClass} object-cover aspect-video`}
                 />
@@ -200,7 +200,7 @@ function ThumbStrip({
               onMouseEnter={() => onMouseEnter(i)}
             >
               <img
-                src={cloudinaryUrl(el.imageId, { quality: Q, width: 400 })}
+                src={cloudinaryUrl(el.imageId, { quality: Q })}
                 alt={el.title}
                 className={`aspect-video w-full ${radiusWwlTightClass} object-cover pointer-events-none`}
                 loading="lazy"
@@ -248,7 +248,7 @@ function TouchLayout({
               }}
             >
               <img
-                src={cloudinaryUrl(el.imageId, { quality: Q, width: 300 })}
+                src={cloudinaryUrl(el.imageId, { quality: Q })}
                 alt={el.title}
                 className="w-full aspect-video object-cover pointer-events-none"
                 loading="lazy"
@@ -271,7 +271,7 @@ function TouchLayout({
               className="flex flex-col gap-2"
             >
               <img
-                src={cloudinaryUrl(activeEl.imageId, { quality: Q, width: 600 })}
+                src={cloudinaryUrl(activeEl.imageId, { quality: Q })}
                 alt={activeEl.title}
                 className={`w-full ${radiusWwlFrameClass} object-cover aspect-video`}
               />
