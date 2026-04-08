@@ -48,12 +48,12 @@ function StoryboardCarousel() {
   );
 }
 
-const TYPO_OVERLAY_FADE_S = 0.95;
+const TYPO_OVERLAY_FADE_S = 0.75;
 const TYPO_OVERLAY_EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
-const TYPO_REMOVE_BASE_AFTER_MS = 1000;
+const TYPO_REMOVE_BASE_AFTER_MS = 750;
 const TYPO_BASE_FADE_OUT_S = 0.55;
 const TYPO_BASE_FADE_EASE: [number, number, number, number] = [0.33, 1, 0.68, 1];
-const TYPO_VARIANT_INTERVAL_MS = 2400;
+const TYPO_VARIANT_INTERVAL_MS = 1000;
 
 function TypographyCarousel() {
   const [baseIdx, setBaseIdx] = useState(0);
@@ -114,7 +114,7 @@ function TypographyCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-6 md:gap-20 w-max pr-[20%]">
+      <div className="flex gap-6 md:gap-20 w-max">
         {TYPO_CHARACTERS.map((char, slideIndex) => (
           <div
             key={char.name}
@@ -190,9 +190,6 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
-
-        {/* Divider */}
-        <div className="w-full border-t border-[#2200b8]" />
 
         {/* CONCEPT Section */}
         <section className="flex-1 flex flex-col justify-center">

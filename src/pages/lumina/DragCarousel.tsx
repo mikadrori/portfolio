@@ -22,7 +22,7 @@ export function DragCarousel({
       className={`overflow-x-auto scrollbar-hide cursor-grab ${className}`}
     >
       <div
-        className={`flex w-max gap-4 md:gap-8 ${trailingScrollPadding ? "pr-[20%]" : ""}`}
+        className={`flex w-max gap-4 md:gap-8`}
       >
         {children}
       </div>

@@ -98,7 +98,6 @@ const AREAS: AreaData[] = [
       { type: "video", src: cloudinaryUrl("pink_mission_ypme3g_onejtk.mp4", { resourceType: "video" }) },
       { type: "video", src: cloudinaryUrl("river_erlzvg_npf2dk.mp4", { resourceType: "video" }) },
       { type: "image", src: cloudinaryUrl("river_view_v85kxl_y46dq9.jpg") },
-      { type: "image", src: cloudinaryUrl("river2_jat1wd_lbywfb.jpg") },
       { type: "image", src: cloudinaryUrl("river5_pcy2im_mrmdko.jpg") },
       { type: "image", src: cloudinaryUrl("river6_bjlhqm_yk02ga.jpg") },
       { type: "image", src: cloudinaryUrl("river9_rtggfh_pnqvzj.jpg") },
@@ -127,8 +126,14 @@ function GateSprite({
   return (
     <motion.button
       onClick={onSelect}
-      whileHover={{ scale: 1.2 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      initial={false}
+      animate={{ scale: 1, y: 0 }}
+      whileHover={{ scale: 1.26, y: -10 }}
+      transition={{
+        type: "tween",
+        duration: 0.42,
+        ease: [0.42, 0, 1, 1],
+      }}
       className="relative z-10 flex flex-col items-center gap-2 cursor-pointer bg-transparent border-none"
     >
       <img
@@ -293,7 +298,7 @@ export function AreaGates() {
   const BLEED = 16;
 
   return (
-    <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 ${sectionColumnPaddingClass}`}>
+    <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-10 md:gap-12 ${sectionColumnPaddingClass}`}>
       <h3 className={subTitleClass}>Areas</h3>
 
       <div className="flex flex-col">
@@ -303,7 +308,7 @@ export function AreaGates() {
           <motion.div
             className="absolute bg-[#0d0439] pointer-events-none"
             style={{
-              top: -12,
+              top: -32,
               bottom: -14,
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,

@@ -12,6 +12,7 @@ import {
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
+import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { DragCarousel, PlaceholderCard } from "./lumina/DragCarousel";
 import { AreaGates } from "./lumina/AreaGates";
@@ -121,13 +122,13 @@ export default function LuminaForest({
           ════════════════════════════════════════════════════════ */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner — placeholder */}
-        <div className="w-full shrink-0 overflow-hidden bg-[#d9d9d9] h-[280px] md:h-[420px] flex items-center justify-center">
-          <span className="text-[#999] text-lg font-['Bricolage_Grotesque'] select-none">
+        <div
+          className={`${PROJECT_HERO_VIDEO_SHELL_CLASS} flex items-center justify-center`}
+        >
+          <span className="relative z-[1] text-[#2200b8]/55 text-lg font-['Bricolage_Grotesque'] select-none">
             Hero Video Placeholder
           </span>
         </div>
-
-        <Divider />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -192,7 +193,7 @@ export default function LuminaForest({
                   url={MIA_GLB}
                   label="Mia"
                   transparent
-                  className="mx-auto w-full max-w-[380px] h-[380px] shrink-0 md:mx-0 md:col-span-2 md:max-w-none md:w-full md:h-[520px] self-start md:justify-self-end -mt-12 md:-mt-20"
+                  className="mx-auto w-full max-w-[380px] h-[380px] shrink-0 md:mx-0 md:col-span-2 md:max-w-none md:w-full md:h-[400px] self-start md:justify-self-end -mt-12 md:-mt-20"
                 />
               </div>
 

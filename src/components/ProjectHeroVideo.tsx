@@ -1,11 +1,19 @@
 import type { VideoHTMLAttributes } from "react";
 
-/** Outer wrapper — matches PackUp hero banner. */
-export const PROJECT_HERO_VIDEO_SHELL_CLASS = "w-full shrink-0 overflow-hidden";
+/**
+ * Full-width project hero: fixed height, purple→lavender gradient, primary top/bottom rules.
+ * Media should fill the strip with object-cover (see ProjectHeroVideo).
+ */
+export const PROJECT_HERO_VIDEO_SHELL_CLASS = [
+  "relative w-full shrink-0 overflow-hidden",
+  "h-[var(--project-hero-height)] max-md:h-[var(--project-hero-height-mobile)]",
+  "border-y border-[#2200b8]",
+  "bg-gradient-to-r from-[#8E94F2] to-[#E8EAF6]",
+].join(" ");
 
 const HERO_VIDEO_RADIUS = "0px";
 
-const videoClassName = "w-full h-auto";
+const videoClassName = "absolute inset-0 h-full w-full object-cover";
 
 type ProjectHeroVideoProps = {
   src: string;

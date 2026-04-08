@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
@@ -17,6 +17,7 @@ import { PageGrid } from "../components/PageGrid";
 import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
+import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
 
 const Q = "auto:best";
 
@@ -140,6 +141,9 @@ const SCREEN_LONDON = cloudinaryUrl("AvivScreenLondon_nuqxpn_ahva8t.png", { qual
 const SCREEN_KINNERET = cloudinaryUrl("AvivScreenKinneret_zummr2_z7dxnf.png", { quality: Q });
 const SCREEN_ARAD = cloudinaryUrl("AvivScreenArad_ouyorj_s4qyro.png", { quality: Q });
 
+const phoneScreenHoverClass =
+  "w-[20%] shrink-0 transition-transform duration-300 ease-in hover:-translate-y-6";
+
 // ─── Research ───
 const AVIV_IMAGE = cloudinaryUrl("Aviv_Image_ugmujh_bmleri.png", { quality: Q });
 const AVIV_IMAGE_2 = cloudinaryUrl("AvivImage2_phmgvt_egugvg.png", { quality: Q });
@@ -203,15 +207,21 @@ const PRF_ICONS = [
   cloudinaryUrl("AvivPRFicons05_zvui9u_gqmv2v.svg"),
 ];
 
+/** Style Guide — Icons & Buttons: equal row width, icons aligned in shared columns */
+const iconButtonsRowClass =
+  "grid w-full min-w-0 grid-cols-5 items-center justify-items-center gap-x-2 sm:gap-x-4 md:gap-x-6";
+
 // ─── Viewport-lazy video (always muted, loop, play/pause on visibility) ───
 
 interface ViewportVideoProps {
   src: string;
   className?: string;
   threshold?: number;
+  /** Native aspect ratio (letterboxed width); matches LuminaForest AutoPlayVideo + nativeFit. */
+  nativeFit?: boolean;
 }
 
-function ViewportVideo({ src, className = "", threshold = 0.5 }: ViewportVideoProps) {
+function ViewportVideo({ src, className = "", threshold = 0.5, nativeFit = false }: ViewportVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [visible, setVisible] = useState(false);
@@ -261,7 +271,7 @@ function ViewportVideo({ src, className = "", threshold = 0.5 }: ViewportVideoPr
           loop
           playsInline
           preload="metadata"
-          className={`w-full h-full object-cover block transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          className={`w-full block transition-opacity duration-300 ${nativeFit ? "h-auto" : "h-full object-cover"} ${loaded ? "opacity-100" : "opacity-0"}`}
           onLoadedData={() => setLoaded(true)}
         />
       )}
@@ -328,13 +338,35 @@ function MockupSlideshow() {
   );
 }
 
-// ─── Recommendation Button (toggle between two versions) ───
+// ─── Recommendation Button (hover: loop crossfade between two versions) ───
+
+const REC_BTN_CROSSFADE_S = 1.25;
+// Ease-in-out ~ CSS / Figma-style smooth segment transitions
+const REC_BTN_EASE: [number, number, number, number] = [0.42, 0, 0.58, 1];
 
 function RecButton() {
+  const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);
 
+  useEffect(() => {
+    if (!hovered) {
+      setActive(false);
+      return;
+    }
+    setActive(true);
+    const ms = Math.round(REC_BTN_CROSSFADE_S * 1000);
+    const id = window.setInterval(() => {
+      setActive((prev) => !prev);
+    }, ms);
+    return () => window.clearInterval(id);
+  }, [hovered]);
+
   return (
-    <button onClick={() => setActive((prev) => !prev)} className="relative cursor-pointer w-[140px] md:w-[180px]">
+    <div
+      className="relative w-[140px] md:w-[180px] cursor-default"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <img
         src={DAILY_REC_BTN}
         alt="Daily recommendation button"
@@ -343,13 +375,14 @@ function RecButton() {
       />
       <motion.img
         src={DAILY_REC_BTN_2}
-        alt="Daily recommendation button active"
+        alt=""
+        aria-hidden
         className="w-full absolute inset-0"
         animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+        transition={{ duration: REC_BTN_CROSSFADE_S, ease: REC_BTN_EASE }}
         draggable={false}
       />
-    </button>
+    </div>
   );
 }
 
@@ -471,20 +504,25 @@ const KEY_FEATURES = [
   { title: "My Confessions", desc: "A private archive to revisit your past thoughts.", video: VID_FEAT_MY_CONFESSIONS },
 ] as const;
 
+/** Same slide width as LuminaForest DragCarousel + AutoPlayVideo feature strips */
+const keyFeatureSlideClass =
+  "w-[85vw] md:w-[calc((100vw-2*var(--grid-margin)-var(--grid-gutter))/2)] shrink-0";
+
 function KeyFeaturesCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing">
-      <div className="flex gap-6 md:gap-8 w-max pr-[20%]">
+      <div className="flex gap-4 md:gap-8 w-max">
         {KEY_FEATURES.map((feat) => (
-          <div key={feat.title} className="flex flex-col gap-4 w-[85vw] md:w-[600px] shrink-0">
+          <div key={feat.title} className={`flex flex-col gap-4 ${keyFeatureSlideClass}`}>
             <div className="flex flex-col gap-2 min-h-[90px] md:min-h-[100px]">
               <h4 className={smallTitleClass}>{feat.title}</h4>
               <p className={bodyTextClass}>{feat.desc}</p>
             </div>
             <ViewportVideo
               src={feat.video}
-              className="w-full aspect-video rounded-[16px] bg-black"
+              nativeFit
+              className="w-full rounded-[8px] bg-black"
               threshold={0.95}
             />
           </div>
@@ -498,7 +536,7 @@ function DesktopScreensCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex w-max gap-6 pr-[20%] md:gap-14">
+      <div className="flex w-max gap-6 md:gap-14">
         {DESKTOP_SCREENS.map((src, i) => (
           <img
             key={i}
@@ -507,19 +545,6 @@ function DesktopScreensCarousel() {
             className="h-[240px] w-auto rounded-sm pointer-events-none md:h-[380px]"
             loading="lazy"
           />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TypoSketchesCarousel() {
-  const { ref, onMouseDown } = useDragScroll();
-  return (
-    <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-4 md:gap-6 w-max pr-[20%]">
-        {CNFSN_TYPO.map((src, i) => (
-          <img key={i} src={src} alt={`Typography sample ${i + 1}`} className="h-[120px] md:h-[180px] w-auto rounded-sm pointer-events-none" loading="lazy" />
         ))}
       </div>
     </div>
@@ -548,56 +573,51 @@ function CnfsnTypoVerticalScroll() {
   );
 }
 
-function CnfsnTypoSketchScroll() {
+function BothAxisSketchScroll({ src, alt }: { src: string; alt: string }) {
   const { ref, onMouseDown } = useDragScroll("both");
+
+  const centerScroll = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    const maxX = Math.max(0, el.scrollWidth - el.clientWidth);
+    const maxY = Math.max(0, el.scrollHeight - el.clientHeight);
+    el.scrollLeft = maxX / 2;
+    el.scrollTop = maxY / 2;
+  }, [ref]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => centerScroll());
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [centerScroll]);
+
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-auto scrollbar-hide rounded-[20px] bg-white h-[180px] md:h-[220px] w-[min(95%,700px)] cursor-grab active:cursor-grabbing">
-      <img src={CNFSN_TYPO_SKETCH} alt="Typography sketches" style={{ width: 1200, minWidth: 1200 }} className="pointer-events-none" loading="lazy" />
+      <img
+        src={src}
+        alt={alt}
+        style={{ width: 1200, minWidth: 1200 }}
+        className="pointer-events-none"
+        loading="lazy"
+        onLoad={centerScroll}
+      />
     </div>
   );
 }
 
+function CnfsnTypoSketchScroll() {
+  return <BothAxisSketchScroll src={CNFSN_TYPO_SKETCH} alt="Typography sketches" />;
+}
+
 function IconsSketchScroll() {
-  const { ref, onMouseDown } = useDragScroll("both");
-  return (
-    <div ref={ref} onMouseDown={onMouseDown} className="overflow-auto scrollbar-hide rounded-[20px] bg-white h-[180px] md:h-[220px] w-[min(95%,700px)] cursor-grab active:cursor-grabbing">
-      <img src={ICONS_SKETCH} alt="Icons sketches" style={{ width: 1200, minWidth: 1200 }} className="pointer-events-none" loading="lazy" />
-    </div>
-  );
+  return <BothAxisSketchScroll src={ICONS_SKETCH} alt="Icons sketches" />;
 }
 
 function AvivColorPalette() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollUpRef = useRef(false);
-  const [, scrollTick] = useState(0);
-
-  useLayoutEffect(() => {
-    scrollTick((n) => n + 1);
-  }, []);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      scrollUpRef.current = y < lastY;
-      lastY = y;
-      scrollTick((n) => n + 1);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const el = containerRef.current;
-  let showBars = false;
-  if (el) {
-    const r = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-    const ratio = overlap / Math.max(r.height, 1);
-    const scrollingUp = scrollUpRef.current;
-    const threshold = scrollingUp ? 0.5 : 0.18;
-    showBars = ratio > threshold;
-  }
+  const showBars = usePaletteBarsReveal(containerRef);
 
   return (
     <div
@@ -643,36 +663,7 @@ function AvivColorPalette() {
 
 function AvivColorPalette2() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollUpRef = useRef(false);
-  const [, scrollTick] = useState(0);
-
-  useLayoutEffect(() => {
-    scrollTick((n) => n + 1);
-  }, []);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      scrollUpRef.current = y < lastY;
-      lastY = y;
-      scrollTick((n) => n + 1);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const el = containerRef.current;
-  let showBars = false;
-  if (el) {
-    const r = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-    const ratio = overlap / Math.max(r.height, 1);
-    const scrollingUp = scrollUpRef.current;
-    const threshold = scrollingUp ? 0.5 : 0.18;
-    showBars = ratio > threshold;
-  }
+  const showBars = usePaletteBarsReveal(containerRef);
 
   return (
     <div
@@ -775,10 +766,8 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
         <div className={PROJECT_HERO_VIDEO_SHELL_CLASS}>
-          <ViewportVideo src={HERO_VIDEO_LOCAL} className="w-full" threshold={0.2} />
+          <ViewportVideo src={HERO_VIDEO_LOCAL} className="w-full h-full min-h-0" threshold={0.2} />
         </div>
-
-        <div className="w-full border-t border-[#2200b8]" />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -840,10 +829,9 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                   className="w-[100px] md:w-[136px] rounded-[22px] object-cover"
                   loading="lazy"
                 />
-                <h3 className="font-['Bricolage_Grotesque'] font-semibold text-[28px] text-[#2200b8] tracking-[1.5px] leading-[1.5]">
+                <h3 className="font-['Bricolage_Grotesque'] font-semibold text-[28px] text-[#2200b8] tracking-[1.5px] leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6">
                   <span>Cloudy Now</span>
-                  {"  "}
-                  <span className="font-['Varela_Round'] font-normal">עכשיו מעונן</span>
+                  <span className="font-['Varela_Round'] font-bold">עכשיו מעונן</span>
                 </h3>
                 <p className="font-['Bricolage_Grotesque'] font-normal text-[22px] text-[#2200b8] tracking-[0.66px] leading-[1.5]">
                   A dynamic weather experience inspired by the visual and emotional world of Aviv Geffen.
@@ -868,10 +856,18 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
 
             {/* Weather screen images */}
             <div className="flex justify-between w-full">
-              <img src={SCREEN_KINNERET} alt="Kinneret weather screen" className="w-[20%] rounded-sm" loading="lazy" />
-              <img src={SCREEN_YARKON} alt="Yarkon weather screen" className="w-[20%] rounded-sm" loading="lazy" />
-              <img src={SCREEN_LONDON} alt="London weather screen" className="w-[20%] rounded-sm" loading="lazy" />
-              <img src={SCREEN_ARAD} alt="Arad weather screen" className="w-[20%] rounded-sm" loading="lazy" />
+              <div className={phoneScreenHoverClass}>
+                <img src={SCREEN_KINNERET} alt="Kinneret weather screen" className="w-full rounded-sm" loading="lazy" />
+              </div>
+              <div className={phoneScreenHoverClass}>
+                <img src={SCREEN_YARKON} alt="Yarkon weather screen" className="w-full rounded-sm" loading="lazy" />
+              </div>
+              <div className={phoneScreenHoverClass}>
+                <img src={SCREEN_LONDON} alt="London weather screen" className="w-full rounded-sm" loading="lazy" />
+              </div>
+              <div className={phoneScreenHoverClass}>
+                <img src={SCREEN_ARAD} alt="Arad weather screen" className="w-full rounded-sm" loading="lazy" />
+              </div>
             </div>
           </div>
         </PageGrid>
@@ -897,7 +893,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </p>
               <div className="flex gap-8 md:gap-16 flex-wrap">
                 {["Dark", "Contrast", "Bold", "Glow"].map((word) => (
-                  <p key={word} className={`${smallTitleClass} italic`}>{word}</p>
+                  <p key={word} className={`${smallTitleClass}`}>{word}</p>
                 ))}
               </div>
             </div>
@@ -1209,12 +1205,14 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Concept (Part 2) ── */}
       <section>
         {/* Full-width hero banner */}
-        <img
-          src={CONFESSIONS_MOCKUP}
-          alt="Moonlight Confessions desktop mockup"
-          className="w-full"
-          loading="lazy"
-        />
+        <div className={PROJECT_HERO_VIDEO_SHELL_CLASS}>
+          <img
+            src={CONFESSIONS_MOCKUP}
+            alt="Moonlight Confessions desktop mockup"
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
 
         <PageGrid className={sectionPageGridStretchClass}>
           <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
@@ -1224,8 +1222,10 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
             <div className="flex flex-col md:flex-row gap-8 md:gap-12 md:items-center">
               <div className="flex flex-col gap-4 md:w-[32%] shrink-0">
-                <h3 className={`${subTitleClass} leading-[1.5]`}>Moonlight Confessions</h3>
-                <p className={`${subTitleClass} font-['Varela_Round'] font-normal leading-[1.5]`}>וידויים לאור הירח</p>
+                <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
+                  <span>Moonlight Confessions</span>
+                  <span className="font-['Varela_Round'] font-bold">וידויים לאור הירח</span>
+                </h3>
                 <p className={bodyTextClass}>
                   As an extension, I developed a desktop experience for Aviv Geffen&rsquo;s fanbase,
                   &ldquo;The Moonlight Children.&rdquo;
@@ -1275,7 +1275,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </p>
               <div className="flex gap-8 md:gap-16 flex-wrap">
                 {["Dark", "Melancholic", "Nostalgic", "Glow"].map((word) => (
-                  <p key={word} className={`${smallTitleClass} italic`}>{word}</p>
+                  <p key={word} className={`${smallTitleClass}`}>{word}</p>
                 ))}
               </div>
             </div>
@@ -1303,7 +1303,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-6 overflow-hidden">
+          <div className="col-span-8 md:col-start-3 md:col-span-5 overflow-hidden">
             <KeyFeaturesCarousel />
           </div>
         </PageGrid>
@@ -1354,8 +1354,10 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 <img src={AVIV_IMAGE_2} alt="The Moonlight Children" className="w-full rounded-sm" loading="lazy" />
               </div>
               <div className="md:w-1/2 flex flex-col gap-2">
-                <h3 className={subTitleClass}>The Moonlight Children</h3>
-                <p className={`${smallTitleClass} leading-[1.5]`}>ילדי אור הירח</p>
+                <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
+                  <span>The Moonlight Children</span>
+                  <span className="font-['Varela_Round'] font-bold">ילדי אור הירח</span>
+                </h3>
                 <p className={bodyTextClass}>
                   A dedicated youth subculture from the early 90s, inspired by Geffen&rsquo;s raw
                   lyrics and social messages, forming a powerful community across Israel.
@@ -1427,36 +1429,36 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               {/* Main Buttons */}
               <div className="flex flex-col gap-4">
                 <h4 className={smallTitleClass}>Main Buttons</h4>
-                <div className="flex gap-10 items-center flex-wrap">
-                  <img src={BTN_FLOWER} alt="Flower button" className="h-[80px] md:h-[100px] w-auto" loading="lazy" />
-                  <img src={BTN_ARROW_PLUS} alt="Plus button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
-                  <img src={BTN_ARROW_PROFILE} alt="Profile button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
-                  <img src={BTN_ARROW} alt="Arrow button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
-                  <img src={BTN_START} alt="Start button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
+                <div className={iconButtonsRowClass}>
+                  <img src={BTN_FLOWER} alt="Flower button" className="h-[80px] md:h-[100px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_ARROW_PLUS} alt="Plus button" className="h-[70px] md:h-[85px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_ARROW_PROFILE} alt="Profile button" className="h-[70px] md:h-[85px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_ARROW} alt="Arrow button" className="h-[70px] md:h-[85px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_START} alt="Start button" className="h-[70px] md:h-[85px] w-auto max-w-full object-contain" loading="lazy" />
                 </div>
               </div>
 
               {/* Secondary Buttons */}
               <div className="flex flex-col gap-4">
                 <h4 className={smallTitleClass}>Secondary Buttons</h4>
-                <div className="flex gap-10 items-center flex-wrap">
-                  <img src={BTN_X} alt="Close button" className="h-[44px] md:h-[52px] w-auto" loading="lazy" />
-                  <img src={BTN_BROKEN_HRT} alt="Broken heart button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
-                  <img src={BTN_FULL_HRT} alt="Full heart button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
-                  <img src={BTN_PAPER} alt="Paper button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
-                  <img src={BTN_SEND} alt="Send button" className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
+                <div className={iconButtonsRowClass}>
+                  <img src={BTN_X} alt="Close button" className="h-[36px] md:h-[44px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_BROKEN_HRT} alt="Broken heart button" className="h-[56px] md:h-[68px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_FULL_HRT} alt="Full heart button" className="h-[56px] md:h-[68px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_PAPER} alt="Paper button" className="h-[56px] md:h-[68px] w-auto max-w-full object-contain" loading="lazy" />
+                  <img src={BTN_SEND} alt="Send button" className="h-[56px] md:h-[68px] w-auto max-w-full object-contain" loading="lazy" />
                 </div>
               </div>
 
               {/* User Profile Picture Icons */}
               <div className="flex flex-col gap-4">
                 <h4 className={smallTitleClass}>Users Profile Picture Icons</h4>
-                <div className="flex gap-10 items-center flex-wrap">
+                <div className={iconButtonsRowClass}>
                   {PRF_ICONS.map((src, i) => (
-                    <img key={i} src={src} alt={`Profile icon ${i + 1}`} className="h-[70px] md:h-[85px] w-auto" loading="lazy" />
+                    <img key={i} src={src} alt={`Profile icon ${i + 1}`} className="h-[92px] md:h-[112px] w-auto max-w-full object-contain" loading="lazy" />
                   ))}
                 </div>
-                <p className={`${bodyTextClass} italic mt-2`}>
+                <p className={`${bodyTextClass} mt-2`}>
                   Inspired by Aviv&rsquo;s world of imagery.
                 </p>
               </div>

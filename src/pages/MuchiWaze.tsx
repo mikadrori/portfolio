@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
@@ -23,6 +23,7 @@ import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
+import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
 
 const Q = "auto:best";
 
@@ -196,37 +197,8 @@ const PALETTE_HOVER_HEIGHT_BY_DISTANCE = [
 /** Scroll-reveal scaleY + distance-based hover (same height per |i − hovered|). */
 function MuchiColorPalette() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollUpRef = useRef(false);
-  const [, scrollTick] = useState(0);
+  const showBars = usePaletteBarsReveal(containerRef);
   const [hovered, setHovered] = useState<number | null>(null);
-
-  useLayoutEffect(() => {
-    scrollTick((n) => n + 1);
-  }, []);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      scrollUpRef.current = y < lastY;
-      lastY = y;
-      scrollTick((n) => n + 1);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const el = containerRef.current;
-  let showBars = false;
-  if (el) {
-    const r = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-    const ratio = overlap / Math.max(r.height, 1);
-    const scrollingUp = scrollUpRef.current;
-    const threshold = scrollingUp ? 0.5 : 0.18;
-    showBars = ratio > threshold;
-  }
 
   const ariaLabel = `MuchiWaze color palette: ${MUCHI_COLOR_PALETTE.join(", ")}`;
 
@@ -285,7 +257,7 @@ function InspirationsCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex w-max gap-6 pr-[20%] md:gap-14">
+      <div className="flex w-max gap-6 md:gap-14">
         {INSPIRATIONS.map((src, i) => (
           <img
             key={i}
@@ -305,7 +277,7 @@ function ScreensCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex w-max gap-6 pr-[20%] md:gap-14">
+      <div className="flex w-max gap-6 md:gap-14">
         {SCREENS.map((src, i) => (
           <img
             key={i}
@@ -361,9 +333,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
-
-        <div className="w-full border-t border-[#2200b8]" />
+        <ProjectHeroVideo src={HERO_VIDEO} />
 
         {/* Concept — cols 3–5: text then mockup (mt-12 md:mt-16); phone cols 6–7 unchanged. */}
         <section className="flex-1 flex flex-col justify-center">
@@ -634,7 +604,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                     onMouseDown={iconVideosDrag.onMouseDown}
                     className="min-w-0 overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab touch-pan-x"
                   >
-                    <div className="flex w-max gap-8 pr-[20%] md:gap-20">
+                    <div className="flex w-max gap-8 md:gap-20">
                       {ICON_VIDEOS.map((vid) => (
                         <video
                           key={vid.label}

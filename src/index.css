@@ -15,6 +15,9 @@
   --fg: var(--color-primary);
   --grid-margin: 50px;
   --grid-gutter: 20px;
+  /* Project page hero strip — fixed height, gradient frame */
+  --project-hero-height: 440px;
+  --project-hero-height-mobile: 300px;
 }
 
 @media (max-width: 1024px) {

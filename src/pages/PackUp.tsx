@@ -18,10 +18,14 @@ import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
+import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
 
 const Q = "auto:best";
 
 const CONCEPT_DEMOS_RADIUS = "37px";
+/** Match Aviv weather-screen phones: lift on hover, ease-in */
+const conceptPhoneHoverClass =
+  "min-w-0 w-full flex justify-center transition-transform duration-300 ease-in hover:-translate-y-6";
 const FEATURE1_VIDEO_RADIUS = "52px";
 const FEATURE2_VIDEO_RADIUS = "52px";
 const FEATURE3_VIDEO_RADIUS = "52px";
@@ -73,9 +77,9 @@ const TYPO_SVG = cloudinaryUrl("PackUpTypo_b6j9xk_xkmzlb.svg");
 const BTNS_SVG = cloudinaryUrl("PackUpBTNS_iggujw.svg");
 
 const PALETTE_BARS = [
-  { fill: "#695858", hex: "#695858", heightPct: 32, labelClass: "text-white" },
-  { fill: "#514242", hex: "#514242", heightPct: 32, labelClass: "text-white" },
-  { fill: "#8093F1", hex: "#8093F1", heightPct: 70, labelClass: "text-white" },
+  { fill: "#695858", hex: "#695858", heightPct: 20, labelClass: "text-white" },
+  { fill: "#514242", hex: "#514242", heightPct: 20, labelClass: "text-white" },
+  { fill: "#8093F1", hex: "#8093F1", heightPct: 50, labelClass: "text-white" },
   {
     fill: "#FCFCFC",
     hex: "#FCFCFC",
@@ -86,36 +90,7 @@ const PALETTE_BARS = [
 
 function ColorPalette() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollUpRef = useRef(false);
-  const [, scrollTick] = useState(0);
-
-  useLayoutEffect(() => {
-    scrollTick((n) => n + 1);
-  }, []);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      scrollUpRef.current = y < lastY;
-      lastY = y;
-      scrollTick((n) => n + 1);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const el = containerRef.current;
-  let showBars = false;
-  if (el) {
-    const r = el.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-    const ratio = overlap / Math.max(r.height, 1);
-    const scrollingUp = scrollUpRef.current;
-    const threshold = scrollingUp ? 0.5 : 0.18;
-    showBars = ratio > threshold;
-  }
+  const showBars = usePaletteBarsReveal(containerRef);
 
   return (
     <div
@@ -335,7 +310,7 @@ function ScreensCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-6 md:gap-14 w-max pr-[20%]">
+      <div className="flex gap-6 md:gap-14 w-max">
         {SCREENS.map((src, i) => (
           <img
             key={i}
@@ -381,8 +356,6 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
-
-        <div className="w-full border-t border-[#2200b8]" />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -449,16 +422,17 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             {/* Phone video demos */}
             <div className={`col-span-8 md:col-start-3 md:col-span-5 grid grid-cols-3 gap-4 md:gap-16 ${sectionColumnPaddingClass}`}>
               {[VID_HOMEPAGE, VID_SIGNIN, VID_ORDERPAGE].map((src, i) => (
-                <video
-                  key={i}
-                  src={src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-auto max-w-[200px] mx-auto"
-                  style={{ background: "none", borderRadius: CONCEPT_DEMOS_RADIUS }}
-                />
+                <div key={i} className={conceptPhoneHoverClass}>
+                  <video
+                    src={src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-auto max-w-[200px]"
+                    style={{ background: "none", borderRadius: CONCEPT_DEMOS_RADIUS }}
+                  />
+                </div>
               ))}
             </div>
           </PageGrid>
