@@ -18,7 +18,7 @@ import { VisualElements } from "./wwl/VisualElements";
 const Q = "auto:best";
 
 const HERO_VIDEO = cloudinaryUrl("WLLpromoVID_s8x1if_xza8xl.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("WLLpromoVID_s8x1if_xza8xl.jpg", { quality: Q });
+const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_wwl_tbwvdw.png", { quality: Q });
 const BOOK_COVER = cloudinaryUrl("WWLbook_z0ojgt_xtpkn5.png", { quality: Q });
 const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys_lx91jv.mp4", { resourceType: "video", quality: Q });
 const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn_dxrwvp.jpg", { quality: Q, width: 1280 });

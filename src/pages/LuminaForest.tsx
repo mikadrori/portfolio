@@ -19,7 +19,7 @@ import { AreaGates } from "./lumina/AreaGates";
 import { FbxModelViewer } from "./lumina/FbxModelViewer";
 import { RandomSoundPlayer } from "./lumina/RandomSoundPlayer";
 import { ColorPaletteGrid } from "./lumina/ColorPaletteGrid";
-import { AutoPlayVideo } from "./lumina/AutoPlayVideo";
+import { AutoPlayVideo, VIDEO_CORNER_CLIP_12 } from "./lumina/AutoPlayVideo";
 import { VisualStyleGallery } from "./lumina/VisualStyleGallery";
 import { CloudinaryImage } from "./lumina/CloudinaryImage";
 import { MuteProvider, MuteButton } from "./lumina/MuteContext";
@@ -28,6 +28,7 @@ import { cloudinaryUrl } from "../lib/cloudinary";
 const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType: "video" });
 const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
 const MIA_GLB = "/assets/Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.glb";
+const ELF_MIXAMO_VIDEO = "/assets/elf_mixamo_animation_vhvtt5.mp4";
 
 /* ─── Sticky title column (reusable pattern from PackUp) ─── */
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -777,25 +778,59 @@ export default function LuminaForest({
                   Finally, I imported the model into Adobe Mixamo to rig and
                   animate the character, bringing it to life.
                 </p>
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
-                  <AutoPlayVideo
-                    src={cloudinaryUrl("elf_mixamo_animation_kdqgg6_hlbivj.mp4", { resourceType: "video" })}
-                    className="w-full h-[300px] lg:h-[400px] rounded-[12px] object-cover"
-                    alwaysMuted
-                  />
-                  <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
-                    <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
-                    <polygon points="90,2 100,6 90,10" fill="#2200b8" />
-                  </svg>
-                  <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
-                    <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
-                    <polygon points="2,24 6,32 10,24" fill="#2200b8" />
-                  </svg>
-                  <AutoPlayVideo
-                    src={cloudinaryUrl("elfanimation_rhrtu4_xifrcc.mp4", { resourceType: "video" })}
-                    className="w-full h-[300px] lg:h-[400px] rounded-[12px] object-cover"
-                    alwaysMuted
-                  />
+                <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-stretch lg:gap-x-6 lg:gap-y-0 mt-2">
+                  {/* Same frame size; clip-path on wrapper so corners show even when video ignores border-radius */}
+                  <div
+                    className="min-w-0 min-h-0 w-full h-[270px] lg:h-[360px] overflow-hidden bg-[var(--color-bg)]"
+                    style={VIDEO_CORNER_CLIP_12}
+                  >
+                    <AutoPlayVideo
+                      src={ELF_MIXAMO_VIDEO}
+                      containFit
+                      containMode="cover"
+                      unframed
+                      className="h-full min-h-0 w-full"
+                      alwaysMuted
+                    />
+                  </div>
+                  <div
+                    className="flex shrink-0 justify-center py-1 lg:py-0 lg:w-[100px] lg:items-center lg:justify-center"
+                    aria-hidden
+                  >
+                    <svg
+                      width="100"
+                      height="12"
+                      viewBox="0 0 100 12"
+                      fill="none"
+                      className="hidden lg:block"
+                    >
+                      <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                      <polygon points="90,2 100,6 90,10" fill="#2200b8" />
+                    </svg>
+                    <svg
+                      width="12"
+                      height="32"
+                      viewBox="0 0 12 32"
+                      fill="none"
+                      className="lg:hidden"
+                    >
+                      <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
+                      <polygon points="2,24 6,32 10,24" fill="#2200b8" />
+                    </svg>
+                  </div>
+                  <div
+                    className="min-w-0 min-h-0 w-full h-[270px] lg:h-[360px] overflow-hidden bg-[var(--color-bg)]"
+                    style={VIDEO_CORNER_CLIP_12}
+                  >
+                    <AutoPlayVideo
+                      src={cloudinaryUrl("elfanimation_rhrtu4_xifrcc.mp4", { resourceType: "video" })}
+                      containFit
+                      containMode="cover"
+                      unframed
+                      className="h-full min-h-0 w-full"
+                      alwaysMuted
+                    />
+                  </div>
                 </div>
               </div>
             </div>

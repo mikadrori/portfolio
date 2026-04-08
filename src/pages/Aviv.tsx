@@ -14,7 +14,7 @@ import {
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
 import { PageGrid } from "../components/PageGrid";
-import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
+import { ProjectHeroVideo, PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
 import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
@@ -38,7 +38,7 @@ const VID_FEAT_MY_CONFESSIONS = cloudinaryUrl("MyConfessionsVID_x6oqfy_ysc29x.mp
 
 // ─── Hero ───
 const HERO_VIDEO_LOCAL = cloudinaryUrl("AvivVideoConffessions_qnockg.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("AvivAppMockup01_f2fycm_wbwgb7.png", { quality: Q });
+const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_moonlight_pvl3nu.png", { quality: Q });
 
 // ─── Laptop Mockup ───
 const LAPTOP_FRAME = cloudinaryUrl("laptop_background4vid_c4wggn.png", { quality: Q });
@@ -217,11 +217,12 @@ interface ViewportVideoProps {
   src: string;
   className?: string;
   threshold?: number;
+  poster?: string;
   /** Native aspect ratio (letterboxed width); matches LuminaForest AutoPlayVideo + nativeFit. */
   nativeFit?: boolean;
 }
 
-function ViewportVideo({ src, className = "", threshold = 0.5, nativeFit = false }: ViewportVideoProps) {
+function ViewportVideo({ src, poster, className = "", threshold = 0.5, nativeFit = false }: ViewportVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [visible, setVisible] = useState(false);
@@ -267,6 +268,7 @@ function ViewportVideo({ src, className = "", threshold = 0.5, nativeFit = false
         <video
           ref={videoRef}
           src={src}
+          poster={poster}
           muted
           loop
           playsInline
@@ -765,9 +767,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <div className={PROJECT_HERO_VIDEO_SHELL_CLASS}>
-          <ViewportVideo src={HERO_VIDEO_LOCAL} className="w-full h-full min-h-0" threshold={0.2} />
-        </div>
+        <ProjectHeroVideo src={HERO_VIDEO_LOCAL} poster={HERO_POSTER} />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">

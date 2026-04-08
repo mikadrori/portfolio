@@ -33,7 +33,7 @@ const FEATURE4_VIDEO_RADIUS = "52px";
 
 // Hero
 const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi_dijphf.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("packup_mockup_bmbgji_cc3cah.png", { quality: Q, width: 1920 });
+const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_packup_jxodtp.png", { quality: Q, width: 1920 });
 
 // Concept
 const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq_fvv31d.svg");

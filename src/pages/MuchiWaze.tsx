@@ -35,7 +35,7 @@ const AVATARS_PREVIEW_VIDEO_RADIUS = "55px";
 
 // Hero
 const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw_rqb5tp.mp4", { resourceType: "video", quality: Q });
-const HERO_POSTER = cloudinaryUrl("MuchiwazeMockup_iq8vqk_evu7yg.jpg", { quality: Q, width: 1920 });
+const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_muchiwaze_a9sxeq.png", { quality: Q, width: 1920 });
 
 // Concept — full mockup still (separate from video poster)
 const MOCKUP_IMAGE = "/assets/muchiwazemockup_newcropped_llurh5.jpg";
@@ -333,7 +333,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <ProjectHeroVideo src={HERO_VIDEO} />
+        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER}/>
 
         {/* Concept — cols 3–5: text then mockup (mt-12 md:mt-16); phone cols 6–7 unchanged. */}
         <section className="flex-1 flex flex-col justify-center">
