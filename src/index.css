@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700&family=Permanent+Marker&display=swap');
 @import "tailwindcss";
+@import "./styles/responsive-tokens.css";
 
 @theme {
   --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
@@ -13,25 +14,6 @@
   --color-light: #fcf7ee;
   --bg: var(--color-bg);
   --fg: var(--color-primary);
-  --grid-margin: 50px;
-  --grid-gutter: 20px;
-  /* Project page hero strip — fixed height, gradient frame */
-  --project-hero-height: 440px;
-  --project-hero-height-mobile: 300px;
-}
-
-@media (max-width: 1024px) {
-  :root {
-    --grid-margin: 32px;
-    --grid-gutter: 16px;
-  }
-}
-
-@media (max-width: 640px) {
-  :root {
-    --grid-margin: 20px;
-    --grid-gutter: 12px;
-  }
 }
 
 body {

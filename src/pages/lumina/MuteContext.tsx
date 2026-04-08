@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 interface MuteContextValue {
   muted: boolean;
@@ -21,14 +22,27 @@ export function MuteProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/** Viewport-fixed to `document.body` so Framer Motion transforms on section wrappers do not break `position: fixed`. */
 export function MuteButton() {
   const { muted, toggleMute } = useMute();
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const button = (
     <button
+      type="button"
       onClick={toggleMute}
       aria-label={muted ? "Unmute" : "Mute"}
-      className="fixed bottom-6 right-6 z-50 w-[30px] h-[30px] rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer"
-      style={{ background: "transparent", color: "var(--color-accent)" }}
+      className="fixed z-[100] w-[30px] h-[30px] rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer pointer-events-auto"
+      style={{
+        background: "transparent",
+        color: "var(--color-accent)",
+        right: "max(env(safe-area-inset-right, 0px), clamp(12px, 3vw, 24px))",
+        bottom: "max(env(safe-area-inset-bottom, 0px), clamp(12px, 2.5vh, 24px))",
+      }}
     >
       {muted ? (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -45,4 +59,10 @@ export function MuteButton() {
       )}
     </button>
   );
+
+  if (!mounted || typeof document === "undefined") {
+    return null;
+  }
+
+  return createPortal(button, document.body);
 }

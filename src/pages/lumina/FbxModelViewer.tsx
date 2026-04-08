@@ -1,5 +1,6 @@
 import { Component, Suspense, useState, useRef, useEffect, useMemo } from "react";
 import type { ReactNode } from "react";
+import { radiusVideoInlineClass } from "../../lib/spacing";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, useFBX, Environment, Center } from "@react-three/drei";
 import * as THREE from "three";
@@ -76,8 +77,7 @@ export function FbxModelViewer({
 
   return (
     <div
-      className={`relative ${transparent ? "" : "bg-[#0d0439] rounded-[12px]"} overflow-hidden ${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
-      style={transparent ? undefined : { minHeight: 280 }}
+      className={`relative ${transparent ? "" : `bg-[#0d0439] ${radiusVideoInlineClass} min-h-[length:var(--media-fbx-min-h)]`} overflow-hidden ${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
       onPointerDown={() => setDragging(true)}
       onPointerUp={() => setDragging(false)}
       onPointerLeave={() => setDragging(false)}

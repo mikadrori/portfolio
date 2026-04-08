@@ -14,6 +14,16 @@ import {
   sectionPageGridStretchClass,
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
+import {
+  gapContentClass,
+  gapContentLgClass,
+  gapPackBentoClass,
+  gapPackGridClass,
+  gapSplitClass,
+  gapSubtitleClass,
+  screenCarouselImageClass,
+  screenCarouselRowClass,
+} from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
@@ -22,7 +32,6 @@ import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
 
 const Q = "auto:best";
 
-const CONCEPT_DEMOS_RADIUS = "37px";
 /** Match Aviv weather-screen phones: lift on hover, ease-in */
 const conceptPhoneHoverClass =
   "min-w-0 w-full flex justify-center transition-transform duration-300 ease-in hover:-translate-y-6";
@@ -34,6 +43,7 @@ const FEATURE4_VIDEO_RADIUS = "52px";
 // Hero
 const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi_dijphf.mp4", { resourceType: "video", quality: Q });
 const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_packup_jxodtp.png", { quality: Q, width: 1920 });
+const PACKUP_MOCKUP = cloudinaryUrl("packup_mockup_bmbgji_cc3cah.png", { quality: Q, width: 1920 });
 
 // Concept
 const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq_fvv31d.svg");
@@ -123,9 +133,19 @@ function ColorPalette() {
             }}
           >
             <motion.div
-              className={`h-full w-full rounded-t-[999px] shadow-[0_0_5px_rgba(0,0,0,0.18)] ${bar.hex === "#FCFCFC" ? "ring-1 ring-[#2200b8]/10" : ""}`}
+              className="absolute inset-0 rounded-t-[999px] blur-[6px]"
               style={{
-                backgroundColor: bar.fill,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 100%)",
+                transformOrigin: "center bottom",
+              }}
+              initial={{ scaleY: 0 }}
+              animate={showBars ? { scaleY: 1 } : { scaleY: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+            <motion.div
+              className="relative h-full w-full rounded-t-[999px]"
+              style={{
+                background: `linear-gradient(to bottom, ${bar.fill} 50%, transparent 100%)`,
                 transformOrigin: "center bottom",
               }}
               initial={{ scaleY: 0 }}
@@ -310,13 +330,13 @@ function ScreensCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-6 md:gap-14 w-max">
+      <div className={screenCarouselRowClass}>
         {SCREENS.map((src, i) => (
           <img
             key={i}
             src={src}
             alt={`Pack Up screen ${i + 1}`}
-            className="h-[240px] md:h-[380px] w-auto rounded-sm pointer-events-none"
+            className={screenCarouselImageClass}
             loading="lazy"
           />
         ))}
@@ -360,14 +380,14 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
               {/* Intro + Icon */}
-              <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-                <div className="flex-1 flex flex-col gap-2 md:max-w-[75%]">
+              <div className={`flex flex-col md:flex-row ${gapSplitClass}`}>
+                <div className={`flex-1 flex flex-col ${gapSubtitleClass} md:max-w-[75%]`}>
                   <h3 className={`${projectNameClass} leading-[1.5]`}>Pack Up</h3>
                   <p className={`${smallTitleClass} leading-[1.5]`}>
                     The app that gets you organized!
@@ -385,14 +405,14 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                   <img
                     src={APP_ICON}
                     alt="Pack Up app icon"
-                    className="w-[90px] md:w-[100px] object-contain"
+                    className="w-[length:var(--media-app-icon)] object-contain"
                   />
                 </div>
               </div>
 
               {/* Mockup image */}
               <img
-                src={HERO_POSTER}
+                src={PACKUP_MOCKUP}
                 alt="Pack Up app mockup showing three phone screens"
                 className="w-full rounded-sm"
                 loading="lazy"
@@ -420,7 +440,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             </div>
 
             {/* Phone video demos */}
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 grid grid-cols-3 gap-4 md:gap-16 ${sectionColumnPaddingClass}`}>
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 grid grid-cols-3 ${gapPackGridClass} ${sectionColumnPaddingClass}`}>
               {[VID_HOMEPAGE, VID_SIGNIN, VID_ORDERPAGE].map((src, i) => (
                 <div key={i} className={conceptPhoneHoverClass}>
                   <video
@@ -430,7 +450,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                     loop
                     playsInline
                     className="w-full h-auto max-w-[200px]"
-                    style={{ background: "none", borderRadius: CONCEPT_DEMOS_RADIUS }}
+                    style={{ background: "none", borderRadius: "var(--radius-phone-packup)" }}
                   />
                 </div>
               ))}
@@ -445,13 +465,13 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── User Research Section ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               User Research
             </h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             {/* User Segmentation */}
             <div className="flex flex-col gap-1 md:w-[82%]">
               <h3 className={subTitleClass}>User Segmentation</h3>
@@ -461,7 +481,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             </div>
 
             {/* Demographic Graphs */}
-            <div className="grid grid-cols-2 gap-8 md:gap-20 md:w-[75%] md:mx-[3%] md:mt-[-1rem]">
+            <div className={`grid grid-cols-2 ${gapPackBentoClass} md:w-[75%] md:mx-[3%] md:mt-[-1rem]`}>
               <img src={GRAPH1} alt="Gender distribution: 76.6% women" className="w-full" loading="lazy" />
               <img src={GRAPH2} alt="Age distribution: 71.4% ages 21-26" className="w-full" loading="lazy" />
             </div>
@@ -472,7 +492,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
               <div className="grid grid-cols-1 md:grid-cols-5 gap-y-10 md:gap-x-[var(--grid-gutter)] md:gap-y-12">
                 {/* Stat 1: cols 1-2 */}
-                <div className="md:col-span-2 flex flex-col gap-3">
+                <div className={`md:col-span-2 flex flex-col ${gapSubtitleClass}`}>
                   <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
                     {KEY_STATS[0].num}
                   </p>
@@ -487,7 +507,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 <div className="hidden md:block md:col-start-3 md:col-span-1" aria-hidden />
 
                 {/* Stat 2: cols 4-5 */}
-                <div className="md:col-start-4 md:col-span-2 flex flex-col gap-3">
+                <div className={`md:col-start-4 md:col-span-2 flex flex-col ${gapSubtitleClass}`}>
                   <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
                     {KEY_STATS[1].num}
                   </p>
@@ -523,40 +543,118 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
               <h3 className={subTitleClass}>User Persona</h3>
               <p className={smallTitleClass}>The Overwhelmed Shopper</p>
 
-              <div className="relative rounded-[20px] bg-[#8093f1] mt-3 p-6 md:py-8 md:px-0 shadow-[0_0_5px_rgba(0,0,0,0.15)] md:-mx-4 text-white overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-x-[var(--grid-gutter)] md:gap-y-6 md:items-stretch md:px-4">
-                  {/* Photo — stretches to match text height */}
-                  <div className="md:col-span-1 md:row-span-2 flex flex-col max-w-[200px] md:max-w-none mx-auto md:mx-0 md:h-full md:min-h-0">
+              <div className="relative rounded-[14px] xl:rounded-[20px] bg-[#8093f1] mt-3 p-4 sm:p-5 lg:p-6 xl:py-8 xl:px-0 shadow-[0_0_5px_rgba(0,0,0,0.15)] xl:-mx-4 text-white overflow-hidden">
+                {/* xl+: 5-col grid with photo on the left */}
+                <div className="flex flex-col gap-4 sm:gap-5 xl:hidden">
+                  {/* Photo + Intro row */}
+                  <div className="flex gap-4 sm:gap-5">
+                    <div className="shrink-0 w-[120px] sm:w-[140px] md:w-[130px] lg:w-[140px]">
+                      <div className="flex flex-col overflow-hidden rounded-[12px] border-[3px] border-white bg-white">
+                        <div className="shrink-0 bg-white px-2 py-1">
+                          <p className="font-['Bricolage_Grotesque'] font-semibold text-[12px] sm:text-[14px] md:text-[13px] lg:text-[14px] text-[#8093f1] tracking-[0.5px] text-center">
+                            Lia Tzur, 21
+                          </p>
+                        </div>
+                        <div className="w-full overflow-hidden">
+                          <img
+                            src={PERSONA_IMG}
+                            alt="Lia Tzur, user persona"
+                            className="h-[140px] sm:h-[160px] md:h-[150px] lg:h-[160px] w-full object-cover object-center"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-['Bricolage_Grotesque'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[15px] font-medium leading-relaxed text-white">
+                        A 21-year-old IDF veteran working part-time to save for a trip abroad.
+                        She uses online shopping as an escape from a busy schedule, often overspending instead of saving.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Pains + Goals side by side */}
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <div className="rounded-md bg-white px-3 py-1.5 w-full">
+                        <p className="font-['Bricolage_Grotesque'] font-semibold text-[13px] sm:text-[14px] md:text-[14px] lg:text-[15px] text-[#8093f1] tracking-[0.5px] text-center">
+                          Pains
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        {PERSONA_PAINS.map((pain, i) => {
+                          const idx = pain.indexOf(": ");
+                          const title = idx >= 0 ? pain.slice(0, idx + 1) : pain;
+                          const rest = idx >= 0 ? pain.slice(idx + 2) : "";
+                          return (
+                            <p key={i} className="font-['Bricolage_Grotesque'] text-[11px] sm:text-[12px] md:text-[12px] lg:text-[13px] leading-relaxed text-white">
+                              {idx >= 0 ? (<><span className="font-semibold">{title}</span> {rest}</>) : pain}
+                            </p>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <div className="rounded-md bg-white px-3 py-1.5 w-full">
+                        <p className="font-['Bricolage_Grotesque'] font-semibold text-[13px] sm:text-[14px] md:text-[14px] lg:text-[15px] text-[#8093f1] tracking-[0.5px] text-center">
+                          Goals
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        {PERSONA_GOALS.map((goal, i) => {
+                          const idx = goal.indexOf(": ");
+                          const title = idx >= 0 ? goal.slice(0, idx + 1) : goal;
+                          const rest = idx >= 0 ? goal.slice(idx + 2) : "";
+                          return (
+                            <p key={i} className="font-['Bricolage_Grotesque'] text-[11px] sm:text-[12px] md:text-[12px] lg:text-[13px] leading-relaxed text-white">
+                              {idx >= 0 ? (<><span className="font-semibold">{title}</span> {rest}</>) : goal}
+                            </p>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Quote */}
+                  <div className="pt-3 mt-1 border-t border-white/30">
+                    <p className="font-['Bricolage_Grotesque'] text-[15px] sm:text-[17px] md:text-[18px] lg:text-[20px] font-bold leading-snug text-white">
+                      &ldquo;I order so much that sometimes I have no idea what I even bought until it actually
+                      arrives.&rdquo;
+                    </p>
+                  </div>
+                </div>
+
+                {/* xl+: wide layout with photo column */}
+                <div className="hidden xl:grid xl:grid-cols-5 xl:gap-x-[var(--grid-gutter)] xl:gap-y-6 xl:items-stretch xl:px-4">
+                  <div className="col-span-1 row-span-2 flex flex-col">
                     <div className="flex flex-1 flex-col min-h-0 overflow-hidden rounded-[16px] border-4 border-white bg-white">
                       <div className="shrink-0 bg-white px-3 py-2">
-                        <p className="font-['Bricolage_Grotesque'] font-semibold text-[20px] text-[#8093f1] tracking-[1px] text-center">
+                        <p className="font-['Bricolage_Grotesque'] font-semibold text-[18px] 2xl:text-[20px] text-[#8093f1] tracking-[1px] text-center">
                           Lia Tzur, 21
                         </p>
                       </div>
-                      <div className="min-h-[200px] flex-1 w-full overflow-hidden md:min-h-0">
+                      <div className="flex-1 w-full overflow-hidden">
                         <img
                           src={PERSONA_IMG}
                           alt="Lia Tzur, user persona"
-                          className="h-full min-h-[220px] w-full object-cover object-center md:min-h-0"
+                          className="h-full w-full object-cover object-center"
                           loading="lazy"
                         />
                       </div>
                     </div>
                   </div>
 
-                  {/* Intro */}
-                  <div className="md:col-span-4 md:col-start-2 md:row-start-1">
-                    <p className="font-['Bricolage_Grotesque'] text-[17px] md:text-[19px] font-medium leading-relaxed text-white">
+                  <div className="col-span-4 col-start-2 row-start-1">
+                    <p className="font-['Bricolage_Grotesque'] text-[17px] 2xl:text-[19px] font-medium leading-relaxed text-white">
                       A 21-year-old IDF veteran working part-time to save for a trip abroad.<br />She uses
                       online shopping as an escape from a busy schedule, often overspending instead of
                       saving.
                     </p>
                   </div>
 
-                  {/* Pains */}
-                  <div className="md:col-span-2 md:col-start-2 md:row-start-2 flex flex-col gap-2">
+                  <div className="col-span-2 col-start-2 row-start-2 flex flex-col gap-2">
                     <div className="rounded-md bg-white px-4 py-2 w-full">
-                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[18px] text-[#8093f1] tracking-[1px] text-center">
+                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[16px] 2xl:text-[18px] text-[#8093f1] tracking-[1px] text-center">
                         Pains
                       </p>
                     </div>
@@ -566,7 +664,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                         const title = idx >= 0 ? pain.slice(0, idx + 1) : pain;
                         const rest = idx >= 0 ? pain.slice(idx + 2) : "";
                         return (
-                          <p key={i} className="font-['Bricolage_Grotesque'] text-[15px] leading-relaxed text-white">
+                          <p key={i} className="font-['Bricolage_Grotesque'] text-[14px] 2xl:text-[15px] leading-relaxed text-white">
                             {idx >= 0 ? (<><span className="font-semibold">{title}</span> {rest}</>) : pain}
                           </p>
                         );
@@ -574,10 +672,9 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                     </div>
                   </div>
 
-                  {/* Goals */}
-                  <div className="md:col-span-2 md:col-start-4 md:row-start-2 flex flex-col gap-2">
+                  <div className="col-span-2 col-start-4 row-start-2 flex flex-col gap-2">
                     <div className="rounded-md bg-white px-4 py-2 w-full">
-                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[18px] text-[#8093f1] tracking-[1px] text-center">
+                      <p className="font-['Bricolage_Grotesque'] font-semibold text-[16px] 2xl:text-[18px] text-[#8093f1] tracking-[1px] text-center">
                         Goals
                       </p>
                     </div>
@@ -587,7 +684,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                         const title = idx >= 0 ? goal.slice(0, idx + 1) : goal;
                         const rest = idx >= 0 ? goal.slice(idx + 2) : "";
                         return (
-                          <p key={i} className="font-['Bricolage_Grotesque'] text-[15px] leading-relaxed text-white">
+                          <p key={i} className="font-['Bricolage_Grotesque'] text-[14px] 2xl:text-[15px] leading-relaxed text-white">
                             {idx >= 0 ? (<><span className="font-semibold">{title}</span> {rest}</>) : goal}
                           </p>
                         );
@@ -595,9 +692,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                     </div>
                   </div>
 
-                  {/* Quote — inside card */}
-                  <div className="md:col-span-5 md:col-start-1 md:row-start-3 pt-4 mt-2 border-t border-white/30">
-                    <p className="font-['Bricolage_Grotesque'] text-[22px] md:text-[26px] font-bold leading-snug text-white">
+                  <div className="col-span-5 col-start-1 row-start-3 pt-4 mt-2 border-t border-white/30">
+                    <p className="font-['Bricolage_Grotesque'] text-[22px] 2xl:text-[26px] font-bold leading-snug text-white">
                       &ldquo;I order so much that sometimes I have no idea what I even bought until it actually
                       arrives.&rdquo;
                     </p>
@@ -615,11 +711,11 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── Design Section ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentLgClass} ${sectionColumnPaddingClass}`}>
             <h3 className={`${subTitleClass} mb-[-2rem] md:mb-[-3rem]`}>Main Features</h3>
 
             {/* Feature 1: Unified Order Dashboard */}
@@ -717,11 +813,11 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── Flow Section ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Flow</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             <h3 className={subTitleClass}>User Flow</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] items-center">
@@ -755,7 +851,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── Style Guide Section ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               Style Guide
             </h2>

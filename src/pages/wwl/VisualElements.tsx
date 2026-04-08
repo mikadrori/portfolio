@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { cloudinaryUrl } from "../../lib/cloudinary";
 import { cn } from "../../lib/utils";
 import { smallTitleClass, bodyTextClass } from "../../lib/typography";
+import { radiusWwlFrameClass, radiusWwlTightClass } from "../../lib/spacing";
 
 const Q = "auto:best";
 
@@ -114,7 +115,7 @@ function DesktopLayout({
                 <img
                   src={cloudinaryUrl(activeEl.imageId, { quality: Q, width: 900 })}
                   alt={activeEl.title}
-                  className="w-full rounded-[4px] object-cover aspect-video"
+                  className={`w-full ${radiusWwlFrameClass} object-cover aspect-video`}
                 />
                 <div className="w-full text-left">
                   <p className={smallTitleClass}>{activeEl.title}</p>
@@ -201,7 +202,7 @@ function ThumbStrip({
               <img
                 src={cloudinaryUrl(el.imageId, { quality: Q, width: 400 })}
                 alt={el.title}
-                className="aspect-video w-full rounded-[2px] object-cover pointer-events-none"
+                className={`aspect-video w-full ${radiusWwlTightClass} object-cover pointer-events-none`}
                 loading="lazy"
               />
             </div>
@@ -234,7 +235,7 @@ function TouchLayout({
           return (
             <div
               key={el.imageId}
-              className="cursor-pointer rounded-[2px] overflow-hidden"
+              className={`cursor-pointer ${radiusWwlTightClass} overflow-hidden`}
               style={{
                 opacity: isDimmed ? 0.5 : 1,
                 transition: "opacity 0.15s ease",
@@ -272,7 +273,7 @@ function TouchLayout({
               <img
                 src={cloudinaryUrl(activeEl.imageId, { quality: Q, width: 600 })}
                 alt={activeEl.title}
-                className="w-full rounded-[4px] object-cover aspect-video"
+                className={`w-full ${radiusWwlFrameClass} object-cover aspect-video`}
               />
               <div className="text-left">
                 <p className={smallTitleClass}>{activeEl.title}</p>

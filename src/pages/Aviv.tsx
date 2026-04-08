@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import {
   stickyTitleClass,
+  projectNameClass,
   subTitleClass,
   smallTitleClass,
   bodyTextClass,
@@ -13,6 +14,18 @@ import {
   sectionPageGridStretchClass,
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
+import {
+  gapContentClass,
+  gapContentLgClass,
+  gapHeroTightClass,
+  gapIntroClass,
+  gapScreenRowClass,
+  gapSplitClass,
+  gapSubtitleClass,
+  gapThumbClass,
+  gapTightStripClass,
+  radiusPhoneAvivClass,
+} from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo, PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
@@ -340,35 +353,24 @@ function MockupSlideshow() {
   );
 }
 
-// ─── Recommendation Button (hover: loop crossfade between two versions) ───
+// ─── Recommendation Button (auto-looping crossfade between two versions) ───
 
-const REC_BTN_CROSSFADE_S = 1.25;
-// Ease-in-out ~ CSS / Figma-style smooth segment transitions
-const REC_BTN_EASE: [number, number, number, number] = [0.42, 0, 0.58, 1];
+const REC_BTN_CROSSFADE_S = 4;
+const REC_BTN_EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
 function RecButton() {
-  const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (!hovered) {
-      setActive(false);
-      return;
-    }
-    setActive(true);
     const ms = Math.round(REC_BTN_CROSSFADE_S * 1000);
     const id = window.setInterval(() => {
       setActive((prev) => !prev);
     }, ms);
     return () => window.clearInterval(id);
-  }, [hovered]);
+  }, []);
 
   return (
-    <div
-      className="relative w-[140px] md:w-[180px] cursor-default"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div className="relative w-[100px] md:w-[120px] xl:w-[180px]">
       <img
         src={DAILY_REC_BTN}
         alt="Daily recommendation button"
@@ -476,10 +478,16 @@ function InteractiveFlower() {
 function AppSketchesCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
-    <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-4 md:gap-6 w-max pr-[20%]">
+    <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab h-[200px] md:h-[220px] xl:h-[300px]">
+      <div className={`flex items-center ${gapHeroTightClass} w-max pr-[20%] h-full`}>
         {APP_SKETCHES.map((src, i) => (
-          <img key={i} src={src} alt={`App sketch ${i + 1}`} className="h-[200px] md:h-[300px] w-auto rounded-sm pointer-events-none" loading="lazy" />
+          <img
+            key={i}
+            src={src}
+            alt={`App sketch ${i + 1}`}
+            className={`w-auto rounded-sm pointer-events-none ${i < 2 ? "max-h-full" : i >= 6 ? "max-h-[45%]" : "max-h-[65%]"}`}
+            loading="lazy"
+          />
         ))}
       </div>
     </div>
@@ -490,9 +498,9 @@ function ConfessionSketchesCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-4 md:gap-6 w-max pr-[20%]">
+      <div className={`flex items-center ${gapHeroTightClass} w-max pr-[20%]`}>
         {CNFSN_SKETCHES.map((src, i) => (
-          <img key={i} src={src} alt={`Confessions sketch ${i + 1}`} className="h-[180px] md:h-[260px] w-auto rounded-sm pointer-events-none" loading="lazy" />
+          <img key={i} src={src} alt={`Confessions sketch ${i + 1}`} className="max-h-[110px] md:max-h-[160px] w-auto rounded-sm pointer-events-none" loading="lazy" />
         ))}
       </div>
     </div>
@@ -514,10 +522,10 @@ function KeyFeaturesCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing">
-      <div className="flex gap-4 md:gap-8 w-max">
+      <div className={`flex ${gapTightStripClass} w-max`}>
         {KEY_FEATURES.map((feat) => (
           <div key={feat.title} className={`flex flex-col gap-4 ${keyFeatureSlideClass}`}>
-            <div className="flex flex-col gap-2 min-h-[90px] md:min-h-[100px]">
+            <div className={`flex flex-col ${gapSubtitleClass} min-h-[90px] md:min-h-[100px]`}>
               <h4 className={smallTitleClass}>{feat.title}</h4>
               <p className={bodyTextClass}>{feat.desc}</p>
             </div>
@@ -538,13 +546,13 @@ function DesktopScreensCarousel() {
   const { ref, onMouseDown } = useDragScroll();
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex w-max gap-6 md:gap-14">
+      <div className="flex w-max">
         {DESKTOP_SCREENS.map((src, i) => (
           <img
             key={i}
             src={src}
             alt={`Desktop screen ${i + 1}`}
-            className="h-[240px] w-auto rounded-sm pointer-events-none md:h-[380px]"
+            className="h-[280px] w-auto rounded-sm pointer-events-none md:h-[440px]"
             loading="lazy"
           />
         ))}
@@ -556,7 +564,7 @@ function DesktopScreensCarousel() {
 function CnfsnTypoSketchesCarousel() {
   const { ref, onMouseDown } = useDragScroll("y");
   return (
-    <div ref={ref} onMouseDown={onMouseDown} className="overflow-y-auto scrollbar-hide rounded-[20px] max-h-[150px] md:max-h-[150px] cursor-grab active:cursor-grabbing">
+    <div ref={ref} onMouseDown={onMouseDown} className="overflow-y-auto scrollbar-hide rounded-[20px] max-h-[120px] md:max-h-[120px] cursor-grab active:cursor-grabbing">
       <img src={TYPO_SKETCHES_CLOUDY} alt="Cloudy Now typography sketches" className="w-full pointer-events-none" loading="lazy" />
     </div>
   );
@@ -565,10 +573,10 @@ function CnfsnTypoSketchesCarousel() {
 function CnfsnTypoVerticalScroll() {
   const { ref, onMouseDown } = useDragScroll("y");
   return (
-    <div ref={ref} onMouseDown={onMouseDown} className="overflow-y-auto scrollbar-hide rounded-[20px] max-h-[200px] md:max-h-[280px] cursor-grab active:cursor-grabbing">
-      <div className="flex flex-col gap-4 p-4">
+    <div ref={ref} onMouseDown={onMouseDown} className="overflow-y-auto scrollbar-hide rounded-[20px] max-h-[200px] md:max-h-[230px] cursor-grab active:cursor-grabbing">
+      <div className="flex flex-col items-center gap-4 p-4">
         {CNFSN_TYPO.map((src, i) => (
-          <img key={i} src={src} alt={`Typography sample ${i + 1}`} className="w-full rounded-sm pointer-events-none" loading="lazy" />
+          <img key={i} src={src} alt={`Typography sample ${i + 1}`} className={`rounded-sm pointer-events-none ${i === 1 ? "w-[50%]" : i === 6 ? "w-[65%]" : "w-full"}`} loading="lazy" />
         ))}
       </div>
     </div>
@@ -596,11 +604,11 @@ function BothAxisSketchScroll({ src, alt }: { src: string; alt: string }) {
   }, [centerScroll]);
 
   return (
-    <div ref={ref} onMouseDown={onMouseDown} className="overflow-auto scrollbar-hide rounded-[20px] bg-white h-[180px] md:h-[220px] w-[min(95%,700px)] cursor-grab active:cursor-grabbing">
+    <div ref={ref} onMouseDown={onMouseDown} className="overflow-auto scrollbar-hide rounded-[20px] bg-white h-[120px] md:h-[140px] w-full cursor-grab active:cursor-grabbing">
       <img
         src={src}
         alt={alt}
-        style={{ width: 1200, minWidth: 1200 }}
+        style={{ width: 900, minWidth: 900 }}
         className="pointer-events-none"
         loading="lazy"
         onLoad={centerScroll}
@@ -624,14 +632,14 @@ function AvivColorPalette() {
   return (
     <div
       ref={containerRef}
-      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] items-stretch justify-center gap-[7%] md:gap-[9%]"
+      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] items-stretch justify-end gap-[6%] md:gap-[7%] md:translate-x-[20%]"
       role="img"
       aria-label="Cloudy Now color palette: #FADC98, #FFFFFF, #918DDB, #EF0034, #1B1F2A"
     >
       {AVIV_PALETTE_BARS.map((bar) => (
         <div
           key={bar.hex}
-          className="relative flex h-full min-h-0 w-[17%] max-w-[54px] min-w-[28px] flex-col justify-end self-stretch"
+          className="relative flex h-full min-h-0 w-[24%] max-w-[74px] min-w-[36px] flex-col justify-end self-stretch"
         >
           <span
             className={`pointer-events-none absolute left-1/2 z-10 whitespace-nowrap font-['Bricolage_Grotesque'] text-[10px] font-medium tracking-[0.08em] md:text-[11px] ${bar.labelClass}`}
@@ -647,9 +655,19 @@ function AvivColorPalette() {
             style={{ height: `calc(${bar.heightPct}% + 4rem)` }}
           >
             <motion.div
-              className={`h-full w-full rounded-t-[999px] shadow-[0_0_5px_rgba(0,0,0,0.18)] ${bar.hex === "FFFFFF" ? "ring-1 ring-[#2200b8]/10" : ""}`}
+              className="absolute inset-0 rounded-t-[999px] blur-[6px]"
               style={{
-                backgroundColor: bar.fill,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 100%)",
+                transformOrigin: "center bottom",
+              }}
+              initial={{ scaleY: 0 }}
+              animate={showBars ? { scaleY: 1 } : { scaleY: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+            <motion.div
+              className="relative h-full w-full rounded-t-[999px]"
+              style={{
+                background: `linear-gradient(to bottom, ${bar.fill} 50%, transparent 100%)`,
                 transformOrigin: "center bottom",
               }}
               initial={{ scaleY: 0 }}
@@ -670,14 +688,14 @@ function AvivColorPalette2() {
   return (
     <div
       ref={containerRef}
-      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] items-stretch justify-center gap-[7%] md:gap-[9%]"
+      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] items-stretch justify-end gap-[6%] md:gap-[7%]"
       role="img"
       aria-label="Confessions color palette: #FADC98, #918DDB, #FFFFFF, #FFF5E1, #1B1F2A"
     >
       {AVIV_PALETTE_BARS_2.map((bar) => (
         <div
           key={bar.hex}
-          className="relative flex h-full min-h-0 w-[17%] max-w-[54px] min-w-[28px] flex-col justify-end self-stretch"
+          className="relative flex h-full min-h-0 w-[24%] max-w-[74px] min-w-[36px] flex-col justify-end self-stretch"
         >
           <span
             className={`pointer-events-none absolute left-1/2 z-10 whitespace-nowrap font-['Bricolage_Grotesque'] text-[10px] font-medium tracking-[0.08em] md:text-[11px] ${bar.labelClass}`}
@@ -693,9 +711,19 @@ function AvivColorPalette2() {
             style={{ height: `calc(${bar.heightPct}% + 4rem)` }}
           >
             <motion.div
-              className={`h-full w-full rounded-t-[999px] shadow-[0_0_5px_rgba(0,0,0,0.18)] ${bar.hex === "FFFFFF" || bar.hex === "FFF5E1" ? "ring-1 ring-[#2200b8]/10" : ""}`}
+              className="absolute inset-0 rounded-t-[999px] blur-[6px]"
               style={{
-                backgroundColor: bar.fill,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 100%)",
+                transformOrigin: "center bottom",
+              }}
+              initial={{ scaleY: 0 }}
+              animate={showBars ? { scaleY: 1 } : { scaleY: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+            <motion.div
+              className="relative h-full w-full rounded-t-[999px]"
+              style={{
+                background: `linear-gradient(to bottom, ${bar.fill} 50%, transparent 100%)`,
                 transformOrigin: "center bottom",
               }}
               initial={{ scaleY: 0 }}
@@ -772,22 +800,22 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapIntroClass} ${sectionColumnPaddingClass}`}>
               {/* Moonlight Atmosphere intro */}
               <div className="flex flex-col gap-2">
-                <h3 className="font-['Bricolage_Grotesque'] font-bold text-[36px] text-[#2200b8] tracking-[1.5px] leading-[1.5]">
+                <h3 className={`${projectNameClass} leading-[1.5]`}>
                   Moonlight Atmosphere
                 </h3>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[25px] text-[#2200b8] tracking-[0.75px] leading-[1.5]">
+                <p className={`${smallTitleClass} leading-[1.5]`}>
                   A cohesive design evolution inspired by Aviv Geffen.
                 </p>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[25px] text-[#2200b8] tracking-[0.75px] leading-[1.5]">
+                <p className={`${smallTitleClass} leading-[1.5]`}>
                   translating character research into a seamless UX/UI journey&mdash;{" "}
                   <span className="font-semibold">
                     including a mobile weather app and an immersive desktop experience.
                   </span>
                 </p>
-                <p className="font-['Bricolage_Grotesque'] font-light text-[18px] text-[#2200b8] tracking-[0.9px] leading-[1.5] italic mt-2">
+                <p className={`${bodyTextClass} italic mt-2`}>
                   These projects focus on creating immersive UX/UI experiences.
                 </p>
               </div>
@@ -797,7 +825,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 <div className="w-[120px] md:w-[18%] shrink-0">
                   <ViewportVideo
                     src={VID_YARKON}
-                    className="w-full rounded-[37px]"
+                    className={`w-full ${radiusPhoneAvivClass}`}
                   />
                 </div>
                 <div className="md:w-[75%]">
@@ -815,38 +843,38 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Concept (Cloudy Now) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             {/* Cloudy Now — text + phone mockup */}
-            <div className="flex flex-col md:flex-row gap-8">
+              <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1 flex flex-col gap-4 min-w-0">
                 <img
                   src={APP_ICON}
                   alt="Cloudy Now app icon"
-                  className="w-[100px] md:w-[136px] rounded-[22px] object-cover"
+                  className="w-[length:var(--media-app-icon)] rounded-[22px] object-cover"
                   loading="lazy"
                 />
-                <h3 className="font-['Bricolage_Grotesque'] font-semibold text-[28px] text-[#2200b8] tracking-[1.5px] leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6">
+                <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
                   <span>Cloudy Now</span>
                   <span className="font-['Varela_Round'] font-bold">עכשיו מעונן</span>
                 </h3>
-                <p className="font-['Bricolage_Grotesque'] font-normal text-[22px] text-[#2200b8] tracking-[0.66px] leading-[1.5]">
+                <p className={`${smallTitleClass} leading-[1.5]`}>
                   A dynamic weather experience inspired by the visual and emotional world of Aviv Geffen.
                 </p>
-                <p className="font-['Bricolage_Grotesque'] font-light text-[18px] text-[#2200b8] tracking-[0.54px] leading-[1.5]">
+                <p className={bodyTextClass}>
                   The app draws from Geffen&rsquo;s intense use of weather as a tool for emotional
                   expression in his lyrics. The concept captures the tension between the raw
                   vulnerability of the &lsquo;Flower Children&rsquo; era and a dark, deep melancholy,
                   reflecting the complex duality of Geffen&rsquo;s artistic persona.
                 </p>
               </div>
-              <div className="shrink-0 w-[180px] md:w-[260px] self-start">
+              <div className="shrink-0 w-[140px] md:w-[160px] lg:w-[180px] xl:w-[200px] 2xl:w-[260px] self-start">
                 <ViewportVideo
                   src={SPLASH_VIDEO_LOCAL}
-                  className="w-full rounded-[37px]"
+                  className={`w-full ${radiusPhoneAvivClass}`}
                 />
               </div>
             </div>
@@ -879,19 +907,19 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Design Section (Part 1) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentLgClass} ${sectionColumnPaddingClass}`}>
             {/* Initial Concept & Ideation */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Initial Concept &amp; Ideation</h3>
               <p className={bodyTextClass}>
                 My vision was to merge weather-inspired elements as a tribute to Aviv&rsquo;s lyrics
                 with &lsquo;Flower Children&rsquo; imagery, creating a dark and mysterious atmosphere.
               </p>
-              <div className="flex gap-8 md:gap-16 flex-wrap">
+              <div className={`flex flex-wrap items-baseline ${gapThumbClass}`}>
                 {["Dark", "Contrast", "Bold", "Glow"].map((word) => (
                   <p key={word} className={`${smallTitleClass}`}>{word}</p>
                 ))}
@@ -899,15 +927,15 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* First Sketches */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               <h3 className={subTitleClass}>First Sketches</h3>
-            </div>
-            <div className="overflow-hidden">
-              <AppSketchesCarousel />
+              <div className="overflow-hidden">
+                <AppSketchesCarousel />
+              </div>
             </div>
 
             {/* Final Design */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Final Design</h3>
               <p className={bodyTextClass}>
                 The final design focuses on the experience by removing unnecessary info, creating a
@@ -921,7 +949,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Feature 1: Interactive Flower Scroll */}
             <div className="flex flex-col md:flex-row gap-8">
               <div className="md:w-[40%] flex flex-col justify-between min-h-0">
-                <div className="flex flex-col gap-2">
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <h4 className={smallTitleClass}>Interactive Flower Scroll</h4>
                   <p className={bodyTextClass}>
                     The core element — Users rotate a flower icon to navigate through key milestones
@@ -933,7 +961,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className="md:w-[30%] shrink-0">
                 <ViewportVideo
                   src={VID_FLOWER_NAV}
-                  className="w-full rounded-[37px]"
+                  className={`w-full ${radiusPhoneAvivClass}`}
                 />
               </div>
             </div>
@@ -943,10 +971,10 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className="md:w-[30%] shrink-0">
                 <ViewportVideo
                   src={VID_WEATHER_TOGGLE}
-                  className="w-full rounded-[37px]"
+                  className={`w-full ${radiusPhoneAvivClass}`}
                 />
               </div>
-              <div className="md:w-[40%] flex flex-col gap-2">
+              <div className={`md:w-[40%] flex flex-col ${gapSubtitleClass} md:justify-center`}>
                 <h4 className={smallTitleClass}>Dual-View Toggle</h4>
                 <p className={bodyTextClass}>
                   A bottom toggle for hourly and weekly forecasts, offering full data within a clean,
@@ -964,10 +992,10 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className="md:w-[30%] shrink-0">
                 <ViewportVideo
                   src={VID_RECOMMENDATIONS}
-                  className="w-full rounded-[37px]"
+                  className={`w-full ${radiusPhoneAvivClass}`}
                 />
               </div>
-              <div className="md:w-[40%] flex flex-col gap-4">
+              <div className={`md:w-[40%] md:ml-auto flex flex-col ${gapSubtitleClass}`}>
                 <h4 className={smallTitleClass}>Contextual Recommendations</h4>
                 <p className={bodyTextClass}>
                   Customized recommendations inspired by Aviv Geffen&rsquo;s persona
@@ -990,7 +1018,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* Weather Elements & Animation */}
-            <div className="flex flex-col gap-6">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Weather Elements &amp; Animation</h3>
               <p className={bodyTextClass}>
                 Aviv Geffen often uses weather as a metaphor for emotions in his lyrics. In his world,
@@ -1014,12 +1042,12 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                     <img
                       src={item.txt}
                       alt={`${item.label} song title`}
-                      className="h-[60px] md:h-[80px] w-auto object-contain"
+                      className="h-[60px] md:h-[70px] xl:h-[110px] w-auto object-contain"
                       loading="lazy"
                     />
                     <ViewportVideo
                       src={item.vid}
-                      className="w-full rounded-[37px]"
+                      className={`w-[85%] mx-auto ${radiusPhoneAvivClass}`}
                     />
                   </div>
                 ))}
@@ -1048,17 +1076,17 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Research Section (Part 1) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             {/* Aviv Geffen bio */}
             <div className="flex flex-col md:flex-row gap-8">
               <div className="md:w-1/2">
                 <img src={AVIV_IMAGE} alt="Aviv Geffen" className="w-full rounded-sm" loading="lazy" />
               </div>
-              <div className="md:w-1/2 flex flex-col gap-2">
+              <div className={`md:w-1/2 flex flex-col ${gapSubtitleClass}`}>
                 <h3 className={subTitleClass}>Aviv Geffen</h3>
                 <p className={bodyTextClass}>
                   Aviv Geffen is a major Israeli musician who rose to fame in the 90s. Known for his
@@ -1069,21 +1097,21 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* Principles / Musical Themes / Visual Identity */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex flex-col gap-2">
-                <h4 className={smallTitleClass}>Principles</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:-mt-[calc(var(--gap-content)*0.8)]">
+              <div className="flex flex-col gap-1">
+                <h4 className={`${smallTitleClass} mb-1`}>Principles</h4>
                 <p className={bodyTextClass}>Voice: Social change.</p>
                 <p className={bodyTextClass}>Peace: Generation&rsquo;s cry.</p>
                 <p className={bodyTextClass}>Reality: Seeking different.</p>
               </div>
-              <div className="flex flex-col gap-2">
-                <h4 className={smallTitleClass}>Musical Themes</h4>
+              <div className="flex flex-col gap-1">
+                <h4 className={`${smallTitleClass} mb-1`}>Musical Themes</h4>
                 <p className={bodyTextClass}>Struggles: Heartbreak &amp; family.</p>
                 <p className={bodyTextClass}>Depths: Death &amp; depression.</p>
                 <p className={bodyTextClass}>Outlook: Hope &amp; future.</p>
               </div>
-              <div className="flex flex-col gap-2">
-                <h4 className={smallTitleClass}>Visual Identity</h4>
+              <div className="flex flex-col gap-1">
+                <h4 className={`${smallTitleClass} mb-1`}>Visual Identity</h4>
                 <p className={bodyTextClass}>Soft: &ldquo;Moonlight Children&rdquo; aesthetic.</p>
                 <p className={bodyTextClass}>Edge: Dark, rebellious rock&amp;roll.</p>
                 <p className={bodyTextClass}>Duality: Soft meets raw.</p>
@@ -1091,7 +1119,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* A man of contrasts */}
-            <div className="flex flex-col gap-2">
+            <div className={`flex flex-col ${gapSubtitleClass} md:max-w-[80%] md:-mt-[calc(var(--gap-content)*0.8)]`}>
               <h4 className={smallTitleClass}>A man of contrasts</h4>
               <p className={bodyTextClass}>
                 Aviv Geffen embodies the tension between extreme fragility and bold defiance, creating
@@ -1108,14 +1136,14 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Style Guide (Part 1) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Style Guide</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             {/* Color Palette — two-column: text left, bars right */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-              <div className="flex flex-col gap-4 md:w-[55%]">
+            <div className="flex flex-col md:flex-row ${gapSplitClass}">
+              <div className={`flex flex-col ${gapSubtitleClass} md:w-[55%]`}>
                 <h3 className={subTitleClass}>Color Palette</h3>
                 <p className={bodyTextClass}>
                   I chose Dark Mode as a foundation to create an atmospheric environment, with a palette
@@ -1144,27 +1172,27 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                   </div>
                 </div>
               </div>
-              <div className="md:w-[45%] flex items-end">
+              <div className="md:w-[45%] flex items-end overflow-visible">
                 <AvivColorPalette />
               </div>
             </div>
 
             {/* Typography */}
-            <div className="flex flex-col gap-6">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Typography</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} md:max-w-[80%]`}>
                 The typographic choices reflect Aviv Geffen&rsquo;s duality, creating a tension between
                 raw expression and refined simplicity.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-2">
-                <div className="flex flex-col gap-3">
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <h4 className={smallTitleClass}>Custom Hand-Drawn Typography</h4>
                   <p className={bodyTextClass}>
                     A custom-made, rebellious font that serves as the raw heart of the design.
                   </p>
                   <HandDrawnTypoCarousel />
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className={`flex flex-col ${gapSubtitleClass} pl-6 md:pl-16`}>
                   <h4 className={smallTitleClass}>Secondary Typography</h4>
                   <p className={bodyTextClass}>
                     A clean, delicate font that ensures readability and balances the bold hand-drawn elements.
@@ -1215,33 +1243,32 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         </div>
 
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-            <div className="flex flex-col md:flex-row gap-8 md:gap-12 md:items-center">
-              <div className="flex flex-col gap-4 md:w-[32%] shrink-0">
-                <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
-                  <span>Moonlight Confessions</span>
-                  <span className="font-['Varela_Round'] font-bold">וידויים לאור הירח</span>
-                </h3>
-                <p className={bodyTextClass}>
-                  As an extension, I developed a desktop experience for Aviv Geffen&rsquo;s fanbase,
-                  &ldquo;The Moonlight Children.&rdquo;
-                </p>
-                <p className={bodyTextClass}>
-                  An anonymous, protected space for emotional
-                  release. The intuitive &lsquo;infinite space&rsquo; connects isolated voices into a
-                  powerful collective experience.
-                </p>
-              </div>
-              <div className="md:w-[68%]">
-                <LaptopMockup />
-              </div>
-            </div>
+          <div className={`col-span-8 md:col-start-3 md:col-span-2 flex flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} md:self-center`}>
+            <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
+              <span>Moonlight Confessions</span>
+              <span className="font-['Varela_Round'] font-bold">וידויים לאור הירח</span>
+            </h3>
+            <p className={bodyTextClass}>
+              As an extension, I developed a desktop experience for Aviv Geffen&rsquo;s fanbase,
+              &ldquo;The Moonlight Children.&rdquo;
+            </p>
+            <p className={bodyTextClass}>
+              An anonymous, protected space for emotional
+              release. The intuitive &lsquo;infinite space&rsquo; connects isolated voices into a
+              powerful collective experience.
+            </p>
+          </div>
 
-            <div className="w-full max-w-[85%] aspect-video">
+          <div className="col-span-8 md:col-start-5 md:col-span-3 md:self-center md:w-[115%]">
+            <LaptopMockup />
+          </div>
+
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 ${sectionColumnPaddingClass}`}>
+            <div className="w-full aspect-video">
               <video
                 src={VID_CONFESSIONS_PROMO}
                 controls
@@ -1260,20 +1287,20 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Design Section (Part 2) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-16 md:gap-20 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentLgClass} ${sectionColumnPaddingClass}`}>
             {/* Initial Concept & Ideation */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Initial Concept &amp; Ideation</h3>
               <p className={bodyTextClass}>
                 I wanted to create an endless space that feels like a field of stars, where each light
                 represents an exposed soul in a nostalgic tribute to the &ldquo;Moonlight
                 Children&rdquo; era.
               </p>
-              <div className="flex gap-8 md:gap-16 flex-wrap">
+              <div className={`flex flex-wrap items-baseline ${gapThumbClass}`}>
                 {["Dark", "Melancholic", "Nostalgic", "Glow"].map((word) => (
                   <p key={word} className={`${smallTitleClass}`}>{word}</p>
                 ))}
@@ -1281,15 +1308,15 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* First Sketches */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               <h3 className={subTitleClass}>First Sketches</h3>
-            </div>
-            <div className="overflow-hidden">
-              <ConfessionSketchesCarousel />
+              <div className="overflow-hidden">
+                <ConfessionSketchesCarousel />
+              </div>
             </div>
 
             {/* Final Design */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Final Design</h3>
               <p className={bodyTextClass}>
                 Continuing the Dark Mode atmosphere — The Moon is the heart of the site and the
@@ -1315,25 +1342,28 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Flow Section (Part 2) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Flow</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
-            <div className="flex flex-col gap-4">
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
+            <div className="flex flex-col gap-4 md:max-w-[80%] md:ml-[4.5rem] lg:max-w-[95%] lg:ml-[-1rem]">
               <h3 className={subTitleClass}>User Flow</h3>
               <img src={USER_FLOW} alt="Moonlight Confessions user flow" className="w-full" loading="lazy" />
             </div>
+          </div>
 
-            <LaptopMockup />
-
-            <div className="flex flex-col gap-4">
-              <h3 className={subTitleClass}>Screens</h3>
+          <div className="col-span-8 md:col-start-3 md:col-span-5 flex justify-center -mt-8">
+            <div className="w-full md:w-[115%]">
+              <LaptopMockup />
             </div>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-6 overflow-hidden">
-            <DesktopScreensCarousel />
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 ${sectionColumnPaddingClass}`}>
+            <h3 className={subTitleClass}>Screens</h3>
+            <div className="overflow-hidden -mt-10">
+              <DesktopScreensCarousel />
+            </div>
           </div>
         </PageGrid>
       </section>
@@ -1344,16 +1374,16 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Research Section (Part 2) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             <div className="flex flex-col md:flex-row gap-8">
               <div className="md:w-1/2">
                 <img src={AVIV_IMAGE_2} alt="The Moonlight Children" className="w-full rounded-sm" loading="lazy" />
               </div>
-              <div className="md:w-1/2 flex flex-col gap-2">
+              <div className={`md:w-1/2 flex flex-col ${gapSubtitleClass}`}>
                 <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
                   <span>The Moonlight Children</span>
                   <span className="font-['Varela_Round'] font-bold">ילדי אור הירח</span>
@@ -1365,7 +1395,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
             </div>
 
-            <p className={bodyTextClass}>
+            <p className={`${bodyTextClass} md:max-w-[80%] md:-mt-[calc(var(--gap-content)*0.4)]`}>
               Aviv became the voice of a generation that felt invisible, turning shame into pride.
               This website serves as a digital tribute to that powerful sense of belonging.
             </p>
@@ -1379,14 +1409,14 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Style Guide (Part 2) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Style Guide</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             {/* Color Palette (Part 2) — horizontal: text left, bars right */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-              <div className="flex flex-col gap-4 md:w-[55%]">
+            <div className="flex flex-col md:flex-row ${gapSplitClass}">
+              <div className={`flex flex-col ${gapSubtitleClass} md:w-[55%]`}>
                 <h3 className={subTitleClass}>Color Palette</h3>
                 <p className={bodyTextClass}>
                   I kept the original palette but replaced the red with a yellowish-white, like aged
@@ -1399,27 +1429,27 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* Typography (Part 2) — horizontal: text left, vertical scroll right */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-              <div className="flex flex-col gap-4 md:w-[40%] shrink-0">
+            <div className="flex flex-col md:flex-row ${gapSplitClass}">
+              <div className={`flex flex-col ${gapSubtitleClass} md:w-[40%] shrink-0`}>
                 <h3 className={subTitleClass}>Typography</h3>
                 <p className={bodyTextClass}>
                   The core typography remains a central hand-drawn font, but I replaced the bold style
                   with a thinner, more delicate hand to evoke a more sensitive and vulnerable feel.
                 </p>
               </div>
-              <div className="md:w-[60%]">
+              <div className="md:w-[55%] md:ml-auto">
                 <CnfsnTypoVerticalScroll />
               </div>
             </div>
 
             {/* Typography Sketches (Part 2) — both-axis scroll */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 md:w-[80%]">
               <h3 className={subTitleClass}>Typography Sketches</h3>
               <CnfsnTypoSketchScroll />
             </div>
 
             {/* Icons & Buttons */}
-            <div className="flex flex-col gap-6">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Icons &amp; Buttons</h3>
               <p className={bodyTextClass}>
                 Consistent with the typography, I hand-drew all icons and buttons to maintain a
@@ -1439,7 +1469,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
 
               {/* Secondary Buttons */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 mt-4">
                 <h4 className={smallTitleClass}>Secondary Buttons</h4>
                 <div className={iconButtonsRowClass}>
                   <img src={BTN_X} alt="Close button" className="h-[36px] md:h-[44px] w-auto max-w-full object-contain" loading="lazy" />
@@ -1451,7 +1481,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
 
               {/* User Profile Picture Icons */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 mt-2">
                 <h4 className={smallTitleClass}>Users Profile Picture Icons</h4>
                 <div className={iconButtonsRowClass}>
                   {PRF_ICONS.map((src, i) => (
@@ -1465,7 +1495,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* Icons Sketches — both-axis scroll */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 md:w-[80%]">
               <h3 className={subTitleClass}>Icons Sketches</h3>
               <IconsSketchScroll />
             </div>

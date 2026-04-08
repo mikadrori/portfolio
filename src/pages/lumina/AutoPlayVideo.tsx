@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useMute } from "./MuteContext";
+import { radiusVideoInlineClass } from "../../lib/spacing";
 
-/** Clips decoded video (and outer frame) to 12px corners; `border-radius` alone often fails on `<video>`. */
-export const VIDEO_CORNER_CLIP_12: CSSProperties = {
-  clipPath: "inset(0 round 12px)",
-  WebkitClipPath: "inset(0 round 12px)",
+/** Clips decoded video; radius matches `--radius-video-inline` (border-radius alone often fails on `<video>`). */
+export const videoCornerClipInlineStyle: CSSProperties = {
+  clipPath: "inset(0 round var(--radius-video-inline))",
+  WebkitClipPath: "inset(0 round var(--radius-video-inline))",
 };
+
+/** @deprecated Use `videoCornerClipInlineStyle` — kept for existing imports. */
+export const VIDEO_CORNER_CLIP_12 = videoCornerClipInlineStyle;
 
 interface AutoPlayVideoProps {
   src: string;
@@ -19,7 +23,7 @@ interface AutoPlayVideoProps {
    * With `containFit`: `contain` letterboxes; `cover` fills the frame (may crop edges).
    */
   containMode?: "contain" | "cover";
-  /** When true, no inner rounded/overflow wrapper — use a parent with `VIDEO_CORNER_CLIP_12` (or similar). */
+  /** When true no inner rounded/overflow wrapper — use a parent with `videoCornerClipInlineStyle` (or similar). */
   unframed?: boolean;
 }
 
@@ -37,6 +41,8 @@ export function AutoPlayVideo({
   const { muted } = useMute();
   const [visible, setVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  const frameClass = unframed ? "min-h-0" : `${radiusVideoInlineClass} overflow-hidden`;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -73,16 +79,13 @@ export function AutoPlayVideo({
   }, [visible]);
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative ${unframed ? "min-h-0" : "rounded-[12px] overflow-hidden"} ${containFit ? "min-h-0" : ""} ${className}`}
-    >
+    <div ref={containerRef} className={`relative ${frameClass} ${containFit ? "min-h-0" : ""} ${className}`}>
       {!loaded && (
         <div
           className={`absolute inset-0 z-10 ${
             unframed ? "bg-[var(--color-bg)]" : "skeleton-shimmer-primary"
           }`}
-          style={containFit && !unframed ? VIDEO_CORNER_CLIP_12 : undefined}
+          style={containFit && !unframed ? videoCornerClipInlineStyle : undefined}
         />
       )}
       {visible && (
@@ -95,11 +98,11 @@ export function AutoPlayVideo({
           preload="metadata"
           style={
             containFit
-              ? { ...VIDEO_CORNER_CLIP_12, backgroundColor: "var(--color-bg)" }
+              ? { ...videoCornerClipInlineStyle, backgroundColor: "var(--color-bg)" }
               : undefined
           }
           className={`w-full block transition-opacity duration-300 ${
-            containFit ? "" : "rounded-[12px]"
+            containFit ? "" : radiusVideoInlineClass
           } ${
             nativeFit
               ? "h-auto"

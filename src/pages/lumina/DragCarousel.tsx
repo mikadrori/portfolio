@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import { useDragScroll } from "../../hooks/useDragScroll";
+import { gapTightStripClass, radiusVideoInlineClass } from "../../lib/spacing";
 
 interface DragCarouselProps {
   children: ReactNode;
@@ -22,7 +23,7 @@ export function DragCarousel({
       className={`overflow-x-auto scrollbar-hide cursor-grab ${className}`}
     >
       <div
-        className={`flex w-max gap-4 md:gap-8`}
+        className={`flex w-max ${gapTightStripClass}`}
       >
         {children}
       </div>
@@ -43,7 +44,7 @@ export function PlaceholderCard({
 }) {
   return (
     <div
-      className={`${width} ${height} bg-[#d9d9d9] rounded-[12px] shrink-0 flex items-center justify-center pointer-events-none`}
+      className={`${width} ${height} bg-[#d9d9d9] ${radiusVideoInlineClass} shrink-0 flex items-center justify-center pointer-events-none`}
     >
       {label && (
         <span className="text-[#999] text-sm font-['Bricolage_Grotesque'] select-none">

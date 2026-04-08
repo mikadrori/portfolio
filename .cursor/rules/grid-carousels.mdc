@@ -4,4 +4,4 @@ description: PageGrid — carousels align to column 7; screen strip matches Pack
 
 - **Column 7:** On `PageGrid` (`grid-cols-8`), when main copy sits in `md:col-start-3 md:col-span-4` (columns 3–6), wrap horizontal carousels and full-bleed strips in `extendContentToCol7Class` from `src/lib/sectionLayout.ts` so the scroller reaches column 7.
 - **Dedicated screens row:** Prefer `md:col-start-3 md:col-span-5` for a bottom “Screens” carousel (columns 3–7), not `col-span-6`.
-- **Screen carousel strip (like PackUp):** Inner row `flex gap-6 md:gap-14 w-max pr-[20%]`; each screen image `h-[240px] md:h-[380px] w-auto rounded-sm pointer-events-none`.
+- **Screen carousel strip (like PackUp):** Use `screenCarouselRowClass` and `screenCarouselImageClass` from `src/lib/spacing.ts` (tokens: `--gap-screen-row`, `--media-screen-h`).

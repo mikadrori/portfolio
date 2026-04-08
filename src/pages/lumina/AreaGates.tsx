@@ -5,6 +5,7 @@ import { FbxModelViewer } from "./FbxModelViewer";
 import { AutoPlayVideo } from "./AutoPlayVideo";
 import { subTitleClass, smallTitleClass, bodyTextClass } from "../../lib/typography";
 import { sectionColumnPaddingClass } from "../../lib/sectionLayout";
+import { gapAreaClass, radiusVideoInlineClass } from "../../lib/spacing";
 import { cloudinaryUrl } from "../../lib/cloudinary";
 
 type AreaId = "yellow" | "green" | "pink";
@@ -201,9 +202,9 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
 
         {/* Guardian 3D model — absolutely positioned so it doesn't affect text grid height */}
         <div className={`md:absolute md:right-0 md:w-[40%] ${
-          area.id === "yellow" ? "h-[280px] md:h-[360px] md:-top-20" :
-          area.id === "green" ? "h-[340px] md:h-[440px] md:-top-28" :
-          "h-[340px] md:h-[400px] md:-top-24"
+          area.id === "yellow" ? "h-[length:var(--media-glb-h)] md:-top-20" :
+          area.id === "green" ? "h-[calc(var(--media-glb-h)*1.25)] md:-top-16" :
+          "h-[calc(var(--media-glb-h)*1.25)] md:-top-28"
         }`}>
           <FbxModelViewer
             url={area.guardianGlb}
@@ -242,7 +243,7 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
                 key={i}
                 src={item.src}
                 alt=""
-                className="w-[85vw] md:w-[calc((100vw-2*var(--grid-margin)-var(--grid-gutter))/2)] h-auto rounded-[12px] object-contain shrink-0 pointer-events-none"
+                className={`w-[85vw] md:w-[calc((100vw-2*var(--grid-margin)-var(--grid-gutter))/2)] h-auto ${radiusVideoInlineClass} object-contain shrink-0 pointer-events-none`}
               />
             )
           )}
@@ -298,7 +299,7 @@ export function AreaGates() {
   const BLEED = 16;
 
   return (
-    <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-10 md:gap-12 ${sectionColumnPaddingClass}`}>
+    <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapAreaClass} ${sectionColumnPaddingClass}`}>
       <h3 className={subTitleClass}>Areas</h3>
 
       <div className="flex flex-col">
@@ -357,7 +358,7 @@ export function AreaGates() {
               style={{ margin: `0 -${BLEED}px` }}
             >
               <div
-                className="bg-[#0d0439] rounded-[12px]"
+                className={`bg-[#0d0439] ${radiusVideoInlineClass}`}
                 style={{ padding: `1.5rem ${BLEED}px` }}
               >
                 {AREAS.filter((area) => visited.has(area.id)).map((area) => (

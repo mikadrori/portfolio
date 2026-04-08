@@ -11,6 +11,14 @@ import {
   sectionPageGridStretchClass,
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
+import {
+  gapContentClass,
+  gapIntroClass,
+  gapSubtitleClass,
+  radiusMediaLgClass,
+  radiusMediaSmClass,
+  radiusVideoInlineClass,
+} from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
@@ -19,12 +27,13 @@ import { AreaGates } from "./lumina/AreaGates";
 import { FbxModelViewer } from "./lumina/FbxModelViewer";
 import { RandomSoundPlayer } from "./lumina/RandomSoundPlayer";
 import { ColorPaletteGrid } from "./lumina/ColorPaletteGrid";
-import { AutoPlayVideo, VIDEO_CORNER_CLIP_12 } from "./lumina/AutoPlayVideo";
+import { AutoPlayVideo, videoCornerClipInlineStyle } from "./lumina/AutoPlayVideo";
 import { VisualStyleGallery } from "./lumina/VisualStyleGallery";
 import { CloudinaryImage } from "./lumina/CloudinaryImage";
-import { MuteProvider, MuteButton } from "./lumina/MuteContext";
+import { MuteProvider, MuteButton, useMute } from "./lumina/MuteContext";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
+const HERO_VIDEO = "/assets/herobanner_lumina_eq8woo.mp4";
 const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType: "video" });
 const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
 const MIA_GLB = "/assets/Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.glb";
@@ -33,7 +42,7 @@ const ELF_MIXAMO_VIDEO = "/assets/elf_mixamo_animation_vhvtt5.mp4";
 /* ─── Sticky title column (reusable pattern from PackUp) ─── */
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="col-span-8 md:col-start-1 md:col-end-3 md:row-start-1 md:[grid-row-end:-1] w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+    <div className="col-span-8 md:col-start-1 md:col-end-3 md:row-start-1 md:[grid-row-end:-1] w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
       <h2 className={`${stickyTitleClass} leading-none -mt-1`}>{children}</h2>
     </div>
   );
@@ -42,7 +51,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function ContentColumn({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}
+      className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}
     >
       {children}
     </div>
@@ -85,8 +94,44 @@ function ExpandablePrompt() {
   );
 }
 
+function HeroVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { muted } = useMute();
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          v.play().catch(() => {});
+        } else if (!v.paused) {
+          v.pause();
+        }
+      },
+      { threshold: 0.9 },
+    );
+    observer.observe(v);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className={PROJECT_HERO_VIDEO_SHELL_CLASS}>
+      <video
+        ref={videoRef}
+        src={HERO_VIDEO}
+        muted={muted}
+        loop
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+    </div>
+  );
+}
+
 function CoverVideo() {
-  return <AutoPlayVideo src={COVER_VIDEO} className="w-full" />;
+  return <AutoPlayVideo src={COVER_VIDEO} className="w-full" alwaysMuted />;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -122,14 +167,8 @@ export default function LuminaForest({
           HERO + CONCEPT  (min-h-screen)
           ════════════════════════════════════════════════════════ */}
       <div className="min-h-screen flex flex-col">
-        {/* Hero Video Banner — placeholder */}
-        <div
-          className={`${PROJECT_HERO_VIDEO_SHELL_CLASS} flex items-center justify-center`}
-        >
-          <span className="relative z-[1] text-[#2200b8]/55 text-lg font-['Bricolage_Grotesque'] select-none">
-            Hero Video Placeholder
-          </span>
-        </div>
+        {/* Hero Video Banner */}
+        <HeroVideo />
 
         {/* Concept Section */}
         <section className="flex-1 flex flex-col justify-center">
@@ -143,21 +182,24 @@ export default function LuminaForest({
                   <h3 className={projectNameClass}>
                     Lumina Forest
                   </h3>
-                  <p className={subTitleClass}>
-                    Explore a mystical world where shadows meet glow
-                  </p>
-                  <p className={bodyTextClass}>
-                    Trapped within the mystical Lumina Forest, Mia must
-                    reactivate the ancient portal to return home. To power the
-                    gateway, she must retrieve three magical mushrooms by
-                    overcoming the unique trials set by the forest's mysterious
-                    guardians.
-                  </p>
+                  <div className={`flex flex-col ${gapSubtitleClass}`}>
+                    <p className={subTitleClass}>
+                      Explore a mystical world where shadows meet glow
+                    </p>
+                    <p className={bodyTextClass}>
+                      Trapped within the mystical Lumina Forest, Mia must
+                      reactivate the ancient portal to return home.
+                      <br />To power the gateway, she must retrieve three magical mushrooms by
+                      overcoming the unique trials set by the forest's mysterious
+                      guardians.
+                    </p>
+                  </div>
                 </div>
                 <CloudinaryImage
                   src={MUSHROOM_IMG}
                   alt="Pink mushroom"
-                  className="shrink-0 w-[80px] h-[75px] md:w-[100px] md:h-[94px] object-contain self-start"
+                  wrapperClassName="shrink-0 self-center mt-4 md:mt-6"
+                  className="w-[80px] h-[75px] md:w-[100px] md:h-[94px] object-contain"
                 />
               </div>
 
@@ -181,7 +223,9 @@ export default function LuminaForest({
             {/* ── Player ── */}
             <div className="flex flex-col">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:items-start">
-                <div className="flex flex-col gap-4 md:col-span-3 min-w-0">
+                <div
+                  className={`flex flex-col ${gapSubtitleClass} md:col-span-3 min-w-0`}
+                >
                   <h3 className={subTitleClass}>Player</h3>
                   <p className={bodyTextClass}>
                     Mia is a lost girl who has wandered into the depths of the
@@ -194,7 +238,7 @@ export default function LuminaForest({
                   url={MIA_GLB}
                   label="Mia"
                   transparent
-                  className="mx-auto w-full max-w-[380px] h-[380px] shrink-0 md:mx-0 md:col-span-2 md:max-w-none md:w-full md:h-[400px] self-start md:justify-self-end -mt-12 md:-mt-20"
+                  className="mx-auto max-w-[length:var(--media-glb-max-w)] h-[length:var(--media-glb-h)] shrink-0 md:mx-0 md:col-span-2 self-start md:justify-self-end -mt-12 md:-mt-20"
                 />
               </div>
 
@@ -327,7 +371,7 @@ export default function LuminaForest({
               className={`${smallTitleClass} leading-[1.5] min-w-0 max-w-none overflow-x-visible`}
             >
               An immersive experience that pulls the player into an enchanted realm,
-              where the freedom <br/> to wander and discover meets a compelling goal and a
+              where the freedom to wander and discover meets a compelling goal and a
               series of obstacles to{" "}
               <span className="whitespace-nowrap">overcome.</span>
             </p>
@@ -371,7 +415,7 @@ export default function LuminaForest({
                     key={img}
                     src={cloudinaryUrl(img)}
                     alt=""
-                    className="h-[160px] md:h-[210px] w-auto rounded-[14px] object-cover shrink-0 pointer-events-none"
+                    className={`h-[length:var(--media-inline-figure-h)] w-auto ${radiusMediaLgClass} object-cover shrink-0 pointer-events-none`}
                   />
                 ))}
               </DragCarousel>
@@ -393,7 +437,7 @@ export default function LuminaForest({
                     key={img}
                     src={cloudinaryUrl(img)}
                     alt=""
-                    className="h-[240px] md:h-[340px] w-auto rounded-[12px] object-cover shrink-0 pointer-events-none"
+                    className={`h-[length:var(--media-flourish-h)] w-auto ${radiusVideoInlineClass} object-cover shrink-0 pointer-events-none`}
                   />
                 ))}
               </DragCarousel>
@@ -404,13 +448,13 @@ export default function LuminaForest({
               <h3 className={subTitleClass}>Color Palette &amp; Lighting</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-                <div className="flex flex-col gap-2">
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <p className={smallTitleClass}>Dark Environment</p>
                   <p className={bodyTextClass}>
                     Cool, dark tones create a mysterious forest atmosphere
                   </p>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <p className={smallTitleClass}>Vibrant Objectives</p>
                   <p className={bodyTextClass}>
                     Glowing neon elements highlight goals and provide a magical
@@ -430,7 +474,7 @@ export default function LuminaForest({
                 <CloudinaryImage
                   src={cloudinaryUrl("gates_tipi8p_ab0otx.jpg")}
                   alt=""
-                  className="w-full h-auto rounded-[12px] object-contain min-w-0"
+                  className={`w-full h-auto ${radiusVideoInlineClass} object-contain min-w-0`}
                 />
               </div>
             </div>
@@ -568,7 +612,7 @@ export default function LuminaForest({
                 </p>
               </div>
 
-              <div className="flex w-full min-w-0 max-w-full flex-col items-stretch gap-6 md:gap-8 overflow-visible">
+              <div className={`flex w-full min-w-0 max-w-full flex-col items-stretch ${gapIntroClass} overflow-visible`}>
                 <div className="self-center bg-[#0d0439] rounded-[10px] px-5 py-2 md:px-8 md:py-3 mt-4">
                   <CloudinaryImage
                     src={cloudinaryUrl("LuMina_FoRest_logo_ca5aur_yat0j0.png")}
@@ -642,16 +686,18 @@ export default function LuminaForest({
 
             {/* ── GameObjects (AI) ── */}
             <div className="flex flex-col gap-6">
-              <h3 className={smallTitleClass}>GameObjects</h3>
-              <p className={bodyTextClass}>
-                For Game Objects, I used{" "}
-                <span className="font-medium">
-                  Nano Banana, Meshy 3D, and Adobe Mixamo.
-                </span>{" "}
-                I generated 3D-styled asset images using Nano Banana, converted
-                them into functional 3D objects with Meshy 3D, and animated the
-                characters using Adobe Mixamo.
-              </p>
+              <div className={`flex flex-col ${gapSubtitleClass}`}>
+                <h3 className={smallTitleClass}>GameObjects</h3>
+                <p className={bodyTextClass}>
+                  For Game Objects, I used{" "}
+                  <span className="font-medium">
+                    Nano Banana, Meshy 3D, and Adobe Mixamo.
+                  </span>{" "}
+                  I generated 3D-styled asset images using Nano Banana, converted
+                  them into functional 3D objects with Meshy 3D, and animated the
+                  characters using Adobe Mixamo.
+                </p>
+              </div>
 
               {/* Column labels — desktop only */}
               <div className="hidden lg:grid grid-cols-5 gap-x-[var(--grid-gutter)]">
@@ -668,7 +714,7 @@ export default function LuminaForest({
                 <CloudinaryImage
                   src={cloudinaryUrl("img_3dfairyhouse_rrswv7_xjnf70.png")}
                   alt=""
-                  className="w-full h-[160px] lg:h-[210px] object-contain rounded-[8px]"
+                  className={`w-full h-[length:var(--media-inline-figure-h)] object-contain ${radiusMediaSmClass}`}
                 />
                 <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
                   <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
@@ -683,7 +729,7 @@ export default function LuminaForest({
                   url={cloudinaryUrl("Meshy_AI_Enchanted_Treehouse_0404113704_texture_fm05fe_dsjaxg.glb", { raw: true })}
                   label="Treehouse 3D"
                   transparent
-                  className="h-[280px] lg:h-[420px] lg:-ml-10"
+                  className="h-[length:var(--media-glb-h)] lg:-ml-10"
                 />
               </div>
 
@@ -693,7 +739,7 @@ export default function LuminaForest({
                 <CloudinaryImage
                   src={cloudinaryUrl("img_3dbridge_e0qvcp_bhzymp.png")}
                   alt=""
-                  className="w-full h-[160px] lg:h-[210px] object-contain rounded-[8px]"
+                  className={`w-full h-[length:var(--media-inline-figure-h)] object-contain ${radiusMediaSmClass}`}
                 />
                 <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
                   <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
@@ -708,7 +754,7 @@ export default function LuminaForest({
                   url={cloudinaryUrl("Meshy_AI_Enchanted_Forest_Brid_0404114828_texture-v7_xhyovc_t49axu.glb", { raw: true })}
                   label="Bridge 3D"
                   transparent
-                  className="h-[280px] lg:h-[370px]"
+                  className="h-[length:var(--media-glb-h)]"
                 />
               </div>
             </div>
@@ -737,7 +783,7 @@ export default function LuminaForest({
                       key={file}
                       src={cloudinaryUrl(file)}
                       alt=""
-                      className="w-full h-auto object-contain rounded-[14px]"
+                      className={`w-full h-auto object-contain ${radiusMediaLgClass}`}
                     />
                   ))}
                 </div>
@@ -753,7 +799,7 @@ export default function LuminaForest({
                   <CloudinaryImage
                     src={cloudinaryUrl("elf_final_estugk_rty43d.png")}
                     alt=""
-                    className="w-full h-[300px] lg:h-[400px] object-contain rounded-[12px]"
+                    className={`w-full h-[length:var(--media-inline-tall-h)] object-contain ${radiusVideoInlineClass}`}
                   />
                   <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
                     <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
@@ -767,7 +813,7 @@ export default function LuminaForest({
                     url={cloudinaryUrl("Meshy_AI_Floral_Sprite_0404113616_texture_b4ydnh_a5ywwl.glb", { raw: true })}
                     label="Elf 3D"
                     transparent
-                    className="h-[380px] lg:h-[480px]"
+                    className="h-[calc(var(--media-glb-h)*1.15)]"
                   />
                 </div>
               </div>
@@ -782,7 +828,7 @@ export default function LuminaForest({
                   {/* Same frame size; clip-path on wrapper so corners show even when video ignores border-radius */}
                   <div
                     className="min-w-0 min-h-0 w-full h-[270px] lg:h-[360px] overflow-hidden bg-[var(--color-bg)]"
-                    style={VIDEO_CORNER_CLIP_12}
+                    style={videoCornerClipInlineStyle}
                   >
                     <AutoPlayVideo
                       src={ELF_MIXAMO_VIDEO}
@@ -820,7 +866,7 @@ export default function LuminaForest({
                   </div>
                   <div
                     className="min-w-0 min-h-0 w-full h-[270px] lg:h-[360px] overflow-hidden bg-[var(--color-bg)]"
-                    style={VIDEO_CORNER_CLIP_12}
+                    style={videoCornerClipInlineStyle}
                   >
                     <AutoPlayVideo
                       src={cloudinaryUrl("elfanimation_rhrtu4_xifrcc.mp4", { resourceType: "video" })}
@@ -839,7 +885,7 @@ export default function LuminaForest({
             <div className="flex flex-col gap-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                 {/* UI */}
-                <div className="flex flex-col gap-2">
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <p className={smallTitleClass}>UI</p>
                   <p className={bodyTextClass}>
                     All UI elements were generated using{" "}
@@ -851,12 +897,14 @@ export default function LuminaForest({
 
                 {/* Sound */}
                 <div className="flex flex-col gap-4">
-                  <p className={smallTitleClass}>Sound</p>
-                  <p className={bodyTextClass}>
-                    Sound effects were created using{" "}
-                    <span className="font-medium">Kling</span> and{" "}
-                    <span className="font-medium">Stable Audio</span>.
-                  </p>
+                  <div className={`flex flex-col ${gapSubtitleClass}`}>
+                    <p className={smallTitleClass}>Sound</p>
+                    <p className={bodyTextClass}>
+                      Sound effects were created using{" "}
+                      <span className="font-medium">Kling</span> and{" "}
+                      <span className="font-medium">Stable Audio</span>.
+                    </p>
+                  </div>
                   <RandomSoundPlayer sounds={[
                     cloudinaryUrl("Elf_Giggle_qluq1h_ru2heu.mp3", { resourceType: "video" }),
                     cloudinaryUrl("Elf_Speak_tbjnmu_kate5r.mp3", { resourceType: "video" }),
@@ -877,12 +925,14 @@ export default function LuminaForest({
 
               {/* Scripts */}
               <div className="flex flex-col gap-4">
-                <p className={smallTitleClass}>Scripts</p>
-                <p className={bodyTextClass}>
-                  As part of the game development I have integrated scripts developed using{" "}
-                  <span className="font-medium">ChatGPT</span> and{" "}
-                  <span className="font-medium">Gemini</span>:
-                </p>
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
+                  <p className={smallTitleClass}>Scripts</p>
+                  <p className={bodyTextClass}>
+                    As part of the game development I have integrated scripts developed using{" "}
+                    <span className="font-medium">ChatGPT</span> and{" "}
+                    <span className="font-medium">Gemini</span>:
+                  </p>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                   {/* Row 1 */}

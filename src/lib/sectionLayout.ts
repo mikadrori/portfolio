@@ -1,8 +1,8 @@
 /** Use these for any PageGrid inside a content <section>. Matches We Were Liars "Final Intro" vertical rhythm. */
 
-export const sectionPageGridPaddingClass = "py-8 md:py-12";
+export const sectionPageGridPaddingClass = "py-[length:var(--pad-section-y)]";
 
-export const sectionColumnPaddingClass = "py-4 md:py-8";
+export const sectionColumnPaddingClass = "py-[length:var(--pad-column-y)]";
 
 export const sectionPageGridClass = `items-start ${sectionPageGridPaddingClass}`;
 

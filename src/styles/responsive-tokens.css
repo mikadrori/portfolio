@@ -1,0 +1,385 @@
+/**
+ * Mobile-first design tokens aligned with Tailwind defaults:
+ * sm 640px, md 768px, lg 1024px, xl 1280px, 2xl 1536px.
+ * Base (< sm) targets the smallest phones first.
+ *
+ * Every variable is repeated at each breakpoint so the full scale is visible
+ * in one place per tier (no relying on implicit inheritance when reading the file).
+ */
+
+/* ── Base (< 640px) ── */
+:root {
+  /* Grid (PageGrid) */
+  --grid-margin: 20px;
+  --grid-gutter: 12px;
+
+  /* Typography (px) */
+  --text-marker: 28px;
+  --text-project-name: 24px;
+  --text-subtitle: 19px;
+  --text-small-title: 17px;
+  --text-body: 14px;
+  --text-nav-link: 16px;
+  --text-nav-logo: 20px;
+  --text-footer: 16px;
+
+  /* Section / column padding */
+  --pad-section-y: 32px;
+  --pad-column-y: 16px;
+  --pad-sticky-title-top: 16px;
+  --pad-sticky-col-pb: 16px;
+
+  /* Semantic gaps */
+  --gap-content: 48px;
+  --gap-content-lg: 64px;
+  --gap-screen-row: 24px;
+  --gap-intro: 24px;
+  --gap-split: 32px;
+  --gap-thumb: 32px;
+  --gap-subtitle: 16px;
+  --gap-hero-sm: 16px;
+  --gap-hero-tight: 12px;
+  --gap-tight-strip: 16px;
+  --gap-area: 40px;
+  --gap-muchi-research: 40px;
+  --gap-muchi-final: 32px;
+  --gap-wwl-strip: 24px;
+  --gap-pack-grid: 16px;
+  --gap-pack-bento: 32px;
+  --gap-about-x: 24px;
+  --gap-about-y: 12px;
+  --about-pt: 24px;
+
+  /* Project hero strip */
+  --project-hero-height: 200px;
+
+  /* Media */
+  --media-app-icon: 80px;
+  --media-screen-h: 240px;
+  --media-inline-figure-h: 120px;
+  --media-inline-tall-h: 300px;
+  --media-flourish-h: 140px;
+  --media-glb-max-w: 160px;
+  --media-glb-h: 180px;
+  --media-fbx-min-h: 280px;
+
+  /* Radii */
+  --radius-video-inline: 12px;
+  --radius-phone-mockup: 28px;
+  --radius-phone-aviv: 28px;
+  --radius-phone-packup: 28px;
+  --radius-media-sm: 8px;
+  --radius-media-lg: 14px;
+  --radius-wwl-frame: 4px;
+  --radius-wwl-tight: 2px;
+}
+
+/* ── sm (≥ 640px) ── */
+@media (min-width: 640px) {
+  :root {
+    --grid-margin: 32px;
+    --grid-gutter: 16px;
+
+    --text-marker: 23px;
+    --text-project-name: 16px;
+    --text-subtitle: 14px;
+    --text-small-title: 12px;
+    --text-body: 10px;
+    --text-nav-link: 14px;
+    --text-nav-logo: 18px;
+    --text-footer: 16px;
+
+    --pad-section-y: 36px;
+    --pad-column-y: 20px;
+    --pad-sticky-title-top: 16px;
+    --pad-sticky-col-pb: 16px;
+
+    --gap-content: 52px;
+    --gap-content-lg: 68px;
+    --gap-screen-row: 36px;
+    --gap-intro: 24px;
+    --gap-split: 36px;
+    --gap-thumb: 40px;
+    --gap-subtitle: 16px;
+    --gap-hero-sm: 16px;
+    --gap-hero-tight: 12px;
+    --gap-tight-strip: 16px;
+    --gap-area: 44px;
+    --gap-muchi-research: 48px;
+    --gap-muchi-final: 48px;
+    --gap-wwl-strip: 40px;
+    --gap-pack-grid: 16px;
+    --gap-pack-bento: 40px;
+    --gap-about-x: 24px;
+    --gap-about-y: 12px;
+    --about-pt: 24px;
+
+    --project-hero-height: 220px;
+
+    --media-app-icon: 80px;
+    --media-screen-h: 280px;
+    --media-inline-figure-h: 130px;
+    --media-inline-tall-h: 300px;
+    --media-flourish-h: 160px;
+    --media-glb-max-w: 180px;
+    --media-glb-h: 200px;
+    --media-fbx-min-h: 280px;
+
+    --radius-video-inline: 12px;
+    --radius-phone-mockup: 30px;
+    --radius-phone-aviv: 30px;
+    --radius-phone-packup: 30px;
+    --radius-media-sm: 8px;
+    --radius-media-lg: 14px;
+    --radius-wwl-frame: 4px;
+    --radius-wwl-tight: 2px;
+  }
+}
+
+/* ── md (≥ 768px) ── */
+@media (min-width: 768px) {
+  :root {
+    --grid-margin: 32px;
+    --grid-gutter: 16px;
+
+    --text-marker: 25px;
+    --text-project-name: 18px;
+    --text-subtitle: 16px;
+    --text-small-title: 14px;
+    --text-body: 12px;
+    --text-nav-link: 14px;
+    --text-nav-logo: 18px;
+    --text-footer: 14px;
+
+    --pad-section-y: 48px;
+    --pad-column-y: 32px;
+    --pad-sticky-title-top: 32px;
+    --pad-sticky-col-pb: 32px;
+
+    --gap-content: 64px;
+    --gap-content-lg: 80px;
+    --gap-screen-row: 56px;
+    --gap-intro: 32px;
+    --gap-split: 48px;
+    --gap-thumb: 64px;
+    --gap-subtitle: 5px;
+    --gap-hero-sm: 24px;
+    --gap-hero-tight: 16px;
+    --gap-tight-strip: 32px;
+    --gap-area: 48px;
+    --gap-muchi-research: 56px;
+    --gap-muchi-final: 80px;
+    --gap-wwl-strip: 80px;
+    --gap-pack-grid: 64px;
+    --gap-pack-bento: 80px;
+    --gap-about-x: 24px;
+    --gap-about-y: 12px;
+    --about-pt: 40px;
+
+    --project-hero-height: 280px;
+
+    --media-app-icon: 90px;
+    --media-screen-h: 380px;
+    --media-inline-figure-h: 150px;
+    --media-inline-tall-h: 340px;
+    --media-flourish-h: 240px;
+    --media-glb-max-w: 200px;
+    --media-glb-h: 220px;
+    --media-fbx-min-h: 280px;
+
+    --radius-video-inline: 12px;
+    --radius-phone-mockup: 34px;
+    --radius-phone-aviv: 34px;
+    --radius-phone-packup: 34px;
+    --radius-media-sm: 8px;
+    --radius-media-lg: 14px;
+    --radius-wwl-frame: 4px;
+    --radius-wwl-tight: 2px;
+  }
+}
+
+/* ── lg (≥ 1024px) ── */
+@media (min-width: 1024px) {
+  :root {
+    --grid-margin: 50px;
+    --grid-gutter: 20px;
+
+    --text-marker: 27px;
+    --text-project-name: 20px;
+    --text-subtitle: 16px;
+    --text-small-title: 14px;
+    --text-body: 12px;
+    --text-nav-link: 14px;
+    --text-nav-logo: 20px;
+    --text-footer: 12px;
+
+    --pad-section-y: 48px;
+    --pad-column-y: 32px;
+    --pad-sticky-title-top: 32px;
+    --pad-sticky-col-pb: 32px;
+
+    --gap-content: 64px;
+    --gap-content-lg: 80px;
+    --gap-screen-row: 56px;
+    --gap-intro: 32px;
+    --gap-split: 48px;
+    --gap-thumb: 64px;
+    --gap-subtitle: 8px;
+    --gap-hero-sm: 24px;
+    --gap-hero-tight: 16px;
+    --gap-tight-strip: 32px;
+    --gap-area: 48px;
+    --gap-muchi-research: 56px;
+    --gap-muchi-final: 80px;
+    --gap-wwl-strip: 80px;
+    --gap-pack-grid: 64px;
+    --gap-pack-bento: 80px;
+    --gap-about-x: 24px;
+    --gap-about-y: 12px;
+    --about-pt: 40px;
+
+    --project-hero-height: 320px;
+
+    --media-app-icon: 100px;
+    --media-screen-h: 380px;
+    --media-inline-figure-h: 170px;
+    --media-inline-tall-h: 340px;
+    --media-flourish-h: 220px;
+    --media-glb-max-w: 220px;
+    --media-glb-h: 240px;
+    --media-fbx-min-h: 300px;
+
+    --radius-video-inline: 12px;
+    --radius-phone-mockup: 15px;
+    --radius-phone-aviv: 15px;
+    --radius-phone-packup: 15px;
+    --radius-media-sm: 8px;
+    --radius-media-lg: 14px;
+    --radius-wwl-frame: 4px;
+    --radius-wwl-tight: 2px;
+  }
+}
+
+/* ── xl (≥ 1280px) ── */
+@media (min-width: 1280px) {
+  :root {
+    --grid-margin: 50px;
+    --grid-gutter: 20px;
+
+    --text-marker: 29px;
+    --text-project-name: 22px;
+    --text-subtitle: 18px;
+    --text-small-title: 16px;
+    --text-body: 13px;
+    --text-nav-link: 16px;
+    --text-nav-logo: 22px;
+    --text-footer: 14px;
+
+    --pad-section-y: 52px;
+    --pad-column-y: 32px;
+    --pad-sticky-title-top: 32px;
+    --pad-sticky-col-pb: 32px;
+
+    --gap-content: 60px;
+    --gap-content-lg: 84px;
+    --gap-screen-row: 56px;
+    --gap-intro: 32px;
+    --gap-split: 48px;
+    --gap-thumb: 64px;
+    --gap-subtitle: 14px;
+    --gap-hero-sm: 24px;
+    --gap-hero-tight: 16px;
+    --gap-tight-strip: 32px;
+    --gap-area: 48px;
+    --gap-muchi-research: 56px;
+    --gap-muchi-final: 80px;
+    --gap-wwl-strip: 80px;
+    --gap-pack-grid: 64px;
+    --gap-pack-bento: 80px;
+    --gap-about-x: 24px;
+    --gap-about-y: 12px;
+    --about-pt: 40px;
+
+    --project-hero-height: 370px;
+
+    --media-app-icon: 110px;
+    --media-screen-h: 380px;
+    --media-inline-figure-h: 190px;
+    --media-inline-tall-h: 400px;
+    --media-flourish-h: 260px;
+    --media-glb-max-w: 250px;
+    --media-glb-h: 280px;
+    --media-fbx-min-h: 300px;
+
+    --radius-video-inline: 12px;
+    --radius-phone-mockup: 20px;
+    --radius-phone-aviv: 20px;
+    --radius-phone-packup: 20px;
+    --radius-media-sm: 8px;
+    --radius-media-lg: 14px;
+    --radius-wwl-frame: 4px;
+    --radius-wwl-tight: 2px;
+  }
+}
+
+/* ── 2xl (≥ 1536px) ── */
+@media (min-width: 1536px) {
+  :root {
+    --grid-margin: 50px;
+    --grid-gutter: 20px;
+
+    --text-marker: 31px;
+    --text-project-name: 24px;
+    --text-subtitle: 20px;
+    --text-small-title: 17px;
+    --text-body: 14px;
+    --text-nav-link: 16px;
+    --text-nav-logo: 24px;
+    --text-footer: 16px;
+
+    --pad-section-y: 56px;
+    --pad-column-y: 32px;
+    --pad-sticky-title-top: 32px;
+    --pad-sticky-col-pb: 32px;
+
+    --gap-content: 72px;
+    --gap-content-lg: 88px;
+    --gap-screen-row: 56px;
+    --gap-intro: 32px;
+    --gap-split: 48px;
+    --gap-thumb: 64px;
+    --gap-subtitle: 16px;
+    --gap-hero-sm: 24px;
+    --gap-hero-tight: 16px;
+    --gap-tight-strip: 32px;
+    --gap-area: 48px;
+    --gap-muchi-research: 56px;
+    --gap-muchi-final: 80px;
+    --gap-wwl-strip: 80px;
+    --gap-pack-grid: 64px;
+    --gap-pack-bento: 80px;
+    --gap-about-x: 24px;
+    --gap-about-y: 12px;
+    --about-pt: 40px;
+
+    --project-hero-height: 440px;
+
+    --media-app-icon: 120px;
+    --media-screen-h: 380px;
+    --media-inline-figure-h: 210px;
+    --media-inline-tall-h: 400px;
+    --media-flourish-h: 340px;
+    --media-glb-max-w: 280px;
+    --media-glb-h: 320px;
+    --media-fbx-min-h: 300px;
+
+    --radius-video-inline: 12px;
+    --radius-phone-mockup: 37px;
+    --radius-phone-aviv: 37px;
+    --radius-phone-packup: 37px;
+    --radius-media-sm: 8px;
+    --radius-media-lg: 14px;
+    --radius-wwl-frame: 4px;
+    --radius-wwl-tight: 2px;
+  }
+}

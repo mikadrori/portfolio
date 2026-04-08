@@ -3,6 +3,7 @@ import { PageGrid } from "./PageGrid";
 import { Footer } from "./Footer";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import { sectionTitleCoreClass, bodyTextClass, smallTitleClass } from "../lib/typography";
+import { aboutPtClass, gapAboutXClass, gapAboutYClass } from "../lib/spacing";
 
 const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9_vfttwe.png", { quality: "auto:best", width: 1920 });
 
@@ -25,7 +26,7 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
         backgroundPosition: "center 80%",
       }}
     >
-      <PageGrid className="relative z-10 items-start gap-x-6 gap-y-3 w-full pt-6 md:pt-10 pb-24">
+      <PageGrid className={`relative z-10 items-start ${gapAboutXClass} ${gapAboutYClass} w-full ${aboutPtClass} pb-24`}>
         <h2 className={`col-span-8 md:col-span-2 md:col-start-1 md:row-start-1 self-start ${sectionTitleCoreClass} uppercase whitespace-nowrap`}>
           about me
         </h2>
@@ -39,7 +40,7 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
           {BIO_PARAGRAPHS.map((para, i) => (
             <p
               key={i}
-              className={`${bodyTextClass} text-sm md:text-base leading-[1.4] text-justify`}
+              className={`${bodyTextClass} leading-[1.4] text-justify`}
             >
               {para}
             </p>

@@ -9,6 +9,7 @@ import {
   sectionColumnPaddingClass,
   extendContentToCol7Class,
 } from "../lib/sectionLayout";
+import { gapContentClass, gapWwlStripClass } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
@@ -114,7 +115,7 @@ function TypographyCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex gap-6 md:gap-20 w-max">
+      <div className={`flex ${gapWwlStripClass} w-max`}>
         {TYPO_CHARACTERS.map((char, slideIndex) => (
           <div
             key={char.name}
@@ -194,7 +195,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
         {/* CONCEPT Section */}
         <section className="flex-1 flex flex-col justify-center">
           <PageGrid className={sectionPageGridClass}>
-            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>
                 Concept
               </h2>
@@ -231,7 +232,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       {/* FINAL INTRO Section */}
       <section>
         <PageGrid className={sectionPageGridClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={stickyTitleClass}>Final Intro</h2>
           </div>
           <div className={`col-span-8 md:col-span-5 md:col-start-3 ${sectionColumnPaddingClass}`}>
@@ -255,13 +256,13 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
       {/* DESIGN Section — single PageGrid so the sticky title shares one tall row with all content (md+) */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               Design
             </h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-12 md:gap-16 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             <div>
               <h3 className={`${subTitleClass} leading-none`}>Initial Story Board</h3>
             </div>

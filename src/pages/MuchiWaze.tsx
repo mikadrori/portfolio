@@ -15,6 +15,14 @@ import {
   extendContentToCol7Class,
 } from "../lib/sectionLayout";
 import {
+  gapHeroTightClass,
+  gapIntroClass,
+  gapMuchiFinalClass,
+  gapMuchiResearchClass,
+  gapScreenRowClass,
+  gapSubtitleClass,
+} from "../lib/spacing";
+import {
   FINAL_DESIGN_ICON_COLUMNS,
   FINAL_ICON_SIZE_DEFAULT,
   type FinalDesignIconAsset,
@@ -212,7 +220,7 @@ function MuchiColorPalette() {
   return (
     <div
       ref={containerRef}
-      className="grid w-full min-w-0 grid-cols-7 gap-3 md:gap-4"
+      className={`grid w-full min-w-0 grid-cols-7 ${gapHeroTightClass}`}
       role="img"
       aria-label={ariaLabel}
       onMouseLeave={() => setHovered(null)}
@@ -257,7 +265,7 @@ function InspirationsCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex w-max gap-6 md:gap-14">
+      <div className={`flex w-max ${gapScreenRowClass}`}>
         {INSPIRATIONS.map((src, i) => (
           <img
             key={i}
@@ -277,7 +285,7 @@ function ScreensCarousel() {
 
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-      <div className="flex w-max gap-6 md:gap-14">
+      <div className={`flex w-max ${gapScreenRowClass}`}>
         {SCREENS.map((src, i) => (
           <img
             key={i}
@@ -338,16 +346,16 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
         {/* Concept — cols 3–5: text then mockup (mt-12 md:mt-16); phone cols 6–7 unchanged. */}
         <section className="flex-1 flex flex-col justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 
             <div className={`col-span-8 md:col-start-3 md:col-span-3 md:row-start-1 min-w-0 ${sectionColumnPaddingClass}`}>
-              <div className="flex flex-col gap-2">
+              <div className={`flex flex-col ${gapSubtitleClass}`}>
                 <img
                   src={APP_ICON}
                   alt="MuchiWaze app icon"
-                  className="w-[90px] md:w-[110px] rounded-[18px] mb-2"
+                  className="w-[length:var(--media-app-icon)] rounded-[18px] mb-2"
                 />
                 <h3 className={`${projectNameClass} leading-[1.5]`}>MuchiWaze</h3>
                 <p className={`${smallTitleClass} leading-[1.5]`}>
@@ -391,7 +399,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 muted
                 loop
                 playsInline
-                className="h-auto w-[180px] shrink-0 object-contain md:h-auto md:w-[288px] md:max-w-full"
+                className="h-auto w-[160px] shrink-0 object-contain md:w-[200px] lg:w-[220px] xl:w-[260px] 2xl:w-[300px] md:max-w-full"
                 style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
               />
             </div>
@@ -405,13 +413,13 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       {/* ── Research Section — content cols 3–7: copy from col 3, video original 220px flush to col 7 end. */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col gap-6 md:gap-8 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapIntroClass} ${sectionColumnPaddingClass}`}>
             <div className="flex flex-col md:flex-row gap-8 md:items-start">
-              <div className="flex min-w-0 flex-1 flex-col gap-6">
+              <div className={`flex min-w-0 flex-1 flex-col ${gapSubtitleClass}`}>
                 <h3 className={subTitleClass}>What a Muchiler needs?</h3>
                 <p className={bodyTextClass}>
                   I started by asking: What does the Israeli traveler in South America really need?
@@ -452,13 +460,13 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
       {/* ── Design Section ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-4 md:pb-8">
+          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col gap-10 md:gap-14 ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col ${gapMuchiResearchClass} ${sectionColumnPaddingClass}`}>
             {/* First Sketches */}
-            <div className="flex flex-col gap-3">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>First Sketches</h3>
               <p className={bodyTextClass}>
                 I narrowed this list and started sketching.
@@ -528,7 +536,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             </div>
 
             {/* Initial Design */}
-            <div className="flex flex-col gap-6">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Initial Design</h3>
               <p className={bodyTextClass}>
                 I selected 7 key icons, and combined the shapes with my chosen colors to create the
@@ -552,7 +560,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             </div>
 
             {/* Final Design — section title; Icons / Avatars use smallTitleClass (typography semi level) */}
-            <div className="flex flex-col gap-6">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Final Design</h3>
               <p className={bodyTextClass}>
                 I combined both options — using the illustrations from the first and the geometric
@@ -604,7 +612,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                     onMouseDown={iconVideosDrag.onMouseDown}
                     className="min-w-0 overflow-x-auto overflow-y-hidden scrollbar-hide cursor-grab touch-pan-x"
                   >
-                    <div className="flex w-max gap-8 md:gap-20">
+                    <div className={`flex w-max ${gapMuchiFinalClass}`}>
                       {ICON_VIDEOS.map((vid) => (
                         <video
                           key={vid.label}
@@ -626,7 +634,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2 pt-8 md:pt-10">
+              <div className={`flex flex-col ${gapSubtitleClass} pt-8 md:pt-10`}>
                 <h4 className={smallTitleClass}>Avatars</h4>
                 <p className={bodyTextClass}>
                   As a continuation, I designed 5 profile avatars of common Israeli traveler types

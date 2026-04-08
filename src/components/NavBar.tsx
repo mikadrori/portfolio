@@ -6,7 +6,7 @@ const ICON_CUBE_BLUE = cloudinaryUrl("Icon_cube_blue_uu5vvu_tv1dmc.svg");
 const ICON_CUBE_PINK = cloudinaryUrl("Icon_cube_pink_h27sxm_dwf2dv.svg");
 
 const linkClass =
-  "inline-block font-['Bricolage_Grotesque'] font-light text-base md:text-lg text-[#2200b8] tracking-[1.1px] no-underline transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 cursor-pointer";
+  "font-['Bricolage_Grotesque'] font-light text-[length:var(--text-nav-link)] text-[#2200b8] tracking-[1.1px] no-underline transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 cursor-pointer";
 
 interface NavBarProps {
   onSelectSection: (id: string | null) => void;
@@ -37,7 +37,7 @@ export const NavBar = ({ onSelectSection }: NavBarProps) => {
       <PageGrid className="items-center min-h-[56px] md:min-h-[72px] py-3">
         <button
           type="button"
-          className="col-start-1 col-end-2 flex md:hidden items-center justify-center w-9 h-9 bg-transparent border-none cursor-pointer"
+          className="col-start-1 col-end-2 flex lg:hidden items-center justify-center w-9 h-9 bg-transparent border-none cursor-pointer"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMenuOpen((o) => !o)}
         >
@@ -59,7 +59,7 @@ export const NavBar = ({ onSelectSection }: NavBarProps) => {
 
         <a
           href="#"
-          className="col-start-1 col-end-2 hidden md:flex items-center"
+          className="col-start-1 col-end-2 hidden lg:flex items-center"
           aria-label="Scroll to top"
           onClick={handleLogoClick}
           onMouseEnter={() => setLogoHovered(true)}
@@ -68,24 +68,24 @@ export const NavBar = ({ onSelectSection }: NavBarProps) => {
           <img
             src={logoHovered ? ICON_CUBE_PINK : ICON_CUBE_BLUE}
             alt=""
-            className="w-10 h-10 object-contain"
+            className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 2xl:w-10 2xl:h-10 object-contain"
           />
         </a>
 
-        <a href="#" className={`col-start-4 col-end-5 hidden md:inline-block justify-self-end mr-4 ${linkClass}`} onClick={handleHomeClick}>
+        <a href="#" className={`col-start-4 col-end-5 hidden lg:inline-block justify-self-end mr-4 ${linkClass}`} onClick={handleHomeClick}>
           home
         </a>
-        <a href="#" className={`col-start-5 col-end-6 hidden md:inline-block justify-self-start ml-4 ${linkClass}`} onClick={handleAboutClick}>
+        <a href="#" className={`col-start-5 col-end-6 hidden lg:inline-block justify-self-start ml-4 ${linkClass}`} onClick={handleAboutClick}>
           about me
         </a>
 
-        <span className="col-start-7 col-end-9 font-['Permanent_Marker'] text-xl md:text-2xl text-[#ff0090] tracking-[1.5px] justify-self-end select-none whitespace-nowrap">
+        <span className="col-start-7 col-end-9 font-['Permanent_Marker'] text-[length:var(--text-nav-logo)] text-[#ff0090] tracking-[1.5px] justify-self-end select-none whitespace-nowrap">
           mika drori
         </span>
       </PageGrid>
 
       {menuOpen && (
-        <div className="md:hidden border-t border-[#2200b8] bg-[#fcf7ee]">
+        <div className="lg:hidden border-t border-[#2200b8] bg-[#fcf7ee]">
           <div className="flex flex-col gap-4 px-[var(--grid-margin)] py-4">
             <a
               href="#"
