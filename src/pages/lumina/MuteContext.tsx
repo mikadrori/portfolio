@@ -40,7 +40,7 @@ export function MuteButton() {
       style={{
         background: "transparent",
         color: "var(--color-accent)",
-        right: "max(env(safe-area-inset-right, 0px), clamp(12px, 3vw, 24px))",
+        right: "max(env(safe-area-inset-right, 0px), var(--grid-margin, 16px))",
         bottom: "max(env(safe-area-inset-bottom, 0px), clamp(12px, 2.5vh, 24px))",
       }}
     >

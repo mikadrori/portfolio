@@ -105,7 +105,7 @@ function ColorPalette() {
   return (
     <div
       ref={containerRef}
-      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] -translate-x-5 -translate-y-12 items-stretch justify-center gap-[7%] md:gap-[9%]"
+      className="flex aspect-[3/4] w-full max-h-[min(52vw,400px)] md:-translate-x-5 -translate-y-12 items-stretch justify-center gap-[7%] md:gap-[9%]"
       role="img"
       aria-label="Pack Up color palette: #695858, #514242, #8093F1, #FCFCFC"
     >
@@ -114,15 +114,18 @@ function ColorPalette() {
           key={bar.hex}
           className="relative flex h-full min-h-0 w-[17%] max-w-[54px] min-w-[36px] flex-col justify-end self-stretch"
         >
-          <span
+          <motion.span
             className={`pointer-events-none absolute left-1/2 z-10 whitespace-nowrap font-['Bricolage_Grotesque'] text-[10px] font-medium tracking-[0.08em] md:text-[11px] ${bar.labelClass}`}
             style={{
               bottom: "calc(0.75rem + 1rem)",
               transform: "translateX(-50%) rotate(90deg)",
             }}
+            initial={{ opacity: 0 }}
+            animate={showBars ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             {bar.hex}
-          </span>
+          </motion.span>
           <div
             className="relative w-full overflow-visible"
             style={{
@@ -750,12 +753,12 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                   style={{ background: "none", borderRadius: FEATURE2_VIDEO_RADIUS }}
                 />
               </div>
-              <div className="md:col-start-3 md:col-span-2 flex flex-col gap-1 md:justify-center md:self-center">
+              <div className="md:col-start-3 md:col-span-3 flex flex-col gap-1 md:justify-center md:self-center">
                 <h4 className={smallTitleClass}>{FEATURES[1].title}</h4>
                 <p className={bodyTextClass}>{FEATURES[1].desc}</p>
-                <div className="flex gap-6 items-center mt-2">
-                  <img src={ORDER_STATUS_BAR} alt="Order status bar" className="w-[200px] md:w-[250px] ml-[-0.5rem]" loading="lazy" />
-                  <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="w-[130px] md:w-[160px] ml-[3rem]" loading="lazy" />
+                <div className="flex flex-col md:flex-row gap-3 md:gap-10 md:items-center mt-10">
+                  <img src={ORDER_STATUS_BAR} alt="Order status bar" className="w-full max-w-[300px] md:w-[45%] md:max-w-none" loading="lazy" />
+                  <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="w-full max-w-[300px] md:w-[30%] md:max-w-none" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -766,8 +769,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 <h4 className={smallTitleClass}>{FEATURES[2].title}</h4>
                 <p className={`${bodyTextClass} md:max-w-[80%]`}>{FEATURES[2].desc}</p>
                 <div className="flex gap-4 items-center mt-[1rem]">
-                  <img src={FILTER_CLOSED} alt="Filter closed state" className="w-[200px] md:w-[250px]" loading="lazy" />
-                  <img src={FILTER_OPEN} alt="Filter open state" className="w-[200px] md:w-[250px]" loading="lazy" />
+                  <img src={FILTER_CLOSED} alt="Filter closed state" className="w-[45%] max-w-[250px] shrink-0" loading="lazy" />
+                  <img src={FILTER_OPEN} alt="Filter open state" className="w-[45%] max-w-[250px] shrink-0" loading="lazy" />
                 </div>
               </div>
               <div className="md:col-start-4 md:col-span-2 flex justify-end">
@@ -820,8 +823,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             <h3 className={subTitleClass}>User Flow</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] items-center">
-              <div className="md:col-span-4 flex items-center md:pr-[6rem] ml-[-2rem]">
+            <div className="grid grid-cols-1 gap-y-8 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] md:gap-y-0 items-center">
+              <div className="md:col-span-4 flex items-center md:pr-[6rem] md:ml-[-2rem]">
                 <img src={USER_FLOW} alt="Pack Up user flow diagram" className="w-full" loading="lazy" />
               </div>
               <div className="md:col-span-2 flex items-center justify-center md:justify-end md:ml-[-4rem]">
@@ -870,7 +873,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
               <img
                 src={BTNS_SVG}
                 alt="Pack Up button styles"
-                className="w-[90%] md:ml-[calc(-55/655*90%)] md:w-[calc(90%+55/655*90%)] max-w-none"
+                className="w-[90%] md:ml-[calc(-55/655*90%)] md:w-[calc(90%+55/655*90%)] md:max-w-none"
                 loading="lazy"
               />
             </div>
@@ -880,7 +883,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             className={`col-span-8 md:col-start-6 md:col-span-3 flex flex-col gap-1 md:min-h-[70svh] ${sectionColumnPaddingClass}`}
           >
             <h3 className={subTitleClass}>Color Palette</h3>
-            <div className="mt-auto w-[80%] md:ml-[calc(-54/615*80%)] md:w-[calc(80%+54/615*80%)] max-w-none">
+            <div className="mt-auto w-[80%] md:ml-[calc(-54/615*80%)] md:w-[calc(80%+54/615*80%)] md:max-w-none">
               <ColorPalette />
             </div>
           </div>
@@ -888,7 +891,9 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       </section>
 
       {/* ── Next Project ── */}
-      <ProjectNav currentProject="packup" onSelectSection={onSelectSection} />
+      <div className="-translate-x-[0.35rem]">
+        <ProjectNav currentProject="packup" onSelectSection={onSelectSection} />
+      </div>
     </div>
   );
 }

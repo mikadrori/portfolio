@@ -14,7 +14,7 @@ export function ColorPaletteGrid({ className = "" }: { className?: string }) {
             style={{ backgroundColor: row.large }}
           />
           <div
-            className="w-[20px] lg:flex-1 rounded-[8px]"
+            className="w-[20px] h-[60px] lg:h-auto lg:flex-1 rounded-[8px]"
             style={{ backgroundColor: row.narrow }}
           />
         </div>

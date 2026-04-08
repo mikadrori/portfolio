@@ -1,13 +1,13 @@
 import { PageGrid } from "./PageGrid";
 
 const contactLinkClass =
-  "inline-block no-underline text-inherit transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 cursor-pointer";
+  "inline-block no-underline text-inherit transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 max-xl:hover:translate-x-0 cursor-pointer";
 
 export const Footer = () => {
   return (
-    <footer className="relative z-20 w-full min-h-[70px] flex items-center justify-center border-t border-[#2200b8] bg-[#fcf7ee] py-4">
+    <footer className="relative z-20 w-full min-h-[70px] max-xl:min-h-[52px] flex items-center justify-center border-t border-[#2200b8] bg-[#fcf7ee] py-4 max-xl:py-2">
       <PageGrid className="items-center justify-items-center">
-        <p className="col-span-8 font-['Bricolage_Grotesque'] text-[length:var(--text-footer)] text-[#2200b8] tracking-[1.1px] text-center">
+        <p className="col-span-8 font-['Bricolage_Grotesque'] text-[length:var(--text-footer)] max-xl:text-[length:calc(var(--text-footer)*0.92)] text-[#2200b8] tracking-[1.1px] max-xl:tracking-[0.55px] text-center leading-snug max-xl:leading-tight">
           Hire Me!!! &nbsp;&gt;&gt;&gt;&nbsp;{" "}
           <a
             href="https://www.linkedin.com/in/mika-drori-9b02253a2/"

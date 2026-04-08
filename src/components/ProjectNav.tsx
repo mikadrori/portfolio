@@ -35,7 +35,7 @@ export const ProjectNav = ({ currentProject, onSelectSection }: ProjectNavProps)
 
   return (
     <div
-      className="mx-auto flex w-fit translate-x-[0.5rem] cursor-pointer items-center gap-5 py-12"
+      className="mx-auto flex w-fit translate-x-[0.5rem] cursor-pointer items-center gap-3 py-8 xl:gap-5 xl:py-12"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => onSelectSection(nextProject)}
@@ -47,12 +47,12 @@ export const ProjectNav = ({ currentProject, onSelectSection }: ProjectNavProps)
       <img
         src={CUBE_ICON_PINK}
         alt=""
-        className="h-9 w-9 shrink-0 object-contain md:hidden"
+        className="h-6 w-6 shrink-0 object-contain md:hidden xl:h-9 xl:w-9"
       />
       <img
         src={hovered ? CUBE_ICON_PINK : CUBE_ICON_BLUE}
         alt=""
-        className="hidden h-9 w-9 shrink-0 object-contain md:block"
+        className="hidden h-6 w-6 shrink-0 object-contain md:block xl:h-9 xl:w-9"
       />
       <span className={`shrink-0 whitespace-nowrap md:hidden ${bodyTextClass}`}>
         {PROJECT_LABELS[nextProject]}

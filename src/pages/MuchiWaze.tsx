@@ -220,7 +220,7 @@ function MuchiColorPalette() {
   return (
     <div
       ref={containerRef}
-      className={`grid w-full min-w-0 grid-cols-7 ${gapHeroTightClass}`}
+      className={`grid w-full min-w-0 grid-cols-7 ${gapHeroTightClass} lg:gap-[8px]`}
       role="img"
       aria-label={ariaLabel}
       onMouseLeave={() => setHovered(null)}
@@ -247,13 +247,16 @@ function MuchiColorPalette() {
               height: { duration: 0.35, ease: "easeIn" },
             }}
           />
-          <span
-            className={`pointer-events-none absolute bottom-2 left-2 z-10 font-['Bricolage_Grotesque'] font-light leading-none tracking-[0.7px] text-[clamp(9px,2.4vw,12px)] sm:text-xs ${
+          <motion.span
+            className={`pointer-events-none absolute bottom-2 left-2 z-10 font-['Bricolage_Grotesque'] font-light leading-none tracking-[0.7px] text-[clamp(9px,2.4vw,12px)] sm:text-xs lg:text-[9px] xl:text-xs ${
               hex === "#FFEFBB" ? "text-[#590A19]" : "text-white"
             }`}
+            initial={{ opacity: 0 }}
+            animate={showBars ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             {hex}
-          </span>
+          </motion.span>
         </div>
       ))}
     </div>

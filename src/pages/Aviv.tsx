@@ -84,7 +84,7 @@ const APP_SKETCHES = [
 // ─── Weather Elements (SVG) ───
 const MOON_SVG = cloudinaryUrl("Moon1_prb2q8_wpvtpj.svg");
 const CLOUD_SVG = cloudinaryUrl("Cloud1_hclcuw_x4uvwk.png");
-const LIGHTNING_SVG = cloudinaryUrl("Lightning1-1_a9mh7u_khybzp.svg");
+const LIGHTNING_SVG = "/assets/Lightning1_qhayao.svg";
 const SUN_SVG = cloudinaryUrl("Sun1_h0j8wr_e8t9m9.svg");
 
 // ─── Weather Icons (SVG) ───
@@ -97,14 +97,12 @@ const SUNNY_ICON = cloudinaryUrl("sunny_icon_mzxlq1_ybbl9z.png");
 const NAV_FLOWER_SVG = cloudinaryUrl("flower1_afuol0_ke3qlp.png");
 const WEATHER_TOGGLE_SVG = cloudinaryUrl("toggle_daily_mpnmsz_i4r67y.svg");
 const WEATHER_TOGGLE_WEEKLY_SVG = cloudinaryUrl("toggle_weekly_dtykrp_pd5xhn.svg");
-const DAILY_REC_BTN = cloudinaryUrl("recommendation_btn1_u3mqqi_wymqbe.svg");
-const DAILY_REC_BTN_2 = cloudinaryUrl("recommendation_btn2_nshv27_s2gb4z.svg");
+const DAILY_REC_BTN = "/assets/RecommendatinBTN1_t12uad.png";
+const DAILY_REC_BTN_2 = "/assets/RecommendatinBTN2_hgiody.png";
 
-// ─── Weather Element Hover SVGs ───
-const MOON_SVG_HOVER = cloudinaryUrl("Moon2_rdaedi_euakka.svg");
+// ─── Weather element hover assets (cloud + lightning crossfade) ───
 const CLOUD_SVG_HOVER = cloudinaryUrl("Cloud2_dm0fk0_rukznf.png");
-const LIGHTNING_SVG_HOVER = cloudinaryUrl("Lightning1_cx3byk_aqesw4.svg");
-const SUN_SVG_HOVER = cloudinaryUrl("Sun2_cmz0th_qsotqh.svg");
+const LIGHTNING_SVG_HOVER = "/assets/Lightning2_wvrkby.svg";
 
 // ─── Hebrew Song Title Images ───
 const TXT_KINNERET = cloudinaryUrl("TXTMoonLight_wcjhps_sx3y7m.png");
@@ -381,7 +379,7 @@ function RecButton() {
         src={DAILY_REC_BTN_2}
         alt=""
         aria-hidden
-        className="w-full absolute inset-0"
+        className="w-full absolute inset-0 -top-1"
         animate={{ opacity: active ? 1 : 0 }}
         transition={{ duration: REC_BTN_CROSSFADE_S, ease: REC_BTN_EASE }}
         draggable={false}
@@ -390,23 +388,75 @@ function RecButton() {
   );
 }
 
-// ─── Weather Element (hover swap + scale) ───
+// ─── Weather elements row: pure CSS transitions for smooth GPU-accelerated hover ───
 
-function WeatherElement({ src, hover, label, height }: { src: string; hover: string; label: string; height: string }) {
-  const [hovered, setHovered] = useState(false);
+const WEATHER_ICON_CLASS =
+  "h-20 w-auto max-h-[100px] object-contain md:h-28 md:max-h-[140px] will-change-transform";
+
+const WEATHER_CELL_CLASS =
+  "flex items-center justify-center overflow-visible";
+
+function WeatherElements() {
+  useEffect(() => {
+    [CLOUD_SVG_HOVER, LIGHTNING_SVG_HOVER].forEach((s) => {
+      const i = new Image();
+      i.src = s;
+    });
+  }, []);
 
   return (
-    <div
-      className="flex items-center justify-center overflow-visible"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <img
-        src={hovered ? hover : src}
-        alt={label}
-        className={`${height} w-auto object-contain transition-transform duration-300 ease-out ${hovered ? "scale-[1.15]" : "scale-100"}`}
-        loading="lazy"
-      />
+    <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Moon — starts bigger, grows more + rotate 180deg right */}
+      <div className={WEATHER_CELL_CLASS}>
+        <img
+          src={MOON_SVG}
+          alt="Moon"
+          className={`${WEATHER_ICON_CLASS} scale-[1.6] transition-transform duration-500 ease-in hover:scale-[2.5] hover:rotate-[360deg]`}
+        />
+      </div>
+
+      {/* Cloud — crossfade; fixed-size box, both absolute */}
+      <div className={`${WEATHER_CELL_CLASS} group`}>
+        <div className="relative h-20 w-20 md:h-28 md:w-28 scale-[1.3]">
+          <img
+            src={CLOUD_SVG}
+            alt="Cloud"
+            className="absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ease-in-out group-hover:opacity-0"
+          />
+          <img
+            src={CLOUD_SVG_HOVER}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-contain opacity-0 scale-[1.35] transition-opacity duration-500 ease-in-out group-hover:opacity-100"
+          />
+        </div>
+      </div>
+
+      {/* Lightning — crossfade + grow on hover */}
+      <div className={`${WEATHER_CELL_CLASS} group`}>
+        <div className="relative h-28 w-20 md:h-36 md:w-28 scale-[1.3] transition-transform duration-500 ease-in-out group-hover:scale-[1.5]">
+          <img
+            src={LIGHTNING_SVG}
+            alt="Lightning"
+            className="absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ease-in group-hover:opacity-0"
+          />
+          <img
+            src={LIGHTNING_SVG_HOVER}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-300 ease-in group-hover:opacity-100"
+          />
+        </div>
+      </div>
+
+      {/* Sun — scale up + rotate -90deg left */}
+      <div className={WEATHER_CELL_CLASS}>
+        <img
+          src={SUN_SVG}
+          alt="Sun"
+          className={`${WEATHER_ICON_CLASS} scale-[1.7] md:scale-[1.7] transition-transform duration-300 ease-in hover:scale-[2.1] hover:-rotate-90`}
+        />
+      </div>
     </div>
   );
 }
@@ -500,7 +550,7 @@ function ConfessionSketchesCarousel() {
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
       <div className={`flex items-center ${gapHeroTightClass} w-max pr-[20%]`}>
         {CNFSN_SKETCHES.map((src, i) => (
-          <img key={i} src={src} alt={`Confessions sketch ${i + 1}`} className="max-h-[110px] md:max-h-[160px] w-auto rounded-sm pointer-events-none" loading="lazy" />
+          <img key={i} src={src} alt={`Confessions sketch ${i + 1}`} className="max-h-[110px] md:max-h-[160px] lg:max-h-[120px] xl:max-h-[160px] w-auto rounded-sm pointer-events-none" loading="lazy" />
         ))}
       </div>
     </div>
@@ -565,7 +615,7 @@ function CnfsnTypoSketchesCarousel() {
   const { ref, onMouseDown } = useDragScroll("y");
   return (
     <div ref={ref} onMouseDown={onMouseDown} className="overflow-y-auto scrollbar-hide rounded-[20px] max-h-[120px] md:max-h-[120px] cursor-grab active:cursor-grabbing">
-      <img src={TYPO_SKETCHES_CLOUDY} alt="Cloudy Now typography sketches" className="w-full pointer-events-none" loading="lazy" />
+      <img src={TYPO_SKETCHES_CLOUDY} alt="Cloudy Now typography sketches" className="w-full lg:w-[75%] xl:w-full pointer-events-none" loading="lazy" />
     </div>
   );
 }
@@ -608,8 +658,7 @@ function BothAxisSketchScroll({ src, alt }: { src: string; alt: string }) {
       <img
         src={src}
         alt={alt}
-        style={{ width: 900, minWidth: 900 }}
-        className="pointer-events-none"
+        className="pointer-events-none w-[900px] min-w-[900px] lg:w-[700px] lg:min-w-[700px] xl:w-[900px] xl:min-w-[900px]"
         loading="lazy"
         onLoad={centerScroll}
       />
@@ -641,15 +690,18 @@ function AvivColorPalette() {
           key={bar.hex}
           className="relative flex h-full min-h-0 w-[24%] max-w-[74px] min-w-[36px] flex-col justify-end self-stretch"
         >
-          <span
+          <motion.span
             className={`pointer-events-none absolute left-1/2 z-10 whitespace-nowrap font-['Bricolage_Grotesque'] text-[10px] font-medium tracking-[0.08em] md:text-[11px] ${bar.labelClass}`}
             style={{
               bottom: "calc(0.75rem + 1rem)",
               transform: "translateX(-50%) rotate(90deg)",
             }}
+            initial={{ opacity: 0 }}
+            animate={showBars ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             {bar.hex}
-          </span>
+          </motion.span>
           <div
             className="relative w-full overflow-visible"
             style={{ height: `calc(${bar.heightPct}% + 4rem)` }}
@@ -697,15 +749,18 @@ function AvivColorPalette2() {
           key={bar.hex}
           className="relative flex h-full min-h-0 w-[24%] max-w-[74px] min-w-[36px] flex-col justify-end self-stretch"
         >
-          <span
+          <motion.span
             className={`pointer-events-none absolute left-1/2 z-10 whitespace-nowrap font-['Bricolage_Grotesque'] text-[10px] font-medium tracking-[0.08em] md:text-[11px] ${bar.labelClass}`}
             style={{
               bottom: "calc(0.75rem + 1rem)",
               transform: "translateX(-50%) rotate(90deg)",
             }}
+            initial={{ opacity: 0 }}
+            animate={showBars ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             {bar.hex}
-          </span>
+          </motion.span>
           <div
             className="relative w-full overflow-visible"
             style={{ height: `calc(${bar.heightPct}% + 4rem)` }}
@@ -822,13 +877,13 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
 
               {/* Phone mockup + Laptop mockup side by side */}
               <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="w-[120px] md:w-[18%] shrink-0">
+                <div className="w-[120px] md:w-[25%] lg:w-[18%] shrink-0">
                   <ViewportVideo
                     src={VID_YARKON}
                     className={`w-full ${radiusPhoneAvivClass}`}
                   />
                 </div>
-                <div className="md:w-[75%]">
+                <div className="md:w-[68%] lg:w-[75%]">
                   <LaptopMockup />
                 </div>
               </div>
@@ -897,6 +952,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 <img src={SCREEN_ARAD} alt="Arad weather screen" className="w-full rounded-sm" loading="lazy" />
               </div>
             </div>
+
           </div>
         </PageGrid>
       </section>
@@ -958,7 +1014,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 </div>
                 <InteractiveFlower />
               </div>
-              <div className="md:w-[30%] shrink-0">
+              <div className="w-[55%] self-center md:w-[30%] shrink-0">
                 <ViewportVideo
                   src={VID_FLOWER_NAV}
                   className={`w-full ${radiusPhoneAvivClass}`}
@@ -968,7 +1024,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
 
             {/* Feature 2: Dual-View Toggle */}
             <div className="flex flex-col md:flex-row gap-8">
-              <div className="md:w-[30%] shrink-0">
+              <div className="w-[55%] self-center md:w-[30%] shrink-0">
                 <ViewportVideo
                   src={VID_WEATHER_TOGGLE}
                   className={`w-full ${radiusPhoneAvivClass}`}
@@ -989,7 +1045,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className="shrink-0 self-end md:self-auto">
                 <RecButton />
               </div>
-              <div className="md:w-[30%] shrink-0">
+              <div className="w-[55%] self-center md:w-[30%] shrink-0">
                 <ViewportVideo
                   src={VID_RECOMMENDATIONS}
                   className={`w-full ${radiusPhoneAvivClass}`}
@@ -1053,18 +1109,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 ))}
               </div>
 
-              {/* Weather element frames with hover */}
-              <div className="flex justify-between items-center mt-4">
-                {[
-                  { src: MOON_SVG, hover: MOON_SVG_HOVER, label: "Moon", height: "h-[150px] md:h-[190px]" },
-                  { src: CLOUD_SVG, hover: CLOUD_SVG_HOVER, label: "Cloud", height: "h-[80px] md:h-[100px]" },
-                  { src: LIGHTNING_SVG, hover: LIGHTNING_SVG_HOVER, label: "Lightning", height: "h-[170px] md:h-[220px]" },
-                  { src: SUN_SVG, hover: SUN_SVG_HOVER, label: "Sun", height: "h-[135px] md:h-[170px]" },
-                ].map((el) => (
-                  <WeatherElement key={el.label} {...el} />
-                ))}
-              </div>
-
+              <WeatherElements />
             </div>
           </div>
         </PageGrid>
@@ -1504,7 +1549,9 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       </section>
 
       {/* ── Next Project ── */}
-      <ProjectNav currentProject="aviv" onSelectSection={onSelectSection} />
+      <div className="-translate-x-[1.25rem]">
+        <ProjectNav currentProject="aviv" onSelectSection={onSelectSection} />
+      </div>
     </div>
   );
 }

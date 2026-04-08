@@ -14,7 +14,7 @@ export const NameAnimation = () => {
   }, [index]);
 
   return (
-    <span className="inline-block font-['Permanent_Marker'] text-[clamp(32px,5.5vw,70px)] text-[#ff0090] tracking-[5px] min-w-[clamp(60px,10vw,140px)] min-h-[1em] leading-none">
+    <span className="inline-block shrink-0 text-left font-['Permanent_Marker'] text-[clamp(32px,5.5vw,70px)] text-[#ff0090] tracking-[5px] w-[clamp(92px,26vw,200px)] min-h-[1em] leading-none">
       {VARIANTS[index] || "\u00A0"}
     </span>
   );

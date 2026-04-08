@@ -204,11 +204,11 @@
     --grid-margin: 50px;
     --grid-gutter: 20px;
 
-    --text-marker: 27px;
-    --text-project-name: 20px;
-    --text-subtitle: 16px;
-    --text-small-title: 14px;
-    --text-body: 12px;
+    --text-marker: 22px;
+    --text-project-name: 16px;
+    --text-subtitle: 14px;
+    --text-small-title: 12px;
+    --text-body: 10px;
     --text-nav-link: 14px;
     --text-nav-logo: 20px;
     --text-footer: 12px;
@@ -241,7 +241,7 @@
     --project-hero-height: 320px;
 
     --media-app-icon: 100px;
-    --media-screen-h: 380px;
+    --media-screen-h: 300px;
     --media-inline-figure-h: 170px;
     --media-inline-tall-h: 340px;
     --media-flourish-h: 220px;

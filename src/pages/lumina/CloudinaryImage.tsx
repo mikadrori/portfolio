@@ -3,21 +3,27 @@ import { useState } from "react";
 interface CloudinaryImageProps
   extends React.ImgHTMLAttributes<HTMLImageElement> {
   wrapperClassName?: string;
+  /** Use `span` for inline placement next to text (wrapper is `inline-block`). */
+  as?: "div" | "span";
 }
 
 export function CloudinaryImage({
   className = "",
   wrapperClassName = "",
+  as = "div",
   onLoad,
   ...props
 }: CloudinaryImageProps) {
   const [loaded, setLoaded] = useState(false);
+  const Wrapper = as === "span" ? "span" : "div";
+  const wrapperBase =
+    as === "span" ? "relative inline-block align-middle" : "relative";
 
   return (
-    <div className={`relative ${wrapperClassName}`}>
+    <Wrapper className={`${wrapperBase} ${wrapperClassName}`.trim()}>
       {!loaded && (
-        <div
-          className={`absolute inset-0 skeleton-shimmer-primary rounded-[inherit] ${className}`}
+        <span
+          className={`absolute inset-0 block skeleton-shimmer-primary rounded-[inherit] ${className}`}
         />
       )}
       <img
@@ -29,6 +35,6 @@ export function CloudinaryImage({
           onLoad?.(e);
         }}
       />
-    </div>
+    </Wrapper>
   );
 }

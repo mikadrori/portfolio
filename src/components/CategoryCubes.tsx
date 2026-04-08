@@ -67,7 +67,7 @@ export const CategoryCubes = ({ onSelectProject, animationKey = 0 }: CategoryCub
   return (
     <div
       key={animationKey}
-      className="relative flex justify-center items-end overflow-visible -translate-x-[10%] lg:translate-x-0 w-[clamp(220px,50vw,380px)] lg:w-[clamp(280px,30vw,400px)]"
+      className="relative flex justify-center items-end overflow-visible max-md:-translate-x-[12%] md:-translate-x-[12%] lg:-translate-x-[6%] w-[clamp(220px,50vw,380px)] md:w-[clamp(155px,28vw,230px)] lg:w-[clamp(280px,30vw,400px)] 2xl:w-[clamp(320px,32vw,480px)]"
       style={{
         aspectRatio: "1 / 1",
       }}

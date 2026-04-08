@@ -166,7 +166,7 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
       {/* Text + guardian wrapper */}
       <div className="relative">
         {/* 3-col text grid (cols 3-5) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:w-[60%] gap-x-[var(--grid-gutter)] md:min-h-[9rem]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:w-[60%] gap-x-[var(--grid-gutter)] lg:min-h-[9rem]">
           {/* Col 3 — Environment */}
           <div>
             <p className={`${smallTitleClass} !text-[#fcf7ee]`}>Environment</p>
@@ -201,10 +201,10 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
         </div>
 
         {/* Guardian 3D model — absolutely positioned so it doesn't affect text grid height */}
-        <div className={`md:absolute md:right-0 md:w-[40%] ${
-          area.id === "yellow" ? "h-[length:var(--media-glb-h)] md:-top-20" :
-          area.id === "green" ? "h-[calc(var(--media-glb-h)*1.25)] md:-top-16" :
-          "h-[calc(var(--media-glb-h)*1.25)] md:-top-28"
+        <div className={`lg:absolute lg:right-0 lg:w-[40%] ${
+          area.id === "yellow" ? "h-[length:var(--media-glb-h)] lg:-top-20" :
+          area.id === "green" ? "h-[calc(var(--media-glb-h)*1.25)] lg:-top-16" :
+          "h-[calc(var(--media-glb-h)*1.25)] lg:-top-28"
         }`}>
           <FbxModelViewer
             url={area.guardianGlb}
@@ -216,13 +216,13 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
       </div>
 
       {/* Sprites row */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-x-[var(--grid-gutter)] mt-2">
-        <div className="hidden md:block" />
-        <div className="flex gap-4 md:flex md:justify-center">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-x-[var(--grid-gutter)] mt-2">
+        <div className="hidden lg:block" />
+        <div className="flex gap-4 lg:flex lg:justify-center">
           <img src={area.collectibleImg} alt={area.collectibleLabel} className="w-[64px] h-[64px] object-contain" />
-          <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain md:hidden" />
+          <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain lg:hidden" />
         </div>
-        <div className="hidden md:flex md:justify-center">
+        <div className="hidden lg:flex lg:justify-center">
           <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain" />
         </div>
       </div>
@@ -304,7 +304,7 @@ export function AreaGates() {
 
       <div className="flex flex-col">
         {/* Gates row — 5-col grid matching outer columns 3-7, arches in cols 1-3 */}
-        <div ref={rowRef} className="relative z-[1] grid grid-cols-3 md:grid-cols-5 gap-x-[var(--grid-gutter)]">
+        <div ref={rowRef} className="relative z-[1] grid grid-cols-3 lg:grid-cols-5 gap-x-[var(--grid-gutter)]">
           {/* Sliding tab background behind selected gate — wider than cell by BLEED on each side */}
           <motion.div
             className="absolute bg-[#0d0439] pointer-events-none"

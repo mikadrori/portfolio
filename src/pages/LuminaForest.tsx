@@ -34,8 +34,12 @@ import { MuteProvider, MuteButton, useMute } from "./lumina/MuteContext";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
 const HERO_VIDEO = "/assets/herobanner_lumina_eq8woo.mp4";
+const HERO_VIDEO_POSTER = "/assets/herobanner_skeleton_lumina_xy4szf.png";
 const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType: "video" });
 const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
+
+const LUMINA_CONCEPT_SUBTITLE_BEFORE = "Explore a mystical";
+const LUMINA_CONCEPT_SUBTITLE_AFTER = "world where shadows meet glow";
 const MIA_GLB = "/assets/Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.glb";
 const ELF_MIXAMO_VIDEO = "/assets/elf_mixamo_animation_vhvtt5.mp4";
 
@@ -109,7 +113,7 @@ function HeroVideo() {
           v.pause();
         }
       },
-      { threshold: 0.9 },
+      { threshold: 0 },
     );
     observer.observe(v);
     return () => observer.disconnect();
@@ -120,6 +124,7 @@ function HeroVideo() {
       <video
         ref={videoRef}
         src={HERO_VIDEO}
+        poster={HERO_VIDEO_POSTER}
         muted={muted}
         loop
         playsInline
@@ -183,8 +188,22 @@ export default function LuminaForest({
                     Lumina Forest
                   </h3>
                   <div className={`flex flex-col ${gapSubtitleClass}`}>
-                    <p className={subTitleClass}>
-                      Explore a mystical world where shadows meet glow
+                    <p className={`${subTitleClass} md:hidden`}>
+                      {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
+                      <CloudinaryImage
+                        as="span"
+                        src={MUSHROOM_IMG}
+                        alt=""
+                        aria-hidden
+                        wrapperClassName="mx-0.5 -translate-y-0.5"
+                        className="h-[1.75em] w-auto max-h-[90px] object-contain object-bottom"
+                      />
+                      <br />
+                      {LUMINA_CONCEPT_SUBTITLE_AFTER}
+                    </p>
+                    <p className={`${subTitleClass} hidden md:block`}>
+                      {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
+                      {LUMINA_CONCEPT_SUBTITLE_AFTER}
                     </p>
                     <p className={bodyTextClass}>
                       Trapped within the mystical Lumina Forest, Mia must
@@ -198,8 +217,8 @@ export default function LuminaForest({
                 <CloudinaryImage
                   src={MUSHROOM_IMG}
                   alt="Pink mushroom"
-                  wrapperClassName="shrink-0 self-center mt-4 md:mt-6"
-                  className="w-[80px] h-[75px] md:w-[100px] md:h-[94px] object-contain"
+                  wrapperClassName="hidden shrink-0 self-center md:block md:mt-6"
+                  className="w-[100px] h-[94px] object-contain"
                 />
               </div>
 
@@ -368,7 +387,7 @@ export default function LuminaForest({
           <ContentColumn>
             {/* Intro: full content width (page cols 3–7); last word may extend past line box */}
             <p
-              className={`${smallTitleClass} leading-[1.5] min-w-0 max-w-none overflow-x-visible`}
+              className={`${smallTitleClass} leading-[1.5] min-w-0`}
             >
               An immersive experience that pulls the player into an enchanted realm,
               where the freedom to wander and discover meets a compelling goal and a
@@ -470,7 +489,7 @@ export default function LuminaForest({
               </p>
 
               <div className="flex flex-col lg:grid lg:grid-cols-[1fr_4fr] gap-[var(--grid-gutter)] lg:items-stretch">
-                <ColorPaletteGrid className="shrink-0 h-full" />
+                <ColorPaletteGrid className="shrink-0 lg:h-full" />
                 <CloudinaryImage
                   src={cloudinaryUrl("gates_tipi8p_ab0otx.jpg")}
                   alt=""
@@ -484,7 +503,7 @@ export default function LuminaForest({
               <h3 className={subTitleClass}>UI Design</h3>
               <div className="md:grid md:grid-cols-5 md:gap-x-[var(--grid-gutter)]">
                 <p
-                  className={`${bodyTextClass} md:col-span-5 min-w-0 md:whitespace-nowrap overflow-x-visible`}
+                  className={`${bodyTextClass} md:col-span-5 min-w-0`}
                 >
                   I designed the UI to continue the game&apos;s hybrid theme, blending dark
                   forest elements with a childhood aesthetic.
@@ -493,41 +512,41 @@ export default function LuminaForest({
 
               <div className="flex flex-col gap-4">
                 <p className={smallTitleClass}>Elements</p>
-                <div className="md:grid md:grid-cols-5 md:gap-x-[var(--grid-gutter)]">
-                  <p className={`${bodyTextClass} md:col-span-4 min-w-0 [text-wrap:pretty]`}>
+                <div className="lg:grid lg:grid-cols-5 lg:gap-x-[var(--grid-gutter)]">
+                  <p className={`${bodyTextClass} lg:col-span-4 min-w-0 [text-wrap:pretty]`}>
                     Text frames and buttons feature a dark forest style with
                     organic motifs. In addition, I created a custom cursor with two
                     states — normal and interaction modes, appearing only when the
                     player can interact with buttons.
                   </p>
                 </div>
-                {/* PageGrid cols 3–7: CloudinaryImage grid spans belong on wrapper, not <img> */}
-                <div className="my-6 grid w-full min-w-0 grid-cols-1 gap-6 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:items-start">
-                  <div className="mx-auto flex w-full min-w-0 max-w-full flex-col gap-4 md:col-span-2 md:mx-0">
+                {/* Button frame + cursors | text box — stacked until lg */}
+                <div className="my-6 grid w-full min-w-0 grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-x-[var(--grid-gutter)] lg:items-start">
+                  <div className="mx-auto flex w-full min-w-0 max-w-full flex-col gap-4 lg:col-span-2 lg:mx-0">
                     <CloudinaryImage
                       src={cloudinaryUrl("button_1_qu0rtf.png")}
                       alt=""
                       wrapperClassName="mt-8 w-full min-w-0"
-                      className="h-auto max-h-[96px] w-full object-contain object-left md:max-h-[132px]"
+                      className="h-auto max-h-[96px] w-full object-contain object-center lg:object-left lg:max-h-[132px]"
                     />
                     <div className="grid w-full min-w-0 shrink-0 grid-cols-2 gap-x-[var(--grid-gutter)] items-center justify-items-center">
                       <CloudinaryImage
                         src={cloudinaryUrl("cursur_1_vysh1r.png")}
                         alt=""
-                        className="h-[50px] md:h-[70px] w-auto object-contain shrink-0"
+                        className="h-[50px] lg:h-[70px] w-auto object-contain shrink-0"
                       />
                       <CloudinaryImage
                         src={cloudinaryUrl("click_cursur_1_fcide4.png")}
                         alt=""
-                        className="h-[58px] md:h-[88px] w-auto object-contain shrink-0"
+                        className="h-[58px] lg:h-[88px] w-auto object-contain shrink-0"
                       />
                     </div>
                   </div>
                   <CloudinaryImage
                     src={cloudinaryUrl("text_box_1_xik35k.png")}
                     alt=""
-                    wrapperClassName="mx-auto min-w-0 w-full max-w-full md:col-span-3 md:mx-0"
-                    className="h-[220px] w-full max-w-full object-contain md:h-[280px]"
+                    wrapperClassName="mx-auto min-w-0 w-full max-w-full lg:col-span-3 lg:mx-0"
+                    className="h-[220px] w-full max-w-full object-contain lg:h-[280px]"
                   />
                 </div>
                 <AutoPlayVideo
@@ -613,53 +632,54 @@ export default function LuminaForest({
               </div>
 
               <div className={`flex w-full min-w-0 max-w-full flex-col items-stretch ${gapIntroClass} overflow-visible`}>
-                <div className="self-center bg-[#0d0439] rounded-[10px] px-5 py-2 md:px-8 md:py-3 mt-4">
+                <div className="self-center bg-[#0d0439] rounded-[10px] px-5 py-2.5 md:px-8 md:py-3 mt-4">
                   <CloudinaryImage
                     src={cloudinaryUrl("LuMina_FoRest_logo_ca5aur_yat0j0.png")}
                     alt=""
-                    className="h-[28px] md:h-[46px] w-auto object-contain"
+                    className="h-[38px] md:h-[46px] w-auto object-contain"
                   />
                 </div>
-                <div className="flex flex-col gap-0 overflow-visible md:gap-0">
-                  {/* Row 1 — centers on cols 3, 5, 7; scale lets art extend past 1 track */}
-                  <div className="grid w-full min-w-0 grid-cols-1 gap-y-3 overflow-visible md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:justify-items-center">
+                {/* Mobile: single column with consistent gap; Desktop: two offset rows */}
+                <div className="flex flex-col gap-3 overflow-visible md:gap-0">
+                  {/* Row 1 — centers on cols 1, 3, 5 */}
+                  <div className="contents md:!grid md:w-full md:min-w-0 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:justify-items-center md:overflow-visible">
                     <CloudinaryImage
                       key="start"
                       src={cloudinaryUrl("btn_start_pwwpbq_v1vjfe.png")}
                       alt=""
                       wrapperClassName="flex justify-center overflow-visible md:col-start-1 md:col-span-1"
-                      className="h-[100px] w-auto origin-center scale-[1.15] object-contain md:h-[142px] md:scale-[1.35]"
+                      className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                     <CloudinaryImage
                       key="quit"
                       src={cloudinaryUrl("btn_quit_dxbnl3_dd4nyu.png")}
                       alt=""
                       wrapperClassName="flex justify-center overflow-visible md:col-start-3 md:col-span-1"
-                      className="h-[100px] w-auto origin-center scale-[1.15] object-contain md:h-[142px] md:scale-[1.35]"
+                      className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                     <CloudinaryImage
                       key="tutorial"
                       src={cloudinaryUrl("btn_tutorial_vxwliu_ya4myf.png")}
                       alt=""
                       wrapperClassName="flex justify-center overflow-visible md:col-start-5 md:col-span-1"
-                      className="h-[100px] w-auto origin-center scale-[1.15] object-contain md:h-[142px] md:scale-[1.35]"
+                      className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                   </div>
-                  {/* Row 2 — centers on cols 4, 6 */}
-                  <div className="grid w-full min-w-0 grid-cols-1 gap-y-3 overflow-visible md:-mt-6 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:justify-items-center">
+                  {/* Row 2 — centers on cols 2, 4 */}
+                  <div className="contents md:!grid md:w-full md:min-w-0 md:-mt-6 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:justify-items-center md:overflow-visible">
                     <CloudinaryImage
                       key="resume"
                       src={cloudinaryUrl("btn_resume_yuquf7_usjwdz.png")}
                       alt=""
                       wrapperClassName="flex justify-center overflow-visible md:col-start-2 md:col-span-1"
-                      className="h-[100px] w-auto origin-center scale-[1.15] object-contain md:h-[142px] md:scale-[1.35]"
+                      className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                     <CloudinaryImage
                       key="mainmenu"
                       src={cloudinaryUrl("btn_mainmenu_pvgedf_znnfwn.png")}
                       alt=""
                       wrapperClassName="flex justify-center overflow-visible md:col-start-4 md:col-span-1"
-                      className="h-[100px] w-auto origin-center scale-[1.15] object-contain md:h-[142px] md:scale-[1.35]"
+                      className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                   </div>
                 </div>
@@ -1000,7 +1020,9 @@ export default function LuminaForest({
       </section>
 
       {/* ── Project Navigation ── */}
-      <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
+      <div className="translate-x-[3.25rem]">
+        <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
+      </div>
     </div>
     </MuteProvider>
   );
