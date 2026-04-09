@@ -5,9 +5,9 @@ const contactLinkClass =
 
 export const Footer = () => {
   return (
-    <footer className="relative z-20 w-full min-h-[42px] md:min-h-[52px] xl:min-h-[70px] flex items-center justify-center border-t border-[#2200b8] bg-[#fcf7ee] py-2 md:py-3 xl:py-4">
+    <footer className="relative z-20 w-full min-h-[32px] md:min-h-[52px] xl:min-h-[70px] flex items-center justify-center border-t border-[#2200b8] bg-[#fcf7ee] py-2.5 md:py-3 xl:py-4">
       <PageGrid className="items-center justify-items-center">
-        <p className="col-span-8 font-['Bricolage_Grotesque'] text-[10px] md:text-[length:var(--text-footer)] max-xl:text-[length:calc(var(--text-footer)*0.92)] text-[#2200b8] tracking-[0.4px] md:tracking-[0.55px] xl:tracking-[1.1px] text-center leading-relaxed md:leading-snug">
+        <p className="col-span-8 font-['Bricolage_Grotesque'] text-[13px] md:text-[length:var(--text-footer)] md:max-xl:text-[length:calc(var(--text-footer)*0.92)] text-[#2200b8] tracking-[0px] md:tracking-[0.55px] xl:tracking-[1.1px] text-center leading-relaxed md:leading-snug">
           Hire Me!!! &nbsp;&gt;&gt;&gt;&nbsp;{" "}
           <a
             href="https://www.linkedin.com/in/mika-drori-9b02253a2/"
