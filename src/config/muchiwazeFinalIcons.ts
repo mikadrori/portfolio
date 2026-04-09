@@ -43,39 +43,39 @@ export type FinalDesignCol =
 export const FINAL_DESIGN_ICON_COLUMNS: FinalDesignCol[] = [
   {
     layout: "single",
-    src: cloudinaryUrl("hostel_icon_u1zksb.svg"),
+    src: cloudinaryUrl("hostel_icon_u1zksb_wdiw36.svg"),
     alt: "Hostel",
     sizeClass: FINAL_ICON_SIZES.hostel,
   },
   {
     layout: "stack",
     top: {
-      src: cloudinaryUrl("munch_icon_ukb2yp.svg"),
+      src: cloudinaryUrl("robbery_icon_msuw87_yegtap.svg"),
       alt: "Munch",
       sizeClass: FINAL_ICON_SIZES.munch,
       offsetClass: "mt-[0.05rem]",
     },
     bottom: {
-      src: cloudinaryUrl("bribe_icon_rqtufa.svg"),
+      src: cloudinaryUrl("bribe_icon_rqtufa_pkqwdt.svg"),
       alt: "Police alert",
       sizeClass: FINAL_ICON_SIZES.bribe,
     },
   },
   {
     layout: "single",
-    src: cloudinaryUrl("chabad_icon_bjpydu.svg"),
+    src: cloudinaryUrl("chabad_icon_bjpydu_ypi1qn.svg"),
     alt: "Chabad House",
     sizeClass: FINAL_ICON_SIZES.chabad,
   },
   {
     layout: "stack",
     top: {
-      src: cloudinaryUrl("weed_icon_aazyi4.svg"),
+      src: cloudinaryUrl("weed_icon_aazyi4_wdsjku.svg"),
       alt: "Weed",
       sizeClass: FINAL_ICON_SIZES.weed,
     },
     bottom: {
-      src: cloudinaryUrl("robbery_icon_msuw87.svg"),
+      src: cloudinaryUrl("robbery_icon_msuw87_yegtap.svg"),
       alt: "Robbery alert",
       sizeClass: FINAL_ICON_SIZES.robbery,
       offsetClass: "-mt-3",
@@ -83,7 +83,7 @@ export const FINAL_DESIGN_ICON_COLUMNS: FinalDesignCol[] = [
   },
   {
     layout: "single",
-    src: cloudinaryUrl("party_icon_fukpld.svg"),
+    src: cloudinaryUrl("party_icon_fukpld_fyxsqk.svg"),
     alt: "Party",
     sizeClass: FINAL_ICON_SIZES.party,
     offsetClass: "-mt-3",
