@@ -349,7 +349,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
               <StoryboardCarousel />
             </div>
 
-            <p className={bodyTextClass}>
+            <p className={`${bodyTextClass} lg:w-[110%]`}>
               My first thought was sea, waves, fire, and smoke. While I initially considered including characters,
               I later chose to represent them only through hints- a photo, decorative objects, and a hand.
             </p>
@@ -365,7 +365,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
             {/* Typography */}
             <div className="flex flex-col gap-2">
               <h3 className={subTitleClass}>Typography</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:w-[110%]`}>
                 To evoke memory loss, I used blur and glare on the text. The titles appear and disappear, creating
                 a sense of uncertainty- as if they are "there but not really there."
               </p>
@@ -377,9 +377,9 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
 
             <div className="flex flex-col gap-2">
               <h3 className={subTitleClass}>Video & Editing</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:w-[110%]`}>
                 I combined stock footage, a Veo-generated video, and my own shots. To ensure a uniform
-                look,<br /> I used smooth, blurry transitions to create a sense of flow and lack of clarity.
+                look, I used smooth, blurry transitions to create a sense of flow and lack of clarity.
               </p>
             </div>
           </div>

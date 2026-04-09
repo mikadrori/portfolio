@@ -75,9 +75,10 @@
   --radius-phone-packup-medium: 18px;
   --radius-phone-packup-large: 32px;
   /* MuchiWaze — phone demo clips (tune independently from Aviv / PackUp) */
-  --radius-phone-muchi-medium: 22px;
+  --radius-phone-muchi-small: 20px;
+  --radius-phone-muchi-medium: 28px;
   --radius-phone-muchi-large: 30px;
-  --radius-phone-muchi-xl: 37x;
+  --radius-phone-muchi-xl: 10px;
   --radius-media-sm: 8px;
   --radius-media-lg: 14px;
   --radius-wwl-frame: 4px;
@@ -142,9 +143,10 @@
     --radius-phone-large: 49px;
     --radius-phone-packup-medium: 30px;
     --radius-phone-packup-large: 26px;
-    --radius-phone-muchi-medium: 20px;
-    --radius-phone-muchi-large: 49px;
-    --radius-phone-muchi-xl: 52px;
+    --radius-phone-muchi-small: 20px;
+    --radius-phone-muchi-medium: 28px;
+    --radius-phone-muchi-large: 30px;
+    --radius-phone-muchi-xl: 20px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;
@@ -210,9 +212,10 @@
     --radius-phone-large: 22px;
     --radius-phone-packup-medium: 20px;
     --radius-phone-packup-large: 26px;
-    --radius-phone-muchi-medium: 25px;
-    --radius-phone-muchi-large: 22px;
-    --radius-phone-muchi-xl: 28px;
+    --radius-phone-muchi-small: 22px;
+    --radius-phone-muchi-medium: 38px;
+    --radius-phone-muchi-large: 45px;
+    --radius-phone-muchi-xl: 30px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;
@@ -278,6 +281,7 @@
     --radius-phone-large: 27px;
     --radius-phone-packup-medium: 24px;
     --radius-phone-packup-large: 36px;
+    --radius-phone-muchi-small: 24px;
     --radius-phone-muchi-medium: 35px;
     --radius-phone-muchi-large: 40px;
     --radius-phone-muchi-xl: 34px;
@@ -346,6 +350,7 @@
     --radius-phone-large: 36px;
     --radius-phone-packup-medium: 36px;
     --radius-phone-packup-large: 46px;
+    --radius-phone-muchi-small: 28px;
     --radius-phone-muchi-medium: 38px;
     --radius-phone-muchi-large: 42px;
     --radius-phone-muchi-xl: 46px;
@@ -414,6 +419,7 @@
     --radius-phone-large: 44px;
     --radius-phone-packup-medium: 33px;
     --radius-phone-packup-large: 59px;
+    --radius-phone-muchi-small: 32px;
     --radius-phone-muchi-medium: 40px;
     --radius-phone-muchi-large: 44px;
     --radius-phone-muchi-xl: 54px;

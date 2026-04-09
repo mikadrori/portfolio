@@ -23,6 +23,7 @@ import {
   gapSubtitleClass,
   radiusPhoneMuchiLargeClass,
   radiusPhoneMuchiMediumClass,
+  radiusPhoneMuchiSmallClass,
   radiusPhoneMuchiXlClass,
 } from "../lib/spacing";
 import { phoneClipPathStyle, phoneClipWrapperBaseClass } from "../lib/phoneClip";
@@ -302,7 +303,7 @@ function ScreensCarousel() {
             key={i}
             src={src}
             alt={`MuchiWaze screen ${i + 1}`}
-            className="h-[240px] w-auto rounded-sm pointer-events-none md:h-[380px]"
+            className="h-[240px] w-auto rounded-sm pointer-events-none md:h-[320px] lg:h-[320px] xl:h-[380px]"
             loading="lazy"
           />
         ))}
@@ -389,7 +390,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                   </div>
                   <div className="flex items-start justify-end ml-auto md:hidden">
                     <div
-                      className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiLargeClass} w-[130px]`}
+                      className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiSmallClass} w-[130px]`}
                     >
                       <video
                         src={VID_OPENING}
@@ -398,7 +399,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                         loop
                         playsInline
                         className="block h-auto w-full object-contain"
-                        style={{ background: "none", ...phoneClipPathStyle("muchi-large") }}
+                        style={{ background: "none", ...phoneClipPathStyle("muchi-small") }}
                       />
                     </div>
                   </div>
@@ -475,7 +476,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                       {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
                         <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
                           {row.map((item) => (
-                            <p key={item} className={`${bodyTextClass} font-semibold text-center lg:max-w-[4rem] lg:mx-auto xl:max-w-none`}>{item}</p>
+                            <p key={item} className={`${bodyTextClass} font-semibold text-center max-w-[4rem] mx-auto`}>{item}</p>
                           ))}
                         </div>
                       ))}
@@ -557,7 +558,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <h3 className={smallTitleClass}>Option 1</h3>
               <div className={extendContentToCol7Class}>
                 <div ref={sketch1Drag.ref} onMouseDown={sketch1Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                  <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[80px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
+                  <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[80px] md:h-[120px] lg:h-[120px] xl:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -567,7 +568,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <h3 className={smallTitleClass}>Option 2</h3>
               <div className={extendContentToCol7Class}>
                 <div ref={sketch2Drag.ref} onMouseDown={sketch2Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                  <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[80px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
+                  <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[80px] md:h-[120px] lg:h-[120px] xl:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
                 </div>
               </div>
             </div>

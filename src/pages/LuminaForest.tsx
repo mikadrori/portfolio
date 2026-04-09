@@ -172,7 +172,7 @@ export default function LuminaForest({
       {/* ════════════════════════════════════════════════════════
           HERO + CONCEPT  (min-h-screen)
           ════════════════════════════════════════════════════════ */}
-      <div className="min-h-screen flex flex-col">
+      <div className="md:min-h-screen flex flex-col">
         {/* Hero Video Banner */}
         <HeroVideo />
 
@@ -1029,7 +1029,9 @@ export default function LuminaForest({
       </section>
 
       {/* ── Project Navigation ── */}
-      <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
+      <div className="lg:translate-x-7">
+        <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
+      </div>
     </div>
     </MuteProvider>
   );
