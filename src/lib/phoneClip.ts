@@ -8,6 +8,7 @@ export type PhoneClipTier =
   | "large"
   | "packup-medium"
   | "packup-large"
+  | "muchi-small"
   | "muchi-medium"
   | "muchi-large"
   | "muchi-xl";
@@ -19,6 +20,7 @@ const TIER_VAR: Record<PhoneClipTier, string> = {
   large: "var(--radius-phone-large)",
   "packup-medium": "var(--radius-phone-packup-medium)",
   "packup-large": "var(--radius-phone-packup-large)",
+  "muchi-small": "var(--radius-phone-muchi-small)",
   "muchi-medium": "var(--radius-phone-muchi-medium)",
   "muchi-large": "var(--radius-phone-muchi-large)",
   "muchi-xl": "var(--radius-phone-muchi-xl)",

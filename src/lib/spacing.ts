@@ -40,6 +40,7 @@ export const radiusPhonePackupMediumClass = "rounded-[length:var(--radius-phone-
 export const radiusPhonePackupLargeClass = "rounded-[length:var(--radius-phone-packup-large)]";
 
 /** MuchiWaze page only — independent radii */
+export const radiusPhoneMuchiSmallClass = "rounded-[length:var(--radius-phone-muchi-small)]";
 export const radiusPhoneMuchiMediumClass = "rounded-[length:var(--radius-phone-muchi-medium)]";
 export const radiusPhoneMuchiLargeClass = "rounded-[length:var(--radius-phone-muchi-large)]";
 export const radiusPhoneMuchiXlClass = "rounded-[length:var(--radius-phone-muchi-xl)]";

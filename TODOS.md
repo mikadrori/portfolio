@@ -19,15 +19,11 @@ Tracked tasks for the site. Update this file as work is done or scope changes.
 
 | Screen        | Priority     | Task                                              |
 | ------------- | ------------ | ------------------------------------------------- |
-| General       | Critical     | Responsive views across the app — phones radiuses |
-
 
 ## Amit
 
 
 | Screen | Priority | Task |
 | ------ | -------- | ---- |
-| General | Normal | Hero banners are cropped in small screens     |
-
 
 
