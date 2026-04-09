@@ -472,7 +472,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                       ))}
                     </div>
                     {/* Desktop: original row layout */}
-                    <div className={`hidden md:flex flex-col gap-y-12 md:w-[110%] lg:mt-8`}>
+                    <div className={`hidden md:flex flex-col gap-y-3 md:w-[110%] md:-ml-8 lg:mt-8`}>
                       {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
                         <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
                           {row.map((item) => (
@@ -731,7 +731,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                     </div>
                     {/* Desktop: cross/diamond grid */}
                     <div
-                      className="hidden md:grid mx-auto w-full max-w-[min(100%,16rem)] grid-cols-3 justify-items-center gap-x-0 overflow-visible sm:max-w-[19rem] md:max-w-[20rem] lg:max-w-[16rem]"
+                      className="hidden md:grid mx-auto w-full max-w-[min(100%,16rem)] grid-cols-3 justify-items-center gap-x-0 overflow-visible sm:max-w-[19rem] md:max-w-[20rem] lg:max-w-[16rem] xl:max-w-[22rem] xl:gap-x-4 xl:gap-y-2 xl:ml-8 2xl:max-w-[26rem] 2xl:gap-x-6 2xl:gap-y-3 2xl:ml-12"
                       style={{
                         gridTemplateAreas: `
                           "a . b"
@@ -743,7 +743,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                       {AVATAR_SHOWCASE.map((item) => (
                         <div
                           key={item.id}
-                          className={`flex w-full max-w-[6.25rem] items-center justify-center overflow-visible sm:max-w-[6.875rem] md:max-w-[7.5rem] lg:max-w-[5.75rem]`}
+                          className={`flex w-full max-w-[6.25rem] items-center justify-center overflow-visible sm:max-w-[6.875rem] md:max-w-[7.5rem] lg:max-w-[5.75rem] xl:max-w-[8rem] 2xl:max-w-[9.5rem]`}
                           style={{ gridArea: item.gridArea }}
                         >
                           <AvatarShowcaseImg src={item.src} alt={item.alt} />

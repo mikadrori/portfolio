@@ -952,7 +952,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                     including a mobile weather app and an immersive desktop experience.
                   </span>
                 </p>
-                <p className={`${bodyTextClass} italic mt-2`}>
+                <p className={`${bodyTextClass} italic mt-2 lg:max-w-[80%]`}>
                   These projects focus on creating immersive UX/UI experiences.
                 </p>
               </div>
@@ -1003,7 +1003,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                   A dynamic weather experience inspired by the visual and emotional world of Aviv Geffen.
                 </p>
                 <div className="flex flex-row gap-4 md:block">
-                  <p className={`${bodyTextClass} flex-1 min-w-0 md:w-full`}>
+                  <p className={`${bodyTextClass} flex-1 min-w-0 md:w-full lg:max-w-[80%]`}>
                     The app draws from Geffen&rsquo;s intense use of weather as a tool for emotional
                     expression in his lyrics. The concept captures the tension between the raw
                     vulnerability of the &lsquo;Flower Children&rsquo; era and a dark, deep melancholy,
@@ -1063,7 +1063,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Initial Concept & Ideation */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Initial Concept &amp; Ideation</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                 My vision was to merge weather-inspired elements as a tribute to Aviv&rsquo;s lyrics
                 with &lsquo;Flower Children&rsquo; imagery, creating a dark and mysterious atmosphere.
               </p>
@@ -1085,7 +1085,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Final Design */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Final Design</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                 The final design focuses on the experience by removing unnecessary info, creating a
                 simple and immersive layout that spotlights weather elements and floral motifs.
               </p>
@@ -1098,7 +1098,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             <div className="flex flex-col md:flex-row gap-8 -mt-[calc(var(--gap-content-lg)*0.5)] md:mt-0">
               <div className={`flex flex-col ${gapSubtitleClass} order-1 md:hidden`}>
                 <h4 className={smallTitleClass}>Interactive Flower Scroll</h4>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   The core element — Users rotate a flower icon to navigate through key milestones
                   in Aviv&rsquo;s career.
                 </p>
@@ -1106,7 +1106,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className="md:w-[40%] flex flex-col justify-between min-h-0 order-3 md:order-none">
                 <div className={`hidden md:flex flex-col ${gapSubtitleClass}`}>
                   <h4 className={smallTitleClass}>Interactive Flower Scroll</h4>
-                  <p className={bodyTextClass}>
+                  <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                     The core element — Users rotate a flower icon to navigate through key milestones
                     in Aviv&rsquo;s career.
                   </p>
@@ -1125,7 +1125,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             <div className="flex flex-col md:flex-row gap-8">
               <div className={`flex flex-col ${gapSubtitleClass} order-1 md:hidden`}>
                 <h4 className={smallTitleClass}>Dual-View Toggle</h4>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   A bottom toggle for hourly and weekly forecasts, offering full data within a clean,
                   minimal interface.
                 </p>
@@ -1139,7 +1139,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className={`md:w-[40%] flex flex-col ${gapSubtitleClass} md:justify-center order-3 md:order-none`}>
                 <div className="hidden md:block">
                   <h4 className={smallTitleClass}>Dual-View Toggle</h4>
-                  <p className={`${bodyTextClass} mt-[length:var(--gap-subtitle)]`}>
+                  <p className={`${bodyTextClass} mt-[length:var(--gap-subtitle)] lg:max-w-[80%]`}>
                     A bottom toggle for hourly and weekly forecasts, offering full data within a clean,
                     minimal interface.
                   </p>
@@ -1153,7 +1153,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               {/* Mobile: text first */}
               <div className={`flex flex-col ${gapSubtitleClass} order-1 md:hidden`}>
                 <h4 className={smallTitleClass}>Contextual Recommendations</h4>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   Customized recommendations inspired by Aviv Geffen&rsquo;s persona
                 </p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-3 items-start">
@@ -1193,7 +1193,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               {/* Desktop only: text */}
               <div className={`hidden md:flex md:w-[40%] md:ml-auto flex-col ${gapSubtitleClass} order-3 md:order-none`}>
                 <h4 className={smallTitleClass}>Contextual Recommendations</h4>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   Customized recommendations inspired by Aviv Geffen&rsquo;s persona
                 </p>
                 <div className="flex flex-col gap-3">
@@ -1216,12 +1216,12 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Weather Elements & Animation */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Weather Elements &amp; Animation</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                 Aviv Geffen often uses weather as a metaphor for emotions in his lyrics. In his world,
                 the <span className="font-medium">Moon</span> is the central, cherished symbol, while the Sun is secondary, harsh, and
                 burning.
               </p>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:max-w-[80%] mt-2`}>
                 I drew inspiration from 4 of Aviv&rsquo;s songs to create the visual elements
                 for each weather screen.
               </p>
@@ -1279,7 +1279,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
               <div className={`md:w-1/2 flex flex-col ${gapSubtitleClass} order-1 md:order-none`}>
                 <h3 className={subTitleClass}>Aviv Geffen</h3>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   Aviv Geffen is a major Israeli musician who rose to fame in the 90s. Known for his
                   raw, provocative style, he became the voice of Israel&rsquo;s &ldquo;Moonlight
                   Children&rdquo; generation.
@@ -1361,7 +1361,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             <div className="flex flex-col md:flex-row ${gapSplitClass}">
               <div className={`flex flex-col ${gapSubtitleClass} md:w-[55%]`}>
                 <h3 className={subTitleClass}>Color Palette</h3>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   I chose Dark Mode as a foundation to create an atmospheric environment, with a palette
                   carefully selected to reflect the layers of Aviv Geffen&rsquo;s identity.
                 </p>
@@ -1403,14 +1403,14 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-2">
                 <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <h4 className={smallTitleClass}>Custom Hand-Drawn Typography</h4>
-                  <p className={bodyTextClass}>
+                  <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                     A custom-made, rebellious font that serves as the raw heart of the design.
                   </p>
                   <HandDrawnTypoCarousel />
                 </div>
                 <div className={`flex flex-col ${gapSubtitleClass} md:pl-16`}>
                   <h4 className={smallTitleClass}>Secondary Typography</h4>
-                  <p className={bodyTextClass}>
+                  <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                     A clean, delicate font that ensures readability and balances the bold hand-drawn elements.
                   </p>
                   <img src={SIMPLER_FONT} alt="Simpler font" className="w-full max-w-[260px] mt-4 mx-auto md:mx-0" loading="lazy" />
@@ -1513,7 +1513,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Initial Concept & Ideation */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Initial Concept &amp; Ideation</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                 I wanted to create an endless space that feels like a field of stars, where each light
                 represents an exposed soul in a nostalgic tribute to the &ldquo;Moonlight
                 Children&rdquo; era.
@@ -1536,8 +1536,8 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Final Design */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Final Design</h3>
-              <p className={bodyTextClass}>
-                Continuing the Dark Mode atmosphere — The Moon is the heart of the site and the
+              <p className={`${bodyTextClass} lg:max-w-[80%]`}>
+                Continuing the Dark Mode atmosphere- The Moon is the heart of the site and the
                 experience, symbolizing &ldquo;inner light&rdquo; and emotional release.
               </p>
             </div>
@@ -1608,7 +1608,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                   <span>The Moonlight Children</span>
                   <span className="font-['Varela_Round'] font-bold">ילדי אור הירח</span>
                 </h3>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   A dedicated youth subculture from the early 90s, inspired by Geffen&rsquo;s raw
                   lyrics and social messages, forming a powerful community across Israel.
                 </p>
@@ -1639,7 +1639,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             <div className="flex flex-col md:flex-row ${gapSplitClass}">
               <div className={`flex flex-col ${gapSubtitleClass} md:w-[55%]`}>
                 <h3 className={subTitleClass}>Color Palette</h3>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   I kept the original palette but replaced the red with a yellowish-white, like aged
                   paper, to evoke a deeper sense of melancholy and nostalgia.
                 </p>
@@ -1653,7 +1653,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             <div className="flex flex-col md:flex-row ${gapSplitClass}">
               <div className={`flex flex-col ${gapSubtitleClass} md:w-[40%] shrink-0`}>
                 <h3 className={subTitleClass}>Typography</h3>
-                <p className={bodyTextClass}>
+                <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                   The core typography remains a central hand-drawn font, but I replaced the bold style
                   with a thinner, more delicate hand to evoke a more sensitive and vulnerable feel.
                 </p>
@@ -1672,7 +1672,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             {/* Icons & Buttons */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Icons &amp; Buttons</h3>
-              <p className={bodyTextClass}>
+              <p className={`${bodyTextClass} lg:max-w-[80%]`}>
                 Consistent with the typography, I hand-drew all icons and buttons to maintain a
                 unified manual style.
               </p>
@@ -1709,7 +1709,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                     <img key={i} src={src} alt={`Profile icon ${i + 1}`} className="h-[92px] md:h-[112px] w-auto max-w-full object-contain" loading="lazy" />
                   ))}
                 </div>
-                <p className={`${bodyTextClass} -mt-1 md:mt-2`}>
+                <p className={`${bodyTextClass} -mt-1 md:mt-2 lg:max-w-[80%]`}>
                   Inspired by Aviv&rsquo;s world of imagery.
                 </p>
               </div>
