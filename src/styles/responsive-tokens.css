@@ -50,8 +50,8 @@
   --gap-about-y: 12px;
   --about-pt: 24px;
 
-  /* Project hero strip */
-  --project-hero-height: 200px;
+  /* Project hero strip (aspect-ratio driven; max-h caps large viewports) */
+  --project-hero-max-h: none;
 
   /* Media */
   --media-app-icon: 80px;
@@ -124,7 +124,7 @@
     --gap-about-y: 12px;
     --about-pt: 24px;
 
-    --project-hero-height: 220px;
+    --project-hero-max-h: none;
 
     --media-app-icon: 80px;
     --media-screen-h: 280px;
@@ -192,7 +192,7 @@
     --gap-about-y: 12px;
     --about-pt: 40px;
 
-    --project-hero-height: 280px;
+    --project-hero-max-h: none;
 
     --media-app-icon: 90px;
     --media-screen-h: 380px;
@@ -260,7 +260,7 @@
     --gap-about-y: 12px;
     --about-pt: 40px;
 
-    --project-hero-height: 320px;
+    --project-hero-max-h: 320px;
 
     --media-app-icon: 100px;
     --media-screen-h: 300px;
@@ -328,7 +328,7 @@
     --gap-about-y: 12px;
     --about-pt: 40px;
 
-    --project-hero-height: 370px;
+    --project-hero-max-h: 370px;
 
     --media-app-icon: 110px;
     --media-screen-h: 380px;
@@ -396,7 +396,7 @@
     --gap-about-y: 12px;
     --about-pt: 40px;
 
-    --project-hero-height: 440px;
+    --project-hero-max-h: 440px;
 
     --media-app-icon: 120px;
     --media-screen-h: 380px;
