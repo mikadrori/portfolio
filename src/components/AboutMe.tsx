@@ -79,17 +79,17 @@ function ScrollMoreFade({
 const introClassMerged =
   `w-full self-start mt-1 md:mt-0 ${smallTitleClass} leading-[1.6] max-md:leading-[1.88]`;
 
-const introClassDesktop = `w-full self-start ${smallTitleClass} leading-[1.6] max-md:leading-[1.88] xl:col-start-3 xl:col-end-8 xl:row-start-1 xl:mt-1`;
+const introClassDesktop = `w-full self-start ${smallTitleClass} leading-[1.6] max-md:leading-[1.88] lg:col-start-3 lg:col-end-8 lg:row-start-1 lg:mt-1`;
 
-const bioPClass = `${bodyTextClass} leading-[1.4] max-md:leading-[1.65] text-justify [text-wrap:pretty]`;
+const bioPClass = `${bodyTextClass} leading-[1.4] max-md:leading-[1.65] text-left md:text-justify [text-wrap:pretty]`;
 
 function IntroLines() {
   return (
     <>
       I'm Mika, a 25-year-old Visual <br />
       Communication student at HIT 3rd year,
-      <br />
-      Based in Ramat-Gan.
+      <br className="hidden md:inline" />
+      {" "}Based in Ramat-Gan.
     </>
   );
 }
@@ -113,10 +113,10 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
 
   return (
     <section
-      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-cover max-md:bg-[length:100%_auto] max-md:bg-bottom"
+      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-no-repeat bg-cover max-md:bg-[length:220%_auto] max-md:bg-[position:center_bottom]"
       style={{
         backgroundImage: `url(${BG_IMAGE})`,
-        backgroundPosition: "center 80%",
+        backgroundPosition: "center 90%",
       }}
     >
       <PageGrid className={`relative z-10 items-start ${gapAboutXClass} ${gapAboutYClass} w-full ${aboutPtClass} pb-24`}>
@@ -124,12 +124,12 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
           about me
         </h2>
 
-        {/* Below xl: intro + bio in one scroll; gradient hint only on mobile */}
-        <div className="col-span-8 md:col-start-3 md:col-end-8 md:row-start-1 xl:hidden">
+        {/* Below lg: intro + bio in one scroll; gradient hint only on mobile */}
+        <div className="col-span-8 md:col-start-3 md:col-end-8 md:row-start-1 lg:hidden">
           <ScrollMoreFade
             scrollClassName={[
               "scrollbar-hide mt-1 flex flex-col gap-2 overflow-y-auto overflow-x-hidden",
-              "max-md:max-h-[min(152px,44dvh)] md:max-lg:max-h-[88px] lg:max-xl:max-h-[calc(87px+1rem)]",
+              "max-md:max-h-[min(280px,55dvh)] md:max-lg:max-h-[88px]",
             ].join(" ")}
           >
             <p className={introClassMerged}>
@@ -139,16 +139,16 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
           </ScrollMoreFade>
         </div>
 
-        {/* xl+: intro row + bio scroll (hard mid-line clip on web, no gradient) */}
-        <div className="hidden xl:contents">
+        {/* lg+: intro row + bio scroll (hard mid-line clip on web, no gradient) */}
+        <div className="hidden lg:contents">
           <p className={introClassDesktop}>
             <IntroLines />
           </p>
           <ScrollMoreFade
-            wrapperClassName="w-full xl:col-start-3 xl:col-end-8 xl:row-start-2"
+            wrapperClassName="w-full lg:col-start-4 lg:col-end-7 lg:row-start-2"
             scrollClassName={[
-              "scrollbar-hide mt-1 flex w-full flex-col gap-1 overflow-x-hidden xl:mt-1 xl:overflow-y-auto",
-              "xl:text-[length:var(--text-body)] xl:font-light xl:leading-[1.4] xl:max-h-[calc(5lh+0.5lh)]",
+              "scrollbar-hide mt-1 flex w-full flex-col gap-1 overflow-x-hidden lg:-mt-[0.5rem] lg:overflow-y-auto",
+              "lg:text-[length:var(--text-body)] lg:font-light lg:leading-[1.4] lg:max-h-[4.5lh] xl:max-h-[5lh]",
             ].join(" ")}
           >
             <BioParagraphs />
