@@ -9,7 +9,7 @@ const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9_vfttwe.png", { quality: "auto:best
 
 /** Matches section cream so the fade reads as “more below” over the photo/top tint. */
 const SCROLL_FADE =
-  "pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-9 bg-gradient-to-t from-[#fcf7ee] via-[#fcf7ee]/65 to-transparent transition-opacity duration-200 ease-out";
+  "pointer-events-none absolute inset-x-0 -bottom-2 z-[1] h-14 bg-gradient-to-t from-[#fcf7ee] from-30% via-[#fcf7ee]/90 via-60% to-transparent transition-opacity duration-200 ease-out";
 
 const BIO_PARAGRAPHS = [
   "As a designer, I'm always looking for that delicate balance between order and colorful chaos.",
@@ -124,17 +124,17 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
           about me
         </h2>
 
-        {/* Below lg: intro + bio in one scroll; gradient hint only on mobile */}
-        <div className="col-span-8 md:col-start-3 md:col-end-8 md:row-start-1 lg:hidden">
+        {/* Below lg: intro outside scroll, bio in scroll */}
+        <div className="col-span-8 md:col-start-3 md:col-end-8 md:row-start-1 lg:hidden flex flex-col gap-2 mt-1">
+          <p className={introClassMerged}>
+            <IntroLines />
+          </p>
           <ScrollMoreFade
             scrollClassName={[
-              "scrollbar-hide mt-1 flex flex-col gap-2 overflow-y-auto overflow-x-hidden",
-              "max-md:max-h-[min(280px,55dvh)] md:max-lg:max-h-[88px]",
+              "scrollbar-hide flex flex-col gap-2 overflow-y-auto overflow-x-hidden",
+              "max-md:max-h-[min(200px,40dvh)] md:max-lg:max-h-[88px]",
             ].join(" ")}
           >
-            <p className={introClassMerged}>
-              <IntroLines />
-            </p>
             <BioParagraphs />
           </ScrollMoreFade>
         </div>
