@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { PageGrid } from "./PageGrid";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
@@ -9,27 +10,16 @@ const linkClass =
   "font-['Bricolage_Grotesque'] font-light text-[length:var(--text-nav-link)] text-[#2200b8] tracking-[1.1px] no-underline transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 cursor-pointer";
 
 interface NavBarProps {
-  onSelectSection: (id: string | null) => void;
+  onNavIntent: (target: "home" | "about") => void;
 }
 
-export const NavBar = ({ onSelectSection }: NavBarProps) => {
+export const NavBar = ({ onNavIntent }: NavBarProps) => {
   const [logoHovered, setLogoHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleHomeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onSelectSection(null);
-  };
-
-  const handleAboutClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setMenuOpen(false);
-    onSelectSection("about");
   };
 
   return (
@@ -72,35 +62,52 @@ export const NavBar = ({ onSelectSection }: NavBarProps) => {
           />
         </a>
 
-        <a href="#" className={`col-start-4 col-end-5 hidden lg:inline-block justify-self-end mr-4 ${linkClass}`} onClick={handleHomeClick}>
+        <Link
+          to="/"
+          className={`col-start-4 col-end-5 hidden lg:inline-block justify-self-end mr-4 ${linkClass}`}
+          onClick={() => onNavIntent("home")}
+        >
           home
-        </a>
-        <a href="#" className={`col-start-5 col-end-6 hidden lg:inline-block justify-self-start ml-4 ${linkClass}`} onClick={handleAboutClick}>
+        </Link>
+        <Link
+          to="/about"
+          className={`col-start-5 col-end-6 hidden lg:inline-block justify-self-start ml-4 ${linkClass}`}
+          onClick={() => onNavIntent("about")}
+        >
           about me
-        </a>
+        </Link>
 
-        <span className="col-start-7 col-end-9 font-['Permanent_Marker'] text-[length:var(--text-nav-logo)] text-[#ff0090] tracking-[1.5px] justify-self-end select-none whitespace-nowrap">
-          mika drori
-        </span>
+        <div className="col-start-7 col-end-9 flex items-center justify-end gap-2">
+          <div id="navbar-mute-slot" className="lg:hidden flex items-center" />
+          <span className="font-['Permanent_Marker'] text-[length:var(--text-nav-logo)] text-[#ff0090] tracking-[1.5px] select-none whitespace-nowrap">
+            mika drori
+          </span>
+        </div>
       </PageGrid>
 
       {menuOpen && (
         <div className="lg:hidden border-t border-[#2200b8] bg-[#fcf7ee]">
           <div className="flex flex-col gap-4 px-[var(--grid-margin)] py-4">
-            <a
-              href="#"
+            <Link
+              to="/"
               className={linkClass}
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 setMenuOpen(false);
-                onSelectSection(null);
+                onNavIntent("home");
               }}
             >
               home
-            </a>
-            <a href="#" className={linkClass} onClick={handleAboutClick}>
+            </Link>
+            <Link
+              to="/about"
+              className={linkClass}
+              onClick={() => {
+                setMenuOpen(false);
+                onNavIntent("about");
+              }}
+            >
               about me
-            </a>
+            </Link>
           </div>
         </div>
       )}

@@ -21,10 +21,13 @@ import {
   gapPackGridClass,
   gapSplitClass,
   gapSubtitleClass,
-  screenCarouselImageClass,
   screenCarouselRowClass,
+  radiusPhonePackupLargeClass,
+  radiusPhonePackupMediumClass,
 } from "../lib/spacing";
+import { phoneClipPathStyle, phoneClipWrapperBaseClass } from "../lib/phoneClip";
 import { PageGrid } from "../components/PageGrid";
+import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
@@ -32,13 +35,37 @@ import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
 
 const Q = "auto:best";
 
-/** Match Aviv weather-screen phones: lift on hover, ease-in */
-const conceptPhoneHoverClass =
-  "min-w-0 w-full flex justify-center transition-transform duration-300 ease-in hover:-translate-y-6";
-const FEATURE1_VIDEO_RADIUS = "52px";
-const FEATURE2_VIDEO_RADIUS = "52px";
-const FEATURE3_VIDEO_RADIUS = "52px";
-const FEATURE4_VIDEO_RADIUS = "52px";
+/** Match Aviv weather-screen phones: lift on hover (desktop) / tap toggle (mobile) */
+const conceptPhoneBaseClass =
+  "min-w-0 w-full flex justify-center transition-transform duration-300 ease-in md:hover:-translate-y-6";
+
+/** Concept row clips: compact below sm, medium 640px–767px, md+ matches grid density */
+const packupConceptPhoneClipClass =
+  "w-full max-w-[200px] sm:max-w-[280px] md:max-w-[200px]";
+
+/** Stacked phones (Main Features 1 + 4, Flow prototype): compact <640px, medium sm–md */
+const packupFeaturePhoneStackClass =
+  "mx-auto w-[min(100%,220px)] sm:w-[min(100%,400px)] md:mx-0 md:w-auto md:max-w-none shrink-0";
+
+/** F2/F3 row beside UI chips: % width + sm cap so the row still fits */
+const packupFeaturePhoneRowClass =
+  "w-[55%] sm:w-[70%] sm:max-w-[380px] shrink-0";
+
+/** Horizontal screen strip — taller frames in sm–md band */
+const packupCarouselScreenClass =
+  "h-[length:var(--media-screen-h)] w-auto rounded-sm pointer-events-none sm:max-md:h-[min(320px,56vw)]";
+
+function TapLiftPhone({ children }: { children: React.ReactNode }) {
+  const [lifted, setLifted] = useState(false);
+  return (
+    <div
+      className={`${conceptPhoneBaseClass} ${lifted ? "-translate-y-6" : ""}`}
+      onClick={() => setLifted((p) => !p)}
+    >
+      {children}
+    </div>
+  );
+}
 
 // Hero
 const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi_dijphf.mp4", { resourceType: "video", quality: Q });
@@ -87,9 +114,9 @@ const TYPO_SVG = cloudinaryUrl("PackUpTypo_b6j9xk_xkmzlb.svg");
 const BTNS_SVG = cloudinaryUrl("PackUpBTNS_iggujw.svg");
 
 const PALETTE_BARS = [
-  { fill: "#695858", hex: "#695858", heightPct: 20, labelClass: "text-white" },
-  { fill: "#514242", hex: "#514242", heightPct: 20, labelClass: "text-white" },
-  { fill: "#8093F1", hex: "#8093F1", heightPct: 50, labelClass: "text-white" },
+  { fill: "#695858", hex: "#695858", heightPct: 12, labelClass: "text-white" },
+  { fill: "#514242", hex: "#514242", heightPct: 12, labelClass: "text-white" },
+  { fill: "#8093F1", hex: "#8093F1", heightPct: 35, labelClass: "text-white" },
   {
     fill: "#FCFCFC",
     hex: "#FCFCFC",
@@ -339,7 +366,7 @@ function ScreensCarousel() {
             key={i}
             src={src}
             alt={`Pack Up screen ${i + 1}`}
-            className={screenCarouselImageClass}
+            className={packupCarouselScreenClass}
             loading="lazy"
           />
         ))}
@@ -381,9 +408,10 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
         {/* Concept Section */}
-        <section className="flex-1 flex flex-col justify-center">
+        <section className="flex-1 flex flex-col justify-start md:justify-center">
+          <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+            <div className={TITLE_COL_DESKTOP_CLASS}>
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 
@@ -404,7 +432,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                     This project focuses on user research and problem solving.
                   </p>
                 </div>
-                <div className="flex justify-center md:justify-start shrink-0">
+                <div className="flex justify-start shrink-0 order-first md:order-none">
                   <img
                     src={APP_ICON}
                     alt="Pack Up app icon"
@@ -422,8 +450,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
               />
 
               {/* Challenge / Solution */}
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-x-[var(--grid-gutter)] gap-y-6">
-                <div className="md:col-span-2 flex flex-col gap-1">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 md:gap-x-[var(--grid-gutter)] gap-y-6">
+                <div className="col-span-1 md:col-span-2 flex flex-col gap-1">
                   <h4 className={subTitleClass}>The Challenge</h4>
                   <p className={bodyTextClass}>
                     Tracking multiple orders across emails and messages is overwhelming, leading to lost
@@ -431,7 +459,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                   </p>
                 </div>
                 <div className="hidden md:block md:col-start-3 md:col-span-1" aria-hidden />
-                <div className="md:col-start-4 md:col-span-2 flex flex-col gap-1">
+                <div className="col-span-1 md:col-start-4 md:col-span-2 flex flex-col gap-1">
                   <h4 className={subTitleClass}>The Solution</h4>
                   <p className={bodyTextClass}>
                     A centralized platform that organizes all domestic and international orders into a
@@ -445,17 +473,21 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             {/* Phone video demos */}
             <div className={`col-span-8 md:col-start-3 md:col-span-5 grid grid-cols-3 ${gapPackGridClass} ${sectionColumnPaddingClass}`}>
               {[VID_HOMEPAGE, VID_SIGNIN, VID_ORDERPAGE].map((src, i) => (
-                <div key={i} className={conceptPhoneHoverClass}>
-                  <video
-                    src={src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-auto max-w-[200px]"
-                    style={{ background: "none", borderRadius: "var(--radius-phone-packup)" }}
-                  />
-                </div>
+                <TapLiftPhone key={i}>
+                  <div
+                    className={`${phoneClipWrapperBaseClass} ${radiusPhonePackupMediumClass} ${packupConceptPhoneClipClass}`}
+                  >
+                    <video
+                      src={src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="block h-auto w-full"
+                      style={{ background: "none", ...phoneClipPathStyle("packup-medium") }}
+                    />
+                  </div>
+                </TapLiftPhone>
               ))}
             </div>
           </PageGrid>
@@ -467,8 +499,9 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
       {/* ── User Research Section ── */}
       <section>
+        <MobileStickyTitle>User Research</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               User Research
             </h2>
@@ -493,13 +526,13 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             <div className="flex flex-col gap-4">
               <h3 className={subTitleClass}>Key Statistics</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-y-10 md:gap-x-[var(--grid-gutter)] md:gap-y-12">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-8 md:gap-x-[var(--grid-gutter)] md:gap-y-12">
                 {/* Stat 1: cols 1-2 */}
-                <div className={`md:col-span-2 flex flex-col ${gapSubtitleClass}`}>
-                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                <div className={`col-span-1 md:col-span-2 flex flex-col ${gapSubtitleClass}`}>
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[50px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
                     {KEY_STATS[0].num}
                   </p>
-                  <div className="self-start w-full max-w-[220px]">
+                  <div className="self-start w-full max-w-[140px] md:max-w-[220px]">
                     <GaugeChart targetPercent={40} ariaLabel="40% statistic gauge" />
                   </div>
                   <p className={smallTitleClass}>{KEY_STATS[0].title}</p>
@@ -510,11 +543,11 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 <div className="hidden md:block md:col-start-3 md:col-span-1" aria-hidden />
 
                 {/* Stat 2: cols 4-5 */}
-                <div className={`md:col-start-4 md:col-span-2 flex flex-col ${gapSubtitleClass}`}>
-                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                <div className={`col-span-1 md:col-start-4 md:col-span-2 flex flex-col ${gapSubtitleClass}`}>
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[50px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
                     {KEY_STATS[1].num}
                   </p>
-                  <div className="self-start w-full max-w-[220px]">
+                  <div className="self-start w-full max-w-[140px] md:max-w-[220px]">
                     <GaugeChart targetPercent={65} ariaLabel="65% statistic gauge" />
                   </div>
                   <p className={smallTitleClass}>{KEY_STATS[1].title}</p>
@@ -522,8 +555,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
 
                 {/* Stat 3: row 2, cols 1-2 */}
-                <div className="md:col-span-2 md:col-start-1 md:row-start-2 flex flex-col gap-1">
-                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                <div className="col-span-1 md:col-span-2 md:col-start-1 md:row-start-2 flex flex-col gap-1">
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[50px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
                     {KEY_STATS[2].num}
                   </p>
                   <p className={smallTitleClass}>{KEY_STATS[2].title}</p>
@@ -531,8 +564,8 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                 </div>
 
                 {/* Stat 4: row 2, cols 4-5 (under stat 2) */}
-                <div className="md:col-start-4 md:col-span-2 md:row-start-2 flex flex-col gap-1">
-                  <p className="font-['Bricolage_Grotesque'] font-light text-[80px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
+                <div className="col-span-1 md:col-start-4 md:col-span-2 md:row-start-2 flex flex-col gap-1">
+                  <p className="font-['Bricolage_Grotesque'] font-light text-[50px] md:text-[100px] text-[#2200b8] leading-none opacity-20">
                     {KEY_STATS[3].num}
                   </p>
                   <p className={smallTitleClass}>{KEY_STATS[3].title}</p>
@@ -713,8 +746,9 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
       {/* ── Design Section ── */}
       <section>
+        <MobileStickyTitle>Design</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
@@ -722,85 +756,121 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             <h3 className={`${subTitleClass} mb-[-2rem] md:mb-[-3rem]`}>Main Features</h3>
 
             {/* Feature 1: Unified Order Dashboard */}
-            <div className="flex flex-col md:grid md:grid-cols-5 md:gap-[var(--grid-gutter)] md:items-center">
-              <div className="md:col-start-2 md:col-span-2 flex flex-col gap-1 md:mr-[-1.5rem]">
+            <div className="flex flex-col md:grid md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:items-center md:min-w-0">
+              <div className="md:col-start-2 md:col-span-2 flex flex-col gap-1 md:pr-2">
                 <h4 className={smallTitleClass}>{FEATURES[0].title}</h4>
                 <p className={bodyTextClass}>{FEATURES[0].desc}</p>
               </div>
-              <div className="md:col-start-4 md:col-span-2 flex justify-center mt-6 md:mt-0">
-                <video
-                  src={VID_HOMEPAGE}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-auto max-w-full max-h-[75vh]"
-                  style={{ background: "none", borderRadius: FEATURE1_VIDEO_RADIUS }}
-                />
+              <div
+                className={`md:col-start-4 md:col-span-2 flex justify-center mt-6 md:mt-0 ${packupFeaturePhoneStackClass} self-center md:self-auto`}
+              >
+                <div
+                  className={`${phoneClipWrapperBaseClass} ${radiusPhonePackupLargeClass} w-fit max-h-[75vh] md:w-auto`}
+                >
+                  <video
+                    src={VID_HOMEPAGE}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="block h-auto max-w-full max-h-[75vh]"
+                    style={{ background: "none", ...phoneClipPathStyle("packup-large") }}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Feature 2: Order Status Visualization */}
             <div className="grid grid-cols-1 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] gap-y-6 md:items-center">
-              <div className="md:col-span-2 md:col-start-1 flex items-center justify-start">
-                <video
-                  src={VID_ORDERPAGE}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-auto max-w-full max-h-[75vh]"
-                  style={{ background: "none", borderRadius: FEATURE2_VIDEO_RADIUS }}
-                />
+              <div className="order-2 md:order-none md:col-span-2 md:col-start-1 flex flex-row items-center gap-3 md:block md:w-auto">
+                <div
+                  className={`${packupFeaturePhoneRowClass} md:w-auto md:max-w-none flex justify-center md:justify-start`}
+                >
+                  <div
+                    className={`${phoneClipWrapperBaseClass} ${radiusPhonePackupLargeClass} w-fit max-h-[75vh] md:w-auto`}
+                  >
+                    <video
+                      src={VID_ORDERPAGE}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="block h-auto max-w-full max-h-[75vh]"
+                      style={{ background: "none", ...phoneClipPathStyle("packup-large") }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-6 items-center ml-2 md:hidden">
+                  <img src={ORDER_STATUS_BAR} alt="Order status bar" className="w-full max-w-[150px]" loading="lazy" />
+                  <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="w-full max-w-[110px]" loading="lazy" />
+                </div>
               </div>
-              <div className="md:col-start-3 md:col-span-3 flex flex-col gap-1 md:justify-center md:self-center">
+              <div className="order-1 md:order-none md:col-start-3 md:col-span-3 flex flex-col gap-1 md:justify-center md:self-center">
                 <h4 className={smallTitleClass}>{FEATURES[1].title}</h4>
                 <p className={bodyTextClass}>{FEATURES[1].desc}</p>
-                <div className="flex flex-col md:flex-row gap-3 md:gap-10 md:items-center mt-10">
-                  <img src={ORDER_STATUS_BAR} alt="Order status bar" className="w-full max-w-[300px] md:w-[45%] md:max-w-none" loading="lazy" />
-                  <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="w-full max-w-[300px] md:w-[30%] md:max-w-none" loading="lazy" />
+                <div className="hidden md:flex flex-row gap-10 items-center mt-10">
+                  <img src={ORDER_STATUS_BAR} alt="Order status bar" className="md:w-[45%] md:max-w-none" loading="lazy" />
+                  <img src={ORDER_STATUS_LINE} alt="Order status line bar" className="md:w-[30%] md:max-w-none" loading="lazy" />
                 </div>
               </div>
             </div>
 
             {/* Feature 3: Advanced Order History */}
             <div className="grid grid-cols-1 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] gap-y-6 md:items-center">
-              <div className="md:col-start-1 md:col-span-3 flex flex-col gap-1">
+              <div className="order-1 md:order-none md:col-start-1 md:col-span-3 flex flex-col gap-1">
                 <h4 className={smallTitleClass}>{FEATURES[2].title}</h4>
                 <p className={`${bodyTextClass} md:max-w-[80%]`}>{FEATURES[2].desc}</p>
-                <div className="flex gap-4 items-center mt-[1rem]">
+                <div className="hidden md:flex gap-4 items-center mt-[1rem]">
                   <img src={FILTER_CLOSED} alt="Filter closed state" className="w-[45%] max-w-[250px] shrink-0" loading="lazy" />
                   <img src={FILTER_OPEN} alt="Filter open state" className="w-[45%] max-w-[250px] shrink-0" loading="lazy" />
                 </div>
               </div>
-              <div className="md:col-start-4 md:col-span-2 flex justify-end">
-                <video
-                  src={VID_HOMEPAGE}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-auto max-w-full max-h-[75vh]"
-                  style={{ background: "none", borderRadius: FEATURE3_VIDEO_RADIUS }}
-                />
+              <div className="order-2 md:order-none md:col-start-4 md:col-span-2 flex flex-row items-center gap-3 md:block md:w-auto">
+                <div
+                  className={`${packupFeaturePhoneRowClass} md:w-auto md:max-w-none flex justify-center md:justify-end`}
+                >
+                  <div
+                    className={`${phoneClipWrapperBaseClass} ${radiusPhonePackupLargeClass} w-fit max-h-[75vh] md:w-auto`}
+                  >
+                    <video
+                      src={VID_HOMEPAGE}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="block h-auto max-w-full max-h-[75vh]"
+                      style={{ background: "none", ...phoneClipPathStyle("packup-large") }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-6 items-center ml-4 md:hidden">
+                  <img src={FILTER_CLOSED} alt="Filter closed state" className="w-full max-w-[150px]" loading="lazy" />
+                  <img src={FILTER_OPEN} alt="Filter open state" className="w-full max-w-[150px]" loading="lazy" />
+                </div>
               </div>
             </div>
 
             {/* Feature 4: Quick Location Management */}
             <div className="flex flex-col gap-6">
               <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="md:w-3/5 flex justify-center">
-                  <video
-                    src={VID_PICKUP}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-auto max-w-full max-h-[75vh]"
-                    style={{ background: "none", borderRadius: FEATURE4_VIDEO_RADIUS }}
-                  />
+                <div
+                  className={`order-2 md:order-none ${packupFeaturePhoneStackClass} md:w-3/5 self-center md:self-auto flex justify-center`}
+                >
+                  <div
+                    className={`${phoneClipWrapperBaseClass} ${radiusPhonePackupLargeClass} w-fit max-h-[75vh] md:w-auto`}
+                  >
+                    <video
+                      src={VID_PICKUP}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="block h-auto max-w-full max-h-[75vh]"
+                      style={{ background: "none", ...phoneClipPathStyle("packup-large") }}
+                    />
+                  </div>
                 </div>
-                <div className="md:w-2/5 flex flex-col gap-1">
+                <div className="order-1 md:order-none md:w-2/5 flex flex-col gap-1">
                   <h4 className={smallTitleClass}>{FEATURES[3].title}</h4>
                   <p className={bodyTextClass}>{FEATURES[3].desc}</p>
                 </div>
@@ -815,28 +885,35 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
       {/* ── Flow Section ── */}
       <section>
+        <MobileStickyTitle>Flow</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Flow</h2>
           </div>
 
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             <h3 className={subTitleClass}>User Flow</h3>
 
-            <div className="grid grid-cols-1 gap-y-8 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] md:gap-y-0 items-center">
-              <div className="md:col-span-4 flex items-center md:pr-[6rem] md:ml-[-2rem]">
+            <div className="grid grid-cols-1 gap-y-8 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:items-center md:min-w-0">
+              <div className="md:col-span-4 flex min-w-0 items-center md:pr-2">
                 <img src={USER_FLOW} alt="Pack Up user flow diagram" className="w-full" loading="lazy" />
               </div>
-              <div className="md:col-span-2 flex items-center justify-center md:justify-end md:ml-[-4rem]">
-                <video
-                  src={VID_PROTOTYPE}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-auto max-w-full max-h-[75vh]"
-                  style={{ background: "none", borderRadius: FEATURE1_VIDEO_RADIUS }}
-                />
+              <div
+                className={`md:col-span-2 flex min-w-0 items-center justify-center md:justify-end md:pl-2 ${packupFeaturePhoneStackClass} mx-auto md:mx-0`}
+              >
+                <div
+                  className={`${phoneClipWrapperBaseClass} ${radiusPhonePackupLargeClass} w-fit max-h-[75vh] md:w-auto`}
+                >
+                  <video
+                    src={VID_PROTOTYPE}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="block h-auto max-w-full max-h-[75vh]"
+                    style={{ background: "none", ...phoneClipPathStyle("packup-large") }}
+                  />
+                </div>
               </div>
             </div>
 
@@ -853,8 +930,9 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
 
       {/* ── Style Guide Section ── */}
       <section>
+        <MobileStickyTitle>Style Guide</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               Style Guide
             </h2>
@@ -883,7 +961,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             className={`col-span-8 md:col-start-6 md:col-span-3 flex flex-col gap-1 md:min-h-[70svh] ${sectionColumnPaddingClass}`}
           >
             <h3 className={subTitleClass}>Color Palette</h3>
-            <div className="mt-auto w-[80%] md:ml-[calc(-54/615*80%)] md:w-[calc(80%+54/615*80%)] md:max-w-none">
+            <div className="mt-auto w-[80%] mx-auto md:mx-0 md:ml-[calc(-54/615*80%)] md:w-[calc(80%+54/615*80%)] md:max-w-none">
               <ColorPalette />
             </div>
           </div>
@@ -891,9 +969,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       </section>
 
       {/* ── Next Project ── */}
-      <div className="-translate-x-[0.35rem]">
-        <ProjectNav currentProject="packup" onSelectSection={onSelectSection} />
-      </div>
+      <ProjectNav currentProject="packup" onSelectSection={onSelectSection} />
     </div>
   );
 }

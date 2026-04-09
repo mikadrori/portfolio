@@ -113,7 +113,7 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
 
   return (
     <section
-      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-cover"
+      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-cover max-md:bg-[length:100%_auto] max-md:bg-bottom"
       style={{
         backgroundImage: `url(${BG_IMAGE})`,
         backgroundPosition: "center 80%",

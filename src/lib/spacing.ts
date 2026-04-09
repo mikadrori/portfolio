@@ -28,9 +28,21 @@ export const gapAboutYClass = "gap-y-[var(--gap-about-y)]";
 export const aboutPtClass = "pt-[length:var(--about-pt)]";
 
 export const radiusVideoInlineClass = "rounded-[length:var(--radius-video-inline)]";
-export const radiusPhoneMockupClass = "rounded-[length:var(--radius-phone-mockup)]";
-export const radiusPhoneAvivClass = "rounded-[length:var(--radius-phone-aviv)]";
-export const radiusPhonePackupClass = "rounded-[length:var(--radius-phone-packup)]";
+
+/** Phone-shaped video masks — xs < small < medium < large; see `responsive-tokens.css` */
+export const radiusPhoneXsClass = "rounded-[length:var(--radius-phone-xs)]";
+export const radiusPhoneSmallClass = "rounded-[length:var(--radius-phone-small)]";
+export const radiusPhoneMediumClass = "rounded-[length:var(--radius-phone-medium)]";
+export const radiusPhoneLargeClass = "rounded-[length:var(--radius-phone-large)]";
+
+/** Pack Up page only — independent radii for concept row vs feature phones */
+export const radiusPhonePackupMediumClass = "rounded-[length:var(--radius-phone-packup-medium)]";
+export const radiusPhonePackupLargeClass = "rounded-[length:var(--radius-phone-packup-large)]";
+
+/** MuchiWaze page only — independent radii */
+export const radiusPhoneMuchiMediumClass = "rounded-[length:var(--radius-phone-muchi-medium)]";
+export const radiusPhoneMuchiLargeClass = "rounded-[length:var(--radius-phone-muchi-large)]";
+export const radiusPhoneMuchiXlClass = "rounded-[length:var(--radius-phone-muchi-xl)]";
 
 export const radiusMediaSmClass = "rounded-[length:var(--radius-media-sm)]";
 export const radiusMediaLgClass = "rounded-[length:var(--radius-media-lg)]";

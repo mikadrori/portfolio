@@ -22,6 +22,8 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   const isProd = mode === 'production';
   return {
+    // SPA: dev + preview serve index.html for non-file routes (client-side routing).
+    appType: 'spa',
     plugins: [react(), tailwindcss(), faviconPlugin(isProd)],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),

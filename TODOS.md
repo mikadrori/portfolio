@@ -20,7 +20,6 @@ Tracked tasks for the site. Update this file as work is done or scope changes.
 | Screen        | Priority     | Task                                              |
 | ------------- | ------------ | ------------------------------------------------- |
 | General       | Critical     | Responsive views across the app — phones radiuses |
-| Lumina Forest | Nice to have | Colors pallete scroll animation from the side     |
 
 
 ## Amit
@@ -28,5 +27,7 @@ Tracked tasks for the site. Update this file as work is done or scope changes.
 
 | Screen | Priority | Task |
 | ------ | -------- | ---- |
+| General | Normal | Hero banners are cropped in small screens     |
+
 
 

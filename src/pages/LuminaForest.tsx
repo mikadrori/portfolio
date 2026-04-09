@@ -20,6 +20,7 @@ import {
   radiusVideoInlineClass,
 } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
+import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
 import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { DragCarousel, PlaceholderCard } from "./lumina/DragCarousel";
@@ -33,20 +34,20 @@ import { CloudinaryImage } from "./lumina/CloudinaryImage";
 import { MuteProvider, MuteButton, useMute } from "./lumina/MuteContext";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
-const HERO_VIDEO = "/assets/herobanner_lumina_eq8woo.mp4";
-const HERO_VIDEO_POSTER = "/assets/herobanner_skeleton_lumina_xy4szf.png";
+const HERO_VIDEO = cloudinaryUrl("herobanner_lumina_eq8woo.mp4", { resourceType: "video" });
+const HERO_VIDEO_POSTER = cloudinaryUrl("herobanner_skeleton_lumina_xy4szf.png");
 const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType: "video" });
 const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
 
 const LUMINA_CONCEPT_SUBTITLE_BEFORE = "Explore a mystical";
 const LUMINA_CONCEPT_SUBTITLE_AFTER = "world where shadows meet glow";
-const MIA_GLB = "/assets/Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.glb";
-const ELF_MIXAMO_VIDEO = "/assets/elf_mixamo_animation_vhvtt5.mp4";
+const MIA_GLB = cloudinaryUrl("Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.glb", { raw: true });
+const ELF_MIXAMO_VIDEO = cloudinaryUrl("elf_mixamo_animation_vhvtt5.mp4", { resourceType: "video" });
 
 /* ─── Sticky title column (reusable pattern from PackUp) ─── */
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="col-span-8 md:col-start-1 md:col-end-3 md:row-start-1 md:[grid-row-end:-1] w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+    <div className={TITLE_COL_DESKTOP_CLASS}>
       <h2 className={`${stickyTitleClass} leading-none -mt-1`}>{children}</h2>
     </div>
   );
@@ -166,7 +167,7 @@ export default function LuminaForest({
 
   return (
     <MuteProvider>
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       <MuteButton />
       {/* ════════════════════════════════════════════════════════
           HERO + CONCEPT  (min-h-screen)
@@ -176,7 +177,8 @@ export default function LuminaForest({
         <HeroVideo />
 
         {/* Concept Section */}
-        <section className="flex-1 flex flex-col justify-center">
+        <section className="flex-1 flex flex-col justify-start md:justify-center">
+          <MobileStickyTitle>Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
             <SectionTitle>Concept</SectionTitle>
 
@@ -188,19 +190,19 @@ export default function LuminaForest({
                     Lumina Forest
                   </h3>
                   <div className={`flex flex-col ${gapSubtitleClass}`}>
-                    <p className={`${subTitleClass} md:hidden`}>
-                      {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
+                    <div className="flex items-start gap-3 md:hidden">
+                      <p className={`${subTitleClass} flex-1 min-w-0`}>
+                        {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
+                        {LUMINA_CONCEPT_SUBTITLE_AFTER}
+                      </p>
                       <CloudinaryImage
-                        as="span"
                         src={MUSHROOM_IMG}
                         alt=""
                         aria-hidden
-                        wrapperClassName="mx-0.5 -translate-y-0.5"
-                        className="h-[1.75em] w-auto max-h-[90px] object-contain object-bottom"
+                        wrapperClassName="shrink-0 self-center -translate-x-9 -translate-y-5"
+                        className="w-[74px] h-[70px] object-contain"
                       />
-                      <br />
-                      {LUMINA_CONCEPT_SUBTITLE_AFTER}
-                    </p>
+                    </div>
                     <p className={`${subTitleClass} hidden md:block`}>
                       {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
                       {LUMINA_CONCEPT_SUBTITLE_AFTER}
@@ -235,20 +237,23 @@ export default function LuminaForest({
           GAME STRUCTURE
           ════════════════════════════════════════════════════════ */}
       <section>
+        <MobileStickyTitle>Game Structure</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
           <SectionTitle>Game Structure</SectionTitle>
 
           <ContentColumn>
             {/* ── Player ── */}
             <div className="flex flex-col">
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:items-start">
+              <div className="grid grid-cols-[3fr_2fr] gap-x-3 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] items-start">
                 <div
                   className={`flex flex-col ${gapSubtitleClass} md:col-span-3 min-w-0`}
                 >
                   <h3 className={subTitleClass}>Player</h3>
-                  <p className={bodyTextClass}>
+                  <p className={`${bodyTextClass} mb-3`}>
                     Mia is a lost girl who has wandered into the depths of the
-                    mystical Lumina Forest. Her mission is to find the three
+                    mystical Lumina Forest.
+                    <br className="md:hidden" />
+                    Her mission is to find the three
                     magical mushrooms and activate the portal that will finally
                     lead her back home.
                   </p>
@@ -257,11 +262,11 @@ export default function LuminaForest({
                   url={MIA_GLB}
                   label="Mia"
                   transparent
-                  className="mx-auto max-w-[length:var(--media-glb-max-w)] h-[length:var(--media-glb-h)] shrink-0 md:mx-0 md:col-span-2 self-start md:justify-self-end -mt-12 md:-mt-20"
+                  className="mx-auto max-w-[length:var(--media-glb-max-w)] h-[length:var(--media-glb-h)] shrink-0 md:mx-0 md:col-span-2 self-start md:justify-self-end -mt-4 md:-mt-20"
                 />
               </div>
 
-              <DragCarousel className="-mt-4">
+              <DragCarousel className="mt-3 md:-mt-4">
                 {["girl1_w4xrix.mp4", "girl3_wor2gy.mp4", "girlrun_zzplzi.mp4"].map((vid) => (
                   <AutoPlayVideo
                     key={vid}
@@ -381,6 +386,7 @@ export default function LuminaForest({
           DESIGN
           ════════════════════════════════════════════════════════ */}
       <section>
+        <MobileStickyTitle>Design</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
           <SectionTitle>Design</SectionTitle>
 
@@ -396,7 +402,7 @@ export default function LuminaForest({
             </p>
 
             {/* ── Visual Style ── */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Visual Style</h3>
               <div className="md:grid md:grid-cols-5 md:gap-x-[var(--grid-gutter)]">
                 <p className={`${bodyTextClass} md:col-span-4 min-w-0 [text-wrap:pretty]`}>
@@ -409,7 +415,7 @@ export default function LuminaForest({
             </div>
 
             {/* ── GameObjects ── */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <p className={bodyTextClass}>
                 I combined collected environmental assets (trees, plants, and
                 stones) with custom-made objects I created specifically to fit
@@ -441,7 +447,7 @@ export default function LuminaForest({
             </div>
 
             {/* ── Characters ── */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={smallTitleClass}>Characters</h3>
               <DragCarousel>
                 {[
@@ -510,7 +516,7 @@ export default function LuminaForest({
                 </p>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className={`flex flex-col ${gapSubtitleClass}`}>
                 <p className={smallTitleClass}>Elements</p>
                 <div className="lg:grid lg:grid-cols-5 lg:gap-x-[var(--grid-gutter)]">
                   <p className={`${bodyTextClass} lg:col-span-4 min-w-0 [text-wrap:pretty]`}>
@@ -522,14 +528,14 @@ export default function LuminaForest({
                 </div>
                 {/* Button frame + cursors | text box — stacked until lg */}
                 <div className="my-6 grid w-full min-w-0 grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-x-[var(--grid-gutter)] lg:items-start">
-                  <div className="mx-auto flex w-full min-w-0 max-w-full flex-col gap-4 lg:col-span-2 lg:mx-0">
+                  <div className="mx-auto flex w-full min-w-0 max-w-full flex-col-reverse gap-4 lg:flex-col lg:col-span-2 lg:mx-0">
                     <CloudinaryImage
                       src={cloudinaryUrl("button_1_qu0rtf.png")}
                       alt=""
-                      wrapperClassName="mt-8 w-full min-w-0"
+                      wrapperClassName="w-full min-w-0 lg:mt-8"
                       className="h-auto max-h-[96px] w-full object-contain object-center lg:object-left lg:max-h-[132px]"
                     />
-                    <div className="grid w-full min-w-0 shrink-0 grid-cols-2 gap-x-[var(--grid-gutter)] items-center justify-items-center">
+                    <div className="flex w-full min-w-0 shrink-0 items-center justify-center gap-4 lg:grid lg:grid-cols-2 lg:gap-x-[var(--grid-gutter)] lg:justify-items-center">
                       <CloudinaryImage
                         src={cloudinaryUrl("cursur_1_vysh1r.png")}
                         alt=""
@@ -558,7 +564,7 @@ export default function LuminaForest({
             </div>
 
             {/* ── Sprites ── */}
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${gapSubtitleClass}`}>
               <p className={smallTitleClass}>sprites</p>
               <div className="md:grid md:grid-cols-5 md:gap-x-[var(--grid-gutter)]">
                 <p className={`${bodyTextClass} md:col-span-4 min-w-0 [text-wrap:pretty]`}>
@@ -621,7 +627,7 @@ export default function LuminaForest({
             </div>
 
             {/* ── Typography ── */}
-            <div className="flex flex-col gap-4 overflow-visible">
+            <div className={`flex flex-col ${gapSubtitleClass} overflow-hidden md:overflow-visible`}>
               <p className={smallTitleClass}>Typography</p>
               <div className="md:grid md:grid-cols-5 md:gap-x-[var(--grid-gutter)]">
                 <p className={`${bodyTextClass} md:col-span-4 min-w-0 [text-wrap:pretty]`}>
@@ -631,7 +637,7 @@ export default function LuminaForest({
                 </p>
               </div>
 
-              <div className={`flex w-full min-w-0 max-w-full flex-col items-stretch ${gapIntroClass} overflow-visible`}>
+              <div className={`flex w-full min-w-0 max-w-full flex-col items-stretch ${gapIntroClass} overflow-hidden md:overflow-visible`}>
                 <div className="self-center bg-[#0d0439] rounded-[10px] px-5 py-2.5 md:px-8 md:py-3 mt-4">
                   <CloudinaryImage
                     src={cloudinaryUrl("LuMina_FoRest_logo_ca5aur_yat0j0.png")}
@@ -639,9 +645,9 @@ export default function LuminaForest({
                     className="h-[38px] md:h-[46px] w-auto object-contain"
                   />
                 </div>
-                {/* Mobile: single column with consistent gap; Desktop: two offset rows */}
-                <div className="flex flex-col gap-3 overflow-visible md:gap-0">
-                  {/* Row 1 — centers on cols 1, 3, 5 */}
+                {/* Mobile: 2-col grid (2,2,1 centered); Desktop: two offset rows of 3+2 */}
+                <div className="grid grid-cols-2 gap-3 justify-items-center overflow-hidden md:overflow-visible md:flex md:flex-col md:gap-0">
+                  {/* Desktop Row 1 — cols 1, 3, 5 */}
                   <div className="contents md:!grid md:w-full md:min-w-0 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:justify-items-center md:overflow-visible">
                     <CloudinaryImage
                       key="start"
@@ -665,7 +671,7 @@ export default function LuminaForest({
                       className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                   </div>
-                  {/* Row 2 — centers on cols 2, 4 */}
+                  {/* Desktop Row 2 — cols 2, 4 */}
                   <div className="contents md:!grid md:w-full md:min-w-0 md:-mt-6 md:grid-cols-5 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:justify-items-center md:overflow-visible">
                     <CloudinaryImage
                       key="resume"
@@ -678,7 +684,7 @@ export default function LuminaForest({
                       key="mainmenu"
                       src={cloudinaryUrl("btn_mainmenu_pvgedf_znnfwn.png")}
                       alt=""
-                      wrapperClassName="flex justify-center overflow-visible md:col-start-4 md:col-span-1"
+                      wrapperClassName="col-span-2 flex justify-center overflow-visible md:col-span-1 md:col-start-4"
                       className="h-[72px] w-auto origin-center object-contain md:h-[142px] md:scale-[1.35]"
                     />
                   </div>
@@ -695,6 +701,7 @@ export default function LuminaForest({
           AI INTEGRATION
           ════════════════════════════════════════════════════════ */}
       <section>
+        <MobileStickyTitle>AI Integration</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
           <SectionTitle>AI Integration</SectionTitle>
 
@@ -728,63 +735,65 @@ export default function LuminaForest({
                 <p className={`${bodyTextClass} col-start-4 col-span-2`}>3D models created with Meshy</p>
               </div>
 
+              {/* Mobile labels above pairs */}
+              <div className="flex justify-between lg:hidden">
+                <p className={bodyTextClass}>Nano Banana</p>
+                <p className={bodyTextClass}>Meshy 3D</p>
+              </div>
+
               {/* Fairyhouse: Nano Banana → Meshy 3D */}
-              <p className={`${bodyTextClass} lg:hidden`}>Nano Banana</p>
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+              <div className="grid grid-cols-[1fr_auto_1fr] gap-2 lg:gap-6 items-center">
                 <CloudinaryImage
                   src={cloudinaryUrl("img_3dfairyhouse_rrswv7_xjnf70.png")}
                   alt=""
-                  className={`w-full h-[length:var(--media-inline-figure-h)] object-contain ${radiusMediaSmClass}`}
+                  className={`w-full max-lg:h-[calc(var(--media-inline-figure-h)*0.8)] h-[length:var(--media-inline-figure-h)] object-contain ${radiusMediaSmClass}`}
                 />
+                <svg width="24" height="12" viewBox="0 0 24 12" fill="none" className="self-center shrink-0 lg:hidden">
+                  <line x1="0" y1="6" x2="18" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                  <polygon points="18,2 24,6 18,10" fill="#2200b8" />
+                </svg>
                 <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
                   <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
                   <polygon points="90,2 100,6 90,10" fill="#2200b8" />
                 </svg>
-                <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
-                  <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
-                  <polygon points="2,24 6,32 10,24" fill="#2200b8" />
-                </svg>
-                <p className={`${bodyTextClass} lg:hidden`}>Meshy 3D</p>
                 <FbxModelViewer
                   url={cloudinaryUrl("Meshy_AI_Enchanted_Treehouse_0404113704_texture_fm05fe_dsjaxg.glb", { raw: true })}
                   label="Treehouse 3D"
                   transparent
-                  className="h-[length:var(--media-glb-h)] lg:-ml-10"
+                  className="max-lg:h-[calc(var(--media-inline-figure-h)*1.7)] h-[calc(var(--media-inline-figure-h)*1.4)] lg:h-[length:var(--media-glb-h)] lg:-ml-10"
                 />
               </div>
 
               {/* Bridge: Nano Banana → Meshy 3D */}
-              <p className={`${bodyTextClass} lg:hidden mt-4`}>Nano Banana</p>
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+              <div className="grid grid-cols-[1fr_auto_1fr] gap-2 lg:gap-6 items-center">
                 <CloudinaryImage
                   src={cloudinaryUrl("img_3dbridge_e0qvcp_bhzymp.png")}
                   alt=""
-                  className={`w-full h-[length:var(--media-inline-figure-h)] object-contain ${radiusMediaSmClass}`}
+                  className={`w-full max-lg:h-[calc(var(--media-inline-figure-h)*0.8)] h-[length:var(--media-inline-figure-h)] object-contain ${radiusMediaSmClass}`}
                 />
+                <svg width="24" height="12" viewBox="0 0 24 12" fill="none" className="self-center shrink-0 lg:hidden">
+                  <line x1="0" y1="6" x2="18" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                  <polygon points="18,2 24,6 18,10" fill="#2200b8" />
+                </svg>
                 <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
                   <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
                   <polygon points="90,2 100,6 90,10" fill="#2200b8" />
                 </svg>
-                <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
-                  <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
-                  <polygon points="2,24 6,32 10,24" fill="#2200b8" />
-                </svg>
-                <p className={`${bodyTextClass} lg:hidden`}>Meshy 3D</p>
                 <FbxModelViewer
                   url={cloudinaryUrl("Meshy_AI_Enchanted_Forest_Brid_0404114828_texture-v7_xhyovc_t49axu.glb", { raw: true })}
                   label="Bridge 3D"
                   transparent
-                  className="h-[length:var(--media-glb-h)]"
+                  className="max-lg:h-[calc(var(--media-inline-figure-h)*1.7)] h-[calc(var(--media-inline-figure-h)*1.4)] lg:h-[length:var(--media-glb-h)]"
                 />
               </div>
             </div>
 
             {/* ── Character Creation Process ── */}
-            <div className="flex flex-col gap-8">
+            <div className={`flex flex-col ${gapSubtitleClass} md:gap-8`}>
               <h3 className={smallTitleClass}>Character Creation Process</h3>
 
               {/* Step 1: ChatGPT prompt */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 md:gap-4">
                 <p className={bodyTextClass}>
                   I began by crafting and iteratively refining prompts with
                   ChatGPT to achieve the precise visual outcome I envisioned.
@@ -810,36 +819,36 @@ export default function LuminaForest({
               </div>
 
               {/* Step 2: Meshy 3D */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 md:gap-4">
                 <p className={bodyTextClass}>
                   The final image was then processed through Meshy 3D to generate
                   a functional 3D model.
                 </p>
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-center">
+                <div className="grid grid-cols-[1fr_auto_1fr] gap-2 lg:gap-6 items-center">
                   <CloudinaryImage
                     src={cloudinaryUrl("elf_final_estugk_rty43d.png")}
                     alt=""
-                    className={`w-full h-[length:var(--media-inline-tall-h)] object-contain ${radiusVideoInlineClass}`}
+                    className={`w-full max-lg:h-[180px] h-[length:var(--media-inline-tall-h)] object-contain ${radiusVideoInlineClass}`}
                   />
+                  <svg width="24" height="12" viewBox="0 0 24 12" fill="none" className="self-center shrink-0 lg:hidden">
+                    <line x1="0" y1="6" x2="18" y2="6" stroke="#2200b8" strokeWidth="1.5" />
+                    <polygon points="18,2 24,6 18,10" fill="#2200b8" />
+                  </svg>
                   <svg width="100" height="12" viewBox="0 0 100 12" fill="none" className="self-center hidden lg:block">
                     <line x1="0" y1="6" x2="90" y2="6" stroke="#2200b8" strokeWidth="1.5" />
                     <polygon points="90,2 100,6 90,10" fill="#2200b8" />
-                  </svg>
-                  <svg width="12" height="32" viewBox="0 0 12 32" fill="none" className="self-center mx-auto lg:hidden">
-                    <line x1="6" y1="0" x2="6" y2="24" stroke="#2200b8" strokeWidth="1.5" />
-                    <polygon points="2,24 6,32 10,24" fill="#2200b8" />
                   </svg>
                   <FbxModelViewer
                     url={cloudinaryUrl("Meshy_AI_Floral_Sprite_0404113616_texture_b4ydnh_a5ywwl.glb", { raw: true })}
                     label="Elf 3D"
                     transparent
-                    className="h-[calc(var(--media-glb-h)*1.15)]"
+                    className="max-lg:h-[210px] h-[length:var(--media-inline-tall-h)] lg:h-[calc(var(--media-glb-h)*1.15)]"
                   />
                 </div>
               </div>
 
               {/* Step 3: Mixamo */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 md:gap-4">
                 <p className={bodyTextClass}>
                   Finally, I imported the model into Adobe Mixamo to rig and
                   animate the character, bringing it to life.
@@ -916,7 +925,7 @@ export default function LuminaForest({
                 </div>
 
                 {/* Sound */}
-                <div className="flex flex-col gap-4">
+                <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <div className={`flex flex-col ${gapSubtitleClass}`}>
                     <p className={smallTitleClass}>Sound</p>
                     <p className={bodyTextClass}>
@@ -944,7 +953,7 @@ export default function LuminaForest({
               </div>
 
               {/* Scripts */}
-              <div className="flex flex-col gap-4">
+              <div className={`flex flex-col ${gapSubtitleClass}`}>
                 <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <p className={smallTitleClass}>Scripts</p>
                   <p className={bodyTextClass}>
@@ -1020,9 +1029,7 @@ export default function LuminaForest({
       </section>
 
       {/* ── Project Navigation ── */}
-      <div className="translate-x-[3.25rem]">
-        <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
-      </div>
+      <ProjectNav currentProject="lumina" onSelectSection={onSelectSection} />
     </div>
     </MuteProvider>
   );

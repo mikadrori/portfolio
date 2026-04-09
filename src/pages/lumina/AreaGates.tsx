@@ -200,35 +200,42 @@ function AreaContent({ area, visible }: { area: AreaData; visible: boolean }) {
           </div>
         </div>
 
-        {/* Guardian 3D model — absolutely positioned so it doesn't affect text grid height */}
-        <div className={`lg:absolute lg:right-0 lg:w-[40%] ${
-          area.id === "yellow" ? "h-[length:var(--media-glb-h)] lg:-top-20" :
-          area.id === "green" ? "h-[calc(var(--media-glb-h)*1.25)] lg:-top-16" :
-          "h-[calc(var(--media-glb-h)*1.25)] lg:-top-28"
-        }`}>
-          <FbxModelViewer
-            url={area.guardianGlb}
-            label={area.guardian}
-            transparent
-            className="w-full h-full"
-          />
+        {/* Mobile: sprites above GLB (flex-col-reverse). lg: contents so GLB absolute + sprite row match desktop flow. */}
+        <div className="mt-2 flex flex-col-reverse gap-1 lg:contents lg:mt-0 lg:gap-2">
+          {/* Guardian 3D model — absolutely positioned so it doesn't affect text grid height */}
+          <div
+            className={`lg:absolute lg:right-0 lg:w-[40%] ${
+              area.id === "yellow"
+                ? "max-lg:h-[calc(var(--media-glb-h)*1.35)] h-[length:var(--media-glb-h)] lg:-top-20"
+                : area.id === "green"
+                  ? "max-lg:h-[calc(var(--media-glb-h)*1.6)] h-[calc(var(--media-glb-h)*1.25)] lg:-top-16"
+                  : "max-lg:h-[calc(var(--media-glb-h)*1.6)] h-[calc(var(--media-glb-h)*1.25)] lg:-top-28"
+            }`}
+          >
+            <FbxModelViewer
+              url={area.guardianGlb}
+              label={area.guardian}
+              transparent
+              className="w-full h-full"
+            />
+          </div>
+
+          {/* Sprites row */}
+          <div className="grid grid-cols-1 gap-x-[var(--grid-gutter)] lg:mt-2 lg:grid-cols-5">
+            <div className="hidden lg:block" />
+            <div className="flex gap-4 lg:flex lg:justify-center">
+              <img src={area.collectibleImg} alt={area.collectibleLabel} className="w-[64px] h-[64px] object-contain" />
+              <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain lg:hidden" />
+            </div>
+            <div className="hidden lg:flex lg:justify-center">
+              <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain" />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Sprites row */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-x-[var(--grid-gutter)] mt-2">
-        <div className="hidden lg:block" />
-        <div className="flex gap-4 lg:flex lg:justify-center">
-          <img src={area.collectibleImg} alt={area.collectibleLabel} className="w-[64px] h-[64px] object-contain" />
-          <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain lg:hidden" />
-        </div>
-        <div className="hidden lg:flex lg:justify-center">
-          <img src={area.obstacleImg} alt={area.obstacleLabel} className="w-[64px] h-[64px] object-contain" />
-        </div>
-      </div>
-
-      {/* Carousel */}
-      <div className="mt-16">
+      {/* Carousel — tight spacing below GLB on small screens */}
+      <div className="mt-4 lg:mt-16">
         <DragCarousel>
           {area.carouselItems.map((item, i) =>
             item.type === "video" ? (

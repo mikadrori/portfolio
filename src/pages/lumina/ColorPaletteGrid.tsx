@@ -1,23 +1,22 @@
-const PALETTE = [
-  { large: "#0d0439", narrow: "#ffe786" },
-  { large: "#1d1171", narrow: "#00ffd4" },
-  { large: "#3d00fe", narrow: "#fe00d4" },
-];
+const DARK_ROW = ["#0d0439", "#1d1171", "#3d00fe"];
+const BRIGHT_ROW = ["#ffe786", "#00ffd4", "#fe00d4"];
 
 export function ColorPaletteGrid({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex flex-row lg:flex-col gap-3 ${className}`}>
-      {PALETTE.map((row, i) => (
-        <div key={i} className="flex lg:flex-1 gap-2 lg:gap-3 items-stretch">
-          <div
-            className="w-[60px] lg:flex-[3] h-[60px] lg:h-auto rounded-[8px]"
-            style={{ backgroundColor: row.large }}
-          />
-          <div
-            className="w-[20px] h-[60px] lg:h-auto lg:flex-1 rounded-[8px]"
-            style={{ backgroundColor: row.narrow }}
-          />
-        </div>
+    <div className={`grid grid-cols-3 gap-3 ${className}`}>
+      {DARK_ROW.map((color) => (
+        <div
+          key={color}
+          className="aspect-[5/3] rounded-[8px]"
+          style={{ backgroundColor: color }}
+        />
+      ))}
+      {BRIGHT_ROW.map((color) => (
+        <div
+          key={color}
+          className="aspect-[6/1.5] rounded-[8px]"
+          style={{ backgroundColor: color }}
+        />
       ))}
     </div>
   );

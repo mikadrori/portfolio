@@ -36,7 +36,7 @@
   --gap-intro: 24px;
   --gap-split: 32px;
   --gap-thumb: 32px;
-  --gap-subtitle: 16px;
+  --gap-subtitle: 6px;
   --gap-hero-sm: 16px;
   --gap-hero-tight: 12px;
   --gap-tight-strip: 16px;
@@ -65,9 +65,19 @@
 
   /* Radii */
   --radius-video-inline: 12px;
-  --radius-phone-mockup: 28px;
-  --radius-phone-aviv: 28px;
-  --radius-phone-packup: 28px;
+  /* Phone video mask — semantic size groups; each stepped at all breakpoints below */
+  --radius-phone-xs: 14px;
+  --radius-phone-small: 22px;
+  --radius-phone-medium: 22px;
+  --radius-phone-large: 30px;
+  /* Pack Up — phone demo clips (tune independently from Aviv / other projects).
+     Redefine in EACH @media tier you care about: from 640px up, sm/md blocks override base. */
+  --radius-phone-packup-medium: 18px;
+  --radius-phone-packup-large: 32px;
+  /* MuchiWaze — phone demo clips (tune independently from Aviv / PackUp) */
+  --radius-phone-muchi-medium: 22px;
+  --radius-phone-muchi-large: 30px;
+  --radius-phone-muchi-xl: 37x;
   --radius-media-sm: 8px;
   --radius-media-lg: 14px;
   --radius-wwl-frame: 4px;
@@ -126,9 +136,15 @@
     --media-fbx-min-h: 280px;
 
     --radius-video-inline: 12px;
-    --radius-phone-mockup: 30px;
-    --radius-phone-aviv: 30px;
-    --radius-phone-packup: 30px;
+    --radius-phone-xs: 14px;
+    --radius-phone-small: 40px;
+    --radius-phone-medium: 20px;
+    --radius-phone-large: 49px;
+    --radius-phone-packup-medium: 30px;
+    --radius-phone-packup-large: 26px;
+    --radius-phone-muchi-medium: 20px;
+    --radius-phone-muchi-large: 49px;
+    --radius-phone-muchi-xl: 52px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;
@@ -188,9 +204,15 @@
     --media-fbx-min-h: 280px;
 
     --radius-video-inline: 12px;
-    --radius-phone-mockup: 34px;
-    --radius-phone-aviv: 34px;
-    --radius-phone-packup: 34px;
+    --radius-phone-xs: 16px;
+    --radius-phone-small: 15px;
+    --radius-phone-medium: 25px;
+    --radius-phone-large: 22px;
+    --radius-phone-packup-medium: 20px;
+    --radius-phone-packup-large: 26px;
+    --radius-phone-muchi-medium: 25px;
+    --radius-phone-muchi-large: 22px;
+    --radius-phone-muchi-xl: 28px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;
@@ -250,9 +272,15 @@
     --media-fbx-min-h: 300px;
 
     --radius-video-inline: 12px;
-    --radius-phone-mockup: 15px;
-    --radius-phone-aviv: 15px;
-    --radius-phone-packup: 15px;
+    --radius-phone-xs: 16px;
+    --radius-phone-small: 17px;
+    --radius-phone-medium: 27px;
+    --radius-phone-large: 27px;
+    --radius-phone-packup-medium: 24px;
+    --radius-phone-packup-large: 36px;
+    --radius-phone-muchi-medium: 35px;
+    --radius-phone-muchi-large: 40px;
+    --radius-phone-muchi-xl: 34px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;
@@ -312,9 +340,15 @@
     --media-fbx-min-h: 300px;
 
     --radius-video-inline: 12px;
-    --radius-phone-mockup: 20px;
-    --radius-phone-aviv: 20px;
-    --radius-phone-packup: 20px;
+    --radius-phone-xs: 22px;
+    --radius-phone-small: 23px;
+    --radius-phone-medium: 32px;
+    --radius-phone-large: 36px;
+    --radius-phone-packup-medium: 36px;
+    --radius-phone-packup-large: 46px;
+    --radius-phone-muchi-medium: 38px;
+    --radius-phone-muchi-large: 42px;
+    --radius-phone-muchi-xl: 46px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;
@@ -374,9 +408,15 @@
     --media-fbx-min-h: 300px;
 
     --radius-video-inline: 12px;
-    --radius-phone-mockup: 37px;
-    --radius-phone-aviv: 37px;
-    --radius-phone-packup: 37px;
+    --radius-phone-xs: 26px;
+    --radius-phone-small: 30px;
+    --radius-phone-medium: 40px;
+    --radius-phone-large: 44px;
+    --radius-phone-packup-medium: 33px;
+    --radius-phone-packup-large: 59px;
+    --radius-phone-muchi-medium: 40px;
+    --radius-phone-muchi-large: 44px;
+    --radius-phone-muchi-xl: 54px;
     --radius-media-sm: 8px;
     --radius-media-lg: 14px;
     --radius-wwl-frame: 4px;

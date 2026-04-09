@@ -32,7 +32,7 @@ const ELEMENTS: VisualElement[] = [
 
 export function VisualElements() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(0);
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches,
   );
@@ -238,9 +238,8 @@ function TouchLayout({
               className={`cursor-pointer ${radiusWwlTightClass} overflow-hidden`}
               style={{
                 opacity: isDimmed ? 0.5 : 1,
-                transition: "opacity 0.15s ease",
-                outline: isActive ? "2px solid currentColor" : "2px solid transparent",
-                outlineOffset: -2,
+                transform: selectedIdx !== null && !isActive ? "scale(0.88)" : "scale(1)",
+                transition: "opacity 0.15s ease, transform 0.25s ease",
               }}
               onTouchEnd={(e) => {
                 e.preventDefault();
@@ -259,7 +258,7 @@ function TouchLayout({
       </div>
 
       {/* Preview area */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 flex items-center">
         <AnimatePresence>
           {activeEl && (
             <motion.div

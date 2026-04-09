@@ -11,6 +11,7 @@ import {
 } from "../lib/sectionLayout";
 import { gapContentClass, gapWwlStripClass } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
+import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
@@ -119,7 +120,7 @@ function TypographyCarousel() {
         {TYPO_CHARACTERS.map((char, slideIndex) => (
           <div
             key={char.name}
-            className="relative w-[52vw] md:w-[720px] aspect-[898/505] shrink-0 overflow-hidden rounded-sm"
+            className="relative w-[72vw] md:w-[720px] aspect-[898/505] shrink-0 overflow-hidden rounded-sm"
           >
             <motion.img
               key={`${char.name}-base-${baseIdx}`}
@@ -160,6 +161,75 @@ function TypographyCarousel() {
   );
 }
 
+function LandscapeFullscreenVideo({ src, poster }: { src: string; poster: string }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isFs, setIsFs] = useState(false);
+
+  useEffect(() => {
+    const onFsChange = () => {
+      setIsFs(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    return () => document.removeEventListener("fullscreenchange", onFsChange);
+  }, []);
+
+  const enterFullscreen = useCallback(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    if (wrapper.requestFullscreen) {
+      wrapper.requestFullscreen().then(() => {
+        screen.orientation?.lock?.("landscape").catch(() => {});
+      }).catch(() => {});
+    } else if ((wrapper as any).webkitRequestFullscreen) {
+      (wrapper as any).webkitRequestFullscreen();
+    }
+  }, []);
+
+  const exitFullscreen = useCallback(() => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    } else if ((document as any).webkitExitFullscreen) {
+      (document as any).webkitExitFullscreen();
+    }
+    screen.orientation?.unlock?.();
+  }, []);
+
+  return (
+    <div
+      ref={wrapperRef}
+      className={`relative ${isFs ? "bg-black flex items-center justify-center w-screen h-screen" : ""}`}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        controls
+        playsInline
+        preload="metadata"
+        className={`${isFs ? "w-full h-full object-contain" : "w-full h-full object-contain bg-black rounded-sm"}`}
+      />
+      {!isFs && (
+        <button
+          onClick={enterFullscreen}
+          className="absolute bottom-[10px] right-[42px] w-[30px] h-[30px] z-10 opacity-0"
+          aria-label="Enter landscape fullscreen"
+        />
+      )}
+      {isFs && (
+        <button
+          onClick={exitFullscreen}
+          className="absolute top-4 right-4 z-50 bg-black/60 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl"
+          aria-label="Exit fullscreen"
+        >
+          ✕
+        </button>
+      )}
+    </div>
+  );
+}
+
 interface WeWereLiarsProps {
   onSelectSection: (id: string) => void;
   onReady?: () => void;
@@ -188,14 +258,15 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
   return (
     <div className="flex flex-col">
       {/* Hero + Concept combined = min 100vh */}
-      <div className="min-h-screen flex flex-col">
+      <div className="md:min-h-screen flex flex-col">
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
         {/* CONCEPT Section */}
-        <section className="flex-1 flex flex-col justify-center">
+        <section className="flex-1 flex flex-col justify-start md:justify-center">
+          <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridClass}>
-            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+            <div className={TITLE_COL_DESKTOP_CLASS}>
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>
                 Concept
               </h2>
@@ -207,15 +278,24 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
               <p className={`${smallTitleClass} leading-[1.5]`}>
                 Book intro
               </p>
-              <p className={bodyTextClass}>
-                This project is a cinematic intro for the book We Were Liars. It follows the Sinclairs, a wealthy
-                family spending summers on their private island, where four friends{" "}
-                <span className="font-medium">rebel against the family's greed.</span>{" "}
-                The story centers on Cadence, who struggles with memory loss and chronic pain following
-                a mysterious accident as she uncovers the truth of that summer.
-              </p>
+              <div className="flex flex-row gap-3 md:flex-col md:gap-0">
+                <p className={`${bodyTextClass} flex-1 min-w-0 md:w-full`}>
+                  This project is a cinematic intro for the book We Were Liars. It follows the Sinclairs, a wealthy
+                  family spending summers on their private island, where four friends{" "}
+                  <span className="font-medium">rebel against the family's greed.</span>{" "}
+                  The story centers on Cadence, who struggles with memory loss and chronic pain following
+                  a mysterious accident as she uncovers the truth of that summer.
+                </p>
+                <div className="w-[130px] shrink-0 flex items-start justify-end md:hidden">
+                  <img
+                    src={BOOK_COVER}
+                    alt="We Were Liars book cover"
+                    className="w-full rounded-none object-cover"
+                  />
+                </div>
+              </div>
             </div>
-            <div className={`col-span-4 md:col-span-1 md:col-start-7 flex justify-center md:justify-start ${sectionColumnPaddingClass}`}>
+            <div className={`hidden md:flex col-span-4 md:col-span-1 md:col-start-7 justify-center md:justify-start ${sectionColumnPaddingClass}`}>
               <img
                 src={BOOK_COVER}
                 alt="We Were Liars book cover"
@@ -231,19 +311,16 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
 
       {/* FINAL INTRO Section */}
       <section>
+        <MobileStickyTitle>Final Intro</MobileStickyTitle>
         <PageGrid className={sectionPageGridClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={stickyTitleClass}>Final Intro</h2>
           </div>
           <div className={`col-span-8 md:col-span-5 md:col-start-3 ${sectionColumnPaddingClass}`}>
             <div className="w-full aspect-video">
-              <video
+              <LandscapeFullscreenVideo
                 src={FINAL_INTRO_VIDEO}
                 poster={FINAL_INTRO_POSTER}
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full h-full object-contain bg-black rounded-sm"
               />
             </div>
           </div>
@@ -255,8 +332,9 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
 
       {/* DESIGN Section — single PageGrid so the sticky title shares one tall row with all content (md+) */}
       <section>
+        <MobileStickyTitle>Design</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>
               Design
             </h2>

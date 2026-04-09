@@ -35,7 +35,7 @@ export const ProjectNav = ({ currentProject, onSelectSection }: ProjectNavProps)
 
   return (
     <div
-      className="mx-auto flex w-fit translate-x-[0.5rem] cursor-pointer items-center gap-3 py-8 xl:gap-5 xl:py-12"
+      className="mx-auto flex w-fit cursor-pointer items-center justify-center gap-3 py-8 md:translate-x-[0.5rem] xl:gap-5 xl:py-12"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => onSelectSection(nextProject)}
@@ -43,7 +43,7 @@ export const ProjectNav = ({ currentProject, onSelectSection }: ProjectNavProps)
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelectSection(nextProject); }}
     >
-      <span className={`shrink-0 ${bodyTextClass} whitespace-nowrap`}>next project</span>
+      <span className={`shrink-0 ${bodyTextClass} whitespace-nowrap md:w-auto w-[90px] text-right`}>next project</span>
       <img
         src={CUBE_ICON_PINK}
         alt=""
@@ -54,7 +54,7 @@ export const ProjectNav = ({ currentProject, onSelectSection }: ProjectNavProps)
         alt=""
         className="hidden h-6 w-6 shrink-0 object-contain md:block xl:h-9 xl:w-9"
       />
-      <span className={`shrink-0 whitespace-nowrap md:hidden ${bodyTextClass}`}>
+      <span className={`shrink-0 whitespace-nowrap md:hidden ${bodyTextClass} w-[90px] text-left`}>
         {PROJECT_LABELS[nextProject]}
       </span>
       <motion.span

@@ -1,20 +1,25 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
+import { cloudinaryUrl } from "../../lib/cloudinary";
+
+const SOUND_BTN_ON = cloudinaryUrl("sound_btn-on_iiyz1g.svg");
+const SOUND_BTN_OFF = cloudinaryUrl("sound_btn-off_mr2zu3.svg");
+
 interface MuteContextValue {
   muted: boolean;
   toggleMute: () => void;
 }
 
 const MuteContext = createContext<MuteContextValue>({
-  muted: false,
+  muted: true,
   toggleMute: () => {},
 });
 
 export const useMute = () => useContext(MuteContext);
 
 export function MuteProvider({ children }: { children: ReactNode }) {
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   return (
     <MuteContext.Provider value={{ muted, toggleMute: () => setMuted((m) => !m) }}>
       {children}
@@ -22,47 +27,68 @@ export function MuteProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/** Viewport-fixed to `document.body` so Framer Motion transforms on section wrappers do not break `position: fixed`. */
+/** On mobile (< lg): portals into #navbar-mute-slot in the sticky navbar.
+ *  On desktop (lg+): fixed to bottom-right via portal to document.body. */
 export function MuteButton() {
   const { muted, toggleMute } = useMute();
+  const [navSlot, setNavSlot] = useState<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const slot = document.getElementById("navbar-mute-slot");
+    setNavSlot(slot);
+
+    if (!slot) return;
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const update = () => setNavSlot(mql.matches ? null : slot);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
   }, []);
 
-  const button = (
+  if (!mounted || typeof document === "undefined") return null;
+
+  if (navSlot) {
+    return createPortal(
+      <button
+        type="button"
+        onClick={toggleMute}
+        aria-label={muted ? "Unmute" : "Mute"}
+        className="flex items-center justify-center h-11 w-11 translate-y-[2px] bg-transparent border-none cursor-pointer pointer-events-auto"
+      >
+        <img
+          src={muted ? SOUND_BTN_OFF : SOUND_BTN_ON}
+          alt=""
+          className="h-9 w-auto object-contain shrink-0 pointer-events-none select-none"
+          draggable={false}
+          aria-hidden
+        />
+      </button>,
+      navSlot,
+    );
+  }
+
+  return createPortal(
     <button
       type="button"
       onClick={toggleMute}
       aria-label={muted ? "Unmute" : "Mute"}
-      className="fixed z-[100] w-[30px] h-[30px] rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer pointer-events-auto"
+      className="fixed z-[100] h-20 w-20 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer pointer-events-auto"
       style={{
         background: "transparent",
-        color: "var(--color-accent)",
         right: "max(env(safe-area-inset-right, 0px), var(--grid-margin, 16px))",
         bottom: "max(env(safe-area-inset-bottom, 0px), clamp(12px, 2.5vh, 24px))",
       }}
     >
-      {muted ? (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-          <line x1="23" y1="9" x2="17" y2="15" />
-          <line x1="17" y1="9" x2="23" y2="15" />
-        </svg>
-      ) : (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-        </svg>
-      )}
-    </button>
+      <img
+        src={muted ? SOUND_BTN_OFF : SOUND_BTN_ON}
+        alt=""
+        className="h-[4.25rem] w-auto max-w-[4.75rem] object-contain shrink-0 pointer-events-none select-none"
+        draggable={false}
+        aria-hidden
+      />
+    </button>,
+    document.body,
   );
-
-  if (!mounted || typeof document === "undefined") {
-    return null;
-  }
-
-  return createPortal(button, document.body);
 }

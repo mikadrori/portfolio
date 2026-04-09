@@ -1,47 +1,82 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
 import { Home } from "./pages/Home";
 import { Footer } from "./components/Footer";
 import { ContentArea } from "./components/ContentArea";
 import { type ProjectId } from "./components/CategoryCubes";
+import {
+  pathnameToSection,
+  sectionToPath,
+  isValidRoutePathname,
+} from "./lib/routes";
 
 type TransitionSource = "cube" | "nav" | "next-project";
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const activeSection = useMemo(
+    () => pathnameToSection(location.pathname),
+    [location.pathname],
+  );
+
+  useLayoutEffect(() => {
+    if (!isValidRoutePathname(location.pathname)) {
+      navigate("/", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
   const [cubeAnimKey, setCubeAnimKey] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const transitionSource = useRef<TransitionSource>("cube");
   const prevSection = useRef<string | null>(null);
   const scrollHandledByExit = useRef(false);
 
-  const handleSelectFromCube = useCallback((id: ProjectId) => {
-    if (id === activeSection) {
-      contentRef.current?.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    transitionSource.current = "cube";
-    scrollHandledByExit.current = false;
-    prevSection.current = activeSection;
-    setActiveSection(id);
-  }, [activeSection]);
+  const handleSelectFromCube = useCallback(
+    (id: ProjectId) => {
+      if (id === activeSection) {
+        contentRef.current?.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+      transitionSource.current = "cube";
+      scrollHandledByExit.current = false;
+      prevSection.current = activeSection;
+      navigate(sectionToPath(id));
+    },
+    [activeSection, navigate],
+  );
 
-  const handleSelectSection = useCallback((id: string | null) => {
-    if (id === activeSection) return;
-    transitionSource.current = "nav";
-    scrollHandledByExit.current = false;
-    prevSection.current = activeSection;
-    if (id === null) setCubeAnimKey((k) => k + 1);
-    setActiveSection(id);
-  }, [activeSection]);
+  const handleNavIntent = useCallback(
+    (target: "home" | "about") => {
+      const nextSection = target === "home" ? null : "about";
+      if (nextSection === activeSection) return;
+      transitionSource.current = "nav";
+      scrollHandledByExit.current = false;
+      prevSection.current = activeSection;
+      if (target === "home") setCubeAnimKey((k) => k + 1);
+    },
+    [activeSection],
+  );
 
-  const handleSelectFromProject = useCallback((id: string) => {
-    if (id === activeSection) return;
-    transitionSource.current = "next-project";
-    scrollHandledByExit.current = false;
-    prevSection.current = activeSection;
-    setActiveSection(id);
-  }, [activeSection]);
+  const handleSelectFromProject = useCallback(
+    (id: string) => {
+      if (id === activeSection) return;
+      transitionSource.current = "next-project";
+      scrollHandledByExit.current = false;
+      prevSection.current = activeSection;
+      navigate(sectionToPath(id));
+    },
+    [activeSection, navigate],
+  );
 
   const handleExitComplete = useCallback(() => {
     if (activeSection === null) {
@@ -89,7 +124,7 @@ export default function App() {
           </div>
         </div>
       )}
-      <NavBar onSelectSection={handleSelectSection} />
+      <NavBar onNavIntent={handleNavIntent} />
       <Home onSelectProject={handleSelectFromCube} animationKey={cubeAnimKey} />
       <div ref={contentRef} className="scroll-mt-[56px] md:scroll-mt-[72px]">
         <ContentArea

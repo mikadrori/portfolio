@@ -21,13 +21,18 @@ import {
   gapMuchiResearchClass,
   gapScreenRowClass,
   gapSubtitleClass,
+  radiusPhoneMuchiLargeClass,
+  radiusPhoneMuchiMediumClass,
+  radiusPhoneMuchiXlClass,
 } from "../lib/spacing";
+import { phoneClipPathStyle, phoneClipWrapperBaseClass } from "../lib/phoneClip";
 import {
   FINAL_DESIGN_ICON_COLUMNS,
   FINAL_ICON_SIZE_DEFAULT,
   type FinalDesignIconAsset,
 } from "../config/muchiwazeFinalIcons";
 import { PageGrid } from "../components/PageGrid";
+import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
@@ -35,18 +40,12 @@ import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
 
 const Q = "auto:best";
 
-/** One radius per video group (same carousel = one constant), like PackUp. */
-const CONCEPT_ALL_ICONS_VIDEO_RADIUS = "52px";
-const RESEARCH_OPENING_VIDEO_RADIUS = "40px";
-const FINAL_ICONS_CAROUSEL_VIDEO_RADIUS = "40px";
-const AVATARS_PREVIEW_VIDEO_RADIUS = "55px";
-
 // Hero
 const HERO_VIDEO = cloudinaryUrl("MuchiwazePromoVID_uvefuw_rqb5tp.mp4", { resourceType: "video", quality: Q });
 const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_muchiwaze_a9sxeq.png", { quality: Q });
 
 // Concept — full mockup still (separate from video poster)
-const MOCKUP_IMAGE = "/assets/muchiwazemockup_newcropped_llurh5.jpg";
+const MOCKUP_IMAGE = cloudinaryUrl("muchiwazemockup_newcropped_llurh5.jpg", { quality: Q });
 
 // Concept
 const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb_q41i7g.svg");
@@ -95,6 +94,7 @@ const FINAL_ICON_IMG_BASE_CLASS = "h-auto w-full object-contain";
 
 function FinalDesignIconImg({ src, alt, sizeClass, offsetClass }: FinalDesignIconAsset) {
   const size = sizeClass ?? FINAL_ICON_SIZE_DEFAULT;
+  const [tapped, setTapped] = useState(false);
   return (
     <motion.img
       src={src}
@@ -104,6 +104,8 @@ function FinalDesignIconImg({ src, alt, sizeClass, offsetClass }: FinalDesignIco
       draggable={false}
       style={{ transformOrigin: "center bottom" }}
       whileHover={{ y: -10, scale: 1.12 }}
+      animate={tapped ? { y: -10, scale: 1.12 } : { y: 0, scale: 1 }}
+      onClick={() => setTapped((p) => !p)}
       transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
     />
   );
@@ -111,6 +113,7 @@ function FinalDesignIconImg({ src, alt, sizeClass, offsetClass }: FinalDesignIco
 
 /** Same hover lift/scale as final icons; sizing comes from the grid cell. */
 function AvatarShowcaseImg({ src, alt }: { src: string; alt: string }) {
+  const [tapped, setTapped] = useState(false);
   return (
     <motion.img
       src={src}
@@ -120,6 +123,8 @@ function AvatarShowcaseImg({ src, alt }: { src: string; alt: string }) {
       draggable={false}
       style={{ transformOrigin: "center bottom" }}
       whileHover={{ y: -10, scale: 1.12 }}
+      animate={tapped ? { y: -10, scale: 1.12 } : { y: 0, scale: 1 }}
+      onClick={() => setTapped((p) => !p)}
       transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
     />
   );
@@ -139,11 +144,11 @@ const VID_WEED = cloudinaryUrl("MuchiVIDweedICON_lm3yvu_buk2qw.mp4", { resourceT
 const VID_AVATARS = cloudinaryUrl("MuchiVIDAvatars_vuoyqw_fd3hc5.mp4", { resourceType: "video", quality: Q });
 
 const AVATAR_SHOWCASE = [
-  { id: "romantic", src: "/assets/avatar_girl1_ydtnjh.svg", gridArea: "a", alt: "The romantic" },
-  { id: "southerner", src: "/assets/avatar_boy1_nyhror.svg", gridArea: "b", alt: "The southerner" },
-  { id: "biker", src: "/assets/avatar_girl2_icj0vx.svg", gridArea: "c", alt: "The biker" },
-  { id: "chill", src: "/assets/avatar_boy2_fnv9q2.svg", gridArea: "d", alt: "The chill traveler" },
-  { id: "trailblazer", src: "/assets/avatar_girl3_tfhyys.svg", gridArea: "e", alt: "The trailblazer" },
+  { id: "romantic", src: cloudinaryUrl("avatar_girl1_ydtnjh.svg"), gridArea: "a", alt: "The romantic" },
+  { id: "southerner", src: cloudinaryUrl("avatar_boy1_nyhror.svg"), gridArea: "b", alt: "The southerner" },
+  { id: "biker", src: cloudinaryUrl("avatar_girl2_icj0vx.svg"), gridArea: "c", alt: "The biker" },
+  { id: "chill", src: cloudinaryUrl("avatar_boy2_fnv9q2.svg"), gridArea: "d", alt: "The chill traveler" },
+  { id: "trailblazer", src: cloudinaryUrl("avatar_girl3_tfhyys.svg"), gridArea: "e", alt: "The trailblazer" },
 ] as const;
 
 // Screens
@@ -182,13 +187,13 @@ const SKETCHES_FILTERED_OUT = new Set([
 ]);
 
 const ICON_VIDEOS = [
-  { src: VID_ROBBERY, label: "Robbery Alert" },
-  { src: VID_BRIBE, label: "Police Alert" },
   { src: VID_HOSTEL, label: "Hostel" },
-  { src: VID_CHABAD, label: "Chabad House" },
   { src: VID_MUNCH, label: "Munch" },
-  { src: VID_PARTY, label: "Party" },
+  { src: VID_CHABAD, label: "Chabad House" },
   { src: VID_WEED, label: "Weed" },
+  { src: VID_PARTY, label: "Party" },
+  { src: VID_BRIBE, label: "Police Alert" },
+  { src: VID_ROBBERY, label: "Robbery Alert" },
 ];
 
 /** Bar height by index distance from hovered swatch (symmetric rings). */
@@ -207,6 +212,7 @@ function MuchiColorPalette() {
   const containerRef = useRef<HTMLDivElement>(null);
   const showBars = usePaletteBarsReveal(containerRef);
   const [hovered, setHovered] = useState<number | null>(null);
+  const isTouchRef = useRef(false);
 
   const ariaLabel = `MuchiWaze color palette: ${MUCHI_COLOR_PALETTE.join(", ")}`;
 
@@ -223,13 +229,15 @@ function MuchiColorPalette() {
       className={`grid w-full min-w-0 grid-cols-7 ${gapHeroTightClass} lg:gap-[8px]`}
       role="img"
       aria-label={ariaLabel}
-      onMouseLeave={() => setHovered(null)}
+      onMouseLeave={() => { if (!isTouchRef.current) setHovered(null); }}
     >
       {MUCHI_COLOR_PALETTE.map((hex, i) => (
         <div
           key={i}
           className="relative flex min-h-0 h-40 w-full flex-col justify-end overflow-hidden rounded-none sm:h-48 md:h-56"
-          onMouseEnter={() => setHovered(i)}
+          onMouseEnter={() => { if (!isTouchRef.current) setHovered(i); }}
+          onTouchStart={() => { isTouchRef.current = true; }}
+          onClick={() => { isTouchRef.current = true; setHovered((prev) => (prev === i ? null : i)); }}
         >
           <motion.div
             className="w-full shrink-0 rounded-none"
@@ -248,7 +256,7 @@ function MuchiColorPalette() {
             }}
           />
           <motion.span
-            className={`pointer-events-none absolute bottom-2 left-2 z-10 font-['Bricolage_Grotesque'] font-light leading-none tracking-[0.7px] text-[clamp(9px,2.4vw,12px)] sm:text-xs lg:text-[9px] xl:text-xs ${
+            className={`pointer-events-none absolute bottom-2 left-0 right-0 z-10 text-center font-['Bricolage_Grotesque'] font-light leading-none tracking-[0.7px] text-[6px] sm:text-xs md:text-[clamp(9px,2.4vw,12px)] lg:text-[9px] xl:text-xs ${
               hex === "#FFEFBB" ? "text-[#590A19]" : "text-white"
             }`}
             initial={{ opacity: 0 }}
@@ -347,43 +355,54 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER}/>
 
         {/* Concept — cols 3–5: text then mockup (mt-12 md:mt-16); phone cols 6–7 unchanged. */}
-        <section className="flex-1 flex flex-col justify-center">
+        <section className="flex-1 flex flex-col justify-start md:justify-center">
+          <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+            <div className={TITLE_COL_DESKTOP_CLASS}>
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 
             <div className={`col-span-8 md:col-start-3 md:col-span-3 md:row-start-1 min-w-0 ${sectionColumnPaddingClass}`}>
               <div className={`flex flex-col ${gapSubtitleClass}`}>
-                <img
-                  src={APP_ICON}
-                  alt="MuchiWaze app icon"
-                  className="w-[length:var(--media-app-icon)] rounded-[18px] mb-2"
-                />
+                <div className="w-[length:var(--media-app-icon)] overflow-hidden rounded-[18px] mb-2">
+                  <img
+                    src={APP_ICON}
+                    alt="MuchiWaze app icon"
+                    className="block w-full h-auto"
+                  />
+                </div>
                 <h3 className={`${projectNameClass} leading-[1.5]`}>MuchiWaze</h3>
                 <p className={`${smallTitleClass} leading-[1.5]`}>
                   A &lsquo;Waze&rsquo; based mini-app for Muchilers.
                   <br />
                   Everything a Muchiler needs!
                 </p>
-                <p className={`${bodyTextClass} mt-4 italic`}>
-                  This project focuses on icon design and visual language.
-                </p>
-                <p className={`${bodyTextClass} mt-2 text-[12px] opacity-70`}>
-                  * Muchiler (from the Spanish Mochila): A term for backpackers in Latin America,
-                  widely used by Israelis on their post-army trip for long-term, low-budget, and authentic travel.
-                </p>
-              </div>
-              <div className="mt-8 flex justify-center md:hidden">
-                <video
-                  src={VID_OPENING}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="h-auto w-[180px] object-contain"
-                  style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
-                />
+                <div className="flex flex-row gap-3 md:flex-col md:gap-0">
+                  <div className="flex-1 min-w-0 md:w-full">
+                    <p className={`${bodyTextClass} mt-4 italic`}>
+                      This project focuses on icon design and visual language.
+                    </p>
+                    <p className={`${bodyTextClass} mt-2 text-[12px] opacity-70`}>
+                      * Muchiler (from the Spanish Mochila): A term for backpackers in Latin America,
+                      widely used by Israelis on their post-army trip for long-term, low-budget, and authentic travel.
+                    </p>
+                  </div>
+                  <div className="flex items-start justify-end ml-auto md:hidden">
+                    <div
+                      className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiLargeClass} w-[130px]`}
+                    >
+                      <video
+                        src={VID_OPENING}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="block h-auto w-full object-contain"
+                        style={{ background: "none", ...phoneClipPathStyle("muchi-large") }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
               <img
                 src={MOCKUP_IMAGE}
@@ -396,15 +415,19 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             <div
               className={`col-span-8 hidden min-w-0 md:col-start-6 md:col-span-2 md:row-start-1 md:flex md:items-center md:justify-end md:self-stretch ${sectionColumnPaddingClass}`}
             >
-              <video
-                src={VID_OPENING}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-auto w-[160px] shrink-0 object-contain md:w-[200px] lg:w-[220px] xl:w-[260px] 2xl:w-[300px] md:max-w-full"
-                style={{ background: "none", borderRadius: CONCEPT_ALL_ICONS_VIDEO_RADIUS }}
-              />
+              <div
+                className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiXlClass} w-[160px] shrink-0 md:w-[200px] lg:w-[220px] xl:w-[260px] 2xl:w-[300px] md:max-w-full`}
+              >
+                <video
+                  src={VID_OPENING}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="block h-auto w-full object-contain"
+                  style={{ background: "none", ...phoneClipPathStyle("muchi-xl") }}
+                />
+              </div>
             </div>
           </PageGrid>
         </section>
@@ -415,8 +438,9 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
 
       {/* ── Research Section — content cols 3–7: copy from col 3, video original 220px flush to col 7 end. */}
       <section>
+        <MobileStickyTitle>Research</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Research</h2>
           </div>
 
@@ -430,27 +454,63 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                   alerts and points of interest, leading to a list of travel essentials:
                 </p>
 
-                <div className={`flex flex-col ${TRAVEL_ESSENTIALS_ROWS_GAP_CLASS}`}>
-                  {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
-                    <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
-                      {row.map((item) => (
-                        <p key={item} className={`${bodyTextClass} font-semibold text-center`}>{item}</p>
+                <div className="flex flex-row gap-3 md:flex-col md:gap-0">
+                  <div className="flex-1 min-w-0">
+                    {/* Mobile: 2-col grid matching Figma layout */}
+                    <div className="grid grid-cols-2 gap-y-4 gap-x-2 mt-8 md:hidden">
+                      {[
+                        "Robbery Alert", "Travel Partner",
+                        "Police Alert (Bribe)", "Chabad House",
+                        "Lookout Point", "Hostel",
+                        "Laundry", "ATM",
+                        "Trek Route", "Munch",
+                        "Weed", "Market",
+                        "Airport", "Party",
+                      ].map((item) => (
+                        <p key={item} className={`${bodyTextClass} text-[6px] font-semibold text-center`}>{item}</p>
                       ))}
                     </div>
-                  ))}
+                    {/* Desktop: original row layout */}
+                    <div className={`hidden md:flex flex-col gap-y-12 md:w-[110%] lg:mt-8`}>
+                      {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
+                        <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
+                          {row.map((item) => (
+                            <p key={item} className={`${bodyTextClass} font-semibold text-center lg:max-w-[4rem] lg:mx-auto xl:max-w-none`}>{item}</p>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex shrink-0 items-start justify-end md:hidden">
+                    <div
+                      className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiMediumClass} w-[160px]`}
+                    >
+                      <video
+                        src={VID_ALL_ICONS}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="block h-auto w-full"
+                        style={{ background: "none", ...phoneClipPathStyle("muchi-medium") }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex shrink-0 justify-center md:justify-end">
-                <video
-                  src={VID_ALL_ICONS}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="h-auto w-[220px]"
-                  style={{ background: "none", borderRadius: RESEARCH_OPENING_VIDEO_RADIUS }}
-                />
+              <div className="hidden md:flex shrink-0 justify-end">
+                <div className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiMediumClass} w-[220px]`}>
+                  <video
+                    src={VID_ALL_ICONS}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="block h-auto w-full"
+                    style={{ background: "none", ...phoneClipPathStyle("muchi-medium") }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -462,8 +522,9 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
 
       {/* ── Design Section ── */}
       <section>
+        <MobileStickyTitle>Design</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className="col-span-8 md:col-start-1 md:col-end-3 w-max max-w-full md:w-full md:max-w-full self-start md:self-stretch md:flex md:flex-col md:items-start pb-[length:var(--pad-sticky-col-pb)]">
+          <div className={TITLE_COL_DESKTOP_CLASS}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
@@ -475,13 +536,13 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 I narrowed this list and started sketching.
               </p>
 
-              <div className={`flex flex-col ${DESIGN_SKETCHES_WORD_ROWS_GAP_CLASS}`}>
+              <div className="flex flex-col gap-y-2 md:gap-y-6 mt-4 md:mt-0">
                 {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
                   <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
                     {row.map((item) => (
                       <p
                         key={item}
-                        className={`${bodyTextClass} font-semibold text-center${
+                        className={`${bodyTextClass} font-semibold text-center lg:max-w-[5rem] lg:mx-auto xl:max-w-none${
                           SKETCHES_FILTERED_OUT.has(item) ? " opacity-30" : ""
                         }`}
                       >{item}</p>
@@ -496,7 +557,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <h3 className={smallTitleClass}>Option 1</h3>
               <div className={extendContentToCol7Class}>
                 <div ref={sketch1Drag.ref} onMouseDown={sketch1Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                  <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[112px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
+                  <img src={SKETCHES_1} alt="Option 1 — circular icon sketches" className="h-[80px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -506,14 +567,14 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <h3 className={smallTitleClass}>Option 2</h3>
               <div className={extendContentToCol7Class}>
                 <div ref={sketch2Drag.ref} onMouseDown={sketch2Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
-                  <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[112px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
+                  <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[80px] md:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
                 </div>
               </div>
             </div>
 
             <p className={bodyTextClass}>
-              I simplified imagery into South American ethnic shapes — squares, triangles, and
-              diamonds — inspired by the region&rsquo;s architecture, textiles, and traditional art.
+              I simplified imagery into South American ethnic shapes- squares, triangles, and
+              diamonds- inspired by the region&rsquo;s architecture, textiles, and traditional art.
             </p>
 
             {/* Color Palette */}
@@ -617,20 +678,24 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                   >
                     <div className={`flex w-max ${gapMuchiFinalClass}`}>
                       {ICON_VIDEOS.map((vid) => (
-                        <video
+                        <div
                           key={vid.label}
-                          src={vid.src}
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          draggable={false}
-                          className="h-[352px] w-auto shrink-0 pointer-events-none md:h-[496px]"
-                          style={{
-                            background: "none",
-                            borderRadius: FINAL_ICONS_CAROUSEL_VIDEO_RADIUS,
-                          }}
-                        />
+                          className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiLargeClass} inline-flex h-[352px] shrink-0 md:h-[496px]`}
+                        >
+                          <video
+                            src={vid.src}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            draggable={false}
+                            className="pointer-events-none h-full w-auto"
+                            style={{
+                              background: "none",
+                              ...phoneClipPathStyle("muchi-large"),
+                            }}
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -641,13 +706,31 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 <h4 className={smallTitleClass}>Avatars</h4>
                 <p className={bodyTextClass}>
                   As a continuation, I designed 5 profile avatars of common Israeli traveler types
-                  for the user to choose from — with a profile-picker flow in the app.
+                  for the user to choose from.
                 </p>
 
                 <div className={extendContentToCol7Class}>
                   <div className="flex flex-col items-stretch gap-1 lg:flex-row lg:items-center lg:gap-2">
+                    {/* Mobile: 2 rows — 3 then 2 centered */}
+                    <div className="flex flex-col items-center gap-6 mt-4 mb-6 md:hidden">
+                      <div className="flex gap-4 justify-center">
+                        {AVATAR_SHOWCASE.slice(0, 3).map((item) => (
+                          <div key={item.id} className="w-[5rem]">
+                            <AvatarShowcaseImg src={item.src} alt={item.alt} />
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex gap-4 justify-center">
+                        {AVATAR_SHOWCASE.slice(3, 5).map((item) => (
+                          <div key={item.id} className="w-[5rem]">
+                            <AvatarShowcaseImg src={item.src} alt={item.alt} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Desktop: cross/diamond grid */}
                     <div
-                      className="mx-auto grid w-full max-w-[min(100%,20rem)] grid-cols-3 grid-rows-3 justify-items-center gap-0 overflow-visible sm:max-w-[23.5rem] md:max-w-[25.5rem]"
+                      className="hidden md:grid mx-auto w-full max-w-[min(100%,16rem)] grid-cols-3 justify-items-center gap-x-0 overflow-visible sm:max-w-[19rem] md:max-w-[20rem] lg:max-w-[16rem]"
                       style={{
                         gridTemplateAreas: `
                           "a . b"
@@ -659,7 +742,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                       {AVATAR_SHOWCASE.map((item) => (
                         <div
                           key={item.id}
-                          className="flex w-full max-w-[6.25rem] items-center justify-center overflow-visible sm:max-w-[6.875rem] md:max-w-[7.5rem]"
+                          className={`flex w-full max-w-[6.25rem] items-center justify-center overflow-visible sm:max-w-[6.875rem] md:max-w-[7.5rem] lg:max-w-[5.75rem]`}
                           style={{ gridArea: item.gridArea }}
                         >
                           <AvatarShowcaseImg src={item.src} alt={item.alt} />
@@ -667,16 +750,18 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                       ))}
                     </div>
 
-                    <div className="flex min-w-0 flex-1 justify-center lg:justify-end">
-                      <div className="w-full max-w-[220px] sm:max-w-[256px] md:max-w-[292px]">
+                    <div className="flex min-w-0 flex-1 justify-center lg:justify-end lg:ml-auto">
+                      <div
+                        className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiLargeClass} inline-flex h-[352px] shrink-0 md:h-[496px]`}
+                      >
                         <video
                           src={VID_AVATARS}
                           autoPlay
                           muted
                           loop
                           playsInline
-                          className="h-auto w-full max-w-full"
-                          style={{ background: "none", borderRadius: AVATARS_PREVIEW_VIDEO_RADIUS }}
+                          className="pointer-events-none h-full w-auto"
+                          style={{ background: "none", ...phoneClipPathStyle("muchi-large") }}
                         />
                       </div>
                     </div>
