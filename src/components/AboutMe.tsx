@@ -129,14 +129,15 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
           <p className={introClassMerged}>
             <IntroLines />
           </p>
-          <ScrollMoreFade
-            scrollClassName={[
+          <div
+            className={[
               "scrollbar-hide flex flex-col gap-2 overflow-y-auto overflow-x-hidden",
-              "max-md:max-h-[min(200px,40dvh)] md:max-lg:max-h-[88px]",
+              "max-md:max-h-[calc(6.1lh+0.1rem)] md:max-lg:max-h-[3.3lh]",
+              "text-[length:var(--text-body)] font-light leading-[1.65] md:leading-[1.4]",
             ].join(" ")}
           >
             <BioParagraphs />
-          </ScrollMoreFade>
+          </div>
         </div>
 
         {/* lg+: intro row + bio scroll (hard mid-line clip on web, no gradient) */}
