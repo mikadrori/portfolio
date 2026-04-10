@@ -6,7 +6,7 @@ import { sectionTitleCoreClass, bodyTextClass, subTitleClass } from "../lib/typo
 import { aboutPtClass, gapAboutXClass, gapAboutYClass } from "../lib/spacing";
 
 const BG_IMAGE_MOBILE = cloudinaryUrl("mememe_ukfgg9_vfttwe.png", { quality: "auto:best", width: 1920 });
-const BG_IMAGE_WEB = "/assets/meforweb_qu9fex.png";
+const BG_IMAGE_WEB = cloudinaryUrl("meforweb_qu9fex.png", { quality: "auto:best", width: 1920 });
 
 /** Matches section cream so the fade reads as “more below” over the photo/top tint. */
 const SCROLL_FADE =
