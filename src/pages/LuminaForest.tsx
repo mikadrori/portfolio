@@ -251,9 +251,7 @@ export default function LuminaForest({
                   <h3 className={subTitleClass}>Player</h3>
                   <p className={`${bodyTextClass} mb-3`}>
                     Mia is a lost girl who has wandered into the depths of the
-                    mystical Lumina Forest.
-                    <br className="md:hidden" />
-                    Her mission is to find the three
+                    mystical Lumina Forest. Her mission is to find the three
                     magical mushrooms and activate the portal that will finally
                     lead her back home.
                   </p>
