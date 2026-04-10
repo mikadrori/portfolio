@@ -14,7 +14,7 @@ export const stickyTitleClass =
 export const projectNameClass =
   "font-['Bricolage_Grotesque'] font-bold text-[length:var(--text-project-name)] text-[#2200b8] tracking-[1.5px]";
 
-//3- BIG TITLE
+//3- BIG TITLE / SUBTITLE
 export const subTitleClass =
   "font-['Bricolage_Grotesque'] font-semibold text-[length:var(--text-subtitle)] text-[#2200b8] tracking-[1.4px]";
 

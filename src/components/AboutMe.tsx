@@ -2,21 +2,21 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNo
 import { PageGrid } from "./PageGrid";
 import { Footer } from "./Footer";
 import { cloudinaryUrl } from "../lib/cloudinary";
-import { sectionTitleCoreClass, bodyTextClass, smallTitleClass } from "../lib/typography";
+import { sectionTitleCoreClass, bodyTextClass, subTitleClass } from "../lib/typography";
 import { aboutPtClass, gapAboutXClass, gapAboutYClass } from "../lib/spacing";
 
-const BG_IMAGE = cloudinaryUrl("mememe_ukfgg9_vfttwe.png", { quality: "auto:best", width: 1920 });
+const BG_IMAGE_MOBILE = cloudinaryUrl("mememe_ukfgg9_vfttwe.png", { quality: "auto:best", width: 1920 });
+const BG_IMAGE_WEB = "/assets/meforweb_qu9fex.png";
 
 /** Matches section cream so the fade reads as “more below” over the photo/top tint. */
 const SCROLL_FADE =
   "pointer-events-none absolute inset-x-0 -bottom-2 z-[1] h-14 bg-gradient-to-t from-[#fcf7ee] from-30% via-[#fcf7ee]/90 via-60% to-transparent transition-opacity duration-200 ease-out";
 
-const BIO_PARAGRAPHS = [
-  "As a designer, I'm always looking for that delicate balance between order and colorful chaos.",
-  "My process always starts with a pencil, paper, and hand-drawn sketches. I believe the hand conveys a certain emotion that a computer just can't replicate.",
+const BIO_PARAGRAPHS: ReactNode[] = [
+  "As a designer, I'm always looking for that delicate balance between order and colorful chaos. my process always starts with a pencil, paper, and hand-drawn sketches. I believe the hand conveys a certain emotion that a computer just can't replicate.",
   "On a daily basis, you'll find me blending illustrations, textures, and personal typography into the digital world, while listening to Shlomo Artzi or Aviv Geffen (depending on the mood).",
   "I can get lost for hours in color palettes; it's my favorite part of the process. I'm constantly searching for inspiration in my surroundings, and aiming to create design that leaves a mark.",
-  "Outside the studio, I'm all about sunsets, picnics, and raw fish dinners. I can't start my morning without something sweet and pretty much love every dessert that exists.",
+  <>When I’m not designing, you’ll likely find me renovating furniture or working on my latest DIY home project. I’ve always loved working with my hands and the feeling of making things myself. my favorite foods are raw fish and pretty much any dessert that exists.</>,
 ];
 
 function ScrollMoreFade({
@@ -77,19 +77,17 @@ function ScrollMoreFade({
 }
 
 const introClassMerged =
-  `w-full self-start mt-1 md:mt-0 ${smallTitleClass} leading-[1.6] max-md:leading-[1.88]`;
+  "w-full self-start mt-1 md:mt-0 font-['Bricolage_Grotesque'] font-semibold text-[length:var(--text-subtitle)] text-[#2200b8] tracking-[1.4px] leading-[1.6] max-md:leading-[1.4]";
 
-const introClassDesktop = `w-full self-start ${smallTitleClass} leading-[1.6] max-md:leading-[1.88] lg:col-start-3 lg:col-end-8 lg:row-start-1 lg:mt-1`;
+const introClassDesktop = "w-full self-start font-['Bricolage_Grotesque'] font-semibold text-[length:var(--text-subtitle)] text-[#2200b8] tracking-[1.4px] leading-[1.6] max-md:leading-[1.88] lg:col-start-3 lg:col-end-7 lg:row-start-1 lg:mt-1";
 
-const bioPClass = `${bodyTextClass} leading-[1.4] max-md:leading-[1.65] text-left md:text-justify [text-wrap:pretty]`;
+const bioPClass = `${bodyTextClass} leading-[1.4] max-md:leading-[1.65] text-left [text-wrap:pretty]`;
 
 function IntroLines() {
   return (
     <>
-      I'm Mika, a 25-year-old Visual <br />
-      Communication student at HIT 3rd year,
-      <br className="hidden md:inline" />
-      {" "}Based in Ramat-Gan.
+      I'm Mika, <br /> a 25-year-old Visual
+      Communication <br /> student at HIT 3rd year, based in Ramat-Gan.
     </>
   );
 }
@@ -113,25 +111,31 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
 
   return (
     <section
-      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-no-repeat bg-cover max-md:bg-[length:220%_auto] max-md:bg-[position:center_bottom]"
-      style={{
-        backgroundImage: `url(${BG_IMAGE})`,
-        backgroundPosition: "center 90%",
-      }}
+      className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden"
     >
+      {/* Mobile bg */}
+      <div
+        className="absolute inset-0 bg-no-repeat bg-[length:220%_auto] bg-[position:center_bottom] md:hidden"
+        style={{ backgroundImage: `url(${BG_IMAGE_MOBILE})` }}
+      />
+      {/* Web (md+) bg */}
+      <div
+        className="absolute inset-0 hidden bg-no-repeat bg-cover bg-[position:center_90%] md:block"
+        style={{ backgroundImage: `url(${BG_IMAGE_WEB})` }}
+      />
       <PageGrid className={`relative z-10 items-start ${gapAboutXClass} ${gapAboutYClass} w-full ${aboutPtClass} pb-24`}>
         <h2 className={`col-span-8 md:col-span-2 md:col-start-1 md:row-start-1 self-start ${sectionTitleCoreClass} uppercase whitespace-nowrap`}>
           about me
         </h2>
 
         {/* Below lg: intro outside scroll, bio in scroll */}
-        <div className="col-span-8 md:col-start-3 md:col-end-8 md:row-start-1 lg:hidden flex flex-col gap-2 mt-1">
+        <div className="col-span-8 md:col-start-3 md:col-end-7 md:row-start-1 lg:hidden flex flex-col gap-4 md:gap-2 mt-1">
           <p className={introClassMerged}>
             <IntroLines />
           </p>
           <div
             className={[
-              "scrollbar-hide flex flex-col gap-2 overflow-y-auto overflow-x-hidden",
+              "scrollbar-hide flex flex-col gap-3 overflow-y-auto overflow-x-hidden",
               "max-md:max-h-[calc(6.1lh+0.1rem)] md:max-lg:max-h-[3.3lh]",
               "text-[length:var(--text-body)] font-light leading-[1.65] md:leading-[1.4]",
             ].join(" ")}
@@ -146,10 +150,10 @@ export const AboutMe = ({ onReady }: { onSelectSection: (id: string) => void; on
             <IntroLines />
           </p>
           <ScrollMoreFade
-            wrapperClassName="w-full lg:col-start-4 lg:col-end-7 lg:row-start-2"
+            wrapperClassName="w-full lg:col-start-3 lg:col-end-6 lg:row-start-2"
             scrollClassName={[
-              "scrollbar-hide mt-1 flex w-full flex-col gap-1 overflow-x-hidden lg:-mt-[0.5rem] lg:overflow-y-auto",
-              "lg:text-[length:var(--text-body)] lg:font-light lg:leading-[1.4] lg:max-h-[4.5lh] xl:max-h-[5lh]",
+              "scrollbar-hide mt-1 flex w-full flex-col gap-2 overflow-x-hidden lg:mt-2 lg:overflow-y-auto",
+              "lg:text-[length:var(--text-body)] lg:font-light lg:leading-[1.4] lg:max-h-[calc(7lh+0.5em)] xl:max-h-[calc(8lh+0.5em)]",
             ].join(" ")}
           >
             <BioParagraphs />
