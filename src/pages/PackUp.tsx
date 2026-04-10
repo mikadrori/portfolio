@@ -411,7 +411,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className={TITLE_COL_DESKTOP_CLASS}>
+            <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-2`}>
               <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
             </div>
 

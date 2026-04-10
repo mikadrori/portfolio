@@ -14,7 +14,7 @@ export function MobileStickyTitle({
 }) {
   return (
     <div
-      className={`sticky top-[56px] z-40 bg-[#fcf7ee] px-[var(--grid-margin)] pt-3 pb-2 md:hidden -mt-1`}
+      className={`sticky top-[56px] z-40 bg-[#fcf7ee] px-[var(--grid-margin)] pt-9 pb-3 md:hidden -mt-1`}
     >
       <h2 className={`${sectionTitleCoreClass} ${leading}`}>{children}</h2>
     </div>

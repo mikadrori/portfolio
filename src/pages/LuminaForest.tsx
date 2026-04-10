@@ -45,9 +45,9 @@ const MIA_GLB = cloudinaryUrl("Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.
 const ELF_MIXAMO_VIDEO = cloudinaryUrl("elf_mixamo_animation_vhvtt5.mp4", { resourceType: "video" });
 
 /* ─── Sticky title column (reusable pattern from PackUp) ─── */
-function SectionTitle({ children }: { children: React.ReactNode }) {
+function SectionTitle({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={TITLE_COL_DESKTOP_CLASS}>
+    <div className={`${TITLE_COL_DESKTOP_CLASS} ${className}`.trim()}>
       <h2 className={`${stickyTitleClass} leading-none -mt-1`}>{children}</h2>
     </div>
   );
@@ -167,7 +167,7 @@ export default function LuminaForest({
 
   return (
     <MuteProvider>
-    <div className="flex flex-col overflow-x-hidden">
+    <div className="flex flex-col overflow-x-clip">
       <MuteButton />
       {/* ════════════════════════════════════════════════════════
           HERO + CONCEPT  (min-h-screen)
@@ -239,7 +239,7 @@ export default function LuminaForest({
       <section>
         <MobileStickyTitle>Game Structure</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <SectionTitle>Game Structure</SectionTitle>
+          <SectionTitle className="md:row-span-3">Game Structure</SectionTitle>
 
           <ContentColumn>
             {/* ── Player ── */}

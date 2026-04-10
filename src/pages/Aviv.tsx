@@ -1055,7 +1055,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       <section>
         <MobileStickyTitle>Design</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={TITLE_COL_DESKTOP_CLASS}>
+          <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-2`}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
@@ -1460,7 +1460,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
 
         <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={TITLE_COL_DESKTOP_CLASS}>
+          <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-3`}>
             <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
           </div>
 
@@ -1505,7 +1505,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       <section>
         <MobileStickyTitle>Design</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={TITLE_COL_DESKTOP_CLASS}>
+          <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-2`}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Design</h2>
           </div>
 
@@ -1561,7 +1561,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       <section>
         <MobileStickyTitle>Flow</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={TITLE_COL_DESKTOP_CLASS}>
+          <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-3`}>
             <h2 className={`${stickyTitleClass} leading-none -mt-1`}>Flow</h2>
           </div>
 

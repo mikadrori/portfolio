@@ -1,4 +1,5 @@
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME || "dmrtjbfbb";
+const VIDEO_CDN_URL = import.meta.env.VITE_VIDEO_CDN_URL;
 
 const useLocalAssets =
   import.meta.env.DEV && import.meta.env.VITE_USE_CLOUDINARY !== "true";
@@ -17,6 +18,10 @@ export function cloudinaryUrl(
   }
 
   const type = opts?.resourceType ?? "image";
+
+  if (type === "video" && VIDEO_CDN_URL) {
+    return `${VIDEO_CDN_URL}/${publicId}`;
+  }
 
   if (!opts?.width || opts?.raw || publicId.endsWith(".svg")) {
     return `https://res.cloudinary.com/${CLOUD_NAME}/${type}/upload/${publicId}`;
