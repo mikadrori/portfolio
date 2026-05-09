@@ -14,6 +14,10 @@ export const stickyTitleClass =
 export const projectNameClass =
   "font-['Bricolage_Grotesque'] font-bold text-[length:var(--text-project-name)] text-[#2200b8] tracking-[1.5px]";
 
+/** Pack Up (and similar) hero project title — larger than section marker titles. */
+export const projectHeroNameClass =
+  "font-['Permanent_Marker'] text-[length:var(--text-project-hero)] text-[#ff0090] tracking-[2px] leading-[1.1]";
+
 //3- BIG TITLE / SUBTITLE
 export const subTitleClass =
   "font-['Bricolage_Grotesque'] font-semibold text-[length:var(--text-subtitle)] text-[#2200b8] tracking-[1.4px]";
@@ -25,3 +29,7 @@ export const smallTitleClass =
 //5- BODY TEXT
 export const bodyTextClass =
   "font-['Bricolage_Grotesque'] font-light text-[length:var(--text-body)] text-[#2200b8] tracking-[0.7px] leading-[1.5]";
+
+/** Navbar link label — same token/size as `NavBar` links (home / about me). */
+export const navLinkTextClass =
+  "font-['Bricolage_Grotesque'] font-light text-[length:var(--text-nav-link)] text-[#2200b8] tracking-[1.1px]";

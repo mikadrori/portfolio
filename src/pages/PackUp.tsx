@@ -4,13 +4,12 @@ import { motion } from "motion/react";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import {
   stickyTitleClass,
-  projectNameClass,
+  projectHeroNameClass,
   subTitleClass,
   smallTitleClass,
   bodyTextClass,
 } from "../lib/typography";
 import {
-  sectionPageGridClass,
   sectionPageGridStretchClass,
   sectionColumnPaddingClass,
 } from "../lib/sectionLayout";
@@ -19,7 +18,6 @@ import {
   gapContentLgClass,
   gapPackBentoClass,
   gapPackGridClass,
-  gapSplitClass,
   gapSubtitleClass,
   screenCarouselRowClass,
   radiusPhonePackupLargeClass,
@@ -74,6 +72,23 @@ const PACKUP_MOCKUP = cloudinaryUrl("packup_mockup_bmbgji_cc3cah.png", { quality
 
 // Concept
 const APP_ICON = cloudinaryUrl("PackupAppICON_ep0ejq_fvv31d.svg");
+
+const PACKUP_INTRO_TAGS = [
+  "Academic Project",
+  "UX UI Mobile App",
+  "Trio Project",
+  "2025",
+] as const;
+
+const PACKUP_BRIEF =
+  "Designing a mobile application that solves a daily pain point through comprehensive user research and a user-centric interface.";
+
+const PACKUP_CONCEPT_INTRO =
+  "A comprehensive delivery management app that provides users with a clear, organized overview of all their online shopping activity.";
+
+const PACKUP_TOOLS = ["Figma", "Adobe Illustrator", "After Effects"] as const;
+
+const packupBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 // Research graphs
 const GRAPH1 = cloudinaryUrl("graph-01_cwv5uf_ykm1wl.svg");
@@ -407,48 +422,81 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
-        {/* Concept Section */}
+        {/* Project Intro (above Concept sticky title) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
-          <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-2`}>
-              <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
+            {/* ── Row 1: Title + subtitle + icon (cols 3-7) ── */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-3 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+              <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
+                <h3 className={projectHeroNameClass}>Pack Up</h3>
+                <p className={`${subTitleClass} leading-[1.5]`}>
+                  The app that gets you organized!
+                </p>
+              </div>
+              <div className="order-first flex shrink-0 justify-start md:order-none md:ml-2">
+                <img
+                  src={APP_ICON}
+                  alt="Pack Up app icon"
+                  className="w-[calc(var(--media-app-icon)*0.75)] object-contain"
+                />
+              </div>
             </div>
 
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
-              {/* Intro + Icon */}
-              <div className={`flex flex-col md:flex-row ${gapSplitClass}`}>
-                <div className={`flex-1 flex flex-col ${gapSubtitleClass} md:max-w-[75%]`}>
-                  <h3 className={`${projectNameClass} leading-[1.5]`}>Pack Up</h3>
-                  <p className={`${smallTitleClass} leading-[1.5]`}>
-                    The app that gets you organized!
-                  </p>
-                  <p className={bodyTextClass}>
-                    As an online shopping addict, I've often faced a frustrating problem — I can't keep
-                    track of everything I order. I have no idea what's arriving, where it's going, or
-                    when it's due. That's why I chose to create Pack Up.
-                  </p>
-                  <p className={`${bodyTextClass} mt-4 italic`}>
-                    This project focuses on user research and problem solving.
-                  </p>
-                </div>
-                <div className="flex justify-start shrink-0 order-first md:order-none">
-                  <img
-                    src={APP_ICON}
-                    alt="Pack Up app icon"
-                    className="w-[length:var(--media-app-icon)] object-contain"
-                  />
-                </div>
-              </div>
+            {/* ── Row 2: Tag pills (cols 3-6 with equal gaps) ── */}
+            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+              {PACKUP_INTRO_TAGS.map((label) => (
+                <span
+                  key={label}
+                  className={`${smallTitleClass} inline-flex border border-[#2200b8] px-3 py-1`}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
 
-              {/* Mockup image */}
+            {/* ── Row 3: Brief / Concept / Tools boxes ── */}
+            {/* Brief: cols 3-4, Concept: cols 5-6, Tools: col 7 */}
+            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={packupBoxLabelClass}>Brief</span>
+              <p className={bodyTextClass}>{PACKUP_BRIEF}</p>
+            </div>
+            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={packupBoxLabelClass}>Concept</span>
+              <p className={bodyTextClass}>{PACKUP_CONCEPT_INTRO}</p>
+            </div>
+            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
+              <span className={packupBoxLabelClass}>Tools</span>
+              <ul className={`${bodyTextClass} list-none space-y-1`}>
+                {PACKUP_TOOLS.map((tool) => (
+                  <li key={tool}>{tool}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* ── Mockup image (cols 3-7) ── */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
               <img
                 src={PACKUP_MOCKUP}
                 alt="Pack Up app mockup showing three phone screens"
                 className="w-full rounded-sm"
                 loading="lazy"
               />
+            </div>
+          </PageGrid>
+        </section>
 
+        {/* ── Divider ── */}
+        <div className="w-full border-t border-[#2200b8]" />
+
+        {/* ── Concept section starts below image ── */}
+        <section>
+          <MobileStickyTitle leading="leading-[1.5]">Strategy</MobileStickyTitle>
+          <PageGrid className={sectionPageGridStretchClass}>
+            <div className={`${TITLE_COL_DESKTOP_CLASS}`}>
+              <h2 className={`${stickyTitleClass} leading-[1.5]`}>Strategy</h2>
+            </div>
+
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
               {/* Challenge / Solution */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-x-4 md:gap-x-[var(--grid-gutter)] gap-y-6">
                 <div className="col-span-1 md:col-span-2 flex flex-col gap-1">
@@ -467,7 +515,6 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
                   </p>
                 </div>
               </div>
-
             </div>
 
             {/* Phone video demos */}

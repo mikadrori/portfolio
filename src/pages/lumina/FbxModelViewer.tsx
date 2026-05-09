@@ -37,6 +37,13 @@ function Model({ url }: { url: string }) {
   return isGlb ? <GlbModel url={url} /> : <FbxModel url={url} />;
 }
 
+/** Slight tilt so orbit reads as 3D (not a flat carousel). */
+const MODEL_PRESENTATION_TILT: [number, number, number] = [
+  THREE.MathUtils.degToRad(9),
+  0,
+  THREE.MathUtils.degToRad(6),
+];
+
 function PlaceholderCube() {
   return (
     <mesh rotation={[0.4, 0.6, 0]}>
@@ -74,6 +81,7 @@ export function FbxModelViewer({
 }: ModelViewerProps) {
   const [error, setError] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
 
   return (
     <div
@@ -95,7 +103,9 @@ export function FbxModelViewer({
           <ModelErrorBoundary fallback={<PlaceholderCube />}>
             {url && !error ? (
               <Center>
-                <Model url={url} />
+                <group rotation={MODEL_PRESENTATION_TILT}>
+                  <Model url={url} />
+                </group>
               </Center>
             ) : (
               <PlaceholderCube />
@@ -103,7 +113,12 @@ export function FbxModelViewer({
           </ModelErrorBoundary>
           {!transparent && <Environment preset="forest" />}
         </Suspense>
-        <OrbitControls enableZoom={false} autoRotate={!transparent} autoRotateSpeed={1.5} />
+        <OrbitControls
+          enableZoom={false}
+          autoRotate={!userInteracted}
+          autoRotateSpeed={3}
+          onStart={() => setUserInteracted(true)}
+        />
       </Canvas>
 
       {!transparent && (

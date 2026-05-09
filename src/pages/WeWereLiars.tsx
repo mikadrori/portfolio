@@ -2,14 +2,20 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 
 import { cloudinaryUrl } from "../lib/cloudinary";
-import { stickyTitleClass, projectNameClass, subTitleClass, smallTitleClass, bodyTextClass } from "../lib/typography";
+import {
+  stickyTitleClass,
+  projectHeroNameClass,
+  subTitleClass,
+  smallTitleClass,
+  bodyTextClass,
+} from "../lib/typography";
 import {
   sectionPageGridClass,
   sectionPageGridStretchClass,
   sectionColumnPaddingClass,
   extendContentToCol7Class,
 } from "../lib/sectionLayout";
-import { gapContentClass, gapWwlStripClass } from "../lib/spacing";
+import { gapContentClass, gapSubtitleClass, gapWwlStripClass } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
@@ -21,10 +27,23 @@ const Q = "auto:best";
 
 const HERO_VIDEO = cloudinaryUrl("WLLpromoVID_s8x1if_xza8xl.mp4", { resourceType: "video", quality: Q });
 const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_wwl_tbwvdw.png", { quality: Q });
-const BOOK_COVER = cloudinaryUrl("WWLbook_z0ojgt_xtpkn5.png", { quality: Q });
 const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys_lx91jv.mp4", { resourceType: "video", quality: Q });
 const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn_dxrwvp.jpg", { quality: Q });
 const STORYBOARD = cloudinaryUrl("WLLstoryboard_zeemra_t3ahp6.png", { quality: Q });
+
+const WWL_INTRO_TAGS = ["Academic Project", "Motion Graphics", "Solo Project", "2026"] as const;
+
+const WWL_HERO_SUBTITLE = "Beneath the Surface of a Golden Summer";
+
+const WWL_BRIEF =
+  "Designing a cinematic title sequence for a novel, focusing on atmospheric storytelling and motion graphics.";
+
+const WWL_CONCEPT_INTRO =
+  "On a private island of old money and pristine lies, Cadence Sinclair battles a fractured memory. Haunted by chronic pain, she uncovers the toxic greed and the shattering truth behind the summer she can't remember.";
+
+const WWL_TOOLS = ["After Effects", "Veo", "Adobe Photoshop"] as const;
+
+const wwlBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 const TYPO_CHARACTERS = [
   { name: "cadence", ids: ["WWLtypocadence_1_gsc0qn_dxrwvp.jpg", "WWLtypocadence_2_hsd8ix_udyccq.jpg", "WWLtypocadence_3_hxwlgw_vsnvdx.jpg"] },
@@ -257,50 +276,47 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
 
   return (
     <div className="flex flex-col">
-      {/* Hero + Concept combined = min 100vh */}
+      {/* Hero + project intro (PackUp / Lumina pattern) */}
       <div className="md:min-h-screen flex flex-col">
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
 
-        {/* CONCEPT Section */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
-          <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
-          <PageGrid className={sectionPageGridClass}>
-            <div className={TITLE_COL_DESKTOP_CLASS}>
-              <h2 className={`${stickyTitleClass} leading-[1.5]`}>
-                Concept
-              </h2>
+          <PageGrid className={sectionPageGridStretchClass}>
+            {/* Row 1: title + subtitle */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-3 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+              <h3 className={projectHeroNameClass}>We Were Liars</h3>
+              <p className={`${subTitleClass} leading-[1.5]`}>{WWL_HERO_SUBTITLE}</p>
             </div>
-            <div className={`col-span-8 md:col-span-4 md:col-start-3 flex flex-col gap-2 ${sectionColumnPaddingClass}`}>
-              <h3 className={`${projectNameClass} leading-[1.5]`}>
-                We Were Liars
-              </h3>
-              <p className={`${smallTitleClass} leading-[1.5]`}>
-                Book intro
-              </p>
-              <div className="flex flex-row gap-3 md:flex-col md:gap-0">
-                <p className={`${bodyTextClass} flex-1 min-w-0 md:w-full`}>
-                  This project is a cinematic intro for the book We Were Liars. It follows the Sinclairs, a wealthy
-                  family spending summers on their private island, where four friends{" "}
-                  <span className="font-medium">rebel against the family's greed.</span>{" "}
-                  The story centers on Cadence, who struggles with memory loss and chronic pain following
-                  a mysterious accident as she uncovers the truth of that summer.
-                </p>
-                <div className="w-[130px] shrink-0 flex items-start justify-end md:hidden">
-                  <img
-                    src={BOOK_COVER}
-                    alt="We Were Liars book cover"
-                    className="w-full rounded-none object-cover"
-                  />
-                </div>
-              </div>
+
+            {/* Row 2: tag pills (cols 3-6) */}
+            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+              {WWL_INTRO_TAGS.map((label) => (
+                <span
+                  key={label}
+                  className={`${smallTitleClass} inline-flex border border-[#2200b8] px-3 py-1`}
+                >
+                  {label}
+                </span>
+              ))}
             </div>
-            <div className={`hidden md:flex col-span-4 md:col-span-1 md:col-start-7 justify-center md:justify-start ${sectionColumnPaddingClass}`}>
-              <img
-                src={BOOK_COVER}
-                alt="We Were Liars book cover"
-                className="w-full max-w-full rounded-none object-cover"
-              />
+
+            {/* Row 3: Brief / Concept / Tools */}
+            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={wwlBoxLabelClass}>Brief</span>
+              <p className={bodyTextClass}>{WWL_BRIEF}</p>
+            </div>
+            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={wwlBoxLabelClass}>Concept</span>
+              <p className={bodyTextClass}>{WWL_CONCEPT_INTRO}</p>
+            </div>
+            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
+              <span className={wwlBoxLabelClass}>Tools</span>
+              <ul className={`${bodyTextClass} list-none space-y-1`}>
+                {WWL_TOOLS.map((tool) => (
+                  <li key={tool}>{tool}</li>
+                ))}
+              </ul>
             </div>
           </PageGrid>
         </section>

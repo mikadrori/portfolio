@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import {
   stickyTitleClass,
-  projectNameClass,
+  projectHeroNameClass,
   subTitleClass,
   smallTitleClass,
   bodyTextClass,
@@ -18,20 +18,18 @@ import {
   gapContentClass,
   gapContentLgClass,
   gapHeroTightClass,
-  gapIntroClass,
   gapScreenRowClass,
   gapSplitClass,
   gapSubtitleClass,
   gapThumbClass,
   gapTightStripClass,
   radiusPhoneLargeClass,
-  radiusPhoneMediumClass,
   radiusPhoneSmallClass,
   radiusPhoneXsClass,
 } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
-import { ProjectHeroVideo, PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
+import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
 import { usePaletteBarsReveal } from "../hooks/usePaletteBarsReveal";
@@ -66,7 +64,22 @@ const SPLASH_VIDEO_LOCAL = cloudinaryUrl("AvivSplashVID_fweccx_cpzzvd.mp4", { re
 
 // ─── Concept ───
 const APP_ICON = cloudinaryUrl("AvivClodyNowAPPICON_fud50k_wqp1uq.png", { quality: Q });
-const MOCKUPS_CLOUDY_NOW = cloudinaryUrl("AvivMockupsCloudyNow_devoll_ydssnx.png", { quality: Q });
+
+const AVIV_MOONLIGHT_SUBTITLE = "A cohesive design evolution inspired by Aviv Geffen";
+const AVIV_CLOUDY_SUBTITLE = "Translating Emotion into Atmosphere";
+const AVIV_CONFESSIONS_SUBTITLE = "A Boundless Universe to Share, Release, and Connect";
+
+const AVIV_INTRO_TAGS = ["Academic Project", "UX UI Mobile App", "Solo Project", "2026"] as const;
+
+const AVIV_BRIEF =
+  "Designing an immersive mobile weather app based on deep character research and analysis.";
+
+const AVIV_CONCEPT_INTRO =
+  "Drawing from Geffen's use of weather as an emotional tool, the concept captures the tension between 'Flower Children' vulnerability and dark melancholy, reflecting his complex duality.";
+
+const AVIV_TOOLS = ["Figma", "Gemini", "Adobe Photoshop", "After Effects"] as const;
+
+const avivBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 // ─── App Mockups ───
 const APP_MOCKUP_01 = cloudinaryUrl("AvivAppMockup01_f2fycm_wbwgb7.png", { quality: Q });
@@ -168,6 +181,14 @@ const USER_FLOW = cloudinaryUrl("AvivUserFLOW_wqlgc8_jlbjjh.svg");
 
 // ─── Confessions Mockup ───
 const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_qffpsy_wms0fv.png", { quality: Q });
+
+const CONFESSIONS_INTRO_TAGS = ["Academic Project", "UX UI Desktop", "Solo Project", "2026"] as const;
+
+const CONFESSIONS_BRIEF =
+  "Expanding the established character research into a desktop platform while developing a new conceptual direction.";
+
+const CONFESSIONS_CONCEPT_INTRO =
+  "An anonymous, protected space for emotional release. The intuitive infinite space connects isolated voices into a powerful collective experience.";
 
 // ─── Confessions Sketches ───
 const CNFSN_SKETCHES = [
@@ -934,40 +955,23 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO_LOCAL} poster={HERO_POSTER} />
 
-        {/* Concept Section */}
+        {/* Moonlight Atmosphere — PackUp-style intro */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapIntroClass} ${sectionColumnPaddingClass}`}>
-              {/* Moonlight Atmosphere intro */}
-              <div className="flex flex-col gap-2">
-                <h3 className={`${projectNameClass} leading-[1.5]`}>
-                  Moonlight Atmosphere
-                </h3>
-                <p className={`${smallTitleClass} leading-[1.5]`}>
-                  A cohesive design evolution inspired by Aviv Geffen.
-                </p>
-                <p className={`${smallTitleClass} leading-[1.5]`}>
-                  translating character research into a seamless UX/UI journey&mdash;{" "}
-                  <span className="font-semibold">
-                    including a mobile weather app and an immersive desktop experience.
-                  </span>
-                </p>
-                <p className={`${bodyTextClass} italic mt-2 lg:max-w-[80%]`}>
-                  These projects focus on creating immersive UX/UI experiences.
-                </p>
-              </div>
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+              <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Moonlight Atmosphere</h3>
+              <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_MOONLIGHT_SUBTITLE}</p>
+            </div>
 
-              {/* Phone mockup + Laptop mockup side by side */}
-              <div className="flex flex-row gap-3 md:gap-8 items-center ml-[6%] md:ml-0">
-                <div className="w-[88px] md:w-[25%] lg:w-[18%] shrink-0">
-                  <ViewportVideo
-                    src={VID_YARKON}
-                    className={`w-full ${radiusPhoneXsClass}`}
-                  />
-                </div>
-                <div className="flex-1 min-w-0 scale-[1.06] origin-left md:scale-100 md:w-[68%] lg:w-[75%]">
-                  <LaptopMockup />
-                </div>
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-row gap-3 md:gap-8 items-end ml-[6%] md:ml-0 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+              <div className="w-[100px] md:w-[22%] lg:w-[20%] shrink-0 mb-2 md:mb-3">
+                <ViewportVideo
+                  src={SPLASH_VIDEO_LOCAL}
+                  className={`w-full ${radiusPhoneXsClass}`}
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <LaptopMockup />
               </div>
             </div>
           </PageGrid>
@@ -977,73 +981,69 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Divider ── */}
       <div className="w-full border-t border-[#2200b8]" />
 
-      {/* ── Concept (Cloudy Now) ── */}
+      {/* ── Cloudy Now — PackUp-style intro (non-sticky) ── */}
       <section>
-        <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={TITLE_COL_DESKTOP_CLASS}>
-            <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+            <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
+              <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Cloudy Now</h3>
+              <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CLOUDY_SUBTITLE}</p>
+            </div>
+            <div className="order-first flex shrink-0 justify-start md:order-none md:ml-6">
+              <img
+                src={APP_ICON}
+                alt="Cloudy Now app icon"
+                className="w-[calc(var(--media-app-icon)*0.75)] shrink-0 rounded-[22px] object-cover"
+                loading="lazy"
+              />
+            </div>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
-            {/* Cloudy Now — text + phone mockup */}
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1 flex flex-col gap-4 min-w-0">
-                <img
-                  src={APP_ICON}
-                  alt="Cloudy Now app icon"
-                  className="w-[length:var(--media-app-icon)] rounded-[22px] object-cover"
-                  loading="lazy"
-                />
-                <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
-                  <span>Cloudy Now</span>
-                  <span className="font-['Varela_Round'] font-bold">עכשיו מעונן</span>
-                </h3>
-                <p className={`${smallTitleClass} leading-[1.5]`}>
-                  A dynamic weather experience inspired by the visual and emotional world of Aviv Geffen.
-                </p>
-                <div className="flex flex-row gap-4 md:block">
-                  <p className={`${bodyTextClass} flex-1 min-w-0 md:w-full lg:max-w-[80%]`}>
-                    The app draws from Geffen&rsquo;s intense use of weather as a tool for emotional
-                    expression in his lyrics. The concept captures the tension between the raw
-                    vulnerability of the &lsquo;Flower Children&rsquo; era and a dark, deep melancholy,
-                    reflecting the complex duality of Geffen&rsquo;s artistic persona.
-                  </p>
-                  <div className="shrink-0 w-[130px] self-start ml-auto md:hidden">
-                    <ViewportVideo
-                      src={SPLASH_VIDEO_LOCAL}
-                      className={`w-full ${radiusPhoneMediumClass}`}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="hidden md:block shrink-0 md:w-[160px] lg:w-[180px] xl:w-[200px] 2xl:w-[260px] self-start">
-                <ViewportVideo
-                  src={SPLASH_VIDEO_LOCAL}
-                  className={`w-full ${radiusPhoneMediumClass}`}
-                />
-              </div>
-            </div>
+          <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            {AVIV_INTRO_TAGS.map((label) => (
+              <span
+                key={label}
+                className={`${smallTitleClass} inline-flex border border-[#2200b8] px-3 py-1`}
+              >
+                {label}
+              </span>
+            ))}
+          </div>
 
-            {/* Auto-cycling mockup slideshow */}
+          <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+            <span className={avivBoxLabelClass}>Brief</span>
+            <p className={bodyTextClass}>{AVIV_BRIEF}</p>
+          </div>
+          <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+            <span className={avivBoxLabelClass}>Concept</span>
+            <p className={bodyTextClass}>{AVIV_CONCEPT_INTRO}</p>
+          </div>
+          <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
+            <span className={avivBoxLabelClass}>Tools</span>
+            <ul className={`${bodyTextClass} list-none space-y-1`}>
+              {AVIV_TOOLS.map((tool) => (
+                <li key={tool}>{tool}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
             <MockupSlideshow />
+          </div>
 
-            {/* Weather screen images */}
-            <div className="flex justify-between w-full">
-              <div className={phoneScreenHoverClass}>
-                <img src={SCREEN_KINNERET} alt="Kinneret weather screen" className="w-full rounded-sm" loading="lazy" />
-              </div>
-              <div className={phoneScreenHoverClass}>
-                <img src={SCREEN_YARKON} alt="Yarkon weather screen" className="w-full rounded-sm" loading="lazy" />
-              </div>
-              <div className={phoneScreenHoverClass}>
-                <img src={SCREEN_LONDON} alt="London weather screen" className="w-full rounded-sm" loading="lazy" />
-              </div>
-              <div className={phoneScreenHoverClass}>
-                <img src={SCREEN_ARAD} alt="Arad weather screen" className="w-full rounded-sm" loading="lazy" />
-              </div>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex justify-between w-full ${sectionColumnPaddingClass} pt-0`}>
+            <div className={phoneScreenHoverClass}>
+              <img src={SCREEN_KINNERET} alt="Kinneret weather screen" className="w-full rounded-sm" loading="lazy" />
             </div>
-
+            <div className={phoneScreenHoverClass}>
+              <img src={SCREEN_YARKON} alt="Yarkon weather screen" className="w-full rounded-sm" loading="lazy" />
+            </div>
+            <div className={phoneScreenHoverClass}>
+              <img src={SCREEN_LONDON} alt="London weather screen" className="w-full rounded-sm" loading="lazy" />
+            </div>
+            <div className={phoneScreenHoverClass}>
+              <img src={SCREEN_ARAD} alt="Arad weather screen" className="w-full rounded-sm" loading="lazy" />
+            </div>
           </div>
         </PageGrid>
       </section>
@@ -1446,54 +1446,51 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Divider ── */}
       <div className="w-full border-t border-[#2200b8]" />
 
-      {/* ── Concept (Part 2) ── */}
+      {/* ── Moonlight Confessions — hero video + PackUp-style intro ── */}
       <section>
-        {/* Full-width hero banner */}
-        <div className={PROJECT_HERO_VIDEO_SHELL_CLASS}>
-          <img
-            src={CONFESSIONS_MOCKUP}
-            alt="Moonlight Confessions desktop mockup"
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="lazy"
-          />
-        </div>
+        <ProjectHeroVideo src={VID_CONFESSIONS_PROMO} poster={CONFESSIONS_MOCKUP} />
 
-        <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={`${TITLE_COL_DESKTOP_CLASS} md:row-span-3`}>
-            <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+            <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Moonlight Confessions</h3>
+            <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CONFESSIONS_SUBTITLE}</p>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-2 flex flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} md:self-center`}>
-            <h3 className={`${subTitleClass} leading-[1.5] flex flex-wrap items-baseline gap-x-4 md:gap-x-6`}>
-              <span>Moonlight Confessions</span>
-              <span className="font-['Varela_Round'] font-bold">וידויים לאור הירח</span>
-            </h3>
-            <p className={bodyTextClass}>
-              As an extension, I developed a desktop experience for Aviv Geffen&rsquo;s fanbase,
-              &ldquo;The Moonlight Children.&rdquo;
-            </p>
-            <p className={bodyTextClass}>
-              An anonymous, protected space for emotional
-              release. The intuitive &lsquo;infinite space&rsquo; connects isolated voices into a
-              powerful collective experience.
-            </p>
+          <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            {CONFESSIONS_INTRO_TAGS.map((label) => (
+              <span
+                key={label}
+                className={`${smallTitleClass} inline-flex border border-[#2200b8] px-3 py-1`}
+              >
+                {label}
+              </span>
+            ))}
           </div>
 
-          <div className="col-span-8 md:col-start-5 md:col-span-3 md:self-center md:w-[115%]">
-            <LaptopMockup />
+          <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+            <span className={avivBoxLabelClass}>Brief</span>
+            <p className={bodyTextClass}>{CONFESSIONS_BRIEF}</p>
+          </div>
+          <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+            <span className={avivBoxLabelClass}>Concept</span>
+            <p className={bodyTextClass}>{CONFESSIONS_CONCEPT_INTRO}</p>
+          </div>
+          <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
+            <span className={avivBoxLabelClass}>Tools</span>
+            <ul className={`${bodyTextClass} list-none space-y-1`}>
+              {AVIV_TOOLS.map((tool) => (
+                <li key={tool}>{tool}</li>
+              ))}
+            </ul>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 ${sectionColumnPaddingClass}`}>
-            <div className="w-full aspect-video">
-              <video
-                src={VID_CONFESSIONS_PROMO}
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full h-full object-contain bg-black rounded-sm"
-              />
-            </div>
+          <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+            <img
+              src={CONFESSIONS_MOCKUP}
+              alt="Moonlight Confessions desktop mockup"
+              className="w-full rounded-sm"
+              loading="lazy"
+            />
           </div>
         </PageGrid>
       </section>

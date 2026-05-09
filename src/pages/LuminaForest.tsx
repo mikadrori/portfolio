@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 
 import {
   stickyTitleClass,
-  projectNameClass,
+  projectHeroNameClass,
   subTitleClass,
   smallTitleClass,
   bodyTextClass,
@@ -40,7 +40,48 @@ const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType
 const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
 
 const LUMINA_CONCEPT_SUBTITLE_BEFORE = "Explore a mystical";
-const LUMINA_CONCEPT_SUBTITLE_AFTER = "world where shadows meet glow";
+/** nbsp keeps "meet glow" on one line */
+const LUMINA_CONCEPT_SUBTITLE_AFTER = "world where shadows meet\u00A0glow";
+
+const LUMINA_INTRO_TAGS = [
+  "Academic Project",
+  "3D Game Design",
+  "Solo Project",
+  "2026",
+] as const;
+
+const LUMINA_BRIEF =
+  "Developing a complete, end-to-end 3D game with a focus on atmospheric outdoor environments and core gameplay mechanics.";
+
+const LUMINA_CONCEPT_INTRO =
+  "Trapped in the mystical Lumina Forest, Mia must reactivate an ancient portal to return home by retrieving three magical mushrooms and overcoming trials set by the forest's mysterious guardians.";
+
+const LUMINA_TOOLS = [
+  "Unity",
+  "ChatGPT",
+  "Gemini",
+  "Nano Bannana",
+  "Meshy 3D",
+  "Mixamo",
+  "Adobe Photoshop",
+  "Kling",
+  "Stable Studio",
+  "Eleven Labs",
+] as const;
+
+const luminaBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
+
+function LuminaIntroMushroom() {
+  return (
+    <CloudinaryImage
+      src={MUSHROOM_IMG}
+      alt="Pink mushroom"
+      wrapperClassName="block"
+      className="w-[calc(var(--media-app-icon)*0.75)] object-contain"
+    />
+  );
+}
+
 const MIA_GLB = cloudinaryUrl("Meshy_AI_mia_player_0407135426_texture-v1_hqd2cz.glb", { raw: true });
 const ELF_MIXAMO_VIDEO = cloudinaryUrl("elf_mixamo_animation_vhvtt5.mp4", { resourceType: "video" });
 
@@ -176,57 +217,63 @@ export default function LuminaForest({
         {/* Hero Video Banner */}
         <HeroVideo />
 
-        {/* Concept Section */}
+        {/* Project intro (PackUp / MuchiWaze pattern) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
-          <MobileStickyTitle>Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
-            <SectionTitle>Concept</SectionTitle>
-
-            <ContentColumn>
-              {/* Title + subtitle + body + mushroom */}
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1 flex flex-col gap-2">
-                  <h3 className={projectNameClass}>
-                    Lumina Forest
-                  </h3>
-                  <div className={`flex flex-col ${gapSubtitleClass}`}>
-                    <div className="flex items-start gap-3 md:hidden">
-                      <p className={`${subTitleClass} flex-1 min-w-0`}>
-                        {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
-                        {LUMINA_CONCEPT_SUBTITLE_AFTER}
-                      </p>
-                      <CloudinaryImage
-                        src={MUSHROOM_IMG}
-                        alt=""
-                        aria-hidden
-                        wrapperClassName="shrink-0 self-center -translate-x-9 -translate-y-5"
-                        className="w-[74px] h-[70px] object-contain"
-                      />
-                    </div>
-                    <p className={`${subTitleClass} hidden md:block`}>
-                      {LUMINA_CONCEPT_SUBTITLE_BEFORE}{" "}
-                      {LUMINA_CONCEPT_SUBTITLE_AFTER}
-                    </p>
-                    <p className={bodyTextClass}>
-                      Trapped within the mystical Lumina Forest, Mia must
-                      reactivate the ancient portal to return home.
-                      <br />To power the gateway, she must retrieve three magical mushrooms by
-                      overcoming the unique trials set by the forest's mysterious
-                      guardians.
-                    </p>
-                  </div>
+            {/* Row 1: titles cols 3–5; mushroom col 6 (one column right, flush with tags 3–6 band) */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-3 flex w-full min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+              <div className="flex min-w-0 flex-row items-end gap-3 md:gap-4">
+                <h3 className={`${projectHeroNameClass} min-w-0`}>Lumina Forest</h3>
+                <div className="flex shrink-0 self-end md:hidden">
+                  <LuminaIntroMushroom />
                 </div>
-                <CloudinaryImage
-                  src={MUSHROOM_IMG}
-                  alt="Pink mushroom"
-                  wrapperClassName="hidden shrink-0 self-center md:block md:mt-6"
-                  className="w-[100px] h-[94px] object-contain"
-                />
               </div>
+              <p className={`${subTitleClass} min-w-0 leading-[1.5] md:whitespace-nowrap`}>
+                {LUMINA_CONCEPT_SUBTITLE_BEFORE} {LUMINA_CONCEPT_SUBTITLE_AFTER}
+              </p>
+            </div>
+            <div
+              className={`hidden min-w-0 md:flex md:col-start-6 md:col-span-1 flex-col justify-end items-end ${sectionColumnPaddingClass} pb-0`}
+            >
+              <LuminaIntroMushroom />
+            </div>
 
-              {/* Cover video — auto-plays when scrolled into view */}
+            {/* Row 2: tags cols 3-6 */}
+            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+              {LUMINA_INTRO_TAGS.map((label) => (
+                <span
+                  key={label}
+                  className={`${smallTitleClass} inline-flex border border-[#2200b8] px-3 py-1`}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            {/* Row 3: Brief / Concept / Tools */}
+            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={luminaBoxLabelClass}>Brief</span>
+              <p className={bodyTextClass}>{LUMINA_BRIEF}</p>
+            </div>
+            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={luminaBoxLabelClass}>Concept</span>
+              <p className={bodyTextClass}>{LUMINA_CONCEPT_INTRO}</p>
+            </div>
+            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-2 flex min-w-0 flex-col gap-4 md:pr-0">
+              <span className={luminaBoxLabelClass}>Tools</span>
+              <div className="grid w-max max-w-full grid-cols-[max-content_max-content] gap-x-4 gap-y-0 justify-items-start md:min-w-0">
+                {LUMINA_TOOLS.map((tool) => (
+                  <span key={tool} className={`${bodyTextClass} leading-snug md:whitespace-nowrap`}>
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Cover video — cols 3-7 */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
               <CoverVideo />
-            </ContentColumn>
+            </div>
           </PageGrid>
         </section>
       </div>

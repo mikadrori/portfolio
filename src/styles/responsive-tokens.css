@@ -16,6 +16,7 @@
   /* Typography (px) */
   --text-marker: 28px;
   --text-project-name: 24px;
+  --text-project-hero: 42px;
   --text-subtitle: 19px;
   --text-small-title: 17px;
   --text-body: 14px;
@@ -93,6 +94,7 @@
 
     --text-marker: 23px;
     --text-project-name: 16px;
+    --text-project-hero: 36px;
     --text-subtitle: 14px;
     --text-small-title: 12px;
     --text-body: 10px;
@@ -162,6 +164,7 @@
 
     --text-marker: 25px;
     --text-project-name: 18px;
+    --text-project-hero: 40px;
     --text-subtitle: 16px;
     --text-small-title: 14px;
     --text-body: 12px;
@@ -231,6 +234,7 @@
 
     --text-marker: 22px;
     --text-project-name: 16px;
+    --text-project-hero: 36px;
     --text-subtitle: 14px;
     --text-small-title: 12px;
     --text-body: 10px;
@@ -300,6 +304,7 @@
 
     --text-marker: 29px;
     --text-project-name: 22px;
+    --text-project-hero: 46px;
     --text-subtitle: 18px;
     --text-small-title: 16px;
     --text-body: 13px;
@@ -369,6 +374,7 @@
 
     --text-marker: 31px;
     --text-project-name: 24px;
+    --text-project-hero: 50px;
     --text-subtitle: 20px;
     --text-small-title: 17px;
     --text-body: 14px;

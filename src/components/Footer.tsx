@@ -18,6 +18,15 @@ export const Footer = () => {
             Mika Drori
           </a>
           &nbsp;&nbsp;&gt;&gt;&gt;&nbsp;{" "}
+          <a
+            href="/Mika-Drori-VC-2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={contactLinkClass}
+          >
+            CV
+          </a>
+          &nbsp;&nbsp;&gt;&gt;&gt;&nbsp;{" "}
           <a href="mailto:Mikammm12@gmail.com" className={contactLinkClass}>
             Mikammm12@gmail.com
           </a>

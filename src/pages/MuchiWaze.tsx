@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { cloudinaryUrl } from "../lib/cloudinary";
 import {
   stickyTitleClass,
-  projectNameClass,
+  projectHeroNameClass,
   subTitleClass,
   smallTitleClass,
   bodyTextClass,
@@ -23,8 +23,6 @@ import {
   gapSubtitleClass,
   radiusPhoneMuchiLargeClass,
   radiusPhoneMuchiMediumClass,
-  radiusPhoneMuchiSmallClass,
-  radiusPhoneMuchiXlClass,
 } from "../lib/spacing";
 import { phoneClipPathStyle, phoneClipWrapperBaseClass } from "../lib/phoneClip";
 import {
@@ -50,6 +48,23 @@ const MOCKUP_IMAGE = cloudinaryUrl("muchiwazemockup_newcropped_llurh5.jpg", { qu
 
 // Concept
 const APP_ICON = cloudinaryUrl("MuchiwazeAppICON_bkdvdb_q41i7g.svg");
+
+const MUCHI_INTRO_TAGS = [
+  "Academic Project",
+  "UX UI Mobile App",
+  "Solo Project",
+  "2025",
+] as const;
+
+const MUCHI_BRIEF =
+  "Developing a custom iconography series and a cohesive visual language for a Waze-based application, tailored to a specific target audience.";
+
+const MUCHI_CONCEPT_INTRO =
+  "A community-driven Waze concept designed for the Muchiler community, focusing on the unique needs of long-term and authentic travel.";
+
+const MUCHI_TOOLS = ["Figma", "Adobe Illustrator", "After Effects"] as const;
+
+const muchiBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 // Research – phone mockup video
 const VID_OPENING = cloudinaryUrl("MuchiVIDopening_uzqbyc_yx4qkz.mp4", { resourceType: "video", quality: Q });
@@ -355,83 +370,68 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
         {/* Hero Video Banner */}
         <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER}/>
 
-        {/* Concept — cols 3–5: text then mockup (mt-12 md:mt-16); phone cols 6–7 unchanged. */}
+        {/* Project Intro (above Strategy sticky title) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
-          <MobileStickyTitle leading="leading-[1.5]">Concept</MobileStickyTitle>
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className={TITLE_COL_DESKTOP_CLASS}>
-              <h2 className={`${stickyTitleClass} leading-[1.5]`}>Concept</h2>
-            </div>
-
-            <div className={`col-span-8 md:col-start-3 md:col-span-3 md:row-start-1 min-w-0 ${sectionColumnPaddingClass}`}>
-              <div className={`flex flex-col ${gapSubtitleClass}`}>
-                <div className="w-[length:var(--media-app-icon)] overflow-hidden rounded-[18px] mb-2">
-                  <img
-                    src={APP_ICON}
-                    alt="MuchiWaze app icon"
-                    className="block w-full h-auto"
-                  />
-                </div>
-                <h3 className={`${projectNameClass} leading-[1.5]`}>MuchiWaze</h3>
-                <p className={`${smallTitleClass} leading-[1.5]`}>
-                  A &lsquo;Waze&rsquo; based mini-app for Muchilers.
-                  <br />
+            {/* ── Row 1: Title + subtitle + icon (cols 3-5) ── */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-3 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+              <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
+                <h3 className={projectHeroNameClass}>MuchiWaze</h3>
+                <p className={`${subTitleClass} leading-[1.5]`}>
                   Everything a Muchiler needs!
                 </p>
-                <div className="flex flex-row gap-3 md:flex-col md:gap-0">
-                  <div className="flex-1 min-w-0 md:w-full">
-                    <p className={`${bodyTextClass} mt-4 italic`}>
-                      This project focuses on icon design and visual language.
-                    </p>
-                    <p className={`${bodyTextClass} mt-2 text-[12px] opacity-70`}>
-                      * Muchiler (from the Spanish Mochila): A term for backpackers in Latin America,
-                      widely used by Israelis on their post-army trip for long-term, low-budget, and authentic travel.
-                    </p>
-                  </div>
-                  <div className="flex items-start justify-end ml-auto md:hidden">
-                    <div
-                      className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiSmallClass} w-[130px]`}
-                    >
-                      <video
-                        src={VID_OPENING}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="block h-auto w-full object-contain"
-                        style={{ background: "none", ...phoneClipPathStyle("muchi-small") }}
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
-              <img
-                src={MOCKUP_IMAGE}
-                alt="MuchiWaze app mockup"
-                className="mt-4 md:mt-8 w-full rounded-sm"
-                loading="lazy"
-              />
-            </div>
-
-            <div
-              className={`col-span-8 hidden min-w-0 md:col-start-6 md:col-span-2 md:row-start-1 md:flex md:items-center md:justify-end md:self-stretch ${sectionColumnPaddingClass}`}
-            >
-              <div
-                className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiXlClass} w-[160px] shrink-0 md:w-[200px] lg:w-[220px] xl:w-[260px] 2xl:w-[300px] md:max-w-full`}
-              >
-                <video
-                  src={VID_OPENING}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="block h-auto w-full object-contain"
-                  style={{ background: "none", ...phoneClipPathStyle("muchi-xl") }}
+              <div className="order-first flex shrink-0 justify-start md:order-none md:ml-2">
+                <img
+                  src={APP_ICON}
+                  alt="MuchiWaze app icon"
+                  className="w-[calc(var(--media-app-icon)*0.75)] rounded-[14px] object-contain"
                 />
               </div>
             </div>
+
+            {/* ── Row 2: Tag pills (cols 3-6 with equal gaps) ── */}
+            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+              {MUCHI_INTRO_TAGS.map((label) => (
+                <span
+                  key={label}
+                  className={`${smallTitleClass} inline-flex border border-[#2200b8] px-3 py-1`}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            {/* ── Row 3: Brief / Concept / Tools boxes ── */}
+            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={muchiBoxLabelClass}>Brief</span>
+              <p className={bodyTextClass}>{MUCHI_BRIEF}</p>
+            </div>
+            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+              <span className={muchiBoxLabelClass}>Concept</span>
+              <p className={bodyTextClass}>{MUCHI_CONCEPT_INTRO}</p>
+            </div>
+            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
+              <span className={muchiBoxLabelClass}>Tools</span>
+              <ul className={`${bodyTextClass} list-none space-y-1`}>
+                {MUCHI_TOOLS.map((tool) => (
+                  <li key={tool}>{tool}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* ── Mockup image (cols 3-7) ── */}
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+              <img
+                src={MOCKUP_IMAGE}
+                alt="MuchiWaze app mockup"
+                className="w-full rounded-sm"
+                loading="lazy"
+              />
+            </div>
           </PageGrid>
         </section>
+
       </div>
 
       {/* ── Divider ── */}
@@ -487,7 +487,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                       className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiMediumClass} w-[160px]`}
                     >
                       <video
-                        src={VID_ALL_ICONS}
+                        src={VID_OPENING}
                         autoPlay
                         muted
                         loop
@@ -503,7 +503,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
               <div className="hidden md:flex shrink-0 justify-end">
                 <div className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiMediumClass} w-[220px]`}>
                   <video
-                    src={VID_ALL_ICONS}
+                    src={VID_OPENING}
                     autoPlay
                     muted
                     loop
@@ -530,26 +530,42 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
           </div>
 
           <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col ${gapMuchiResearchClass} ${sectionColumnPaddingClass}`}>
-            {/* First Sketches */}
-            <div className={`flex flex-col ${gapSubtitleClass}`}>
-              <h3 className={subTitleClass}>First Sketches</h3>
-              <p className={bodyTextClass}>
-                I narrowed this list and started sketching.
-              </p>
+            {/* First Sketches + VID_ALL_ICONS side by side */}
+            <div className="flex flex-col md:flex-row gap-8 md:items-center">
+              <div className={`flex min-w-0 flex-1 flex-col ${gapSubtitleClass}`}>
+                <h3 className={subTitleClass}>First Sketches</h3>
+                <p className={bodyTextClass}>
+                  I narrowed this list and started sketching.
+                </p>
 
-              <div className="flex flex-col gap-y-2 md:gap-y-6 mt-4 md:mt-0">
-                {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
-                  <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
-                    {row.map((item) => (
-                      <p
-                        key={item}
-                        className={`${bodyTextClass} font-semibold text-center lg:max-w-[5rem] lg:mx-auto xl:max-w-none${
-                          SKETCHES_FILTERED_OUT.has(item) ? " opacity-30" : ""
-                        }`}
-                      >{item}</p>
-                    ))}
-                  </div>
-                ))}
+                <div className="flex flex-col gap-y-2 md:gap-y-6 mt-4 md:mt-0">
+                  {TRAVEL_ESSENTIALS_ROWS.map((row, ri) => (
+                    <div key={ri} className={row.length === 4 ? "grid grid-cols-4" : "grid grid-cols-3 px-[12.5%]"}>
+                      {row.map((item) => (
+                        <p
+                          key={item}
+                          className={`${bodyTextClass} font-semibold text-center lg:max-w-[5rem] lg:mx-auto xl:max-w-none${
+                            SKETCHES_FILTERED_OUT.has(item) ? " opacity-30" : ""
+                          }`}
+                        >{item}</p>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="hidden md:flex shrink-0 justify-end">
+                <div className={`${phoneClipWrapperBaseClass} ${radiusPhoneMuchiMediumClass} w-[220px]`}>
+                  <video
+                    src={VID_ALL_ICONS}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="block h-auto w-full"
+                    style={{ background: "none", ...phoneClipPathStyle("muchi-medium") }}
+                  />
+                </div>
               </div>
             </div>
 
