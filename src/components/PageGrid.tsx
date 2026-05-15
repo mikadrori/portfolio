@@ -1,7 +1,7 @@
-import { type ElementType } from "react";
+import { createElement, type ElementType, type ReactNode } from "react";
 
 interface PageGridProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   as?: ElementType;
 }
@@ -11,11 +11,11 @@ export const PageGrid = ({
   className = "",
   as: Component = "div",
 }: PageGridProps) => {
-  return (
-    <Component
-      className={`grid grid-cols-8 gap-[var(--grid-gutter)] px-[var(--grid-margin)] w-full max-w-[1920px] mx-auto ${className}`.trim()}
-    >
-      {children}
-    </Component>
+  return createElement(
+    Component,
+    {
+      className: `grid grid-cols-8 gap-[var(--grid-gutter)] px-[var(--grid-margin)] w-full max-w-[1920px] mx-auto ${className}`.trim(),
+    },
+    children,
   );
 };

@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { LoadingCubes } from "./LoadingCubes";
 
 const AboutMe = lazy(() =>
   import("./AboutMe").then((m) => ({ default: m.AboutMe }))
@@ -23,6 +24,8 @@ const LuminaForest = lazy(() =>
 type SectionComponent = React.ComponentType<{
   onSelectSection: (id: string) => void;
   onReady?: () => void;
+  /** Incremented from App when navbar cube is clicked on About — only AboutMe uses it. */
+  aboutResetSignal?: number;
 }>;
 
 const SECTION_MAP: Record<string, React.LazyExoticComponent<SectionComponent>> = {
@@ -39,6 +42,7 @@ interface ContentAreaProps {
   onSelectSection: (id: string) => void;
   onExitComplete: () => void;
   onContentReady: () => void;
+  aboutResetSignal?: number;
 }
 
 export const ContentArea = ({
@@ -46,6 +50,7 @@ export const ContentArea = ({
   onSelectSection,
   onExitComplete,
   onContentReady,
+  aboutResetSignal = 0,
 }: ContentAreaProps) => {
   return (
     <AnimatePresence mode="wait" onExitComplete={onExitComplete}>
@@ -60,7 +65,7 @@ export const ContentArea = ({
           <Suspense
             fallback={
               <div className="min-h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-[#2200b8] border-t-transparent rounded-full animate-spin" />
+                <LoadingCubes />
               </div>
             }
           >
@@ -70,6 +75,7 @@ export const ContentArea = ({
                 <Component
                   onSelectSection={onSelectSection}
                   onReady={onContentReady}
+                  aboutResetSignal={sectionId === "about" ? aboutResetSignal : undefined}
                 />
               );
             })()}

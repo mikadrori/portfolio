@@ -11,14 +11,17 @@ const linkClass = `${navLinkTextClass} no-underline transition-all duration-200 
 
 interface NavBarProps {
   onNavIntent: (target: "home" | "about") => void;
+  /** Desktop cube logo: scroll to top; also used to reset About page state from App. */
+  onLogoClick?: () => void;
 }
 
-export const NavBar = ({ onNavIntent }: NavBarProps) => {
+export const NavBar = ({ onNavIntent, onLogoClick }: NavBarProps) => {
   const [logoHovered, setLogoHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    onLogoClick?.();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 

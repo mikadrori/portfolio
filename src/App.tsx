@@ -58,7 +58,12 @@ export default function App() {
   const handleNavIntent = useCallback(
     (target: "home" | "about") => {
       const nextSection = target === "home" ? null : "about";
-      if (nextSection === activeSection) return;
+      if (nextSection === activeSection) {
+        if (nextSection === "about") {
+          contentRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
+      }
       transitionSource.current = "nav";
       scrollHandledByExit.current = false;
       prevSection.current = activeSection;
@@ -99,6 +104,13 @@ export default function App() {
   }, []);
 
   const [showGrid, setShowGrid] = useState(false);
+  const [aboutResetSignal, setAboutResetSignal] = useState(0);
+
+  const handleNavLogoClick = useCallback(() => {
+    if (activeSection === "about") {
+      setAboutResetSignal((n) => n + 1);
+    }
+  }, [activeSection]);
 
   useEffect(() => {
     if (!import.meta.env.DEV) return;
@@ -124,14 +136,19 @@ export default function App() {
           </div>
         </div>
       )}
-      <NavBar onNavIntent={handleNavIntent} />
-      <Home onSelectProject={handleSelectFromCube} animationKey={cubeAnimKey} />
+      <NavBar onNavIntent={handleNavIntent} onLogoClick={handleNavLogoClick} />
+      <Home
+        onSelectProject={handleSelectFromCube}
+        animationKey={cubeAnimKey}
+        liquidCursorEnabled={activeSection !== "about"}
+      />
       <div ref={contentRef} className="scroll-mt-[56px] md:scroll-mt-[72px]">
         <ContentArea
           sectionId={activeSection}
           onSelectSection={handleSelectFromProject}
           onExitComplete={handleExitComplete}
           onContentReady={handleContentReady}
+          aboutResetSignal={aboutResetSignal}
         />
       </div>
       {activeSection && activeSection !== "about" && <Footer />}
