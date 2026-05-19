@@ -10,7 +10,7 @@ interface HeroProps {
 
 export const Hero = ({ onSelectProject, animationKey }: HeroProps) => {
   return (
-    <section className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-72px)] flex items-start lg:items-center pt-20 md:pt-14 pb-8 lg:py-12 overflow-x-clip">
+    <section className="h-full flex items-start lg:items-center pt-20 md:pt-14 pb-8 lg:py-12 overflow-hidden">
       <PageGrid className="items-center gap-y-8 lg:gap-y-[var(--grid-gutter)]">
         <div className="col-span-8 md:col-start-2 md:col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col gap-1.5 items-center md:items-start order-2 md:order-1 lg:order-1 mt-16 md:mt-0">
           <div className="flex flex-col gap-0.5 items-center md:items-start">

@@ -30,7 +30,7 @@ export const Home = ({
   }, []);
 
   return (
-    <div ref={wrapRef} className="w-full">
+    <div ref={wrapRef} className="w-full h-[calc(100vh-56px)] md:h-[calc(100vh-72px)] overflow-hidden">
       <OrganicLiquidCursor enabled={homeInView && liquidCursorEnabled} />
       <Hero onSelectProject={onSelectProject} animationKey={animationKey} />
       <div className="w-full border-t border-[#2200b8]" />

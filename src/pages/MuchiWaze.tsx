@@ -644,7 +644,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Final Design</h3>
               <p className={bodyTextClass}>
-                I combined both options — using the illustrations from the first and the geometric
+                I combined both options, using the illustrations from the first and the geometric
                 background from the second, and created the final icons.
               </p>
 

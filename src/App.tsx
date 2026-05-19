@@ -113,6 +113,14 @@ export default function App() {
   }, [activeSection]);
 
   useEffect(() => {
+    document.documentElement.style.overflow =
+      activeSection === null ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [activeSection]);
+
+  useEffect(() => {
     if (!import.meta.env.DEV) return;
     const onKey = (e: KeyboardEvent) => {
       const isBackslash = e.code === "Backslash" || e.key === "\\";

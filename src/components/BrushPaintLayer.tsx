@@ -4,13 +4,13 @@ const PAPER = "rgb(252, 247, 238)";
 const DEFAULT_INK_HEX = "#2200b8";
 
 /** Source dab resolution (px). */
-const DAB_TEXTURE_SIZE = 128;
+const DAB_TEXTURE_SIZE = 80;
 /** Fraction of texture height where the ink peak sits (must match `tipCy` in `createBrushTextureDab`). */
-const INK_PEAK_Y_FRAC = 0.055;
+const INK_PEAK_Y_FRAC = 0.38;
 /** Distance between stamps along a stroke. */
 const STAMP_SPACING = 3.8;
 /** Scales drawn dab vs texture — higher = thicker stroke. */
-const BRUSH_SCALE_BASE = 0.86;
+const BRUSH_SCALE_BASE = 0.9;
 
 export type Rgb = { r: number; g: number; b: number };
 
@@ -59,8 +59,8 @@ function createBrushTextureDab(size: number, ink: Rgb): HTMLCanvasElement {
 
   const cx = size * 0.5;
   const tipCy = size * INK_PEAK_Y_FRAC;
-  const rx = size * 0.26;
-  const ry = size * 0.36;
+  const rx = size * 0.28;
+  const ry = size * 0.28;
 
   c.clearRect(0, 0, size, size);
 
@@ -157,9 +157,7 @@ function stampDab(
   ctx.globalAlpha = alpha;
   ctx.translate(x, y);
   ctx.rotate(angleRad);
-  const peakOffset = INK_PEAK_Y_FRAC * s;
-  ctx.translate(0, -peakOffset);
-  ctx.drawImage(dab, -s / 2, 0, s, s);
+  ctx.drawImage(dab, -s / 2, -s / 2, s, s);
   ctx.restore();
 }
 
@@ -273,7 +271,7 @@ export const BrushPaintLayer = forwardRef<
     const brushScale = (e: PointerEvent | MouseEvent) => {
       const pe = e as PointerEvent;
       const p = typeof pe.pressure === "number" && pe.pressure > 0 ? pe.pressure : 0.5;
-      return 0.56 + p * 0.42;
+      return 0.38 + p * 0.3;
     };
 
     const strokeAlpha = 1.0;
@@ -303,6 +301,21 @@ export const BrushPaintLayer = forwardRef<
       const endStroke = (ev: PointerEvent) => {
         if (ev.pointerId !== pid) return;
         if (!drawing.current) return;
+
+        const p = pos(ev);
+        const finalScale = brushScale(ev);
+        const angle = Math.atan2(p.y - last.y, p.x - last.x) + Math.PI / 2;
+        const taperSteps = 4;
+        for (let i = 1; i <= taperSteps; i++) {
+          const t = i / taperSteps;
+          const s = finalScale * (1 - t * 0.7);
+          const a = strokeAlpha * (1 - t * 0.6);
+          const offset = i * 1.5;
+          const tx = p.x + Math.cos(angle - Math.PI / 2) * offset;
+          const ty = p.y + Math.sin(angle - Math.PI / 2) * offset;
+          stampDab(ctx, dab, tx, ty, angle, s, a);
+        }
+
         drawing.current = false;
         window.removeEventListener("pointermove", strokeMove, moveOpts);
         window.removeEventListener("pointerup", endStroke, captureOpts);
@@ -336,7 +349,9 @@ export const BrushPaintLayer = forwardRef<
       const p = pos(e);
       last.x = p.x;
       last.y = p.y;
-      stampDab(ctx, dab, p.x, p.y, -Math.PI / 2, brushScale(e), strokeAlpha * 1.05);
+      const startScale = brushScale(e);
+      stampDab(ctx, dab, p.x, p.y, 0, startScale * 0.6, strokeAlpha * 0.8);
+      stampDab(ctx, dab, p.x, p.y, 0, startScale, strokeAlpha);
 
       window.addEventListener("pointermove", strokeMove, moveOpts);
       window.addEventListener("pointerup", endStroke, captureOpts);
