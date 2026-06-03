@@ -109,7 +109,7 @@ const VID_ORDERPAGE = cloudinaryUrl("PackUpVIDorderpage_vuruf7_eo3piz.mp4", { re
 const VID_PICKUP = cloudinaryUrl("PackUpVIDpickupchange_kzywgm_lzqqxn.mp4", { resourceType: "video", quality: Q });
 
 // Flow
-const USER_FLOW = cloudinaryUrl("PackupUserFlow_uba12t_lhwayf.svg");
+const USER_FLOW = cloudinaryUrl("User_Flow_NEW_fqfmw1.svg");
 const VID_PROTOTYPE = cloudinaryUrl("PackUpVIDPrototype_szonom_p784jg.mp4", { resourceType: "video", quality: Q });
 
 // Screens

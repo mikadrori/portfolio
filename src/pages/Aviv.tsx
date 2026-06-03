@@ -177,7 +177,7 @@ const AVIV_IMAGE = cloudinaryUrl("Aviv_Image_ugmujh_bmleri.png", { quality: Q })
 const AVIV_IMAGE_2 = cloudinaryUrl("AvivImage2_phmgvt_egugvg.png", { quality: Q });
 
 // ─── User Flow ───
-const USER_FLOW = cloudinaryUrl("AvivUserFLOW_wqlgc8_jlbjjh.svg");
+const USER_FLOW = cloudinaryUrl("User_Flow_New_AVIV_qclvy6.svg");
 
 // ─── Confessions Mockup ───
 const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_qffpsy_wms0fv.png", { quality: Q });
