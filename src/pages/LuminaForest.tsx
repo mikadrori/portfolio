@@ -239,7 +239,7 @@ export default function LuminaForest({
             </div>
 
             {/* Row 2: tags cols 3-6 */}
-            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
               {LUMINA_INTRO_TAGS.map((label) => (
                 <span
                   key={label}
@@ -251,15 +251,15 @@ export default function LuminaForest({
             </div>
 
             {/* Row 3: Brief / Concept / Tools */}
-            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
+            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4 self-start">
               <span className={luminaBoxLabelClass}>Brief</span>
               <p className={bodyTextClass}>{LUMINA_BRIEF}</p>
             </div>
-            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
+            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4 self-start">
               <span className={luminaBoxLabelClass}>Concept</span>
               <p className={bodyTextClass}>{LUMINA_CONCEPT_INTRO}</p>
             </div>
-            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-2 flex min-w-0 flex-col gap-4 md:pr-0">
+            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-2 flex min-w-0 flex-col gap-4 md:pr-0 self-start">
               <span className={luminaBoxLabelClass}>Tools</span>
               <div className="grid w-max max-w-full grid-cols-[max-content_max-content] gap-x-4 gap-y-0 justify-items-start md:min-w-0">
                 {LUMINA_TOOLS.map((tool) => (

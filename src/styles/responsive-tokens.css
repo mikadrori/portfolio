@@ -25,19 +25,20 @@
   --text-footer: 16px;
 
   /* Section / column padding */
-  --pad-section-y: 32px;
+  --pad-section-y: 44px;
   --pad-column-y: 16px;
   --pad-sticky-title-top: 16px;
   --pad-sticky-col-pb: 16px;
 
   /* Semantic gaps */
-  --gap-content: 48px;
-  --gap-content-lg: 64px;
+  --gap-content: 60px;
+  --gap-content-lg: 76px;
   --gap-screen-row: 24px;
   --gap-intro: 24px;
   --gap-split: 32px;
   --gap-thumb: 32px;
   --gap-subtitle: 6px;
+  --gap-subtitle-top: 10px;
   --gap-hero-sm: 16px;
   --gap-hero-tight: 12px;
   --gap-tight-strip: 16px;
@@ -102,18 +103,19 @@
     --text-nav-logo: 18px;
     --text-footer: 16px;
 
-    --pad-section-y: 36px;
+    --pad-section-y: 48px;
     --pad-column-y: 20px;
     --pad-sticky-title-top: 16px;
     --pad-sticky-col-pb: 16px;
 
-    --gap-content: 52px;
-    --gap-content-lg: 68px;
+    --gap-content: 64px;
+    --gap-content-lg: 80px;
     --gap-screen-row: 36px;
     --gap-intro: 24px;
     --gap-split: 36px;
     --gap-thumb: 40px;
     --gap-subtitle: 16px;
+    --gap-subtitle-top: 12px;
     --gap-hero-sm: 16px;
     --gap-hero-tight: 12px;
     --gap-tight-strip: 16px;
@@ -172,18 +174,19 @@
     --text-nav-logo: 18px;
     --text-footer: 14px;
 
-    --pad-section-y: 48px;
-    --pad-column-y: 32px;
+    --pad-section-y: 64px;
+    --pad-column-y: 36px;
     --pad-sticky-title-top: 32px;
     --pad-sticky-col-pb: 32px;
 
-    --gap-content: 64px;
-    --gap-content-lg: 80px;
+    --gap-content: 80px;
+    --gap-content-lg: 100px;
     --gap-screen-row: 56px;
     --gap-intro: 32px;
     --gap-split: 48px;
     --gap-thumb: 64px;
-    --gap-subtitle: 5px;
+    --gap-subtitle: 10px;
+    --gap-subtitle-top: 16px;
     --gap-hero-sm: 24px;
     --gap-hero-tight: 16px;
     --gap-tight-strip: 32px;
@@ -242,18 +245,19 @@
     --text-nav-logo: 20px;
     --text-footer: 12px;
 
-    --pad-section-y: 48px;
-    --pad-column-y: 32px;
+    --pad-section-y: 64px;
+    --pad-column-y: 36px;
     --pad-sticky-title-top: 32px;
     --pad-sticky-col-pb: 32px;
 
-    --gap-content: 64px;
-    --gap-content-lg: 80px;
+    --gap-content: 80px;
+    --gap-content-lg: 100px;
     --gap-screen-row: 56px;
     --gap-intro: 32px;
     --gap-split: 48px;
     --gap-thumb: 64px;
-    --gap-subtitle: 8px;
+    --gap-subtitle: 12px;
+    --gap-subtitle-top: 20px;
     --gap-hero-sm: 24px;
     --gap-hero-tight: 16px;
     --gap-tight-strip: 32px;
@@ -312,18 +316,19 @@
     --text-nav-logo: 22px;
     --text-footer: 14px;
 
-    --pad-section-y: 52px;
-    --pad-column-y: 32px;
+    --pad-section-y: 72px;
+    --pad-column-y: 28px;
     --pad-sticky-title-top: 32px;
     --pad-sticky-col-pb: 32px;
 
-    --gap-content: 60px;
-    --gap-content-lg: 84px;
+    --gap-content: 80px;
+    --gap-content-lg: 104px;
     --gap-screen-row: 56px;
     --gap-intro: 32px;
     --gap-split: 48px;
     --gap-thumb: 64px;
-    --gap-subtitle: 14px;
+    --gap-subtitle: 18px;
+    --gap-subtitle-top: 24px;
     --gap-hero-sm: 24px;
     --gap-hero-tight: 16px;
     --gap-tight-strip: 32px;
@@ -382,18 +387,19 @@
     --text-nav-logo: 24px;
     --text-footer: 16px;
 
-    --pad-section-y: 56px;
-    --pad-column-y: 32px;
+    --pad-section-y: 76px;
+    --pad-column-y: 28px;
     --pad-sticky-title-top: 32px;
     --pad-sticky-col-pb: 32px;
 
-    --gap-content: 72px;
-    --gap-content-lg: 88px;
+    --gap-content: 92px;
+    --gap-content-lg: 112px;
     --gap-screen-row: 56px;
     --gap-intro: 32px;
     --gap-split: 48px;
     --gap-thumb: 64px;
-    --gap-subtitle: 16px;
+    --gap-subtitle: 20px;
+    --gap-subtitle-top: 28px;
     --gap-hero-sm: 24px;
     --gap-hero-tight: 16px;
     --gap-tight-strip: 32px;

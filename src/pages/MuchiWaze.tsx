@@ -62,7 +62,7 @@ const MUCHI_BRIEF =
 const MUCHI_CONCEPT_INTRO =
   "A community-driven Waze concept designed for the Muchiler community, focusing on the unique needs of long-term and authentic travel.";
 
-const MUCHI_TOOLS = ["Figma", "Adobe Illustrator", "After Effects"] as const;
+const MUCHI_TOOLS = ["Figma", "Adobe Illustrator", "Lottifiles","After Effects"] as const;
 
 const muchiBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
@@ -391,7 +391,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
             </div>
 
             {/* ── Row 2: Tag pills (cols 3-6 with equal gaps) ── */}
-            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
               {MUCHI_INTRO_TAGS.map((label) => (
                 <span
                   key={label}
@@ -531,7 +531,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
 
           <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col ${gapMuchiResearchClass} ${sectionColumnPaddingClass}`}>
             {/* First Sketches + VID_ALL_ICONS side by side */}
-            <div className="flex flex-col md:flex-row gap-8 md:items-center">
+            <div className="flex flex-col md:flex-row gap-8 md:items-start">
               <div className={`flex min-w-0 flex-1 flex-col ${gapSubtitleClass}`}>
                 <h3 className={subTitleClass}>First Sketches</h3>
                 <p className={bodyTextClass}>
@@ -586,6 +586,7 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
                 <div ref={sketch2Drag.ref} onMouseDown={sketch2Drag.onMouseDown} className="overflow-x-auto scrollbar-hide cursor-grab">
                   <img src={SKETCHES_2} alt="Option 2 — geometric icon sketches" className="h-[80px] md:h-[120px] lg:h-[120px] xl:h-[148px] w-auto max-w-none pointer-events-none" loading="lazy" />
                 </div>
+           
               </div>
             </div>
 

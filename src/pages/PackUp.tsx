@@ -443,7 +443,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
             </div>
 
             {/* ── Row 2: Tag pills (cols 3-6 with equal gaps) ── */}
-            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
               {PACKUP_INTRO_TAGS.map((label) => (
                 <span
                   key={label}
@@ -941,7 +941,7 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             <h3 className={subTitleClass}>User Flow</h3>
 
-            <div className="grid grid-cols-1 gap-y-8 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:items-center md:min-w-0">
+            <div className="grid grid-cols-1 gap-y-8 md:grid-cols-6 md:gap-x-[var(--grid-gutter)] md:gap-y-0 md:items-center md:min-w-0 -mt-6 md:-mt-10">
               <div className="md:col-span-4 flex min-w-0 items-center md:pr-2">
                 <img src={USER_FLOW} alt="Pack Up user flow diagram" className="w-full" loading="lazy" />
               </div>

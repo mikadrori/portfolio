@@ -290,7 +290,7 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
             </div>
 
             {/* Row 2: tag pills (cols 3-6) */}
-            <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
               {WWL_INTRO_TAGS.map((label) => (
                 <span
                   key={label}

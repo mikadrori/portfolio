@@ -999,7 +999,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+          <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
             {AVIV_INTRO_TAGS.map((label) => (
               <span
                 key={label}
@@ -1221,7 +1221,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 the <span className="font-medium">Moon</span> is the central, cherished symbol, while the Sun is secondary, harsh, and
                 burning.
               </p>
-              <p className={`${bodyTextClass} lg:max-w-[80%] mt-2`}>
+              <p className={`${bodyTextClass} lg:max-w-[80%] mt-2 mb-8 md:mb-12`}>
                 I drew inspiration from 4 of Aviv&rsquo;s songs to create the visual elements
                 for each weather screen.
               </p>
@@ -1312,7 +1312,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
             </div>
             {/* Desktop: 3-col grid */}
-            <div className="hidden md:grid grid-cols-3 gap-8 md:-mt-[calc(var(--gap-content)*0.8)]">
+            <div className="hidden md:grid grid-cols-3 gap-8 md:-mt-[calc(var(--gap-content)*0.3)]">
               <div className="flex flex-col gap-1">
                 <h4 className={`${smallTitleClass} mb-1`}>Principles</h4>
                 <p className={bodyTextClass}>Voice: Social change.</p>
@@ -1334,8 +1334,8 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* A man of contrasts */}
-            <div className={`flex flex-col ${gapSubtitleClass} md:max-w-[80%] -mt-[calc(var(--gap-content)*0.4)] md:-mt-[calc(var(--gap-content)*0.8)]`}>
-              <h4 className={smallTitleClass}>A man of contrasts</h4>
+            <div className={`flex flex-col gap-1 md:max-w-[80%] -mt-[calc(var(--gap-content)*0.4)] md:-mt-[calc(var(--gap-content)*0.3)]`}>
+              <h4 className={`${smallTitleClass} mb-1`}>A man of contrasts</h4>
               <p className={bodyTextClass}>
                 Aviv Geffen embodies the tension between extreme fragility and bold defiance, creating
                 a unique, provocative artistic identity.
@@ -1400,7 +1400,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                 The typographic choices reflect Aviv Geffen&rsquo;s duality, creating a tension between
                 raw expression and refined simplicity.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-6 md:mt-10">
                 <div className={`flex flex-col ${gapSubtitleClass}`}>
                   <h4 className={smallTitleClass}>Custom Hand-Drawn Typography</h4>
                   <p className={`${bodyTextClass} lg:max-w-[80%]`}>
@@ -1419,7 +1419,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* Typography Sketches */}
-            <div className="flex flex-col gap-4 md:w-[80%]">
+            <div className="flex flex-col gap-6 md:gap-8 md:w-[80%]">
               <h3 className={subTitleClass}>Typography Sketches</h3>
               <CnfsnTypoSketchesCarousel />
             </div>
@@ -1456,7 +1456,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CONFESSIONS_SUBTITLE}</p>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-4 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+          <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
             {CONFESSIONS_INTRO_TAGS.map((label) => (
               <span
                 key={label}
@@ -1569,7 +1569,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-5 flex justify-center -mt-8">
+          <div className="col-span-8 md:col-start-3 md:col-span-5 flex justify-center mt-4 md:mt-8">
             <div className="w-full md:w-[115%]">
               <LaptopMockup />
             </div>
@@ -1606,7 +1606,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
                   <span className="font-['Varela_Round'] font-bold">ילדי אור הירח</span>
                 </h3>
                 <p className={`${bodyTextClass} lg:max-w-[80%]`}>
-                  A dedicated youth subculture from the early 90s, inspired by Geffen&rsquo;s raw
+                  A dedicated youth subculture from the early 90's, inspired by Geffen&rsquo;s raw
                   lyrics and social messages, forming a powerful community across Israel.
                 </p>
               </div>
@@ -1661,7 +1661,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
 
             {/* Typography Sketches (Part 2) — both-axis scroll */}
-            <div className="flex flex-col gap-4 md:w-[80%]">
+            <div className="flex flex-col gap-6 md:gap-8 md:w-[80%]">
               <h3 className={subTitleClass}>Typography Sketches</h3>
               <CnfsnTypoSketchScroll />
             </div>
@@ -1675,7 +1675,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </p>
 
               {/* Main Buttons */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 mt-8 md:mt-10">
                 <h4 className={smallTitleClass}>Main Buttons</h4>
                 <div className={iconButtonsRowClass}>
                   <img src={BTN_FLOWER} alt="Flower button" className="h-[80px] md:h-[100px] w-auto max-w-full object-contain" loading="lazy" />
@@ -1687,7 +1687,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
 
               {/* Secondary Buttons */}
-              <div className="flex flex-col gap-4 mt-6 md:mt-4">
+              <div className="flex flex-col gap-4 mt-12 md:mt-14">
                 <h4 className={smallTitleClass}>Secondary Buttons</h4>
                 <div className={iconButtonsRowClass}>
                   <img src={BTN_X} alt="Close button" className="h-[36px] md:h-[44px] w-auto max-w-full object-contain" loading="lazy" />
@@ -1699,21 +1699,18 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
               </div>
 
               {/* User Profile Picture Icons */}
-              <div className="flex flex-col gap-4 mt-6 md:mt-2">
+              <div className="flex flex-col gap-4 mt-12 md:mt-14">
                 <h4 className={smallTitleClass}>Users Profile Picture Icons</h4>
                 <div className={iconButtonsRowClass}>
                   {PRF_ICONS.map((src, i) => (
                     <img key={i} src={src} alt={`Profile icon ${i + 1}`} className="h-[92px] md:h-[112px] w-auto max-w-full object-contain" loading="lazy" />
                   ))}
                 </div>
-                <p className={`${bodyTextClass} -mt-1 md:mt-2 lg:max-w-[80%]`}>
-                  Inspired by Aviv&rsquo;s world of imagery.
-                </p>
               </div>
             </div>
 
             {/* Icons Sketches — both-axis scroll */}
-            <div className="flex flex-col gap-4 md:w-[80%]">
+            <div className="flex flex-col gap-6 md:gap-8 md:w-[80%]">
               <h3 className={subTitleClass}>Icons Sketches</h3>
               <IconsSketchScroll />
             </div>
