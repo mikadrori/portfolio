@@ -945,7 +945,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
   }, [signalReady]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-clip">
       {/* ═══════════════════════════════════════════════
           PART 1 — CLOUDY NOW (Weather App)
           ═══════════════════════════════════════════════ */}
@@ -959,11 +959,11 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
             <div className={`col-span-8 md:col-start-3 md:col-span-5 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
-              <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Moonlight Atmosphere</h3>
-              <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_MOONLIGHT_SUBTITLE}</p>
+              <h3 className={`${projectHeroNameClass} min-w-0 break-words`}>Moonlight Atmosphere</h3>
+              <p className={`${subTitleClass} leading-[1.5] min-w-0`}>{AVIV_MOONLIGHT_SUBTITLE}</p>
             </div>
 
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-row gap-3 md:gap-8 items-end ml-[6%] md:ml-0 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-row gap-3 md:gap-8 items-end min-w-0 overflow-hidden mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
               <div className="w-[100px] md:w-[22%] lg:w-[20%] shrink-0 mb-2 md:mb-3">
                 <ViewportVideo
                   src={SPLASH_VIDEO_LOCAL}
@@ -1452,8 +1452,8 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
 
         <PageGrid className={sectionPageGridStretchClass}>
           <div className={`col-span-8 md:col-start-3 md:col-span-5 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
-            <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Moonlight Confessions</h3>
-            <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CONFESSIONS_SUBTITLE}</p>
+            <h3 className={`${projectHeroNameClass} min-w-0 break-words`}>Moonlight Confessions</h3>
+            <p className={`${subTitleClass} leading-[1.5] min-w-0`}>{AVIV_CONFESSIONS_SUBTITLE}</p>
           </div>
 
           <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
