@@ -197,21 +197,21 @@ const NABAT_SHAPES = [
 
 /** Reduced package stills: Cloudinary `Nabat/JPEG/`, local mirror of `Packages/Reduced IMG/`. */
 const pkg = (file: string, opts?: { width?: number }) =>
-  cloudinaryUrl(encodeURI(`Nabat/JPEG/${file}`), opts);
+  cloudinaryUrl(encodeURI(`Nabat/JPEG/${file}`), { quality: "90", ...opts });
 
 const PACKAGE_HERO_CYCLING = [
-  pkg("Nabat_PackageIMG_11_epwf3b.jpg", { width: 1200 }),
-  pkg("Nabat_PackageIMG_12_a3f6zm.jpg", { width: 1200 }),
-  pkg("Nabat_PackageIMG_13_qegmbj.jpg", { width: 1200 }),
+  pkg("Nabat_PackageIMG_11_epwf3b.jpg", { width: 2000 }),
+  pkg("Nabat_PackageIMG_12_a3f6zm.jpg", { width: 2000 }),
+  pkg("Nabat_PackageIMG_13_qegmbj.jpg", { width: 2000 }),
 ] as const;
 const PACKAGE_CYCLING = [
-  pkg("Nabat_PackageIMG_5_sbhlso.jpg", { width: 800 }),
-  pkg("Nabat_PackageIMG_8_m3849x.jpg", { width: 800 }),
-  pkg("Nabat_PackageIMG_6_xnm6gx.jpg", { width: 800 }),
+  pkg("Nabat_PackageIMG_5_sbhlso.jpg", { width: 1400 }),
+  pkg("Nabat_PackageIMG_8_m3849x.jpg", { width: 1400 }),
+  pkg("Nabat_PackageIMG_6_xnm6gx.jpg", { width: 1400 }),
 ] as const;
-const PKG_TOP_LEFT = pkg("Nabat_PackageIMG_7_qozlqf.jpg", { width: 800 });
-const PKG_TOP_CENTER = pkg("Nabat_PackageIMG_9_kglcdy.jpg", { width: 800 });
-const PKG_BOTTOM_LEFT = pkg("Nabat_PackageIMG_4_ijziaj.jpg", { width: 800 });
+const PKG_TOP_LEFT = pkg("Nabat_PackageIMG_7_qozlqf.jpg", { width: 1400 });
+const PKG_TOP_CENTER = pkg("Nabat_PackageIMG_9_kglcdy.jpg", { width: 1400 });
+const PKG_BOTTOM_LEFT = pkg("Nabat_PackageIMG_4_ijziaj.jpg", { width: 1400 });
 
 /** Flat lightbox order: hero → side stills → single-package cycling. */
 const PACKAGE_LIGHTBOX_IMAGES = [
@@ -228,13 +228,13 @@ const PACKAGE_FADE_MS = 800;
 const PACKAGE_SINGLE_DELAY_MS = 1200;
 
 const NABAT_POSTER_FEATURED = cloudinaryUrl(
-  "Nabat/Posters/Nabat_poster-04_tr6lts.png",
-  { width: 1200 },
+  "Nabat/products/Nabat_poster-04_tr6lts.png",
+  { width: 1800 },
 );
 const NABAT_POSTERS_ROW = [
-  cloudinaryUrl("Nabat/Posters/Nabat_poster-01_ndqqhd.png", { width: 900 }),
-  cloudinaryUrl("Nabat/Posters/Nabat_poster-03_wo7gav.png", { width: 900 }),
-  cloudinaryUrl("Nabat/Posters/Nabat_poster-02_fo9hp4.png", { width: 900 }),
+  cloudinaryUrl("Nabat/products/Nabat_poster-01_ndqqhd.png", { width: 1400 }),
+  cloudinaryUrl("Nabat/products/Nabat_poster-03_wo7gav.png", { width: 1400 }),
+  cloudinaryUrl("Nabat/products/Nabat_poster-02_fo9hp4.png", { width: 1400 }),
 ] as const;
 const NABAT_POSTERS = [NABAT_POSTER_FEATURED, ...NABAT_POSTERS_ROW] as const;
 

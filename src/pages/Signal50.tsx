@@ -62,15 +62,15 @@ const BRAND_IDENTITY_IMAGE = cloudinaryUrl("Signal50/Signal50_BrandIdentity_jyxc
 
 /** Eight Initial Sketches cells (logosketches1_1–8); circular #9 removed. */
 const LOGO_SKETCHES = [
-  "Signal50/signal50_logosketches1_1_jqyfqe.png",
-  "Signal50/signal50_logosketches1_2_t7wct3.png",
-  "Signal50/signal50_logosketches1_3_ssvhoq.png",
-  "Signal50/signal50_logosketches1_4_xqwsn3.png",
-  "Signal50/signal50_logosketches1_5_f4uiyw.png",
-  "Signal50/signal50_logosketches1_6_urftqh.png",
-  "Signal50/signal50_logosketches1_7_egy8ci.png",
-  "Signal50/signal50_logosketches1_8_ybbfgo.png",
-].map((id) => cloudinaryUrl(id));
+  "Signal50/logo sketches/signal50_logosketches1_1_jqyfqe.png",
+  "Signal50/logo sketches/signal50_logosketches1_2_t7wct3.png",
+  "Signal50/logo sketches/signal50_logosketches1_3_ssvhoq.png",
+  "Signal50/logo sketches/signal50_logosketches1_4_xqwsn3.png",
+  "Signal50/logo sketches/signal50_logosketches1_5_f4uiyw.png",
+  "Signal50/logo sketches/signal50_logosketches1_6_urftqh.png",
+  "Signal50/logo sketches/signal50_logosketches1_7_egy8ci.png",
+  "Signal50/logo sketches/signal50_logosketches1_8_ybbfgo.png",
+].map((id) => cloudinaryUrl(encodeURI(id)));
 
 /** Final Logo process: sketch1 → sketch2 → black mark, then white lockup on #000000. */
 const FINAL_LOGO_PROCESS = [
@@ -126,7 +126,7 @@ const INSPIRATIONS_BODY =
 const LOGO_INSPIRATIONS_BODY =
   "For the logotype, the goal was to create a bold, raw, hand-drawn mark. Something striking, authentic, and unapologetically powerful.";
 
-const TYPOGRAPHY_SVG = cloudinaryUrl("Signal50/signal50_typography_rbguqy.svg");
+const TYPOGRAPHY_SVG = cloudinaryUrl("signal50_typography_rbguqy.svg");
 const TYPOGRAPHY_SVG_ASPECT = "683 / 544";
 
 /** Signal 50 only — video loading shells (`#252525`, not the shared navy shimmer). */

@@ -32,9 +32,9 @@ const ogenAsset = (file: string, opts?: { resourceType?: "image" | "video"; widt
 
 const HERO_VIDEO = ogenAsset("Hero_VID_iyrla8.mp4", { resourceType: "video" });
 const HERO_POSTER = ogenAsset("Screen_Dashboard_vur6vl.png");
-const SYSTEM_MOCKUP_NIGHT = ogenAsset("System_Mockup_Night_zezhb6.png");
-const PROTOTYPE_VIDEO = ogenAsset("OGEN_Prototype_NEW_vwuhkn.mp4", { resourceType: "video" });
-const INTRO_SCREENS_VIDEO = ogenAsset("OGEN_Screens_VID_kowbya.mp4", { resourceType: "video" });
+const SYSTEM_MOCKUP_NIGHT = cloudinaryUrl("System_Mockup_Night_zezhb6.png", { quality: Q });
+const PROTOTYPE_VIDEO = cloudinaryUrl("OGEN_Prototype_NEW_vwuhkn.mp4", { resourceType: "video", quality: Q });
+const INTRO_SCREENS_VIDEO = cloudinaryUrl("OGEN_Screens_VID_kowbya.mp4", { resourceType: "video", quality: Q });
 const APP_ICON = cloudinaryUrl("OGEN_App_icon_kdayq6.png", { quality: Q });
 const DISASTER_SCENES = [
   ogenAsset("Disaster_Scene1_rdsiuw.png"),
@@ -127,12 +127,12 @@ const VISION_PHENOMENA = [
   {
     title: "Tunnel Vision",
     desc: "Under extreme stress, the visual field narrows, blurring the edges and forcing focus strictly on the screen center.",
-    image: ogenAsset("Tunnel_vision_sj6ku0.png"),
+    image: cloudinaryUrl("Tunnel_vision_sj6ku0.png", { quality: Q }),
   },
   {
     title: "Night Blind Spot",
     desc: "In low-light environments, central vision degrades, creating a blind spot in the center of the screen.",
-    image: ogenAsset("Night_blind_spot_cklv73.png"),
+    image: cloudinaryUrl("Night_blind_spot_cklv73.png", { quality: Q }),
   },
 ] as const;
 
@@ -150,7 +150,7 @@ const PILLARS = [
 
 /** High Fidelity carousel: five screen stills (two are pop-up overlays). */
 const HIFI_SCREENS = [
-  { title: "Dashboard", src: ogenAsset("High_fidelity_Dashboard.png") },
+  { title: "Dashboard", src: ogenAsset("High_fidelity_Dashboard_ubjw7s.png") },
   { title: "Anchor List", src: ogenAsset("High_fidelity_Ogen1_mn0azo.png") },
   { title: "Anchor List pop up", src: ogenAsset("High_fidelity_Ogen2_yox0mg.png") },
   { title: "Battalion Reports", src: ogenAsset("High_fidelity_reports1_vxkyda.png") },
@@ -162,12 +162,12 @@ const DESIGN_SCREENS = [
   {
     title: "Login & Event Setup",
     desc: "Population NCOs log in and initialize an incident with key location and building data. Triggers automated data requests to municipal and emergency authorities before arriving on-site to streamline early operations.",
-    video: ogenAsset("OGEN_Login_VID_jah2mq.mp4", { resourceType: "video" }),
+    video: cloudinaryUrl("OGEN_Login_VID_jah2mq.mp4", { resourceType: "video", quality: Q }),
   },
   {
     title: "Main Dashboard",
     desc: "The primary command view delivering a real-time situational picture, prominently placed at the screen center to counteract night blind spots and tunnel vision. Tracks casualty tallies and incident timers, with quick-access shortcuts to the Anchor List and Battalion Reports.",
-    video: ogenAsset("OGEN_Dashboard_VID_dp87zv.mp4", { resourceType: "video" }),
+    video: cloudinaryUrl("OGEN_Dashboard_VID_dp87zv.mp4", { resourceType: "video", quality: Q }),
   },
   {
     title: "Anchor List",
@@ -176,17 +176,17 @@ const DESIGN_SCREENS = [
       title: "Smart Cross-Referencing",
       desc: "Field chaos leads to duplicate, incomplete profiles. The AI scans for matching traits and alerts the Population NCO with merge recommendations, leaving final decisions strictly to the human operator.",
     },
-    video: ogenAsset("OGEN_Anchorlist_VID_tv5aef.mp4", { resourceType: "video" }),
+    video: cloudinaryUrl("OGEN_Anchorlist_VID_tv5aef.mp4", { resourceType: "video", quality: Q }),
   },
   {
     title: "Battalion Reports",
     desc: "A dedicated feed for field updates received directly from battalion command, alongside a direct chat for rapid operational communication. Reports can be filtered by source authority: Family Center, Municipality, Commander HQ, Medical (MADA & Hospitals), and Emergency Forces (Police & Fire Department).",
-    video: ogenAsset("OGEN_Reports_VID_dv2i4p.mp4", { resourceType: "video" }),
+    video: cloudinaryUrl("OGEN_Reports_VID_dv2i4p.mp4", { resourceType: "video", quality: Q }),
   },
   {
     title: "Building Schematic",
     desc: "An interactive module where the Population NCO configures the building layout by specifying floors and apartments per floor. Enables entering occupant details for each unit and marking real-time status as Cleared or Uncleared.",
-    video: ogenAsset("OGEN_Building_VID_dlnwxa.mp4", { resourceType: "video" }),
+    video: cloudinaryUrl("OGEN_Building_VID_dlnwxa.mp4", { resourceType: "video", quality: Q }),
   },
 ] as const;
 
