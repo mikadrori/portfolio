@@ -1619,18 +1619,18 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
             {/* — Row 1: Title + slogan + icon — */}
-            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-6 md:gap-10 ${sectionColumnPaddingClass} pb-0`}>
+            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-12 ${sectionColumnPaddingClass} pb-0`}>
               <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
                 <h3 className={projectHeroNameClass}>OGEN System</h3>
                 <p className={`${subTitleClass} leading-[1.5]`}>
                   Making order in the chaos
                 </p>
               </div>
-              <div className="order-first flex shrink-0 justify-start md:order-none md:ml-6">
+              <div className="order-first flex shrink-0 justify-start md:order-none">
                 <img
                   src={APP_ICON}
                   alt="OGEN app icon"
-                  className="h-auto w-[calc(var(--media-app-icon)*0.75)] shrink-0 object-contain"
+                  className="w-[calc(var(--media-app-icon)*0.75)] shrink-0 object-contain"
                   loading="lazy"
                 />
               </div>

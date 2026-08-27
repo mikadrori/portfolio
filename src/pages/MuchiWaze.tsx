@@ -367,19 +367,19 @@ export default function MuchiWaze({ onSelectSection, onReady }: MuchiWazeProps) 
         {/* Project Intro (above Strategy sticky title) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            {/* ── Row 1: Title + subtitle + icon (cols 2-5) ── */}
-            <div className={`col-span-8 md:col-start-2 md:col-span-4 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+            {/* ── Row 1: Title + subtitle + icon (cols 2-7) ── */}
+            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-12 ${sectionColumnPaddingClass} pb-0`}>
               <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
                 <h3 className={projectHeroNameClass}>MuchiWaze</h3>
                 <p className={`${subTitleClass} leading-[1.5]`}>
                   Everything a Muchiler needs!
                 </p>
               </div>
-              <div className="order-first flex shrink-0 justify-start md:order-none md:ml-2">
+              <div className="order-first flex shrink-0 justify-start md:order-none">
                 <img
                   src={APP_ICON}
                   alt="MuchiWaze app icon"
-                  className="w-[calc(var(--media-app-icon)*0.75)] rounded-[14px] object-contain"
+                  className="w-[calc(var(--media-app-icon)*0.75)] shrink-0 rounded-[14px] object-contain"
                 />
               </div>
             </div>

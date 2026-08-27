@@ -983,16 +983,16 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Cloudy Now — PackUp-style intro (non-sticky) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+          <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-12 ${sectionColumnPaddingClass} pb-0`}>
             <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
               <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Cloudy Now</h3>
               <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CLOUDY_SUBTITLE}</p>
             </div>
-            <div className="order-first flex shrink-0 justify-start md:order-none md:ml-6">
+            <div className="order-first flex shrink-0 justify-start md:order-none">
               <img
                 src={APP_ICON}
                 alt="Cloudy Now app icon"
-                className="w-[calc(var(--media-app-icon)*0.75)] shrink-0 rounded-[22px] object-cover"
+                className="w-[calc(var(--media-app-icon)*0.75)] shrink-0 rounded-[22px] object-contain"
                 loading="lazy"
               />
             </div>

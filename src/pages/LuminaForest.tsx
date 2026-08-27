@@ -22,7 +22,7 @@ import {
 import { PageGrid } from "../components/PageGrid";
 import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
 import { IntroToggle } from "../components/IntroToggle";
-import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
+import { PROJECT_HERO_VIDEO_VIEWPORT_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { DragCarousel, PlaceholderCard } from "./lumina/DragCarousel";
 import { AreaGates } from "./lumina/AreaGates";
@@ -35,7 +35,7 @@ import { CloudinaryImage } from "./lumina/CloudinaryImage";
 import { MuteProvider, MuteButton, useMute } from "./lumina/MuteContext";
 import { cloudinaryUrl } from "../lib/cloudinary";
 
-const HERO_VIDEO = cloudinaryUrl("herobanner_lumina_eq8woo.mp4", { resourceType: "video" });
+const HERO_VIDEO = cloudinaryUrl("Lumina_HeroVIDnew_evpq4y.mp4", { resourceType: "video" });
 const HERO_VIDEO_POSTER = cloudinaryUrl("herobanner_skeleton_lumina_xy4szf.png");
 const COVER_VIDEO = cloudinaryUrl("main_menu_cropped_k9egsm.mp4", { resourceType: "video" });
 const MUSHROOM_IMG = cloudinaryUrl("pink_mushroom_big_w7mnyr_zlet1k.png");
@@ -71,7 +71,7 @@ function LuminaIntroMushroom() {
       src={MUSHROOM_IMG}
       alt="Pink mushroom"
       wrapperClassName="block"
-      className="w-[calc(var(--media-app-icon)*0.75)] object-contain"
+      className="w-[calc(var(--media-app-icon)*0.85)] object-contain"
     />
   );
 }
@@ -156,7 +156,7 @@ function HeroVideo() {
   }, []);
 
   return (
-    <div className={PROJECT_HERO_VIDEO_SHELL_CLASS}>
+    <div className={PROJECT_HERO_VIDEO_VIEWPORT_CLASS}>
       <video
         ref={videoRef}
         src={HERO_VIDEO}
@@ -214,22 +214,17 @@ export default function LuminaForest({
         {/* Project intro (PackUp / MuchiWaze pattern) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            {/* Row 1: titles cols 2–5; mushroom col 6 */}
-            <div className={`col-span-8 md:col-start-2 md:col-span-4 flex w-full min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
-              <div className="flex min-w-0 flex-row items-end gap-3 md:gap-4">
+            {/* Row 1: Title + subtitle + icon (cols 2-7) */}
+            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-12 ${sectionColumnPaddingClass} pb-0`}>
+              <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
                 <h3 className={`${projectHeroNameClass} min-w-0`}>Lumina Forest</h3>
-                <div className="flex shrink-0 self-end md:hidden">
-                  <LuminaIntroMushroom />
-                </div>
+                <p className={`${subTitleClass} min-w-0 leading-[1.5] md:whitespace-nowrap`}>
+                  {LUMINA_CONCEPT_SUBTITLE_BEFORE} {LUMINA_CONCEPT_SUBTITLE_AFTER}
+                </p>
               </div>
-              <p className={`${subTitleClass} min-w-0 leading-[1.5] md:whitespace-nowrap`}>
-                {LUMINA_CONCEPT_SUBTITLE_BEFORE} {LUMINA_CONCEPT_SUBTITLE_AFTER}
-              </p>
-            </div>
-            <div
-              className={`hidden min-w-0 md:flex md:col-start-6 md:col-span-1 flex-col justify-end items-end ${sectionColumnPaddingClass} pb-0`}
-            >
-              <LuminaIntroMushroom />
+              <div className="order-first flex shrink-0 justify-start md:order-none">
+                <LuminaIntroMushroom />
+              </div>
             </div>
 
             {/* Row 2: tags cols 2-7 */}

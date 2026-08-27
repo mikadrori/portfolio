@@ -1694,12 +1694,19 @@ export default function Nabat({ onSelectSection, onReady }: NabatProps) {
                 Using Cursor AI, I built a full e-commerce website that showcases
                 products and brand accessories while telling the brand story.
               </p>
-              <NabatAutoLoopVideo
-                src={WEBSITE_VIDEO}
-                className="w-full aspect-video"
-                ariaLabel="Nabat website screen recording"
-                cropX={WEBSITE_VIDEO_CROP_X}
-              />
+              <a
+                href={WEBSITE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <NabatAutoLoopVideo
+                  src={WEBSITE_VIDEO}
+                  className="w-full aspect-video"
+                  ariaLabel="Nabat website screen recording"
+                  cropX={WEBSITE_VIDEO_CROP_X}
+                />
+              </a>
             </div>
           </div>
         </PageGrid>

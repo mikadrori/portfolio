@@ -67,7 +67,7 @@ function TapLiftPhone({ children }: { children: React.ReactNode }) {
 }
 
 // Hero
-const HERO_VIDEO = cloudinaryUrl("PackupVIDpromo_trvywi_dijphf.mp4", { resourceType: "video", quality: Q });
+const HERO_VIDEO = cloudinaryUrl("Packup_HeroVID_tnjgm8.mp4", { resourceType: "video", quality: Q });
 const HERO_POSTER = cloudinaryUrl("herobanner_skeleton_packup_jxodtp.png", { quality: Q });
 const PACKUP_MOCKUP = cloudinaryUrl("packup_mockup_bmbgji_cc3cah.png", { quality: Q });
 
@@ -414,24 +414,24 @@ export default function PackUp({ onSelectSection, onReady }: PackUpProps) {
       {/* ── Hero + Concept = min 100vh ── */}
       <div className="min-h-screen flex flex-col">
         {/* Hero Video Banner */}
-        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} />
+        <ProjectHeroVideo src={HERO_VIDEO} poster={HERO_POSTER} fillViewport />
 
         {/* Project Intro (above Concept sticky title) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
             {/* ── Row 1: Title + subtitle + icon (cols 2-7) ── */}
-            <div className={`col-span-8 md:col-start-2 md:col-span-4 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-12 ${sectionColumnPaddingClass} pb-0`}>
               <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
                 <h3 className={projectHeroNameClass}>Pack Up</h3>
                 <p className={`${subTitleClass} leading-[1.5]`}>
                   The app that gets you organized!
                 </p>
               </div>
-              <div className="order-first flex shrink-0 justify-start md:order-none md:ml-2">
+              <div className="order-first flex shrink-0 justify-start md:order-none">
                 <img
                   src={APP_ICON}
                   alt="Pack Up app icon"
-                  className="w-[calc(var(--media-app-icon)*0.75)] object-contain"
+                  className="w-[calc(var(--media-app-icon)*0.75)] shrink-0 object-contain"
                 />
               </div>
             </div>
