@@ -1,7 +1,7 @@
 import { useId, useState, type ReactNode } from "react";
 import { smallTitleClass } from "../lib/typography";
 
-const buttonBaseClass = `${smallTitleClass} inline-flex w-fit px-3 py-1 transition-colors`;
+const buttonBaseClass = `${smallTitleClass} inline-flex w-fit px-3 py-1 cursor-pointer`;
 
 interface IntroToggleProps {
   /** Button label shown at all times (e.g. "Brief"). */
@@ -21,7 +21,10 @@ interface IntroToggleProps {
  */
 export function IntroToggle({ label, children, className = "" }: IntroToggleProps) {
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const panelId = useId();
+
+  const pink = open || hovered;
 
   return (
     <div className={`flex min-w-0 flex-col gap-4 ${className}`.trim()}>
@@ -30,11 +33,14 @@ export function IntroToggle({ label, children, className = "" }: IntroToggleProp
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((prev) => !prev)}
-        className={`${buttonBaseClass} ${
-          open
-            ? "bg-[#ff0090] text-[#fcf7ee]"
-            : "bg-[#2200b8] text-[#fcf7ee] hover:bg-[#ff0090]"
-        }`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className={buttonBaseClass}
+        style={{
+          backgroundColor: pink ? "#ff0090" : "#2200b8",
+          color: "#fcf7ee",
+          transition: "background-color 0.15s ease",
+        }}
       >
         {label}
       </button>

@@ -1114,7 +1114,7 @@ export default function Signal50({ onSelectSection, onReady }: Signal50Props) {
               <h3 className={subTitleClass}>Color Palette & Typography</h3>
               <Signal50PaletteAndTypography />
               <div className={`flex flex-col ${gapIntroClass}`}>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-[var(--grid-gutter)] gap-y-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-[var(--grid-gutter)] gap-y-4 cursor-default">
                   {DECADE_VIDEOS.map((vid) => (
                     <Signal50AutoLoopVideo
                       key={vid}
@@ -1245,7 +1245,7 @@ export default function Signal50({ onSelectSection, onReady }: Signal50Props) {
               );
             })}
             <div
-              className="group relative w-full aspect-video overflow-hidden rounded-sm bg-black"
+              className="group relative w-full aspect-video overflow-hidden rounded-sm bg-black cursor-pointer"
               data-signal50-stage-mockup=""
             >
               <img

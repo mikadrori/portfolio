@@ -248,6 +248,42 @@ const NABAT_PALETTE_IVORY = "#FDFAF1";
 const NABAT_PALETTE_IVORY_STROKE = "#E5E0D2";
 
 
+function NabatLogoMarkHover() {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div className="grid grid-cols-3 items-center gap-x-[var(--grid-gutter)] gap-y-6">
+      <div aria-hidden />
+      <div
+        className="relative flex cursor-pointer items-center justify-center py-2"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <img
+          src={LOGO_MARK}
+          alt="Nabat logo mark"
+          className="h-auto w-full max-w-[280px] object-contain"
+          style={{
+            opacity: hovered ? 0 : 1,
+            transition: "opacity 0.15s ease",
+          }}
+          loading="lazy"
+        />
+        <img
+          src={LOGO_MARK_HOVER}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute inset-0 m-auto h-[88%] max-h-[88%] w-auto max-w-[280px] object-contain"
+          style={{
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.15s ease",
+          }}
+        />
+      </div>
+      <div aria-hidden />
+    </div>
+  );
+}
+
 function NabatAutoLoopVideo({
   src: videoSrc,
   className = "",
@@ -1621,25 +1657,7 @@ export default function Nabat({ onSelectSection, onReady }: NabatProps) {
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 items-center gap-x-[var(--grid-gutter)] gap-y-6">
-                <div aria-hidden />
-                <div className="group relative flex cursor-pointer items-center justify-center py-2">
-                  <img
-                    src={LOGO_MARK}
-                    alt="Nabat logo mark"
-                    className="h-auto w-full max-w-[280px] object-contain transition-opacity duration-300 group-hover:opacity-0"
-                    loading="lazy"
-                  />
-                  <img
-                    src={LOGO_MARK_HOVER}
-                    alt=""
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 m-auto h-[88%] max-h-[88%] w-auto max-w-[280px] object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    loading="lazy"
-                  />
-                </div>
-                <div aria-hidden />
-              </div>
+              <NabatLogoMarkHover />
 
               <div className="grid grid-cols-3 items-end gap-x-[var(--grid-gutter)] gap-y-6">
                 {NABAT_SHAPES.map((src, i) => (
