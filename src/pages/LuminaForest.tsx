@@ -161,6 +161,7 @@ function HeroVideo() {
         ref={videoRef}
         src={HERO_VIDEO}
         poster={HERO_VIDEO_POSTER}
+        autoPlay
         muted={muted}
         loop
         playsInline

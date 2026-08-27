@@ -301,7 +301,7 @@ function Signal50ColorPalette() {
   return (
     <div
       ref={containerRef}
-      className="grid h-full w-full min-w-0 grid-cols-5 gap-x-[var(--grid-gutter)]"
+      className="grid h-full w-full min-w-0 grid-cols-5 gap-x-[var(--grid-gutter)] cursor-pointer"
       role="img"
       aria-label={ariaLabel}
       data-signal50-palette-bars=""
