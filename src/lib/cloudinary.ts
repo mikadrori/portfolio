@@ -24,6 +24,15 @@ export function cloudinaryUrl(
     return `${VIDEO_CDN_URL}/${fileName}`;
   }
 
+  if (type === "video") {
+    const videoTransforms = [
+      "f_auto",
+      opts?.quality ? `q_${opts.quality}` : "q_auto",
+      opts?.width ? `w_${opts.width}` : undefined,
+    ].filter(Boolean);
+    return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${videoTransforms.join(",")}/${publicId}`;
+  }
+
   if (!opts?.width || opts?.raw || publicId.endsWith(".svg")) {
     return `https://res.cloudinary.com/${CLOUD_NAME}/${type}/upload/${publicId}`;
   }
