@@ -61,6 +61,11 @@ video {
   cursor: var(--cursor-pointer);
 }
 
+.cursor-default video,
+video.cursor-default {
+  cursor: var(--cursor-default) !important;
+}
+
 .cursor-grab video {
   cursor: var(--cursor-grab) !important;
 }
