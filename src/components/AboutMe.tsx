@@ -202,7 +202,7 @@ export const AboutMe = ({
 
   return (
     <section className="relative w-full h-[calc(100dvh-56px)] md:h-[calc(100dvh-72px)] overflow-hidden bg-[#fcf7ee]">
-      <OrganicLiquidCursor enabled={liquidCursorOn} />
+      <OrganicLiquidCursor enabled={false} />
       <BrushGlbCursor active={paintActive} seedClient={paintPointerClient} />
       <BrushPaintLayer ref={brushPaintRef} active={paintActive} brushColor={brushPaintColor} />
       <div className="pointer-events-auto absolute inset-0 z-[18]">

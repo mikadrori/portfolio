@@ -86,7 +86,7 @@ export function useDragScroll(axis: Axis = "x") {
     lastTime.current = performance.now();
     velocityX.current = 0;
     velocityY.current = 0;
-    el.style.cursor = "grabbing";
+    el.style.cursor = "var(--cursor-grabbing)";
     el.style.userSelect = "none";
   }, [stopMomentum]);
 
@@ -112,7 +112,7 @@ export function useDragScroll(axis: Axis = "x") {
       const wasDragging = isDragging.current;
       isDragging.current = false;
       activeTouchId.current = null;
-      el.style.cursor = "grab";
+      el.style.cursor = "var(--cursor-grab)";
       el.style.removeProperty("user-select");
       if (wasDragging) startMomentum();
     };
@@ -150,7 +150,7 @@ export function useDragScroll(axis: Axis = "x") {
       if (!ended) return;
       activeTouchId.current = null;
       isDragging.current = false;
-      el.style.cursor = "grab";
+      el.style.cursor = "var(--cursor-grab)";
       startMomentum();
     };
 

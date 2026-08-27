@@ -35,3 +35,16 @@ export function cloudinaryUrl(
 
   return `https://res.cloudinary.com/${CLOUD_NAME}/${type}/upload/${transforms.join(",")}/${publicId}`;
 }
+
+/**
+ * Still frame from a Cloudinary video (`so_` seek). Always uses the CDN so
+ * DEV local mirrors still get a usable thumbnail without a local poster file.
+ */
+export function cloudinaryVideoThumbnail(
+  videoPublicId: string,
+  atSeconds = 3,
+  width = 400,
+): string {
+  const bare = videoPublicId.replace(/\.(mp4|webm|mov)$/i, "");
+  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/so_${atSeconds},f_jpg,q_auto,w_${width}/${bare}.jpg`;
+}

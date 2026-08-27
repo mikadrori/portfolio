@@ -340,17 +340,23 @@ function CenterCharacter({
   anchorY,
   onSelectIntro,
   faceFront,
+  introShowing,
 }: {
   anchorY: number;
   /** Tap (no drag) on Mika shows intro copy in the text slot. */
   onSelectIntro?: () => void;
   /** Stop idle spin and ease rotation back to the default front-facing pose. */
   faceFront?: boolean;
+  /** Intro copy is visible (no satellite selected) — hover is grab; otherwise pointer to restore intro. */
+  introShowing?: boolean;
 }) {
   const { gl, invalidate } = useThree();
   const rootRef = useRef<THREE.Group>(null);
   /** True between pointer down and up — pauses idle spin while deciding tap vs drag. */
   const interactingRef = useRef(false);
+  const hoveringRef = useRef(false);
+  const introShowingRef = useRef(introShowing ?? true);
+  introShowingRef.current = introShowing ?? true;
   const windowHandlers = useRef<{
     move: (ev: PointerEvent) => void;
     up: (ev: PointerEvent) => void;
@@ -365,12 +371,23 @@ function CenterCharacter({
   }, []);
 
   useEffect(() => {
-    return () => detachWindowListeners();
-  }, [detachWindowListeners]);
+    const canvas = gl.domElement;
+    return () => {
+      detachWindowListeners();
+      canvas.style.cursor = '';
+    };
+  }, [detachWindowListeners, gl]);
 
   useEffect(() => {
     if (faceFront) invalidate();
   }, [faceFront, invalidate]);
+
+  useEffect(() => {
+    if (!hoveringRef.current || interactingRef.current) return;
+    gl.domElement.style.cursor = introShowing
+      ? "var(--cursor-grab)"
+      : "var(--cursor-pointer)";
+  }, [introShowing, gl]);
 
   useFrame((state, delta) => {
     const g = rootRef.current;
@@ -393,6 +410,32 @@ function CenterCharacter({
     state.invalidate();
   });
 
+  const mikaHoverCursor = useCallback(() => {
+    return introShowingRef.current ? "var(--cursor-grab)" : "var(--cursor-pointer)";
+  }, []);
+
+  const onPointerOver = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      e.stopPropagation();
+      hoveringRef.current = true;
+      if (!interactingRef.current) {
+        gl.domElement.style.cursor = mikaHoverCursor();
+      }
+    },
+    [gl, mikaHoverCursor],
+  );
+
+  const onPointerOut = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      e.stopPropagation();
+      hoveringRef.current = false;
+      if (!interactingRef.current) {
+        gl.domElement.style.cursor = "";
+      }
+    },
+    [gl],
+  );
+
   const onPointerDown = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
@@ -406,6 +449,7 @@ function CenterCharacter({
       let movedPastThreshold = false;
 
       interactingRef.current = true;
+      gl.domElement.style.cursor = "var(--cursor-grabbing)";
 
       try {
         gl.domElement.setPointerCapture(pid);
@@ -438,9 +482,15 @@ function CenterCharacter({
         }
         detachWindowListeners();
         interactingRef.current = false;
-        const tap = !movedPastThreshold && Math.hypot(ev.clientX - startX, ev.clientY - startY) <= DRAG_THRESHOLD_PX;
+        const tap =
+          !movedPastThreshold &&
+          Math.hypot(ev.clientX - startX, ev.clientY - startY) <= DRAG_THRESHOLD_PX;
         if (tap) {
           onSelectIntro?.();
+          // Tap restores intro — hover cursor becomes grab once intro is showing.
+          if (hoveringRef.current) gl.domElement.style.cursor = "var(--cursor-grab)";
+        } else {
+          gl.domElement.style.cursor = hoveringRef.current ? mikaHoverCursor() : "";
         }
         invalidate();
       };
@@ -450,12 +500,12 @@ function CenterCharacter({
       window.addEventListener("pointerup", up);
       window.addEventListener("pointercancel", up);
     },
-    [detachWindowListeners, gl, invalidate, onSelectIntro],
+    [detachWindowListeners, gl, invalidate, mikaHoverCursor, onSelectIntro],
   );
 
   return (
     <group ref={rootRef} position={[0, anchorY, 0]}>
-      <group onPointerDown={onPointerDown}>
+      <group onPointerDown={onPointerDown} onPointerOver={onPointerOver} onPointerOut={onPointerOut}>
         <GlbScaled url={ASSETS.mika} targetMaxDim={CENTER_MODEL_MAX_DIM} />
       </group>
     </group>
@@ -509,8 +559,12 @@ function FloatingObject({
   }, []);
 
   useEffect(() => {
-    return () => detachWindowListeners();
-  }, [detachWindowListeners]);
+    const canvas = gl.domElement;
+    return () => {
+      detachWindowListeners();
+      canvas.style.cursor = '';
+    };
+  }, [detachWindowListeners, gl]);
 
   useEffect(() => {
     const root = glbWrapRef.current;
@@ -524,6 +578,12 @@ function FloatingObject({
   useEffect(() => {
     if (focusedSatelliteId != null) invalidate();
   }, [focusedSatelliteId, invalidate]);
+
+  useEffect(() => {
+    if (!hoverIntentRef.current) return;
+    gl.domElement.style.cursor = focusedSatelliteId === id
+      ? 'var(--cursor-grab)' : 'var(--cursor-pointer)';
+  }, [focusedSatelliteId, gl, id]);
 
   useLayoutEffect(() => {
     facePassRef.current = 0;
@@ -631,6 +691,7 @@ function FloatingObject({
       let lastX = startX;
       let lastY = startY;
       let movedPastThreshold = false;
+      gl.domElement.style.cursor = 'var(--cursor-grabbing)';
 
       try {
         gl.domElement.setPointerCapture(pid);
@@ -665,6 +726,12 @@ function FloatingObject({
         const tap = !movedPastThreshold && Math.hypot(ev.clientX - startX, ev.clientY - startY) <= DRAG_THRESHOLD_PX;
         if (tap) {
           onSelect(id);
+          if (hoverIntentRef.current) gl.domElement.style.cursor = 'var(--cursor-grab)';
+        } else if (hoverIntentRef.current) {
+          gl.domElement.style.cursor = focusedSatelliteId === id
+            ? 'var(--cursor-grab)' : 'var(--cursor-pointer)';
+        } else {
+          gl.domElement.style.cursor = '';
         }
         invalidate();
       };
@@ -674,25 +741,28 @@ function FloatingObject({
       window.addEventListener("pointerup", up);
       window.addEventListener("pointercancel", up);
     },
-    [detachWindowListeners, gl, id, invalidate, onSelect],
+    [detachWindowListeners, focusedSatelliteId, gl, id, invalidate, onSelect],
   );
 
   const onPointerOver = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       hoverIntentRef.current = true;
+      gl.domElement.style.cursor = focusedSatelliteId === id
+        ? 'var(--cursor-grab)' : 'var(--cursor-pointer)';
       invalidate();
     },
-    [invalidate],
+    [focusedSatelliteId, gl, id, invalidate],
   );
 
   const onPointerOut = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       hoverIntentRef.current = false;
+      gl.domElement.style.cursor = '';
       invalidate();
     },
-    [invalidate],
+    [gl, invalidate],
   );
 
   useLayoutEffect(() => {
@@ -840,6 +910,7 @@ function AboutSceneContent({
             anchorY={MIKA_ROW_ANCHOR_Y + mikaAnchorOffsetY}
             onSelectIntro={onSelectIntro}
             faceFront={mikaFacingFront}
+            introShowing={selectedObjectId == null}
           />
           <StageSignal onReady={advanceStage} />
         </Suspense>

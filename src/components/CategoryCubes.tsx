@@ -1,28 +1,32 @@
 import { useState } from "react";
 import { motion } from "motion/react";
+
 import { cloudinaryUrl } from "../lib/cloudinary";
 
-export type ProjectId = "lumina" | "aviv" | "packup" | "muchiwaze" | "wwl";
+export type ProjectId = "lumina" | "ogen" | "aviv" | "packup" | "muchiwaze" | "nabat" | "wwl" | "signal50";
 
 export const PROJECT_ORDER: ProjectId[] = [
   "lumina",
-  "aviv",
+  "ogen",
   "packup",
-  "muchiwaze",
-  "wwl",
+  "nabat",
+  "signal50",
 ];
+
+type CubeKey = "lumina" | "ogen" | "packup" | "nabat" | "signal";
 
 const CUBES: {
   id: number;
   projectId: ProjectId;
+  cubeKey: CubeKey;
   label: string;
   subtitle: string;
 }[] = [
-  { id: 1, projectId: "lumina", label: "Lumina Forest", subtitle: "gaming" },
-  { id: 2, projectId: "aviv", label: "Moonlight Atmosphere", subtitle: "ux ui" },
-  { id: 3, projectId: "packup", label: "Pack Up", subtitle: "ux ui" },
-  { id: 4, projectId: "muchiwaze", label: "MuchiWaze", subtitle: "ux ui" },
-  { id: 5, projectId: "wwl", label: "We Were Liars", subtitle: "motion" },
+  { id: 1, projectId: "lumina", cubeKey: "lumina", label: "Lumina Forest", subtitle: "gaming" },
+  { id: 2, projectId: "ogen", cubeKey: "ogen", label: "OGEN", subtitle: "ux ui" },
+  { id: 3, projectId: "packup", cubeKey: "packup", label: "Pack Up", subtitle: "ux ui" },
+  { id: 4, projectId: "nabat", cubeKey: "nabat", label: "Nabat", subtitle: "ux ui" },
+  { id: 5, projectId: "signal50", cubeKey: "signal", label: "Signal", subtitle: "motion" },
 ];
 
 type CubeId = (typeof CUBES)[number]["id"];
@@ -31,51 +35,76 @@ const PYRAMID_LAYOUT: Record<
   CubeId,
   { left: string; top: string; zIndex: number; size: string }
 > = {
+  // Exact live portfolio layout (mikadrori.vercel.app).
   1: { left: "38%", top: "-12%", zIndex: 5, size: "46%" },
-  2: { left: "13%", top: "22%", zIndex: 3, size: "44%" },
-  3: { left: "63%", top: "22%", zIndex: 4, size: "46%" },
-  4: { left: "9%", top: "58%", zIndex: 1, size: "49%" },
-  5: { left: "62%", top: "58%", zIndex: 2, size: "51%" },
+  2: { left: "13%", top: "22%", zIndex: 3, size: "46%" },
+  3: { left: "63%", top: "22%", zIndex: 4, size: "48%" },
+  4: { left: "9%", top: "61%", zIndex: 1, size: "51%" },
+  5: { left: "62%", top: "60%", zIndex: 2, size: "53%" },
 };
 
 const DROP_ORDER: Record<CubeId, number> = { 4: 0, 5: 1, 2: 2, 3: 3, 1: 4 };
 
-function cubeAsset(n: number, color: "blue" | "pink") {
-  const map: Record<string, string> = {
-    "1_blue": "cube_1_blue_x0wgmp_ac1khe.svg",
-    "1_pink": "cube_1_pink_pw7pjr_r6dana.svg",
-    "2_blue": "cube_2_blue_mqkddp_cv8m6q.svg",
-    "2_pink": "cube_2_pink_kfccxk_yvqiys.svg",
-    "3_blue": "cube_3_blue_k8ozy7_nk1m7z.svg",
-    "3_pink": "cube_3_pink_uoakkh_dwzlpk.svg",
-    "4_blue": "cube_4_blue_ymx0kq_qh1yun.svg",
-    "4_pink": "cube_4_pink_xicof5_vejkav.svg",
-    "5_blue": "cube_5_blue_t0crn1_cfwudz.svg",
-    "5_pink": "cube_5_pink_vzrvlg_z5eyox.svg",
-  };
-  return cloudinaryUrl(map[`${n}_${color}`]);
+const CUBE_ASSETS: Record<CubeKey, { blue: string; pink: string }> = {
+  lumina: {
+    blue: "Cube_Lumina_BLUE_ld4ech.svg",
+    pink: "Cube_Lumina_PINK_iuufit.svg",
+  },
+  ogen: {
+    blue: "Cube_Ogen_BLUE_kkkzyr.svg",
+    pink: "Cube_Ogen_PINK_k3muyb.svg",
+  },
+  packup: {
+    blue: "Cube_PackUp_BLUE_vuoogj.svg",
+    pink: "Cube_PackUp_PINK_guqqi3.svg",
+  },
+  nabat: {
+    blue: "Cube_Nabat_BLUE_phzcjh.svg",
+    pink: "Cube_Nabat_PINK_uvwph7.svg",
+  },
+  signal: {
+    blue: "Cube_Signal_BLUE_uttch6.svg",
+    pink: "Cube_Signal_PINK_ibeyjx.svg",
+  },
+};
+
+/** Matches Cloudinary folder + local `public/assets/New Cubes/` (space encoded). */
+function cubeAsset(cubeKey: CubeKey, color: "blue" | "pink") {
+  return cloudinaryUrl(encodeURI(`New Cubes/${CUBE_ASSETS[cubeKey][color]}`));
 }
+
+const PINK_HOVER_SCALE: Partial<Record<CubeKey, number>> = {
+  lumina: 1.02,
+  nabat: 1.05,
+  signal: 1.05,
+};
 
 interface CategoryCubesProps {
   onSelectProject: (id: ProjectId) => void;
   animationKey?: number;
+  /** Fires with the hovered cube's project, or null when the pointer leaves. */
+  onHoverChange?: (id: ProjectId | null) => void;
 }
 
-export const CategoryCubes = ({ onSelectProject, animationKey = 0 }: CategoryCubesProps) => {
+export const CategoryCubes = ({
+  onSelectProject,
+  animationKey = 0,
+  onHoverChange,
+}: CategoryCubesProps) => {
   const [hoveredId, setHoveredId] = useState<CubeId | null>(null);
 
   return (
     <div
       key={animationKey}
-      className="relative flex justify-center items-end overflow-visible max-md:-translate-x-[calc(12%-0.5rem)] md:-translate-x-[12%] lg:-translate-x-[6%] w-[clamp(260px,62vw,420px)] md:w-[clamp(155px,28vw,230px)] lg:w-[clamp(280px,30vw,400px)] 2xl:w-[clamp(320px,32vw,480px)]"
+      className="relative flex justify-center items-end overflow-visible max-md:-translate-x-[calc(6%-0.5rem)] md:-translate-x-[6%] lg:translate-x-[0%] w-[clamp(220px,50vw,340px)] md:w-[clamp(135px,24vw,200px)] lg:w-[clamp(240px,26vw,350px)] 2xl:w-[clamp(280px,28vw,420px)]"
       style={{
         aspectRatio: "1 / 1",
       }}
     >
-      {CUBES.map(({ id, projectId, label }) => {
+      {CUBES.map(({ id, projectId, cubeKey, label }) => {
         const layout = PYRAMID_LAYOUT[id];
         const isHovered = hoveredId === id;
-        const src = cubeAsset(id, isHovered ? "pink" : "blue");
+        const src = cubeAsset(cubeKey, isHovered ? "pink" : "blue");
         const dropIndex = DROP_ORDER[id];
 
         return (
@@ -101,14 +130,25 @@ export const CategoryCubes = ({ onSelectProject, animationKey = 0 }: CategoryCub
               visibility: { delay: dropIndex * 0.5, duration: 0 },
             }}
             aria-label={label}
-            onMouseEnter={() => setHoveredId(id)}
-            onMouseLeave={() => setHoveredId(null)}
+            onMouseEnter={() => {
+              setHoveredId(id);
+              onHoverChange?.(projectId);
+            }}
+            onMouseLeave={() => {
+              setHoveredId(null);
+              onHoverChange?.(null);
+            }}
             onClick={() => onSelectProject(projectId)}
           >
             <img
               src={src}
               alt=""
               className="w-full h-full object-contain pointer-events-none select-none"
+              style={
+                isHovered && PINK_HOVER_SCALE[cubeKey]
+                  ? { transform: `scale(${PINK_HOVER_SCALE[cubeKey]})` }
+                  : undefined
+              }
               draggable={false}
             />
           </motion.button>

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700&family=Permanent+Marker&family=Varela+Round&display=swap');
 @import "tailwindcss";
+@source "./pages/Ogen.tsx";
 @import "./styles/responsive-tokens.css";
 
 @theme {
@@ -14,12 +15,59 @@
   --color-light: #fcf7ee;
   --bg: var(--color-bg);
   --fg: var(--color-primary);
+  --cursor-default: url("/cursors/default.png") 4 1, auto;
+  --cursor-pointer: url("/cursors/pointer.png") 13 3, pointer;
+  --cursor-grab: url("/cursors/grab.png") 17 17, grab;
+  --cursor-grabbing: url("/cursors/grabbing.png") 17 17, grabbing;
+}
+
+html,
+body {
+  cursor: var(--cursor-default);
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-primary);
   font-family: var(--font-sans);
+}
+
+a,
+button,
+label[for],
+summary,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select {
+  cursor: var(--cursor-pointer);
+}
+
+.cursor-pointer {
+  cursor: var(--cursor-pointer) !important;
+}
+
+.cursor-grab {
+  cursor: var(--cursor-grab) !important;
+}
+
+.cursor-grabbing,
+.active\:cursor-grabbing:active {
+  cursor: var(--cursor-grabbing) !important;
+}
+
+video {
+  cursor: var(--cursor-pointer);
+}
+
+.cursor-grab video {
+  cursor: var(--cursor-grab) !important;
+}
+
+.cursor-grabbing video,
+.active\:cursor-grabbing:active video {
+  cursor: var(--cursor-grabbing) !important;
 }
 
 /* Hide scrollbar while keeping scroll behavior */

@@ -21,6 +21,7 @@ import {
 } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
+import { IntroToggle } from "../components/IntroToggle";
 import { PROJECT_HERO_VIDEO_SHELL_CLASS } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { DragCarousel, PlaceholderCard } from "./lumina/DragCarousel";
@@ -43,12 +44,7 @@ const LUMINA_CONCEPT_SUBTITLE_BEFORE = "Explore a mystical";
 /** nbsp keeps "meet glow" on one line */
 const LUMINA_CONCEPT_SUBTITLE_AFTER = "world where shadows meet\u00A0glow";
 
-const LUMINA_INTRO_TAGS = [
-  "Academic Project",
-  "3D Game Design",
-  "Solo Project",
-  "2026",
-] as const;
+const LUMINA_INTRO_TAGS = ["3D", "Game Design", "Solo Project"] as const;
 
 const LUMINA_BRIEF =
   "Developing a complete, end-to-end 3D game with a focus on atmospheric outdoor environments and core gameplay mechanics.";
@@ -68,8 +64,6 @@ const LUMINA_TOOLS = [
   "Stable Studio",
   "Eleven Labs",
 ] as const;
-
-const luminaBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 function LuminaIntroMushroom() {
   return (
@@ -220,8 +214,8 @@ export default function LuminaForest({
         {/* Project intro (PackUp / MuchiWaze pattern) */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            {/* Row 1: titles cols 3–5; mushroom col 6 (one column right, flush with tags 3–6 band) */}
-            <div className={`col-span-8 md:col-start-3 md:col-span-3 flex w-full min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+            {/* Row 1: titles cols 2–5; mushroom col 6 */}
+            <div className={`col-span-8 md:col-start-2 md:col-span-4 flex w-full min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
               <div className="flex min-w-0 flex-row items-end gap-3 md:gap-4">
                 <h3 className={`${projectHeroNameClass} min-w-0`}>Lumina Forest</h3>
                 <div className="flex shrink-0 self-end md:hidden">
@@ -238,8 +232,8 @@ export default function LuminaForest({
               <LuminaIntroMushroom />
             </div>
 
-            {/* Row 2: tags cols 3-6 */}
-            <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            {/* Row 2: tags cols 2-7 */}
+            <div className="col-span-8 md:col-start-2 md:col-span-6 flex flex-wrap items-center gap-y-3 gap-x-8 md:gap-x-12 py-4">
               {LUMINA_INTRO_TAGS.map((label) => (
                 <span
                   key={label}
@@ -251,27 +245,26 @@ export default function LuminaForest({
             </div>
 
             {/* Row 3: Brief / Concept / Tools */}
-            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4 self-start">
-              <span className={luminaBoxLabelClass}>Brief</span>
-              <p className={bodyTextClass}>{LUMINA_BRIEF}</p>
-            </div>
-            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4 self-start">
-              <span className={luminaBoxLabelClass}>Concept</span>
-              <p className={bodyTextClass}>{LUMINA_CONCEPT_INTRO}</p>
-            </div>
-            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-2 flex min-w-0 flex-col gap-4 md:pr-0 self-start">
-              <span className={luminaBoxLabelClass}>Tools</span>
-              <div className="grid w-max max-w-full grid-cols-[max-content_max-content] gap-x-4 gap-y-0 justify-items-start md:min-w-0">
-                {LUMINA_TOOLS.map((tool) => (
-                  <span key={tool} className={`${bodyTextClass} leading-snug md:whitespace-nowrap`}>
-                    {tool}
-                  </span>
-                ))}
-              </div>
+            <div className="[grid-column:1/-1] md:[grid-column:2/8] flex flex-col md:flex-row md:justify-between gap-y-6 gap-x-[var(--grid-gutter)]">
+              <IntroToggle label="Brief" className="md:w-2/6 md:shrink-0">
+                <p className={bodyTextClass}>{LUMINA_BRIEF}</p>
+              </IntroToggle>
+              <IntroToggle label="Concept" className="md:w-2/6 md:shrink-0">
+                <p className={bodyTextClass}>{LUMINA_CONCEPT_INTRO}</p>
+              </IntroToggle>
+              <IntroToggle label="Tools" className="md:shrink-0">
+                <div className="grid w-max max-w-full grid-cols-[max-content_max-content] gap-x-4 gap-y-0 justify-items-start md:min-w-0">
+                  {LUMINA_TOOLS.map((tool) => (
+                    <span key={tool} className={`${bodyTextClass} leading-snug md:whitespace-nowrap`}>
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </IntroToggle>
             </div>
 
-            {/* Cover video — cols 3-7 */}
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+            {/* Cover video — cols 2-7 */}
+            <div className={`col-span-8 md:col-start-2 md:col-end-8 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
               <CoverVideo />
             </div>
           </PageGrid>

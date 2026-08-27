@@ -9,10 +9,13 @@ const CUBE_ICON_PINK = cloudinaryUrl("Icon_cube_pink_h27sxm_dwf2dv.svg");
 
 const PROJECT_LABELS: Record<ProjectId, string> = {
   lumina: "Lumina Forest",
+  ogen: "OGEN",
   aviv: "Moonlight Atmosphere",
   packup: "Pack Up",
   muchiwaze: "MuchiWaze",
+  nabat: "NABAT",
   wwl: "We Were Liars",
+  signal50: "Signal 50",
 };
 
 /** gap-5 (1.25rem) + extra slide; matches previous -translate-x-14 */

@@ -18,6 +18,7 @@ import {
 import { gapContentClass, gapSubtitleClass, gapWwlStripClass } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
+import { IntroToggle } from "../components/IntroToggle";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
@@ -31,7 +32,7 @@ const FINAL_INTRO_VIDEO = cloudinaryUrl("WLLfinalintro_ag05ys_lx91jv.mp4", { res
 const FINAL_INTRO_POSTER = cloudinaryUrl("WWLtypocadence_1_gsc0qn_dxrwvp.jpg", { quality: Q });
 const STORYBOARD = cloudinaryUrl("WLLstoryboard_zeemra_t3ahp6.png", { quality: Q });
 
-const WWL_INTRO_TAGS = ["Academic Project", "Motion Graphics", "Solo Project", "2026"] as const;
+const WWL_INTRO_TAGS = ["Motion", "Graphics", "Solo Project"] as const;
 
 const WWL_HERO_SUBTITLE = "Beneath the Surface of a Golden Summer";
 
@@ -42,8 +43,6 @@ const WWL_CONCEPT_INTRO =
   "On a private island of old money and pristine lies, Cadence Sinclair battles a fractured memory. Haunted by chronic pain, she uncovers the toxic greed and the shattering truth behind the summer she can't remember.";
 
 const WWL_TOOLS = ["After Effects", "Veo", "Adobe Photoshop"] as const;
-
-const wwlBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 const TYPO_CHARACTERS = [
   { name: "cadence", ids: ["WWLtypocadence_1_gsc0qn_dxrwvp.jpg", "WWLtypocadence_2_hsd8ix_udyccq.jpg", "WWLtypocadence_3_hxwlgw_vsnvdx.jpg"] },
@@ -284,13 +283,13 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
             {/* Row 1: title + subtitle */}
-            <div className={`col-span-8 md:col-start-3 md:col-span-3 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+            <div className={`col-span-8 md:col-start-2 md:col-span-4 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
               <h3 className={projectHeroNameClass}>We Were Liars</h3>
               <p className={`${subTitleClass} leading-[1.5]`}>{WWL_HERO_SUBTITLE}</p>
             </div>
 
-            {/* Row 2: tag pills (cols 3-6) */}
-            <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+            {/* Row 2: tag pills (cols 2-7) */}
+            <div className="col-span-8 md:col-start-2 md:col-span-6 flex flex-wrap items-center gap-y-3 gap-x-8 md:gap-x-12 py-4">
               {WWL_INTRO_TAGS.map((label) => (
                 <span
                   key={label}
@@ -302,21 +301,20 @@ export default function WeWereLiars({ onSelectSection, onReady }: WeWereLiarsPro
             </div>
 
             {/* Row 3: Brief / Concept / Tools */}
-            <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
-              <span className={wwlBoxLabelClass}>Brief</span>
-              <p className={bodyTextClass}>{WWL_BRIEF}</p>
-            </div>
-            <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
-              <span className={wwlBoxLabelClass}>Concept</span>
-              <p className={bodyTextClass}>{WWL_CONCEPT_INTRO}</p>
-            </div>
-            <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
-              <span className={wwlBoxLabelClass}>Tools</span>
-              <ul className={`${bodyTextClass} list-none space-y-1`}>
-                {WWL_TOOLS.map((tool) => (
-                  <li key={tool}>{tool}</li>
-                ))}
-              </ul>
+            <div className="[grid-column:1/-1] md:[grid-column:2/8] flex flex-col md:flex-row md:justify-between gap-y-6 gap-x-[var(--grid-gutter)]">
+              <IntroToggle label="Brief" className="md:w-2/6 md:shrink-0">
+                <p className={bodyTextClass}>{WWL_BRIEF}</p>
+              </IntroToggle>
+              <IntroToggle label="Concept" className="md:w-2/6 md:shrink-0">
+                <p className={bodyTextClass}>{WWL_CONCEPT_INTRO}</p>
+              </IntroToggle>
+              <IntroToggle label="Tools" className="md:shrink-0">
+                <ul className={`${bodyTextClass} list-none space-y-1`}>
+                  {WWL_TOOLS.map((tool) => (
+                    <li key={tool}>{tool}</li>
+                  ))}
+                </ul>
+              </IntroToggle>
             </div>
           </PageGrid>
         </section>

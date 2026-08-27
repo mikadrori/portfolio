@@ -17,8 +17,17 @@ const WeWereLiars = lazy(() =>
 const Aviv = lazy(() =>
   import("../pages/Aviv").then((m) => ({ default: m.default }))
 );
+const Ogen = lazy(() =>
+  import("../pages/Ogen").then((m) => ({ default: m.default }))
+);
 const LuminaForest = lazy(() =>
   import("../pages/LuminaForest").then((m) => ({ default: m.default }))
+);
+const Signal50 = lazy(() =>
+  import("../pages/Signal50").then((m) => ({ default: m.default }))
+);
+const Nabat = lazy(() =>
+  import("../pages/Nabat").then((m) => ({ default: m.default }))
 );
 
 type SectionComponent = React.ComponentType<{
@@ -32,9 +41,12 @@ const SECTION_MAP: Record<string, React.LazyExoticComponent<SectionComponent>> =
   about: AboutMe as React.LazyExoticComponent<SectionComponent>,
   packup: PackUp,
   muchiwaze: MuchiWaze,
+  nabat: Nabat,
   wwl: WeWereLiars,
   aviv: Aviv,
+  ogen: Ogen,
   lumina: LuminaForest,
+  signal50: Signal50,
 };
 
 interface ContentAreaProps {

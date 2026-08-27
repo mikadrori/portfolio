@@ -2,10 +2,13 @@
 export const ROUTE_SECTION_IDS = [
   "about",
   "lumina",
+  "ogen",
   "aviv",
   "packup",
   "muchiwaze",
+  "nabat",
   "wwl",
+  "signal50",
 ] as const;
 
 export type RouteSectionId = (typeof ROUTE_SECTION_IDS)[number];

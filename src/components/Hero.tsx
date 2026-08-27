@@ -6,13 +6,14 @@ import { PageGrid } from "./PageGrid";
 interface HeroProps {
   onSelectProject: (id: ProjectId) => void;
   animationKey?: number;
+  onCubeHoverChange?: (id: ProjectId | null) => void;
 }
 
-export const Hero = ({ onSelectProject, animationKey }: HeroProps) => {
+export const Hero = ({ onSelectProject, animationKey, onCubeHoverChange }: HeroProps) => {
   return (
     <section className="h-full flex items-start lg:items-center pt-20 md:pt-14 pb-8 lg:py-12 overflow-hidden">
       <PageGrid className="items-center gap-y-8 lg:gap-y-[var(--grid-gutter)]">
-        <div className="col-span-8 md:col-start-2 md:col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col gap-1.5 items-center md:items-start order-2 md:order-1 lg:order-1 mt-16 md:mt-0">
+        <div className="relative z-[2] col-span-8 md:col-start-2 md:col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col gap-1.5 items-center md:items-start order-2 md:order-1 lg:order-1 mt-16 md:mt-0">
           <div className="flex flex-col gap-0.5 items-center md:items-start">
             <p className="font-['Bricolage_Grotesque'] font-light text-[clamp(38px,8vw,80px)] text-[#2200b8] leading-none tracking-[5px] text-center md:text-left md:text-[clamp(32px,6vw,80px)]">
               Hi,
@@ -26,8 +27,12 @@ export const Hero = ({ onSelectProject, animationKey }: HeroProps) => {
           </div>
           <PortfolioIntro />
         </div>
-        <div className="col-span-8 md:col-start-6 md:col-end-9 lg:col-start-5 lg:col-end-9 flex justify-center md:justify-center order-1 md:order-2 lg:order-2 mt-8 mb-4 md:mt-0 md:mb-0">
-          <CategoryCubes onSelectProject={onSelectProject} animationKey={animationKey} />
+        <div className="relative z-[2] col-span-8 md:col-start-6 md:col-end-9 lg:col-start-5 lg:col-end-9 flex justify-center md:justify-center order-1 md:order-2 lg:order-2 mt-8 mb-4 md:mt-0 md:mb-0">
+          <CategoryCubes
+            onSelectProject={onSelectProject}
+            animationKey={animationKey}
+            onHoverChange={onCubeHoverChange}
+          />
         </div>
       </PageGrid>
     </section>

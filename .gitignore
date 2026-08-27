@@ -10,3 +10,13 @@ coverage/
 
 # Dev-only local assets (downloaded from Cloudinary)
 public/assets/
+
+# IDE config
+.cursor/
+.vscode/
+
+# Playwright test output
+test-results/
+
+# Evidence video recordings (large binaries)
+evidence/*.webm

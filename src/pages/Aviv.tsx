@@ -29,6 +29,7 @@ import {
 } from "../lib/spacing";
 import { PageGrid } from "../components/PageGrid";
 import { MobileStickyTitle, TITLE_COL_DESKTOP_CLASS } from "../components/MobileStickyTitle";
+import { IntroToggle } from "../components/IntroToggle";
 import { ProjectHeroVideo } from "../components/ProjectHeroVideo";
 import { ProjectNav } from "../components/ProjectNav";
 import { useDragScroll } from "../hooks/useDragScroll";
@@ -69,7 +70,7 @@ const AVIV_MOONLIGHT_SUBTITLE = "A cohesive design evolution inspired by Aviv Ge
 const AVIV_CLOUDY_SUBTITLE = "Translating Emotion into Atmosphere";
 const AVIV_CONFESSIONS_SUBTITLE = "A Boundless Universe to Share, Release, and Connect";
 
-const AVIV_INTRO_TAGS = ["Academic Project", "UX UI Mobile App", "Solo Project", "2026"] as const;
+const AVIV_INTRO_TAGS = ["UX UI", "Mobile App", "Solo Project"] as const;
 
 const AVIV_BRIEF =
   "Designing an immersive mobile weather app based on deep character research and analysis.";
@@ -78,8 +79,6 @@ const AVIV_CONCEPT_INTRO =
   "Drawing from Geffen's use of weather as an emotional tool, the concept captures the tension between 'Flower Children' vulnerability and dark melancholy, reflecting his complex duality.";
 
 const AVIV_TOOLS = ["Figma", "Gemini", "Adobe Photoshop", "After Effects"] as const;
-
-const avivBoxLabelClass = `${smallTitleClass} inline-block w-fit border border-[#2200b8] px-3 py-1`;
 
 // ─── App Mockups ───
 const APP_MOCKUP_01 = cloudinaryUrl("AvivAppMockup01_f2fycm_wbwgb7.png", { quality: Q });
@@ -182,7 +181,7 @@ const USER_FLOW = cloudinaryUrl("User_Flow_New_AVIV_qclvy6.svg");
 // ─── Confessions Mockup ───
 const CONFESSIONS_MOCKUP = cloudinaryUrl("AvivConffesionMKUP_qffpsy_wms0fv.png", { quality: Q });
 
-const CONFESSIONS_INTRO_TAGS = ["Academic Project", "UX UI Desktop", "Solo Project", "2026"] as const;
+const CONFESSIONS_INTRO_TAGS = ["UX UI", "Desktop", "Solo Project"] as const;
 
 const CONFESSIONS_BRIEF =
   "Expanding the established character research into a desktop platform while developing a new conceptual direction.";
@@ -578,13 +577,13 @@ function WeatherToggle() {
       {/* Click zones cover only the bottom toggle bar (RTL: left = weekly, right = daily) */}
       <button
         className="absolute bottom-0 left-0 w-1/2"
-        style={{ height: "17%", cursor: mode === "weekly" ? "default" : "pointer" }}
+        style={{ height: "17%", cursor: mode === "weekly" ? "var(--cursor-default)" : "var(--cursor-pointer)" }}
         onClick={() => setMode("weekly")}
         aria-label="Switch to weekly"
       />
       <button
         className="absolute bottom-0 right-0 w-1/2"
-        style={{ height: "17%", cursor: mode === "daily" ? "default" : "pointer" }}
+        style={{ height: "17%", cursor: mode === "daily" ? "var(--cursor-default)" : "var(--cursor-pointer)" }}
         onClick={() => setMode("daily")}
         aria-label="Switch to daily"
       />
@@ -958,12 +957,12 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         {/* Moonlight Atmosphere — PackUp-style intro */}
         <section className="flex-1 flex flex-col justify-start md:justify-center">
           <PageGrid className={sectionPageGridStretchClass}>
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
-              <h3 className={`${projectHeroNameClass} min-w-0 break-words`}>Moonlight Atmosphere</h3>
-              <p className={`${subTitleClass} leading-[1.5] min-w-0`}>{AVIV_MOONLIGHT_SUBTITLE}</p>
+            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+              <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Moonlight Atmosphere</h3>
+              <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_MOONLIGHT_SUBTITLE}</p>
             </div>
 
-            <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-row gap-3 md:gap-8 items-end min-w-0 overflow-hidden mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+            <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-row gap-3 md:gap-8 items-end ml-[6%] md:ml-0 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
               <div className="w-[100px] md:w-[22%] lg:w-[20%] shrink-0 mb-2 md:mb-3">
                 <ViewportVideo
                   src={SPLASH_VIDEO_LOCAL}
@@ -984,7 +983,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
       {/* ── Cloudy Now — PackUp-style intro (non-sticky) ── */}
       <section>
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
+          <div className={`col-span-8 md:col-start-2 md:col-span-6 flex flex-col md:flex-row md:items-end gap-4 md:gap-6 ${sectionColumnPaddingClass} pb-0`}>
             <div className={`flex min-w-0 flex-col ${gapSubtitleClass}`}>
               <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Cloudy Now</h3>
               <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CLOUDY_SUBTITLE}</p>
@@ -999,7 +998,7 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             </div>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+          <div className="col-span-8 md:col-start-2 md:col-span-6 flex flex-wrap items-center gap-y-3 gap-x-8 md:gap-x-12 py-4">
             {AVIV_INTRO_TAGS.map((label) => (
               <span
                 key={label}
@@ -1010,28 +1009,27 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             ))}
           </div>
 
-          <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
-            <span className={avivBoxLabelClass}>Brief</span>
-            <p className={bodyTextClass}>{AVIV_BRIEF}</p>
-          </div>
-          <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
-            <span className={avivBoxLabelClass}>Concept</span>
-            <p className={bodyTextClass}>{AVIV_CONCEPT_INTRO}</p>
-          </div>
-          <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
-            <span className={avivBoxLabelClass}>Tools</span>
-            <ul className={`${bodyTextClass} list-none space-y-1`}>
-              {AVIV_TOOLS.map((tool) => (
-                <li key={tool}>{tool}</li>
-              ))}
-            </ul>
+          <div className="[grid-column:1/-1] md:[grid-column:2/8] flex flex-col md:flex-row md:justify-between gap-y-6 gap-x-[var(--grid-gutter)]">
+            <IntroToggle label="Brief" className="md:w-2/6 md:shrink-0">
+              <p className={bodyTextClass}>{AVIV_BRIEF}</p>
+            </IntroToggle>
+            <IntroToggle label="Concept" className="md:w-2/6 md:shrink-0">
+              <p className={bodyTextClass}>{AVIV_CONCEPT_INTRO}</p>
+            </IntroToggle>
+            <IntroToggle label="Tools" className="md:shrink-0">
+              <ul className={`${bodyTextClass} list-none space-y-1`}>
+                {AVIV_TOOLS.map((tool) => (
+                  <li key={tool}>{tool}</li>
+                ))}
+              </ul>
+            </IntroToggle>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+          <div className={`col-span-8 md:col-start-2 md:col-end-8 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
             <MockupSlideshow />
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex justify-between w-full ${sectionColumnPaddingClass} pt-0`}>
+          <div className={`col-span-8 md:col-start-2 md:col-end-8 flex justify-between w-full ${sectionColumnPaddingClass} pt-0`}>
             <div className={phoneScreenHoverClass}>
               <img src={SCREEN_KINNERET} alt="Kinneret weather screen" className="w-full rounded-sm" loading="lazy" />
             </div>
@@ -1451,12 +1449,12 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
         <ProjectHeroVideo src={VID_CONFESSIONS_PROMO} poster={CONFESSIONS_MOCKUP} />
 
         <PageGrid className={sectionPageGridStretchClass}>
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
-            <h3 className={`${projectHeroNameClass} min-w-0 break-words`}>Moonlight Confessions</h3>
-            <p className={`${subTitleClass} leading-[1.5] min-w-0`}>{AVIV_CONFESSIONS_SUBTITLE}</p>
+          <div className={`col-span-8 md:col-start-2 md:col-span-6 flex min-w-0 flex-col ${gapSubtitleClass} ${sectionColumnPaddingClass} pb-0`}>
+            <h3 className={`${projectHeroNameClass} whitespace-nowrap`}>Moonlight Confessions</h3>
+            <p className={`${subTitleClass} leading-[1.5] whitespace-nowrap`}>{AVIV_CONFESSIONS_SUBTITLE}</p>
           </div>
 
-          <div className="col-span-8 md:col-start-3 md:col-span-4 lg:col-start-3 lg:col-span-5 flex flex-wrap items-center justify-between gap-y-2 gap-x-[var(--grid-gutter)] py-4">
+          <div className="col-span-8 md:col-start-2 md:col-span-6 flex flex-wrap items-center gap-y-3 gap-x-8 md:gap-x-12 py-4">
             {CONFESSIONS_INTRO_TAGS.map((label) => (
               <span
                 key={label}
@@ -1467,24 +1465,23 @@ export default function Aviv({ onSelectSection, onReady }: AvivProps) {
             ))}
           </div>
 
-          <div className="col-span-4 sm:col-span-4 md:col-start-3 md:col-span-2 flex min-w-0 flex-col gap-4">
-            <span className={avivBoxLabelClass}>Brief</span>
-            <p className={bodyTextClass}>{CONFESSIONS_BRIEF}</p>
-          </div>
-          <div className="col-span-4 sm:col-span-4 md:col-start-5 md:col-span-2 flex min-w-0 flex-col gap-4">
-            <span className={avivBoxLabelClass}>Concept</span>
-            <p className={bodyTextClass}>{CONFESSIONS_CONCEPT_INTRO}</p>
-          </div>
-          <div className="col-span-8 sm:col-span-4 md:col-start-7 md:col-span-1 flex min-w-0 flex-col gap-4">
-            <span className={avivBoxLabelClass}>Tools</span>
-            <ul className={`${bodyTextClass} list-none space-y-1`}>
-              {AVIV_TOOLS.map((tool) => (
-                <li key={tool}>{tool}</li>
-              ))}
-            </ul>
+          <div className="[grid-column:1/-1] md:[grid-column:2/8] flex flex-col md:flex-row md:justify-between gap-y-6 gap-x-[var(--grid-gutter)]">
+            <IntroToggle label="Brief" className="md:w-2/6 md:shrink-0">
+              <p className={bodyTextClass}>{CONFESSIONS_BRIEF}</p>
+            </IntroToggle>
+            <IntroToggle label="Concept" className="md:w-2/6 md:shrink-0">
+              <p className={bodyTextClass}>{CONFESSIONS_CONCEPT_INTRO}</p>
+            </IntroToggle>
+            <IntroToggle label="Tools" className="md:shrink-0">
+              <ul className={`${bodyTextClass} list-none space-y-1`}>
+                {AVIV_TOOLS.map((tool) => (
+                  <li key={tool}>{tool}</li>
+                ))}
+              </ul>
+            </IntroToggle>
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-5 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
+          <div className={`col-span-8 md:col-start-2 md:col-end-8 mt-6 md:mt-10 ${sectionColumnPaddingClass} pt-0`}>
             <img
               src={CONFESSIONS_MOCKUP}
               alt="Moonlight Confessions desktop mockup"
