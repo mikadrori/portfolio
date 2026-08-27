@@ -20,7 +20,8 @@ export function cloudinaryUrl(
   const type = opts?.resourceType ?? "image";
 
   if (type === "video" && VIDEO_CDN_URL) {
-    return `${VIDEO_CDN_URL}/${publicId}`;
+    const fileName = publicId.includes("/") ? publicId.split("/").pop()! : publicId;
+    return `${VIDEO_CDN_URL}/${fileName}`;
   }
 
   if (!opts?.width || opts?.raw || publicId.endsWith(".svg")) {
