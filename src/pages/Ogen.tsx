@@ -36,6 +36,15 @@ const SYSTEM_MOCKUP_NIGHT = cloudinaryUrl("System_Mockup_Night_zezhb6.png", { qu
 const PROTOTYPE_VIDEO = cloudinaryUrl("OGEN_Prototype_NEW_vwuhkn.mp4", { resourceType: "video", quality: Q });
 const INTRO_SCREENS_VIDEO = cloudinaryUrl("OGEN_Screens_VID_kowbya.mp4", { resourceType: "video", quality: Q });
 const APP_ICON = cloudinaryUrl("OGEN_App_icon_kdayq6.png", { quality: Q });
+/** Placeholder stills for the Challenges videos — swap for the real clips once uploaded. */
+const CHALLENGE_STRESS_IMG = cloudinaryUrl(
+  "Ogen_stressIMG_npyb80npyb80npyb_cln80y.png",
+  { quality: Q }
+);
+const CHALLENGE_NIGHT_IMG = cloudinaryUrl(
+  "Ogen_nightvisionIMG_8z63xd8z63xd8z63_ajfwvj.png",
+  { quality: Q }
+);
 const DISASTER_SCENES = [
   ogenAsset("Disaster_Scene1_rdsiuw.png"),
   ogenAsset("Disaster_Scene2_vdoqmo.png"),
@@ -67,13 +76,12 @@ const OGEN_TOOLS = ["Figma", "Figma Make", "Gemini"] as const;
 
 // ─── Research ───
 const INFO_SOURCES = [
+  "Families & Survivors",
   "Rescue & Police",
+  "Hospitals",
   "City & Local Authorities",
   "Field Teams",
-  "Hospitals",
-  "Families & Survivors",
   "Digital Footprints",
-  "Technology",
 ] as const;
 
 // ─── User Persona ───
@@ -96,6 +104,16 @@ const PERSONA_ROWS = [
 ] as const;
 
 // ─── UX Challenges ───
+/** Tag pill — shared by the research sources and the challenge/solution chips. */
+const chipBaseClass =
+  "inline-flex items-center px-2.5 py-0.5 font-['Bricolage_Grotesque'] font-normal text-[length:var(--text-body)] tracking-[1px]";
+const chipConditionClass = `${chipBaseClass} border border-[#2200b8] text-[#2200b8]`;
+const chipNightClass = `${chipBaseClass} border border-white/30 bg-white/10 text-white`;
+
+/** Small uppercase role label. */
+const eyebrowNightClass =
+  "font-['Bricolage_Grotesque'] font-semibold text-[11px] uppercase tracking-[2.2px] text-white/60";
+
 const EXTREME_CONDITION_INTRO =
   "As part of our research, we analyzed human physiological reactions under extreme stress and darkness, referencing edge conditions beyond standard field operations.";
 
@@ -103,19 +121,27 @@ const EXTREME_CONDITION_SECTIONS = [
   {
     title: "What Happens to Human Body Under Stress?",
     effects: ["Cognitive disruption", "Motor impairment", "Sensory overload"],
+    /** One clip per condition, covering every effect above. Placeholder image until the video is ready. */
+    media: {
+      src: CHALLENGE_STRESS_IMG,
+      type: "image" as "image" | "video",
+      caption: "Cognitive, motor and sensory breakdown under load",
+    },
     solutions: [
-      "Progressive disclosure (hiding non-critical data)",
-      "Simple language and short copy",
+      "Progressive disclosure",
+      "Simple language",
       "Clear icons",
-      "Large, prominent buttons",
+      "Large buttons",
     ],
   },
   {
     title: "What Happens to Vision at Night?",
-    effects: [
-      "Reduced visual focus and contrast sensitivity",
-      "Cool light (blue, green, white) degrades night vision proteins",
-    ],
+    effects: ["Reduced focus & contrast", "Cool light degrades night vision"],
+    media: {
+      src: CHALLENGE_NIGHT_IMG,
+      type: "image" as "image" | "video",
+      caption: "Contrast loss and cool-light degradation in the dark",
+    },
     solutions: ["Operational dark mode", "Maximum contrast", "Warm color tones"],
   },
 ] as const;
@@ -1691,10 +1717,10 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>What is a Disaster Scene?</h3>
               <p className={bodyTextClass}>
-                In a building collapse, rescuers cannot work effectively without knowing who was
-                inside and where they were. Until everyone is accounted for, the event is not over.
-                In the first critical hours, information arrives from fragmented sources all at once,
-                creating complete chaos. OGEN turns that chaotic input into clear, actionable data.
+                In a building collapse, every second counts and the event isn&rsquo;t over until{" "}
+                <strong className="font-semibold">every person is accounted for</strong>. OGEN cuts through the initial chaos, turning fragmented data into{" "}
+                <strong className="font-semibold">clear, actionable intelligence</strong> for rescue
+                teams.
               </p>
             </div>
           </div>
@@ -1714,16 +1740,28 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
             />
           </div>
 
-          <div className={`col-span-8 md:col-start-3 md:col-span-6 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
+          <div className={`col-span-8 md:col-start-3 md:col-span-4 flex flex-col ${gapContentClass} ${sectionColumnPaddingClass}`}>
             {/* Information Sources */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Where Does the Information Come From?</h3>
-              <ul className="grid grid-cols-1 gap-x-[var(--grid-gutter)] gap-y-3 sm:grid-cols-2 sm:gap-y-4">
-                {INFO_SOURCES.map((source) => (
-                  <li key={source} className={smallTitleClass}>• {source}
-                  </li>
+              {/* Two rows of three; tags hug their text and the row stretches to column 6. */}
+              <div className="flex flex-col gap-4">
+                {[INFO_SOURCES.slice(0, 3), INFO_SOURCES.slice(3)].map((row, rowIndex) => (
+                  <ul
+                    key={rowIndex}
+                    className="flex list-none flex-wrap items-center gap-2 lg:flex-nowrap lg:justify-between"
+                  >
+                    {row.map((source) => (
+                      <li
+                        key={source}
+                        className={`${chipConditionClass} whitespace-nowrap`}
+                      >
+                        {source}
+                      </li>
+                    ))}
+                  </ul>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
 
@@ -1732,12 +1770,13 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Market Reality &amp; Existing Systems</h3>
               <p className={bodyTextClass}>
-                Currently, no digital system exists for field teams, who rely on pen, paper, and
-                whiteboards. For baseline reference, we looked at military command systems like ZAYAD
-                750, DROR, and MAYA.
+                Field teams currently rely on pen and paper with no dedicated digital tool.
+                Reviewing military systems like &lsquo;ZAYAD 750&rsquo;, &lsquo;DROR&rsquo;, and
+                &lsquo;MAYA&rsquo; made one thing clear:
                 <br />
-                Analyzing these existing systems highlighted a key insight: the core strength and
-                priority of our interface must be complete simplicity and clarity.
+                <strong className="font-semibold">
+                  our interface must prioritize absolute simplicity and clarity.
+                </strong>
               </p>
             </div>
           </div>
@@ -1773,32 +1812,69 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
           </div>
 
           <div
-            className={`col-span-8 md:col-start-3 md:col-span-6 ${sectionColumnPaddingClass}`}
+            className={`col-span-8 md:col-start-3 md:col-span-5 ${sectionColumnPaddingClass}`}
             data-ogen-extreme-condition-sections=""
           >
-            {/* Stacked pairs: problem | Interface Solutions (LTR on md+) */}
+            {/* Evidence band: the condition is shown (paired clips + chips), then answered on the night card. */}
             <div className={`flex flex-col ${gapContentClass}`}>
-              {EXTREME_CONDITION_SECTIONS.map(({ title, effects, solutions }) => (
+              {EXTREME_CONDITION_SECTIONS.map(({ title, effects, media, solutions }) => (
                 <div
                   key={title}
-                  className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-x-[var(--grid-gutter)]"
+                  className="flex min-w-0 flex-col gap-5"
                   data-ogen-extreme-condition-pair=""
                 >
-                  <div className="flex min-w-0 flex-col gap-3">
-                    <h4 className={smallTitleClass}>{title}</h4>
-                    <ul className={`${bodyTextClass} list-none space-y-1`}>
-                      {effects.map((item) => (
-                        <li key={item}>• {item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="flex min-w-0 flex-col gap-3">
-                    <p className={smallTitleClass} data-ogen-interface-solutions="">
-                      Interface Solutions:
-                    </p>
-                    <ul className={`${bodyTextClass} list-none space-y-1`}>
+                  <h4 className={smallTitleClass}>{title}</h4>
+
+                  {/* Caption text lives in the chips below; kept here as the clip's accessible name. */}
+                  {/* Band spans page columns 3-7; the clip stops at the end of column 6. */}
+                  <figure
+                    className="m-0 min-w-0 md:w-[calc(((100%-4*var(--grid-gutter))/5)*4+3*var(--grid-gutter))]"
+                    aria-label={media.caption}
+                    data-ogen-condition-video=""
+                  >
+                    <div className="aspect-video w-full overflow-hidden rounded-sm bg-[radial-gradient(circle_at_center,#2A2372_0%,#000000_100%)]">
+                      {media.src ? (
+                        media.type === "video" ? (
+                          <video
+                            className="h-full w-full object-cover"
+                            src={media.src}
+                            muted
+                            loop
+                            playsInline
+                            autoPlay
+                            preload="metadata"
+                          />
+                        ) : (
+                          <img
+                            className="h-full w-full object-cover"
+                            src={media.src}
+                            alt={media.caption}
+                            loading="lazy"
+                          />
+                        )
+                      ) : null}
+                    </div>
+                  </figure>
+
+                  {/* Same width as the clip, justified so the row ends on column 6 too. */}
+                  <ul className="flex list-none flex-wrap items-center gap-2 md:w-[calc(((100%-4*var(--grid-gutter))/5)*4+3*var(--grid-gutter))] md:justify-between">
+                    {effects.map((item) => (
+                      <li key={item} className={chipConditionClass}>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-6 flex flex-col gap-3 rounded-[6px] bg-[radial-gradient(circle_at_center,#2A2372_0%,#000000_100%)] p-5 sm:p-6">
+                    <span className={eyebrowNightClass} data-ogen-interface-solutions="">
+                      Interface Solution
+                    </span>
+                    {/* Justified so the inset before the first chip matches the inset after the last. */}
+                    <ul className="flex list-none flex-wrap items-center gap-2 lg:flex-nowrap lg:justify-between">
                       {solutions.map((item) => (
-                        <li key={item}>• {item}</li>
+                        <li key={item} className={`${chipNightClass} whitespace-nowrap`}>
+                          {item}
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -1827,7 +1903,7 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
               data-ogen-ux-ui-solution=""
               className="rounded-[6px] bg-[radial-gradient(circle_at_center,#2A2372_0%,#000000_100%)] p-5 sm:p-6 flex flex-col gap-1 text-white"
             >
-              <h4 className={`${smallTitleClass} text-white`}>UX UI Solution</h4>
+              <span className={eyebrowNightClass}>Interface Solution</span>
               <p className={`${bodyTextClass} text-white`}>{VISION_UX_SOLUTION}</p>
             </div>
             <MediaImage
