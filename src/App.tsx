@@ -17,6 +17,7 @@ import {
   sectionToPath,
   isValidRoutePathname,
 } from "./lib/routes";
+import { usePageEngagement } from "./hooks/usePageEngagement";
 
 type TransitionSource = "cube" | "nav" | "next-project";
 
@@ -40,6 +41,8 @@ export default function App() {
   const transitionSource = useRef<TransitionSource>("cube");
   const prevSection = useRef<string | null>(null);
   const scrollHandledByExit = useRef(false);
+
+  usePageEngagement(activeSection, contentRef);
 
   const handleSelectFromCube = useCallback(
     (id: ProjectId) => {

@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { PageGrid } from "./PageGrid";
+import { PrivacyDialog } from "./PrivacyDialog";
 
 const contactLinkClass =
   "inline-block no-underline text-inherit transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 max-xl:hover:translate-x-0 cursor-pointer";
 
 export const Footer = () => {
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+
   return (
     <footer className="relative z-20 w-full min-h-[32px] md:min-h-[52px] xl:min-h-[70px] flex items-center justify-center border-t border-[#2200b8] bg-[#fcf7ee] py-2.5 md:py-3 xl:py-4">
       <PageGrid className="items-center justify-items-center">
@@ -39,8 +43,17 @@ export const Footer = () => {
           >
             +972-050-898-9629
           </a>
+          &nbsp;&nbsp;&gt;&gt;&gt;&nbsp;{" "}
+          <button
+            type="button"
+            onClick={() => setPrivacyOpen(true)}
+            className={contactLinkClass}
+          >
+            Privacy
+          </button>
         </p>
       </PageGrid>
+      <PrivacyDialog open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
     </footer>
   );
 };
