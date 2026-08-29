@@ -19,6 +19,10 @@ const dist = join(root, "dist");
 const seo = JSON.parse(readFileSync(join(root, "src/data/seo.json"), "utf8"));
 
 const siteUrl = (process.env.VITE_SITE_URL || seo.site.defaultUrl).replace(/\/+$/, "");
+/** Social crawlers need an absolute URL, and a short same-origin one fetches most reliably. */
+const ogImage = seo.site.ogImage.startsWith("http")
+  ? seo.site.ogImage
+  : `${siteUrl}${seo.site.ogImage}`;
 
 const escape = (value) =>
   String(value)
@@ -99,12 +103,12 @@ function buildPage(page) {
     `<meta property="og:title" content="${escape(page.title)}" />`,
     `<meta property="og:description" content="${escape(page.description)}" />`,
     `<meta property="og:url" content="${url}" />`,
-    `<meta property="og:image" content="${seo.site.ogImage}" />`,
+    `<meta property="og:image" content="${ogImage}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="${escape(seo.site.ogImageAlt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
-    `<meta name="twitter:image" content="${seo.site.ogImage}" />`,
+    `<meta name="twitter:image" content="${ogImage}" />`,
     `<meta name="twitter:title" content="${escape(page.title)}" />`,
     `<meta name="twitter:description" content="${escape(page.description)}" />`,
     `<script type="application/ld+json">${JSON.stringify(structuredData(page))}</script>`,
