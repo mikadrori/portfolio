@@ -24,6 +24,20 @@ declare global {
 
 let initialized = false;
 
+/** Clarity event names should be short and stable — "User Persona" becomes "user_persona". */
+export function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_|_$/g, "");
+}
+
+/** Current page id for event names, matching the ids used by `usePageEngagement`. */
+export function currentPageId(): string {
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, "");
+  return path ? slugify(path) : "home";
+}
+
 /** Inject the Clarity tag. No-op without an ID, outside production, or if already loaded. */
 export function initAnalytics(): void {
   if (initialized) return;

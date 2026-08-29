@@ -1,5 +1,6 @@
 import { useId, useState, type ReactNode } from "react";
 import { smallTitleClass } from "../lib/typography";
+import { currentPageId, slugify, trackEvent } from "../lib/analytics";
 
 const buttonBaseClass = `${smallTitleClass} inline-flex w-fit px-3 py-1 cursor-pointer`;
 
@@ -32,7 +33,14 @@ export function IntroToggle({ label, children, className = "" }: IntroToggleProp
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          // Only the open is interesting: this copy stays invisible until someone asks for it.
+          if (!open) {
+            const page = currentPageId();
+            trackEvent(`intro_${page}_${slugify(label)}`, { page, panel: label });
+          }
+          setOpen((prev) => !prev);
+        }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         className={buttonBaseClass}

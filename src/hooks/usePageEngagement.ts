@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { trackEvent } from "../lib/analytics";
+import { slugify, trackEvent } from "../lib/analytics";
 
 const SCROLL_MILESTONES = [25, 50, 75, 100] as const;
 
@@ -13,13 +13,6 @@ function sectionLabel(section: Element): string | null {
   return text ? text : null;
 }
 
-/** Clarity event names should be short and stable — "User Persona" becomes "user_persona". */
-function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_|_$/g, "");
-}
 
 /**
  * Reports how far visitors actually get through a project page.
