@@ -50,7 +50,7 @@ function structuredData(page) {
       "@context": "https://schema.org",
       "@graph": [
         { ...person, description: seo.site.bio, knowsAbout: ["UX UI Design", "Brand Identity", "Packaging Design", "Motion Graphics", "3D Design"] },
-        { "@type": "WebSite", name: `${seo.site.name} — Portfolio`, url: siteUrl, author: { "@type": "Person", name: seo.site.name } },
+        { "@type": "WebSite", name: `${seo.site.name} - Portfolio`, url: siteUrl, author: { "@type": "Person", name: seo.site.name } },
       ],
     };
   }
