@@ -6,7 +6,9 @@
     "defaultUrl": "https://mikadrori.com",
     "linkedin": "https://www.linkedin.com/in/mika-drori-9b02253a2/",
     "email": "Mikammm12@gmail.com",
-    "bio": "Mika Drori is a product and brand designer working across UX UI, brand identity, packaging, motion and 3D. Portfolio of complex system design, mobile apps, and visual identity work."
+    "bio": "Mika Drori is a product and brand designer working across UX UI, brand identity, packaging, motion and 3D. Portfolio of complex system design, mobile apps, and visual identity work.",
+    "ogImage": "https://res.cloudinary.com/dmrtjbfbb/image/upload/w_1200,h_630,c_fill,e_colorize:100,co_rgb:fcf7ee/l_Icon_cube_blue_uu5vvu_tv1dmc,w_290,g_east,x_130/l_text:Montserrat_96_bold:Mika%20Drori,co_rgb:2200b8,g_west,x_90,y_-50/l_text:Montserrat_46:Product%20%26%20Brand%20Designer,co_rgb:2200b8,g_west,x_92,y_50/f_jpg,q_auto/OGEN_App_icon_kdayq6.png",
+    "ogImageAlt": "Mika Drori — Product & Brand Designer"
   },
   "pages": [
     {
@@ -31,9 +33,19 @@
       "description": "OGEN is a tablet system for Population NCOs at disaster sites, turning fragmented field data into a clear map of trapped individuals. UX UI and complex dashboard design.",
       "headline": "OGEN",
       "subtitle": "Emergency response system for disaster sites",
-      "tags": ["UX UI", "Complex System & Dashboard", "Duo Project"],
+      "tags": [
+        "UX UI",
+        "Complex System & Dashboard",
+        "Duo Project"
+      ],
       "body": "Designing a digital complex content product that organizes and delivers heavy data through intuitive UX, clear information architecture, and a refined visual system. OGEN is a tablet-based system designed for Population NCOs at disaster sites. It helps manage order within chaos, organizes incoming field data in real time, and gives rescuers an accurate map of trapped individuals to save lives.",
-      "sections": ["Research", "Challenges", "User Persona", "Architecture", "Design"]
+      "sections": [
+        "Research",
+        "Challenges",
+        "User Persona",
+        "Architecture",
+        "Design"
+      ]
     },
     {
       "path": "/signal50",
@@ -41,9 +53,17 @@
       "description": "Signal 50: full on-screen broadcast branding for a live music event, from logo and colour system to motion deliverables. Brand identity and on-screen graphics.",
       "headline": "Signal 50",
       "subtitle": "Bringing the noise back home",
-      "tags": ["Brand Identity", "On-Screen Graphics", "Solo Project"],
+      "tags": [
+        "Brand Identity",
+        "On-Screen Graphics",
+        "Solo Project"
+      ],
       "body": "Full on-screen broadcast branding for a major channel and live event, spanning brand strategy, visual language, logo design, a grid system, and a set of motion deliverables.",
-      "sections": ["Brand Identity", "Visual Language", "Deliverables"]
+      "sections": [
+        "Brand Identity",
+        "Visual Language",
+        "Deliverables"
+      ]
     },
     {
       "path": "/nabat",
@@ -51,9 +71,18 @@
       "description": "Nabat: a brand identity and packaging system for rock candy, built from crystallisation research through logo, colour, packaging and an e-commerce site.",
       "headline": "Nabat",
       "subtitle": "As nature intended",
-      "tags": ["Brand Identity", "Packaging Design", "Solo Project"],
+      "tags": [
+        "Brand Identity",
+        "Packaging Design",
+        "Solo Project"
+      ],
       "body": "Designing a new brand identity and consumer experience centered around the theme of candy. The task was to build a strategic product concept, packaging, and digital system.",
-      "sections": ["Research", "Brand Identity", "Visual Language", "Deliverables"]
+      "sections": [
+        "Research",
+        "Brand Identity",
+        "Visual Language",
+        "Deliverables"
+      ]
     },
     {
       "path": "/packup",
@@ -61,9 +90,19 @@
       "description": "Pack Up: a mobile app solving a daily packing pain point, designed through user research, flows, and a complete interface and style guide.",
       "headline": "Pack Up",
       "subtitle": "Mobile app for packing, planned properly",
-      "tags": ["UX UI", "Mobile App", "Trio Project"],
+      "tags": [
+        "UX UI",
+        "Mobile App",
+        "Trio Project"
+      ],
       "body": "Designing a mobile application that solves a daily pain point through comprehensive user research and a user-centric interface.",
-      "sections": ["Strategy", "User Research", "Design", "Flow", "Style Guide"]
+      "sections": [
+        "Strategy",
+        "User Research",
+        "Design",
+        "Flow",
+        "Style Guide"
+      ]
     },
     {
       "path": "/lumina",
@@ -71,9 +110,17 @@
       "description": "Lumina Forest: an end-to-end 3D game with atmospheric outdoor environments and core gameplay mechanics, including AI-assisted production.",
       "headline": "Lumina Forest",
       "subtitle": "Atmospheric 3D game environment",
-      "tags": ["3D", "Game Design", "Solo Project"],
+      "tags": [
+        "3D",
+        "Game Design",
+        "Solo Project"
+      ],
       "body": "Developing a complete, end-to-end 3D game with a focus on atmospheric outdoor environments and core gameplay mechanics.",
-      "sections": ["Game Structure", "Design", "AI Integration"]
+      "sections": [
+        "Game Structure",
+        "Design",
+        "AI Integration"
+      ]
     },
     {
       "path": "/muchiwaze",
@@ -81,7 +128,11 @@
       "description": "A custom iconography series and cohesive visual language for a Waze-based application, tailored to a specific target audience.",
       "headline": "Cloudy Now",
       "subtitle": "Iconography for a navigation app",
-      "tags": ["UX UI", "Mobile App", "Solo Project"],
+      "tags": [
+        "UX UI",
+        "Mobile App",
+        "Solo Project"
+      ],
       "body": "Developing a custom iconography series and a cohesive visual language for a Waze-based application, tailored to a specific target audience."
     },
     {
@@ -90,7 +141,11 @@
       "description": "A cinematic title sequence for the novel We Were Liars, built on atmospheric storytelling and motion graphics.",
       "headline": "We Were Liars",
       "subtitle": "Beneath the Surface of a Golden Summer",
-      "tags": ["Motion", "Graphics", "Solo Project"],
+      "tags": [
+        "Motion",
+        "Graphics",
+        "Solo Project"
+      ],
       "body": "Designing a cinematic title sequence for a novel, focusing on atmospheric storytelling and motion graphics."
     },
     {
@@ -99,7 +154,11 @@
       "description": "An immersive mobile weather app built on deep character research, translating emotion into atmosphere. UX UI and mobile app design.",
       "headline": "Aviv",
       "subtitle": "Translating Emotion into Atmosphere",
-      "tags": ["UX UI", "Mobile App", "Solo Project"],
+      "tags": [
+        "UX UI",
+        "Mobile App",
+        "Solo Project"
+      ],
       "body": "Designing an immersive mobile weather app based on deep character research and analysis."
     }
   ]
