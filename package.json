@@ -8,7 +8,8 @@
     "build": "vite build && node scripts/generate-static-pages.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "insights": "node scripts/clarity-insights.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
