@@ -101,24 +101,27 @@ function bodyContent(page) {
 
 function buildPage(page) {
   const url = `${siteUrl}${page.path}`;
+  // Order matters: social crawlers issue Range requests and Vercel answers with 206
+  // Partial Content, so tags past roughly the first kilobyte can be missed entirely.
+  // The four a preview actually needs come first; everything else follows.
   const head = [
     `<title>${escape(page.title)}</title>`,
-    `<meta name="description" content="${escape(page.description)}" />`,
-    `<meta name="author" content="${escape(seo.site.name)}" />`,
-    `<link rel="canonical" href="${url}" />`,
-    `<meta property="og:type" content="${page.path === "/" ? "website" : "article"}" />`,
-    `<meta property="og:site_name" content="${escape(seo.site.name)}" />`,
     `<meta property="og:title" content="${escape(page.title)}" />`,
     `<meta property="og:description" content="${escape(page.description)}" />`,
-    `<meta property="og:url" content="${url}" />`,
     `<meta property="og:image" content="${ogImage}" />`,
+    `<meta property="og:url" content="${url}" />`,
+    `<meta name="description" content="${escape(page.description)}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="${escape(seo.site.ogImageAlt)}" />`,
+    `<meta property="og:type" content="${page.path === "/" ? "website" : "article"}" />`,
+    `<meta property="og:site_name" content="${escape(seo.site.name)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:image" content="${ogImage}" />`,
     `<meta name="twitter:title" content="${escape(page.title)}" />`,
     `<meta name="twitter:description" content="${escape(page.description)}" />`,
+    `<meta name="author" content="${escape(seo.site.name)}" />`,
+    `<link rel="canonical" href="${url}" />`,
     `<script type="application/ld+json">${JSON.stringify(structuredData(page))}</script>`,
   ].join("\n    ");
 
