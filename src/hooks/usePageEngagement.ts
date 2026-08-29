@@ -13,20 +13,34 @@ function sectionLabel(section: Element): string | null {
   return text ? text : null;
 }
 
+/** Clarity event names should be short and stable — "User Persona" becomes "user_persona". */
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_|_$/g, "");
+}
+
 /**
  * Reports how far visitors actually get through a project page.
  *
- * Emits three events, all scoped to the current page:
- * - `page_view` once per route, giving the funnel its denominator
- * - `section_reached` the first time each `<section>` crosses mid-screen
- * - `scroll_depth` at 25 / 50 / 75 / 100% of the page
+ * Emits three kinds of event, all scoped to the current page:
+ * - `view_<page>` once per route, giving the funnel its denominator
+ * - `section_<page>_<slug>` the first time each `<section>` crosses mid-screen
+ * - `scroll_<depth>` at 25 / 50 / 75 / 100% of the page
+ *
+ * Event names carry the page and section because Clarity builds funnels from
+ * distinct event names — a shared name with the section as a tag would make
+ * every funnel step identical. The readable page/section values are also sent
+ * as tags so recordings stay filterable.
  *
  * Together these answer "where do people stop reading" per case study, which
  * Clarity's pixel-based scroll map cannot do across breakpoints.
  *
- * Both checks share one rAF-throttled scroll handler. Project pages are
- * lazy-loaded inside `AnimatePresence`, so sections appear after this effect
- * first runs — a MutationObserver re-runs the check as they mount.
+ * Both checks share one scroll handler that detaches once everything on the
+ * page has been recorded. Project pages are lazy-loaded inside
+ * `AnimatePresence`, so sections appear after this effect first runs — a
+ * MutationObserver re-runs the check as they mount.
  */
 export function usePageEngagement(
   pageId: string | null,
@@ -34,7 +48,7 @@ export function usePageEngagement(
 ): void {
   useEffect(() => {
     const page = pageId ?? "home";
-    trackEvent("page_view", { page });
+    trackEvent(`view_${slugify(page)}`, { page });
 
     const container = containerRef.current;
     if (!container || pageId === null) return;
@@ -63,7 +77,10 @@ export function usePageEngagement(
         const label = sectionLabel(section);
         if (!label || seenSections.has(label)) continue;
         seenSections.add(label);
-        trackEvent("section_reached", { page, section: label });
+        trackEvent(`section_${slugify(page)}_${slugify(label)}`, {
+          page,
+          section: label,
+        });
       }
 
       const scrollable = document.documentElement.scrollHeight - viewportHeight;
@@ -72,7 +89,7 @@ export function usePageEngagement(
       for (const milestone of SCROLL_MILESTONES) {
         if (percent < milestone || seenMilestones.has(milestone)) continue;
         seenMilestones.add(milestone);
-        trackEvent("scroll_depth", { page, depth: milestone });
+        trackEvent(`scroll_${milestone}`, { page, depth: milestone });
       }
     };
 

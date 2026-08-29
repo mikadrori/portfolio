@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PageGrid } from "./PageGrid";
 import { PrivacyDialog } from "./PrivacyDialog";
+import { trackEvent } from "../lib/analytics";
 
 const contactLinkClass =
   "inline-block no-underline text-inherit transition-all duration-200 ease-out hover:text-[#ff0090] hover:underline hover:font-medium hover:translate-x-0.5 max-xl:hover:translate-x-0 cursor-pointer";
@@ -18,6 +19,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={contactLinkClass}
+            onClick={() => trackEvent("contact_linkedin")}
           >
             Mika Drori
           </a>
@@ -27,11 +29,16 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={contactLinkClass}
+            onClick={() => trackEvent("contact_cv")}
           >
             CV
           </a>
           &nbsp;&nbsp;&gt;&gt;&gt;&nbsp;{" "}
-          <a href="mailto:Mikammm12@gmail.com" className={contactLinkClass}>
+          <a
+            href="mailto:Mikammm12@gmail.com"
+            className={contactLinkClass}
+            onClick={() => trackEvent("contact_email")}
+          >
             Mikammm12@gmail.com
           </a>
           &nbsp;&nbsp;&gt;&gt;&gt;&nbsp;{" "}
@@ -40,6 +47,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={contactLinkClass}
+            onClick={() => trackEvent("contact_whatsapp")}
           >
             +972-050-898-9629
           </a>
