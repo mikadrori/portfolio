@@ -109,6 +109,8 @@ function buildPage(page) {
     `<meta property="og:title" content="${escape(page.title)}" />`,
     `<meta property="og:description" content="${escape(page.description)}" />`,
     `<meta property="og:image" content="${ogImage}" />`,
+    `<meta property="og:image:secure_url" content="${ogImage}" />`,
+    `<meta property="og:image:type" content="image/png" />`,
     `<meta property="og:url" content="${url}" />`,
     `<meta name="description" content="${escape(page.description)}" />`,
     `<meta property="og:image:width" content="1200" />`,
