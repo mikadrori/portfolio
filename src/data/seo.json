@@ -1,0 +1,106 @@
+{
+  "site": {
+    "name": "Mika Drori",
+    "role": "Product & Brand Designer",
+    "location": "Israel",
+    "defaultUrl": "https://mikadrori.vercel.app",
+    "linkedin": "https://www.linkedin.com/in/mika-drori-9b02253a2/",
+    "email": "Mikammm12@gmail.com",
+    "bio": "Mika Drori is a product and brand designer working across UX UI, brand identity, packaging, motion and 3D. Portfolio of complex system design, mobile apps, and visual identity work."
+  },
+  "pages": [
+    {
+      "path": "/",
+      "title": "Mika Drori — Product & Brand Designer",
+      "description": "Portfolio of Mika Drori, a product and brand designer. UX UI for complex systems and mobile apps, brand identity, packaging, motion and 3D.",
+      "headline": "Mika Drori",
+      "subtitle": "Product & Brand Designer",
+      "body": "Selected work across UX UI, brand identity, packaging design, on-screen graphics, motion and 3D."
+    },
+    {
+      "path": "/about",
+      "title": "About — Mika Drori",
+      "description": "About Mika Drori, a product and brand designer working across UX UI, brand identity, packaging, motion and 3D.",
+      "headline": "About Mika Drori",
+      "subtitle": "Product & Brand Designer",
+      "body": "Designer working across product interfaces, brand systems, packaging and motion."
+    },
+    {
+      "path": "/ogen",
+      "title": "OGEN — Emergency Response Dashboard | Mika Drori",
+      "description": "OGEN is a tablet system for Population NCOs at disaster sites, turning fragmented field data into a clear map of trapped individuals. UX UI and complex dashboard design.",
+      "headline": "OGEN",
+      "subtitle": "Emergency response system for disaster sites",
+      "tags": ["UX UI", "Complex System & Dashboard", "Duo Project"],
+      "body": "Designing a digital complex content product that organizes and delivers heavy data through intuitive UX, clear information architecture, and a refined visual system. OGEN is a tablet-based system designed for Population NCOs at disaster sites. It helps manage order within chaos, organizes incoming field data in real time, and gives rescuers an accurate map of trapped individuals to save lives.",
+      "sections": ["Research", "Challenges", "User Persona", "Architecture", "Design"]
+    },
+    {
+      "path": "/signal50",
+      "title": "Signal 50 — Broadcast Brand Identity | Mika Drori",
+      "description": "Signal 50: full on-screen broadcast branding for a live music event, from logo and colour system to motion deliverables. Brand identity and on-screen graphics.",
+      "headline": "Signal 50",
+      "subtitle": "Bringing the noise back home",
+      "tags": ["Brand Identity", "On-Screen Graphics", "Solo Project"],
+      "body": "Full on-screen broadcast branding for a major channel and live event, spanning brand strategy, visual language, logo design, a grid system, and a set of motion deliverables.",
+      "sections": ["Brand Identity", "Visual Language", "Deliverables"]
+    },
+    {
+      "path": "/nabat",
+      "title": "Nabat — Brand Identity & Packaging | Mika Drori",
+      "description": "Nabat: a brand identity and packaging system for rock candy, built from crystallisation research through logo, colour, packaging and an e-commerce site.",
+      "headline": "Nabat",
+      "subtitle": "As nature intended",
+      "tags": ["Brand Identity", "Packaging Design", "Solo Project"],
+      "body": "Designing a new brand identity and consumer experience centered around the theme of candy. The task was to build a strategic product concept, packaging, and digital system.",
+      "sections": ["Research", "Brand Identity", "Visual Language", "Deliverables"]
+    },
+    {
+      "path": "/packup",
+      "title": "Pack Up — Mobile App UX UI | Mika Drori",
+      "description": "Pack Up: a mobile app solving a daily packing pain point, designed through user research, flows, and a complete interface and style guide.",
+      "headline": "Pack Up",
+      "subtitle": "Mobile app for packing, planned properly",
+      "tags": ["UX UI", "Mobile App", "Trio Project"],
+      "body": "Designing a mobile application that solves a daily pain point through comprehensive user research and a user-centric interface.",
+      "sections": ["Strategy", "User Research", "Design", "Flow", "Style Guide"]
+    },
+    {
+      "path": "/lumina",
+      "title": "Lumina Forest — 3D Game Design | Mika Drori",
+      "description": "Lumina Forest: an end-to-end 3D game with atmospheric outdoor environments and core gameplay mechanics, including AI-assisted production.",
+      "headline": "Lumina Forest",
+      "subtitle": "Atmospheric 3D game environment",
+      "tags": ["3D", "Game Design", "Solo Project"],
+      "body": "Developing a complete, end-to-end 3D game with a focus on atmospheric outdoor environments and core gameplay mechanics.",
+      "sections": ["Game Structure", "Design", "AI Integration"]
+    },
+    {
+      "path": "/muchiwaze",
+      "title": "Cloudy Now — Iconography & Visual Language | Mika Drori",
+      "description": "A custom iconography series and cohesive visual language for a Waze-based application, tailored to a specific target audience.",
+      "headline": "Cloudy Now",
+      "subtitle": "Iconography for a navigation app",
+      "tags": ["UX UI", "Mobile App", "Solo Project"],
+      "body": "Developing a custom iconography series and a cohesive visual language for a Waze-based application, tailored to a specific target audience."
+    },
+    {
+      "path": "/wwl",
+      "title": "We Were Liars — Title Sequence | Mika Drori",
+      "description": "A cinematic title sequence for the novel We Were Liars, built on atmospheric storytelling and motion graphics.",
+      "headline": "We Were Liars",
+      "subtitle": "Beneath the Surface of a Golden Summer",
+      "tags": ["Motion", "Graphics", "Solo Project"],
+      "body": "Designing a cinematic title sequence for a novel, focusing on atmospheric storytelling and motion graphics."
+    },
+    {
+      "path": "/aviv",
+      "title": "Aviv — Weather App Concept | Mika Drori",
+      "description": "An immersive mobile weather app built on deep character research, translating emotion into atmosphere. UX UI and mobile app design.",
+      "headline": "Aviv",
+      "subtitle": "Translating Emotion into Atmosphere",
+      "tags": ["UX UI", "Mobile App", "Solo Project"],
+      "body": "Designing an immersive mobile weather app based on deep character research and analysis."
+    }
+  ]
+}

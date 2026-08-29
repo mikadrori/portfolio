@@ -1,0 +1,7 @@
+# Mika Drori — portfolio
+# All crawlers welcome, including AI assistants: the point of this site is to be found.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://mikadrori.vercel.app/sitemap.xml

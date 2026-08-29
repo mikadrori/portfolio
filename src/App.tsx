@@ -18,6 +18,7 @@ import {
   isValidRoutePathname,
 } from "./lib/routes";
 import { usePageEngagement } from "./hooks/usePageEngagement";
+import { useDocumentMeta } from "./hooks/useDocumentMeta";
 
 type TransitionSource = "cube" | "nav" | "next-project";
 
@@ -42,6 +43,7 @@ export default function App() {
   const prevSection = useRef<string | null>(null);
   const scrollHandledByExit = useRef(false);
 
+  useDocumentMeta(location.pathname);
   usePageEngagement(activeSection, contentRef);
 
   const handleSelectFromCube = useCallback(
