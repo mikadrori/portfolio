@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mikadrori.vercel.app/sitemap.xml
+Sitemap: https://mikadrori.com/sitemap.xml
