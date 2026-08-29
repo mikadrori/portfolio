@@ -67,7 +67,15 @@ function structuredData(page) {
   };
 }
 
-/** Readable fallback content. React clears it on mount; crawlers keep it. */
+/**
+ * Readable fallback content, wrapped in <noscript>.
+ *
+ * It sits inside `<noscript>` rather than directly in `#root` because a browser
+ * paints the container's markup before the bundle executes — which showed a
+ * flash of unstyled headings on every load. Inside `<noscript>` a real visitor
+ * never renders it, while crawlers that don't run JavaScript still read it in
+ * the raw HTML. The head metadata and JSON-LD carry the rest.
+ */
 function bodyContent(page) {
   const others = seo.pages
     .filter((other) => other.path !== page.path && other.path !== "/about")
@@ -75,7 +83,7 @@ function bodyContent(page) {
     .join("");
 
   return [
-    `<main data-prerendered="true">`,
+    `<noscript><main data-prerendered="true">`,
     `<h1>${escape(page.headline)}</h1>`,
     page.subtitle ? `<p>${escape(page.subtitle)}</p>` : "",
     page.tags ? `<ul>${page.tags.map((tag) => `<li>${escape(tag)}</li>`).join("")}</ul>` : "",
@@ -85,7 +93,7 @@ function bodyContent(page) {
       : "",
     `<h2>More work by ${escape(seo.site.name)}</h2><ul>${others}</ul>`,
     `<p><a href="${seo.site.linkedin}">LinkedIn</a> · <a href="mailto:${seo.site.email}">${escape(seo.site.email)}</a></p>`,
-    `</main>`,
+    `</main></noscript>`,
   ]
     .filter(Boolean)
     .join("");
