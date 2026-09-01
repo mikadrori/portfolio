@@ -50,3 +50,15 @@ export const radiusMediaLgClass = "rounded-[length:var(--radius-media-lg)]";
 
 export const radiusWwlFrameClass = "rounded-[length:var(--radius-wwl-frame)]";
 export const radiusWwlTightClass = "rounded-[length:var(--radius-wwl-tight)]";
+
+/** Sneak-peek hover images (home page) — height only; width auto from aspect ratio */
+export const peekNormalClass =
+  "max-h-[length:var(--peek-normal-h)] w-auto object-contain";
+export const peekWideClass =
+  "h-[length:var(--peek-wide-h)] w-auto aspect-[16/10] object-cover";
+export const peekTallClass =
+  "max-h-[length:var(--peek-tall-h)] w-auto object-contain";
+export const peekIconClass =
+  "h-[length:var(--peek-icon-h)] w-auto aspect-square object-contain";
+export const peekIpadClass =
+  "max-h-[length:var(--peek-ipad-h)] w-auto object-contain";

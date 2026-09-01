@@ -24,6 +24,11 @@
   --text-nav-logo: 20px;
   --text-footer: 16px;
 
+  /* Home hero greeting */
+  --text-home-greeting: 40px;
+  --text-home-name: 35px;
+  --home-name-w: 100px;
+
   /* Section / column padding */
   --pad-section-y: 44px;
   --pad-column-y: 16px;
@@ -65,6 +70,13 @@
   --media-glb-h: 180px;
   --media-fbx-min-h: 280px;
 
+  /* Sneak-peek hover images (home page) — height only; width follows aspect ratio */
+  --peek-normal-h: 100px;
+  --peek-wide-h: 90px;
+  --peek-tall-h: 120px;
+  --peek-icon-h: 40px;
+  --peek-ipad-h: 110px;
+
   /* Radii */
   --radius-video-inline: 12px;
   /* Phone video mask — semantic size groups; each stepped at all breakpoints below */
@@ -103,6 +115,11 @@
     --text-nav-logo: 18px;
     --text-footer: 16px;
 
+    /* Home hero greeting */
+    --text-home-greeting: 40px;
+    --text-home-name: 35px;
+    --home-name-w: 100px;
+
     --pad-section-y: 48px;
     --pad-column-y: 20px;
     --pad-sticky-title-top: 16px;
@@ -140,6 +157,13 @@
     --media-glb-h: 200px;
     --media-fbx-min-h: 280px;
 
+    /* Sneak-peek hover images */
+    --peek-normal-h: 110px;
+    --peek-wide-h: 100px;
+    --peek-tall-h: 130px;
+    --peek-icon-h: 45px;
+    --peek-ipad-h: 120px;
+
     --radius-video-inline: 12px;
     --radius-phone-xs: 14px;
     --radius-phone-small: 40px;
@@ -173,6 +197,11 @@
     --text-nav-link: 14px;
     --text-nav-logo: 18px;
     --text-footer: 14px;
+
+    /* Home hero greeting */
+    --text-home-greeting: 40px;
+    --text-home-name: 35px;
+    --home-name-w: 100px;
 
     --pad-section-y: 64px;
     --pad-column-y: 36px;
@@ -211,6 +240,13 @@
     --media-glb-h: 220px;
     --media-fbx-min-h: 280px;
 
+    /* Sneak-peek hover images */
+    --peek-normal-h: 100px;
+    --peek-wide-h: 80px;
+    --peek-tall-h: 120px;
+    --peek-icon-h: 40px;
+    --peek-ipad-h: 130px;
+
     --radius-video-inline: 12px;
     --radius-phone-xs: 16px;
     --radius-phone-small: 15px;
@@ -244,6 +280,11 @@
     --text-nav-link: 14px;
     --text-nav-logo: 20px;
     --text-footer: 12px;
+
+    /* Home hero greeting */
+    --text-home-greeting: 53px;
+    --text-home-name: 47px;
+    --home-name-w: 134px;
 
     --pad-section-y: 64px;
     --pad-column-y: 36px;
@@ -282,6 +323,13 @@
     --media-glb-h: 240px;
     --media-fbx-min-h: 300px;
 
+    /* Sneak-peek hover images */
+    --peek-normal-h: 140px;
+    --peek-wide-h: 110px;
+    --peek-tall-h: 150px;
+    --peek-icon-h: 60px;
+    --peek-ipad-h: 200px;
+
     --radius-video-inline: 12px;
     --radius-phone-xs: 16px;
     --radius-phone-small: 17px;
@@ -315,6 +363,11 @@
     --text-nav-link: 16px;
     --text-nav-logo: 22px;
     --text-footer: 14px;
+
+    /* Home hero greeting */
+    --text-home-greeting: 67px;
+    --text-home-name: 58px;
+    --home-name-w: 166px;
 
     --pad-section-y: 72px;
     --pad-column-y: 28px;
@@ -353,6 +406,13 @@
     --media-glb-h: 280px;
     --media-fbx-min-h: 300px;
 
+    /* Sneak-peek hover images */
+    --peek-normal-h: 170px;
+    --peek-wide-h: 130px;
+    --peek-tall-h: 200px;
+    --peek-icon-h: 80px;
+    --peek-ipad-h: 260px;
+
     --radius-video-inline: 12px;
     --radius-phone-xs: 22px;
     --radius-phone-small: 23px;
@@ -386,6 +446,11 @@
     --text-nav-link: 16px;
     --text-nav-logo: 24px;
     --text-footer: 16px;
+
+    /* Home hero greeting */
+    --text-home-greeting: 80px;
+    --text-home-name: 70px;
+    --home-name-w: 200px;
 
     --pad-section-y: 76px;
     --pad-column-y: 28px;
@@ -423,6 +488,13 @@
     --media-glb-max-w: 280px;
     --media-glb-h: 320px;
     --media-fbx-min-h: 300px;
+
+    /* Sneak-peek hover images */
+    --peek-normal-h: 200px;
+    --peek-wide-h: 150px;
+    --peek-tall-h: 280px;
+    --peek-icon-h: 90px;
+    --peek-ipad-h: 300px;
 
     --radius-video-inline: 12px;
     --radius-phone-xs: 26px;

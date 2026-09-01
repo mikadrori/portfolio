@@ -24,12 +24,27 @@
 html,
 body {
   cursor: var(--cursor-default);
+  overflow-x: hidden;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-primary);
   font-family: var(--font-sans);
+}
+
+.cube-pyramid {
+  translate: 14% 0;
+}
+@media (min-width: 768px) {
+  .cube-pyramid {
+    translate: -6% 0;
+  }
+}
+@media (min-width: 1024px) {
+  .cube-pyramid {
+    translate: 0 0;
+  }
 }
 
 a,

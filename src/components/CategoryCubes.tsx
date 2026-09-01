@@ -40,7 +40,7 @@ const PYRAMID_LAYOUT: Record<
   2: { left: "13%", top: "22%", zIndex: 3, size: "46%" },
   3: { left: "63%", top: "22%", zIndex: 4, size: "48%" },
   4: { left: "9%", top: "61%", zIndex: 1, size: "51%" },
-  5: { left: "62%", top: "60%", zIndex: 2, size: "53%" },
+  5: { left: "65%", top: "59%", zIndex: 2, size: "53%" },
 };
 
 const DROP_ORDER: Record<CubeId, number> = { 4: 0, 5: 1, 2: 2, 3: 3, 1: 4 };
@@ -96,7 +96,7 @@ export const CategoryCubes = ({
   return (
     <div
       key={animationKey}
-      className="relative flex justify-center items-end overflow-visible max-md:-translate-x-[calc(6%-0.5rem)] md:-translate-x-[6%] lg:translate-x-[0%] w-[clamp(220px,50vw,340px)] md:w-[clamp(135px,24vw,200px)] lg:w-[clamp(240px,26vw,350px)] 2xl:w-[clamp(280px,28vw,420px)]"
+      className="cube-pyramid relative flex justify-center items-end overflow-visible w-[clamp(220px,50vw,340px)] md:w-[clamp(135px,24vw,200px)] lg:w-[clamp(240px,26vw,350px)] 2xl:w-[clamp(280px,28vw,420px)]"
       style={{
         aspectRatio: "1 / 1",
       }}
@@ -118,10 +118,9 @@ export const CategoryCubes = ({
               zIndex: layout.zIndex,
               width: layout.size,
               height: layout.size,
-              transform: "translate(-50%, 0)",
             }}
-            initial={{ y: -600, visibility: "hidden" as const }}
-            animate={{ y: [null, 0, 8, -4, 0], visibility: "visible" as const }}
+            initial={{ x: "-50%", y: -600, visibility: "hidden" as const }}
+            animate={{ x: "-50%", y: [null, 0, 8, -4, 0], visibility: "visible" as const }}
             transition={{
               delay: dropIndex * 0.5,
               duration: 0.45,

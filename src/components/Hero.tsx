@@ -15,11 +15,11 @@ export const Hero = ({ onSelectProject, animationKey, onCubeHoverChange }: HeroP
       <PageGrid className="items-center gap-y-8 lg:gap-y-[var(--grid-gutter)]">
         <div className="relative z-[2] col-span-8 md:col-start-2 md:col-end-5 lg:col-start-2 lg:col-end-5 flex flex-col gap-1.5 items-center md:items-start order-2 md:order-1 lg:order-1 mt-16 md:mt-0">
           <div className="flex flex-col gap-0.5 items-center md:items-start">
-            <p className="font-['Bricolage_Grotesque'] font-light text-[clamp(38px,8vw,80px)] text-[#2200b8] leading-none tracking-[5px] text-center md:text-left md:text-[clamp(32px,6vw,80px)]">
+            <p className="font-['Bricolage_Grotesque'] font-light text-[length:var(--text-home-greeting)] text-[#2200b8] leading-none tracking-[5px] text-center md:text-left">
               Hi,
             </p>
             <div className="flex items-end gap-[clamp(8px,1.2vw,18px)] flex-nowrap justify-center md:justify-start max-md:-translate-x-2">
-              <p className="font-['Bricolage_Grotesque'] font-light text-[clamp(38px,8vw,80px)] text-[#2200b8] leading-none tracking-[5px] md:text-[clamp(32px,6vw,80px)]">
+              <p className="font-['Bricolage_Grotesque'] font-light text-[length:var(--text-home-greeting)] text-[#2200b8] leading-none tracking-[5px]">
                 I'm
               </p>
               <NameAnimation />

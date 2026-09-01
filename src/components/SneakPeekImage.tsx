@@ -5,6 +5,13 @@ import {
   type SneakPeekProjectId,
   type DisplayHint,
 } from "../lib/sneakPeekPool";
+import {
+  peekNormalClass,
+  peekWideClass,
+  peekTallClass,
+  peekIconClass,
+  peekIpadClass,
+} from "../lib/spacing";
 
 type Placement = "top-left" | "bottom-left" | "center";
 
@@ -43,11 +50,11 @@ function pickPlacement(hint: DisplayHint, lastPlacement: Placement | null): Plac
 }
 
 const HINT_CLASSES: Record<DisplayHint, string> = {
-  wide: "w-[clamp(200px,22vw,320px)] h-[clamp(160px,20vh,240px)] object-cover",
-  tall: "max-w-[clamp(110px,13vw,170px)] max-h-[clamp(200px,28vh,300px)] object-contain",
-  icon: "w-[clamp(70px,8vw,110px)] h-[clamp(70px,8vw,110px)] object-contain",
-  normal: "max-w-[clamp(240px,26vw,400px)] max-h-[clamp(200px,26vh,300px)] object-contain",
-  ipad: "max-w-[clamp(320px,36vw,540px)] max-h-[clamp(260px,36vh,420px)] object-contain",
+  wide: peekWideClass,
+  tall: peekTallClass,
+  icon: peekIconClass,
+  normal: peekNormalClass,
+  ipad: peekIpadClass,
 };
 
 interface PeekState {

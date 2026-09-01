@@ -78,7 +78,7 @@ function structuredData(page) {
  */
 function bodyContent(page) {
   const others = seo.pages
-    .filter((other) => other.path !== page.path && other.path !== "/about")
+    .filter((other) => other.path !== page.path && other.path !== "/about" && !other._hidden)
     .map((other) => `<li><a href="${other.path}">${escape(other.headline)}</a></li>`)
     .join("");
 
@@ -132,8 +132,10 @@ function buildPage(page) {
     .replace('<div id="root"></div>', `<div id="root">${bodyContent(page)}</div>`);
 }
 
+const publicPages = seo.pages.filter((page) => !page._hidden);
+
 let written = 0;
-for (const page of seo.pages) {
+for (const page of publicPages) {
   const outDir = page.path === "/" ? dist : join(dist, page.path.replace(/^\//, ""));
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
   writeFileSync(join(outDir, "index.html"), buildPage(page), "utf8");
@@ -143,7 +145,7 @@ for (const page of seo.pages) {
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  ...seo.pages.map(
+  ...publicPages.map(
     (page) =>
       `  <url><loc>${siteUrl}${page.path === "/" ? "/" : page.path}</loc><changefreq>monthly</changefreq><priority>${page.path === "/" ? "1.0" : "0.8"}</priority></url>`,
   ),

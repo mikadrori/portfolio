@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback, useState, type MouseEvent, type PointerEvent, type ReactNode } from "react";
+import { Volume2, VolumeX, Play, Pause } from "lucide-react";
 
 import {
   stickyTitleClass,
@@ -41,6 +42,10 @@ const CRYSTAL_FORMING_VIDEO = cloudinaryUrl("Nabat/Nabat_crystalformingVID_fmdfo
 });
 
 const WEBSITE_VIDEO = cloudinaryUrl("Nabat/Nabat_nabatwebsiteVID_jbcith.mp4", {
+  resourceType: "video",
+});
+
+const REELS_VIDEO = cloudinaryUrl("Nabat/Nabat_Reels_VID_Final_bsvywf.mp4", {
   resourceType: "video",
 });
 /** Side pillarbox only (~5–7% black each side). Stay inside the bar — do not clip site chrome. */
@@ -389,6 +394,138 @@ function NabatAutoLoopVideo({
           onError={() => setReady(true)}
         />
       )}
+    </div>
+  );
+}
+
+/** Reels video with sound-on default, mute/pause overlay controls. */
+function ReelsVideo({ src, className = "" }: { src: string; className?: string }) {
+  const [ready, setReady] = useState(false);
+  const [loadSrc, setLoadSrc] = useState<string | null>(null);
+  const [muted, setMuted] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const hideTimerRef = useRef<number>(0);
+  const mutedRef = useRef(false);
+  const pausedRef = useRef(false);
+
+  const scheduleHide = useCallback(() => {
+    clearTimeout(hideTimerRef.current);
+    setShowControls(true);
+    hideTimerRef.current = window.setTimeout(() => setShowControls(false), 2500);
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLoadSrc(src);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [src]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    const video = videoRef.current;
+    if (!el || !video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !pausedRef.current) {
+          video.muted = mutedRef.current;
+          video.play().catch(() => {});
+        } else if (!entry.isIntersecting) {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [loadSrc]);
+
+  useEffect(() => {
+    scheduleHide();
+    return () => clearTimeout(hideTimerRef.current);
+  }, [scheduleHide]);
+
+  const toggleMute = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const next = !mutedRef.current;
+    mutedRef.current = next;
+    v.muted = next;
+    setMuted(next);
+    scheduleHide();
+  }, [scheduleHide]);
+
+  const togglePause = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      v.muted = mutedRef.current;
+      v.play().catch(() => {});
+      pausedRef.current = false;
+      setPaused(false);
+    } else {
+      v.pause();
+      pausedRef.current = true;
+      setPaused(true);
+    }
+    scheduleHide();
+  }, [scheduleHide]);
+
+  const controlBtnClass =
+    "flex items-center justify-center w-6 h-6 rounded-full bg-black/30 text-white/80 transition-opacity hover:bg-black/50";
+
+  return (
+    <div
+      ref={containerRef}
+      className={`relative overflow-hidden rounded-sm bg-[#fcf7ee] ${className}`}
+      onPointerEnter={scheduleHide}
+      onPointerMove={scheduleHide}
+    >
+      {!ready && (
+        <div className="pointer-events-none absolute inset-0 bg-[#fcf7ee]" />
+      )}
+      {loadSrc && (
+        <video
+          src={loadSrc}
+          autoPlay
+          loop
+          playsInline
+          preload="metadata"
+          className="relative z-[1] h-full w-full object-cover"
+          aria-label="Nabat packaging reels"
+          ref={(el) => {
+            videoRef.current = el;
+            if (el) {
+              el.muted = mutedRef.current;
+            }
+          }}
+          onLoadedData={() => setReady(true)}
+          onCanPlay={() => setReady(true)}
+          onError={() => setReady(true)}
+        />
+      )}
+      <div
+        className={`absolute bottom-2 right-2 z-10 flex gap-1.5 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+      >
+        <button type="button" onClick={togglePause} className={controlBtnClass} aria-label={paused ? "Play" : "Pause"}>
+          {paused ? <Play size={12} /> : <Pause size={12} />}
+        </button>
+        <button type="button" onClick={toggleMute} className={controlBtnClass} aria-label={muted ? "Unmute" : "Mute"}>
+          {muted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+        </button>
+      </div>
     </div>
   );
 }
@@ -1282,6 +1419,7 @@ function PackagingGallery() {
 
       {/* Mobile: stacked */}
       <div className="md:hidden flex flex-col gap-[var(--grid-gutter)]">
+        <ReelsVideo src={REELS_VIDEO} className="w-full aspect-[9/16]" />
         <div className="aspect-[3/4] cursor-pointer">
           <PackageCycler
             images={PACKAGE_CYCLING}
@@ -1317,11 +1455,12 @@ function PackagingGallery() {
         </div>
       </div>
 
-      {/* Desktop: left side images | right cycling single package (big) */}
+      {/* Desktop: reels video left | side stills center | cycling single package right */}
       <div
         className="hidden md:grid gap-[var(--grid-gutter)]"
-        style={{ gridTemplateColumns: "1fr 1fr 1.7fr", gridTemplateRows: "1.6fr 1fr" }}
+        style={{ gridTemplateColumns: "1.7fr 1fr 1fr 1.7fr", gridTemplateRows: "1fr 1fr" }}
       >
+        <ReelsVideo src={REELS_VIDEO} className="min-h-0 min-w-0 row-span-2 h-full" />
         <button
           type="button"
           className="relative min-h-0 min-w-0 cursor-pointer overflow-hidden rounded-sm bg-[#f3eee4]"
@@ -1338,9 +1477,10 @@ function PackagingGallery() {
         >
           <img src={PKG_TOP_CENTER} alt="Nabat glass jar display" className="absolute inset-0 h-full w-full object-cover pointer-events-none" loading="lazy" decoding="async" />
         </button>
-        <div className="relative min-h-0 min-w-0 cursor-pointer overflow-hidden rounded-sm bg-[#f3eee4] row-span-2" style={{ aspectRatio: "2 / 3" }}>
+        <div className="relative min-h-0 min-w-0 cursor-pointer overflow-hidden rounded-sm bg-[#f3eee4] row-span-2">
           <PackageCycler
             images={PACKAGE_CYCLING}
+            cover
             initialDelay={PACKAGE_SINGLE_DELAY_MS}
             onOpen={openSrc}
           />

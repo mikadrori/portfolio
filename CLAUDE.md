@@ -21,12 +21,11 @@ This is a React single-page portfolio. `App.tsx` maps flat URL paths to section 
 - `/about`
 - `/lumina`
 - `/ogen`
-- `/aviv`
 - `/packup`
-- `/muchiwaze`
 - `/nabat`
-- `/wwl`
 - `/signal50`
+
+Old project pages (`/aviv`, `/muchiwaze`, `/wwl`) are kept in source but excluded from routing, SEO, and the sitemap — visiting those URLs redirects to home.
 
 ## DOM Reference
 - Project and section names are semantic headings.

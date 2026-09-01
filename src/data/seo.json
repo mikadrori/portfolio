@@ -124,6 +124,7 @@
     },
     {
       "path": "/muchiwaze",
+      "_hidden": true,
       "title": "Cloudy Now - Iconography & Visual Language | Mika Drori",
       "description": "A custom iconography series and cohesive visual language for a Waze-based application, tailored to a specific target audience.",
       "headline": "Cloudy Now",
@@ -137,6 +138,7 @@
     },
     {
       "path": "/wwl",
+      "_hidden": true,
       "title": "We Were Liars - Title Sequence | Mika Drori",
       "description": "A cinematic title sequence for the novel We Were Liars, built on atmospheric storytelling and motion graphics.",
       "headline": "We Were Liars",
@@ -150,6 +152,7 @@
     },
     {
       "path": "/aviv",
+      "_hidden": true,
       "title": "Aviv - Weather App Concept | Mika Drori",
       "description": "An immersive mobile weather app built on deep character research, translating emotion into atmosphere. UX UI and mobile app design.",
       "headline": "Aviv",

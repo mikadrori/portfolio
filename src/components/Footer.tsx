@@ -25,7 +25,7 @@ export const Footer = () => {
           </a>
           &nbsp;&nbsp;&gt;&gt;&gt;&nbsp;{" "}
           <a
-            href="/Mika-Drori-VC-2026.pdf"
+            href="/assets/Mika Drori CV 2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className={contactLinkClass}
