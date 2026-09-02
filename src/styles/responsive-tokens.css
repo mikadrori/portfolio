@@ -326,7 +326,7 @@
     /* Sneak-peek hover images */
     --peek-normal-h: 140px;
     --peek-wide-h: 110px;
-    --peek-tall-h: 150px;
+    --peek-tall-h: 160px; 
     --peek-icon-h: 60px;
     --peek-ipad-h: 200px;
 
@@ -492,7 +492,7 @@
     /* Sneak-peek hover images */
     --peek-normal-h: 200px;
     --peek-wide-h: 150px;
-    --peek-tall-h: 280px;
+    --peek-tall-h: 240px;
     --peek-icon-h: 90px;
     --peek-ipad-h: 300px;
 

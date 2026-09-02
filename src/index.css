@@ -24,7 +24,7 @@
 html,
 body {
   cursor: var(--cursor-default);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {

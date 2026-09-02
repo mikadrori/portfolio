@@ -32,19 +32,12 @@ const ogenAsset = (file: string, opts?: { resourceType?: "image" | "video"; widt
 
 const HERO_VIDEO = ogenAsset("Hero_VID_iyrla8.mp4", { resourceType: "video" });
 const HERO_POSTER = ogenAsset("Screen_Dashboard_vur6vl.png");
-const SYSTEM_MOCKUP_NIGHT = cloudinaryUrl("System_Mockup_Night_zezhb6.png", { quality: Q });
-const PROTOTYPE_VIDEO = cloudinaryUrl("OGEN_Prototype_NEW_vwuhkn.mp4", { resourceType: "video", quality: Q });
-const INTRO_SCREENS_VIDEO = cloudinaryUrl("OGEN_Screens_VID_kowbya.mp4", { resourceType: "video", quality: Q });
+const SYSTEM_MOCKUP_NIGHT = ogenAsset("System_Mockup_Night_zezhb6.png");
+const PROTOTYPE_VIDEO = ogenAsset("OGEN_Prototype_NEW_vwuhkn.mp4", { resourceType: "video" });
+const INTRO_SCREENS_VIDEO = ogenAsset("OGEN_Screens_VID_kowbya.mp4", { resourceType: "video" });
 const APP_ICON = cloudinaryUrl("OGEN_App_icon_kdayq6.png", { quality: Q });
-/** Placeholder stills for the Challenges videos — swap for the real clips once uploaded. */
-const CHALLENGE_STRESS_IMG = cloudinaryUrl(
-  "Ogen_stressIMG_npyb80npyb80npyb_cln80y.png",
-  { quality: Q }
-);
-const CHALLENGE_NIGHT_IMG = cloudinaryUrl(
-  "Ogen_nightvisionIMG_8z63xd8z63xd8z63_ajfwvj.png",
-  { quality: Q }
-);
+const CHALLENGE_STRESS_VID = ogenAsset("OGEN_StressVID_e2d5ep.mp4", { resourceType: "video" });
+const CHALLENGE_DARKNESS_VID = ogenAsset("OGEN_DarknessVID_p2cbow.mp4", { resourceType: "video" });
 const DISASTER_SCENES = [
   ogenAsset("Disaster_Scene1_rdsiuw.png"),
   ogenAsset("Disaster_Scene2_vdoqmo.png"),
@@ -121,10 +114,10 @@ const EXTREME_CONDITION_SECTIONS = [
   {
     title: "What Happens to Human Body Under Stress?",
     effects: ["Cognitive disruption", "Motor impairment", "Sensory overload"],
-    /** One clip per condition, covering every effect above. Placeholder image until the video is ready. */
+    /** One clip per condition, covering every effect above. */
     media: {
-      src: CHALLENGE_STRESS_IMG,
-      type: "image" as "image" | "video",
+      src: CHALLENGE_STRESS_VID,
+      type: "video" as const,
       caption: "Cognitive, motor and sensory breakdown under load",
     },
     solutions: [
@@ -138,8 +131,8 @@ const EXTREME_CONDITION_SECTIONS = [
     title: "What Happens to Vision at Night?",
     effects: ["Reduced focus & contrast", "Cool light degrades night vision"],
     media: {
-      src: CHALLENGE_NIGHT_IMG,
-      type: "image" as "image" | "video",
+      src: CHALLENGE_DARKNESS_VID,
+      type: "video" as const,
       caption: "Contrast loss and cool-light degradation in the dark",
     },
     solutions: ["Operational dark mode", "Maximum contrast", "Warm color tones"],
@@ -153,12 +146,12 @@ const VISION_PHENOMENA = [
   {
     title: "Tunnel Vision",
     desc: "Under extreme stress, the visual field narrows, blurring the edges and forcing focus strictly on the screen center.",
-    image: cloudinaryUrl("Tunnel_vision_sj6ku0.png", { quality: Q }),
+    image: ogenAsset("Tunnel_vision_sj6ku0.png"),
   },
   {
     title: "Night Blind Spot",
     desc: "In low-light environments, central vision degrades, creating a blind spot in the center of the screen.",
-    image: cloudinaryUrl("Night_blind_spot_cklv73.png", { quality: Q }),
+    image: ogenAsset("Night_blind_spot_cklv73.png"),
   },
 ] as const;
 
@@ -188,12 +181,12 @@ const DESIGN_SCREENS = [
   {
     title: "Login & Event Setup",
     desc: "Population NCOs log in and initialize an incident with key location and building data. Triggers automated data requests to municipal and emergency authorities before arriving on-site to streamline early operations.",
-    video: cloudinaryUrl("OGEN_Login_VID_jah2mq.mp4", { resourceType: "video", quality: Q }),
+    video: ogenAsset("OGEN_Login_VID_jah2mq.mp4", { resourceType: "video" }),
   },
   {
     title: "Main Dashboard",
     desc: "The primary command view delivering a real-time situational picture, prominently placed at the screen center to counteract night blind spots and tunnel vision. Tracks casualty tallies and incident timers, with quick-access shortcuts to the Anchor List and Battalion Reports.",
-    video: cloudinaryUrl("OGEN_Dashboard_VID_dp87zv.mp4", { resourceType: "video", quality: Q }),
+    video: ogenAsset("OGEN_Dashboard_VID_dp87zv.mp4", { resourceType: "video" }),
   },
   {
     title: "Anchor List",
@@ -202,17 +195,17 @@ const DESIGN_SCREENS = [
       title: "Smart Cross-Referencing",
       desc: "Field chaos leads to duplicate, incomplete profiles. The AI scans for matching traits and alerts the Population NCO with merge recommendations, leaving final decisions strictly to the human operator.",
     },
-    video: cloudinaryUrl("OGEN_Anchorlist_VID_tv5aef.mp4", { resourceType: "video", quality: Q }),
+    video: ogenAsset("OGEN_Anchorlist_VID_tv5aef.mp4", { resourceType: "video" }),
   },
   {
     title: "Battalion Reports",
     desc: "A dedicated feed for field updates received directly from battalion command, alongside a direct chat for rapid operational communication. Reports can be filtered by source authority: Family Center, Municipality, Commander HQ, Medical (MADA & Hospitals), and Emergency Forces (Police & Fire Department).",
-    video: cloudinaryUrl("OGEN_Reports_VID_dv2i4p.mp4", { resourceType: "video", quality: Q }),
+    video: ogenAsset("OGEN_Reports_VID_dv2i4p.mp4", { resourceType: "video" }),
   },
   {
     title: "Building Schematic",
     desc: "An interactive module where the Population NCO configures the building layout by specifying floors and apartments per floor. Enables entering occupant details for each unit and marking real-time status as Cleared or Uncleared.",
-    video: cloudinaryUrl("OGEN_Building_VID_dlnwxa.mp4", { resourceType: "video", quality: Q }),
+    video: ogenAsset("OGEN_Building_VID_dlnwxa.mp4", { resourceType: "video" }),
   },
 ] as const;
 
@@ -1162,13 +1155,13 @@ function DiagramNode({
 }) {
   const sizeClass =
     size === "flow"
-      ? "h-24 px-5 sm:h-28 sm:px-6 bg-[#1D1838] border-[#1D1838]"
+      ? "h-24 px-5 sm:h-28 sm:px-6 bg-[#5F4DE5] border-[#5F4DE5]"
       : size === "big"
         ? "h-20 px-5 sm:h-24 sm:px-6 bg-[#1D1838] border-[#1D1838]"
         : "h-16 px-5 sm:h-[4.5rem] sm:px-6 bg-[#352D6A] border-[#352D6A]";
   const textClass =
     size === "flow"
-      ? "text-[34px] sm:text-[42px] font-normal"
+      ? "text-[34px] sm:text-[42px] font-semibold"
       : size === "big"
         ? "text-[28px] sm:text-[34px] font-normal"
         : "text-[22px] sm:text-[26px] font-normal";
@@ -1725,9 +1718,9 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
             </div>
           </div>
 
-          {/* Disaster scenes — one equal-height row spanning columns 3–8 */}
+          {/* Disaster scenes — one equal-height row spanning columns 3–7 */}
           <div
-            className={`col-span-8 md:col-start-3 md:col-span-6 ${sectionColumnPaddingClass}`}
+            className={`col-span-8 md:col-start-3 md:col-span-5 ${sectionColumnPaddingClass}`}
             data-ogen-disaster-scenes=""
           >
             <MediaImageRow
@@ -1744,17 +1737,23 @@ export default function Ogen({ onSelectSection, onReady }: OgenProps) {
             {/* Information Sources */}
             <div className={`flex flex-col ${gapSubtitleClass}`}>
               <h3 className={subTitleClass}>Where Does the Information Come From?</h3>
-              {/* Two rows of three; tags hug their text and the row stretches to column 6. */}
-              <div className="flex flex-col gap-4">
+              {/* Two rows of three; outer tags hug the edges, middle tags share a center axis. */}
+              <div className="flex flex-col gap-8">
                 {[INFO_SOURCES.slice(0, 3), INFO_SOURCES.slice(3)].map((row, rowIndex) => (
                   <ul
                     key={rowIndex}
-                    className="flex list-none flex-wrap items-center gap-2 lg:flex-nowrap lg:justify-between"
+                    className="grid list-none grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-x-[var(--grid-gutter)]"
                   >
-                    {row.map((source) => (
+                    {row.map((source, i) => (
                       <li
                         key={source}
-                        className={`${chipConditionClass} whitespace-nowrap`}
+                        className={`${chipConditionClass} w-fit whitespace-nowrap ${
+                          i === 0
+                            ? "sm:justify-self-start"
+                            : i === 1
+                              ? "justify-self-center"
+                              : "sm:justify-self-end"
+                        }`}
                       >
                         {source}
                       </li>
