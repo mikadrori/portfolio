@@ -74,7 +74,7 @@ function IntroLines() {
   return (
     <>
       I'm Mika, <br /> A 25-year-old Visual
-      Communication <br /> student at HIT 3rd year, based in Ramat-Gan.
+      Communication <br /> student at HIT 4th year, based in Ramat-Gan.
       <br />
       <span className={smallTitleClass}>Click to get to know me (:</span>
     </>
